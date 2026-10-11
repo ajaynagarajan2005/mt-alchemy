@@ -16,12 +16,19 @@ import '../screens/learn/player_screen.dart';
 import '../screens/services/service_detail_screen.dart';
 import '../screens/services/services_screen.dart';
 import '../screens/placeholder_screen.dart';
+import '../screens/portal/admin_screen.dart';
+import '../screens/portal/assign_screen.dart';
+import '../screens/portal/employees_screen.dart';
+import '../screens/portal/employer_overview_screen.dart';
+import '../screens/portal/individual_screen.dart';
+import '../screens/portal/progress_screen.dart';
 import '../screens/store/product_screen.dart';
 import '../screens/store/store_screen.dart';
 import '../screens/upskilling/course_detail_screen.dart';
 import '../screens/upskilling/upskilling_screen.dart';
 import '../state/auth_store.dart';
 import '../widgets/layout/app_shell.dart';
+import '../widgets/layout/portal_shell.dart';
 import 'routes.dart';
 
 /// Home route for each role once signed in.
@@ -201,19 +208,45 @@ GoRouter createRouter(AuthStore auth) {
               ),
             ),
           ),
+        ],
+      ),
+      // Signed-in portals share their own shell (second Scaffold + AppBar).
+      ShellRoute(
+        builder: (context, state, child) => PortalShell(child: child),
+        routes: [
           // /portal itself always redirects to the role home.
           stub(Routes.portal, 'Portal'),
-          stub(Routes.portalMe, 'My learning'),
-          stub(
-            Routes.employer,
-            'Employer portal',
+          GoRoute(
+            path: Routes.portalMe,
+            pageBuilder: (context, state) =>
+                page(state, const IndividualScreen()),
+          ),
+          GoRoute(
+            path: Routes.employer,
+            pageBuilder: (context, state) =>
+                page(state, const EmployerOverviewScreen()),
             routes: [
-              stub('employees', 'Employees'),
-              stub('assign', 'Assign a course'),
-              stub('progress', 'Team progress'),
+              GoRoute(
+                path: 'employees',
+                pageBuilder: (context, state) =>
+                    page(state, const EmployeesScreen()),
+              ),
+              GoRoute(
+                path: 'assign',
+                pageBuilder: (context, state) =>
+                    page(state, const AssignScreen()),
+              ),
+              GoRoute(
+                path: 'progress',
+                pageBuilder: (context, state) =>
+                    page(state, const ProgressScreen()),
+              ),
             ],
           ),
-          stub(Routes.admin, 'Trainer and admin'),
+          GoRoute(
+            path: Routes.admin,
+            pageBuilder: (context, state) => page(state, const AdminScreen()),
+          ),
         ],
       ),
     ],
