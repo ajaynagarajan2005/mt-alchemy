@@ -5,7 +5,12 @@ import '../data/models/people.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
 import '../screens/contact/contact_screen.dart';
+import '../screens/about/about_screen.dart';
 import '../screens/home/home_screen.dart';
+import '../screens/insights/article_screen.dart';
+import '../screens/insights/insights_screen.dart';
+import '../screens/services/service_detail_screen.dart';
+import '../screens/services/services_screen.dart';
 import '../screens/placeholder_screen.dart';
 import '../state/auth_store.dart';
 import '../widgets/layout/app_shell.dart';
@@ -75,8 +80,24 @@ GoRouter createRouter(AuthStore auth) {
             path: Routes.home,
             pageBuilder: (context, state) => page(state, const HomeScreen()),
           ),
-          stub(Routes.about, 'About'),
-          stub(Routes.services, 'Services', routes: [stub(':slug', 'Service')]),
+          GoRoute(
+            path: Routes.about,
+            pageBuilder: (context, state) => page(state, const AboutScreen()),
+          ),
+          GoRoute(
+            path: Routes.services,
+            pageBuilder: (context, state) =>
+                page(state, const ServicesScreen()),
+            routes: [
+              GoRoute(
+                path: ':slug',
+                pageBuilder: (context, state) => page(
+                  state,
+                  ServiceDetailScreen(slug: state.pathParameters['slug']!),
+                ),
+              ),
+            ],
+          ),
           stub(
             Routes.upskilling,
             'Upskilling',
@@ -90,7 +111,20 @@ GoRouter createRouter(AuthStore auth) {
             'Checkout',
             routes: [stub('success', 'Order confirmed')],
           ),
-          stub(Routes.insights, 'Insights', routes: [stub(':slug', 'Article')]),
+          GoRoute(
+            path: Routes.insights,
+            pageBuilder: (context, state) =>
+                page(state, const InsightsScreen()),
+            routes: [
+              GoRoute(
+                path: ':slug',
+                pageBuilder: (context, state) => page(
+                  state,
+                  ArticleScreen(slug: state.pathParameters['slug']!),
+                ),
+              ),
+            ],
+          ),
           GoRoute(
             path: Routes.contact,
             pageBuilder: (context, state) => page(state, const ContactScreen()),
