@@ -6,7 +6,10 @@ import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
 import '../screens/contact/contact_screen.dart';
 import '../screens/home/home_screen.dart';
+import '../screens/learn/player_screen.dart';
 import '../screens/placeholder_screen.dart';
+import '../screens/upskilling/course_detail_screen.dart';
+import '../screens/upskilling/upskilling_screen.dart';
 import '../state/auth_store.dart';
 import '../widgets/layout/app_shell.dart';
 import 'routes.dart';
@@ -77,12 +80,32 @@ GoRouter createRouter(AuthStore auth) {
           ),
           stub(Routes.about, 'About'),
           stub(Routes.services, 'Services', routes: [stub(':slug', 'Service')]),
-          stub(
-            Routes.upskilling,
-            'Upskilling',
-            routes: [stub(':courseId', 'Course')],
+          GoRoute(
+            path: Routes.upskilling,
+            pageBuilder: (context, state) =>
+                page(state, const UpskillingScreen()),
+            routes: [
+              GoRoute(
+                path: ':courseId',
+                pageBuilder: (context, state) => page(
+                  state,
+                  CourseDetailScreen(
+                    courseId: state.pathParameters['courseId']!,
+                  ),
+                ),
+              ),
+            ],
           ),
-          stub('/learn/:courseId', 'Course player'),
+          GoRoute(
+            path: '/learn/:courseId',
+            pageBuilder: (context, state) => page(
+              state,
+              PlayerScreen(
+                key: ValueKey(state.pathParameters['courseId']),
+                courseId: state.pathParameters['courseId']!,
+              ),
+            ),
+          ),
           stub(Routes.store, 'Store', routes: [stub(':productId', 'Product')]),
           stub(Routes.cart, 'Cart'),
           stub(
