@@ -2,6 +2,9 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../data/models/people.dart';
+import '../screens/auth/login_screen.dart';
+import '../screens/auth/register_screen.dart';
+import '../screens/contact/contact_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/placeholder_screen.dart';
 import '../state/auth_store.dart';
@@ -47,6 +50,11 @@ GoRouter createRouter(AuthStore auth) {
       }
       if (user == null) return null;
 
+      // Signed-in users have no use for the sign in or register screens.
+      if (path == Routes.login || path == Routes.register) {
+        return portalHomeFor(user.role);
+      }
+
       final home = portalHomeFor(user.role);
       if (path == Routes.portal) return home;
 
@@ -83,9 +91,29 @@ GoRouter createRouter(AuthStore auth) {
             routes: [stub('success', 'Order confirmed')],
           ),
           stub(Routes.insights, 'Insights', routes: [stub(':slug', 'Article')]),
-          stub(Routes.contact, 'Contact'),
-          stub(Routes.login, 'Sign in'),
-          stub(Routes.register, 'Register'),
+          GoRoute(
+            path: Routes.contact,
+            pageBuilder: (context, state) => page(state, const ContactScreen()),
+          ),
+          GoRoute(
+            path: Routes.login,
+            pageBuilder: (context, state) => page(
+              state,
+              LoginScreen(from: state.uri.queryParameters['from']),
+            ),
+          ),
+          GoRoute(
+            path: Routes.register,
+            pageBuilder: (context, state) => page(
+              state,
+              RegisterScreen(
+                key: ValueKey(state.uri.queryParameters['type']),
+                initialType: state.uri.queryParameters['type'] == 'organisation'
+                    ? AccountType.organisation
+                    : AccountType.individual,
+              ),
+            ),
+          ),
           // /portal itself always redirects to the role home.
           stub(Routes.portal, 'Portal'),
           stub(Routes.portalMe, 'My learning'),

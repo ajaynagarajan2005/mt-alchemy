@@ -11,13 +11,17 @@ abstract final class Space {
   static const double section = 96;
   static const double sectionCompact = 56;
 
-  /// Max width of page content at 1440px.
-  static const double contentMax = 1240;
+  /// Max width of page content. Wide enough that large screens stay filled.
+  static const double contentMax = 1600;
 
   /// Page gutters per breakpoint.
   static const double gutterCompact = 16;
   static const double gutterMedium = 32;
-  static const double gutterExpanded = 48;
+  static const double gutterExpandedMin = 48;
+  static const double gutterExpandedMax = 120;
+
+  /// Expanded gutter is 5% of the width, clamped between the min and max.
+  static const double gutterExpandedFactor = 0.05;
 
   static const double navHeight = 72;
 }

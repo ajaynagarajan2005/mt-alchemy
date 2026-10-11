@@ -3,7 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../theme/breakpoints.dart';
 import '../../theme/spacing.dart';
 
-/// Centres page content at a max width of 1240 with breakpoint gutters.
+/// Centres page content at a max width of 1600 with fluid gutters.
 ///
 /// CONTAINER (padding + constraints): the Container applies the responsive
 /// side gutters and caps the line length so layouts stay readable from

@@ -18,11 +18,18 @@ abstract final class Breakpoints {
     return ScreenSize.compact;
   }
 
-  static double gutter(BuildContext context) => switch (of(context)) {
-    ScreenSize.compact => Space.gutterCompact,
-    ScreenSize.medium => Space.gutterMedium,
-    ScreenSize.expanded => Space.gutterExpanded,
-  };
+  /// Fluid gutter: fixed on compact and medium, 5% of width (48 to 120) on expanded.
+  static double gutter(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    return switch (fromWidth(width)) {
+      ScreenSize.compact => Space.gutterCompact,
+      ScreenSize.medium => Space.gutterMedium,
+      ScreenSize.expanded => (width * Space.gutterExpandedFactor).clamp(
+        Space.gutterExpandedMin,
+        Space.gutterExpandedMax,
+      ),
+    };
+  }
 }
 
 extension ScreenSizeX on BuildContext {

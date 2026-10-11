@@ -109,7 +109,6 @@ class _InkPainter extends CustomPainter {
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, width * 0.9),
       );
     }
-
   }
 
   @override
