@@ -1,30 +1,28 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:mt_alchemy/main.dart';
+import 'package:mt_alchemy/data/mock/products.dart';
+import 'package:mt_alchemy/state/cart_store.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('CartStore', () {
+    test('adds, merges and totals items with shipping', () {
+      final cart = CartStore();
+      final cards = products.first; // £24
+      cart.add(cards);
+      cart.add(cards);
+      expect(cart.count, 2);
+      expect(cart.subtotal, 48);
+      expect(cart.shipping, CartStore.shippingFlat);
+      expect(cart.total, 48 + CartStore.shippingFlat);
+    });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('free shipping from £50 and removal at zero quantity', () {
+      final cart = CartStore();
+      final kit = productById('team-charter-workshop-kit')!; // £89
+      cart.add(kit);
+      expect(cart.shipping, 0);
+      cart.setQuantity(kit.id, 0);
+      expect(cart.isEmpty, isTrue);
+      expect(cart.total, 0);
+    });
   });
 }

@@ -18,8 +18,12 @@ Tagline: "We don't just run activities. We shift mindsets, behaviours, and team 
 - No Firebase/backend for the Oct 14 checkpoint; use local mock data in lib/data/
 
 ## Design system
-- Colours: Deep Blue #0B1F4D, Purple #6B3FA0, Soft Yellow #F6D365
-  Story: blue -> purple -> gold = transformation ("alchemy")
+- Colours: white / grey / red. Off-white #FCFCFC base, neutral zinc grey scale (#F4F4F5 to #18181B),
+  Crimson Red #C8102E as the single accent (CTAs, active states, progress, focus).
+  Story: grey -> red = transformation ("alchemy"); grey-to-red gradients only at moments of change
+- Glassmorphism: shared GlassPanel (BackdropFilter blur, translucent white fill, 1px light border)
+  over soft red/grey blurred blobs or video. Use on nav, hero copy, service cards, summaries,
+  auth card, portal tiles. Few per viewport, never nested; solid fallback for high contrast.
 - Fonts: Fraunces (headlines), Manrope (body), via google_fonts
 - All tokens live in lib/theme/ (colors, typography, spacing, radii). Never hard-code colours or sizes in widgets.
 - Feel: calm, artistic, generous whitespace, soft gradients, subtle grain, organic rounded shapes.
@@ -34,8 +38,8 @@ Tagline: "We don't just run activities. We shift mindsets, behaviours, and team 
 - Respect reduced motion (MediaQuery.disableAnimations); target smooth 60fps on Flutter web
 
 ## Videos
-- Hero loop: generate with the fal MCP (abstract golden ink swirling in deep blue water, turning purple,
-  cinematic, seamless loop, 6-10 s). ALWAYS show me the model and price and wait for my OK before running.
+- Hero loop: generate with the fal MCP (abstract crimson ink blooming through clear water on a soft
+  white-grey background, cinematic, seamless loop, 6-10 s). ALWAYS show me the model and price and wait for my OK before running.
 - Brand intro and section videos: Remotion project in /video (use the Remotion skills),
   rendered to assets/videos/*.mp4, H.264, under 5 MB each (compress with ffmpeg)
 
