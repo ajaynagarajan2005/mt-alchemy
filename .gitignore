@@ -53,3 +53,6 @@ app.*.map.json
 # Remotion
 video/node_modules/
 video/out/
+
+# Agent worktrees
+.claude/worktrees/
