@@ -17,6 +17,7 @@ import '../../widgets/common/gradient_backdrop.dart';
 import '../../widgets/common/ink_art.dart';
 import '../../widgets/common/reveal.dart';
 import '../../widgets/layout/app_shell.dart';
+import '../../widgets/media/hero_video.dart';
 import '../../widgets/layout/section.dart';
 import '../about/content_shared.dart';
 
@@ -34,6 +35,11 @@ class ServicesScreen extends StatelessWidget {
         const ContentHeader(
           title: 'Four ways we help teams change',
           lead: 'Each starts with your people and your pressures, not a template.',
+          // Calm silk-ribbon loop behind the header (left side kept quiet).
+          background: LoopVideo(
+            asset: 'assets/videos/services_loop.mp4',
+            poster: 'assets/images/services_poster.jpg',
+          ),
         ),
         _SplitBlock(service: services[0], artLeft: false),
         _GlassBlock(service: services[1]),

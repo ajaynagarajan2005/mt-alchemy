@@ -13,6 +13,7 @@ import '../../widgets/common/ink_art.dart';
 import '../../widgets/common/reveal.dart';
 import '../../widgets/layout/app_shell.dart';
 import '../../widgets/layout/section.dart';
+import '../../widgets/media/brand_video_player.dart';
 import 'content_shared.dart';
 
 /// About page: hero, principles, story, team, closing CTA.
@@ -28,6 +29,7 @@ class AboutScreen extends StatelessWidget {
       underNav: true,
       children: const [
         _AboutHero(),
+        _BrandFilm(),
         _Principles(),
         _Story(),
         _Team(),
@@ -84,6 +86,40 @@ class _AboutHero extends StatelessWidget {
                   child: art,
                 ),
               ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Click-to-play brand film, centred under the hero.
+class _BrandFilm extends StatelessWidget {
+  const _BrandFilm();
+
+  @override
+  Widget build(BuildContext context) {
+    return Section(
+      top: false,
+      child: Center(
+        // CONTAINER (grouping): caps the film width and stacks title + player.
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1100),
+          child: Reveal(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'MT Alchemy in fourteen seconds',
+                  style: AppText.h2(context),
+                ),
+                const SizedBox(height: Space.lg),
+                const BrandVideoPlayer(
+                  asset: 'assets/videos/brand_intro.mp4',
+                  poster: 'assets/images/brand_intro_poster.jpg',
+                ),
+              ],
             ),
           ),
         ),

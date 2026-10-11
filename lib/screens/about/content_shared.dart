@@ -23,40 +23,57 @@ class ContentHeader extends StatelessWidget {
     required this.title,
     this.lead,
     this.eyebrow,
+    this.background,
   });
 
   final String title;
   final String? lead;
   final String? eyebrow;
 
+  /// Optional full-bleed media (e.g. a calm looping video) behind the text,
+  /// used instead of the soft blobs.
+  final Widget? background;
+
   @override
   Widget build(BuildContext context) {
-    return GradientBackdrop(
-      child: Padding(
-        padding: EdgeInsets.only(top: navClearance(context)),
-        child: Section(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: staggerIn(context, [
-              if (eyebrow != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: Space.md),
-                  child: Text(eyebrow!.toUpperCase(), style: AppText.eyebrow),
-                ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 820),
-                child: Text(title, style: AppText.h1(context)),
+    final bg = background;
+    final content = _content(context);
+    if (bg != null) {
+      return Stack(
+        children: [
+          Positioned.fill(child: bg),
+          content,
+        ],
+      );
+    }
+    return GradientBackdrop(child: content);
+  }
+
+  Widget _content(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: navClearance(context)),
+      child: Section(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: staggerIn(context, [
+            if (eyebrow != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: Space.md),
+                child: Text(eyebrow!.toUpperCase(), style: AppText.eyebrow),
               ),
-              if (lead != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: Space.lg),
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 600),
-                    child: Text(lead!, style: AppText.lead),
-                  ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 820),
+              child: Text(title, style: AppText.h1(context)),
+            ),
+            if (lead != null)
+              Padding(
+                padding: const EdgeInsets.only(top: Space.lg),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: Text(lead!, style: AppText.lead),
                 ),
-            ]),
-          ),
+              ),
+          ]),
         ),
       ),
     );
