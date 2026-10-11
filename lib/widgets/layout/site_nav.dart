@@ -14,6 +14,7 @@ import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../common/alchemy_button.dart';
 import '../common/app_icon.dart';
+import '../common/tappable.dart';
 
 /// Frosted-glass top bar. Wraps a real Material [AppBar] (rubric: AppBar on main screens).
 class SiteNav extends StatelessWidget implements PreferredSizeWidget {
@@ -82,7 +83,7 @@ class _Wordmark extends StatelessWidget {
       label: 'MT Alchemy home',
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: GestureDetector(
+        child: Tappable(
           onTap: onTap,
           child: Text.rich(
             TextSpan(

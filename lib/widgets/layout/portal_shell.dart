@@ -12,6 +12,7 @@ import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../common/app_icon.dart';
 import '../common/gradient_backdrop.dart';
+import '../common/tappable.dart';
 
 class _PortalDest {
   const _PortalDest(this.label, this.path, this.icon);
@@ -224,7 +225,7 @@ class _Wordmark extends StatelessWidget {
       label: 'MT Alchemy home',
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: GestureDetector(
+        child: Tappable(
           onTap: () => context.go(Routes.home),
           child: Text.rich(
             TextSpan(

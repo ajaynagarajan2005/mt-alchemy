@@ -19,10 +19,13 @@ class InkArt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: CustomPaint(
-        painter: _InkPainter(_hash(seed), intensity),
-        child: const SizedBox.expand(),
+    // Decorative artwork: hidden from assistive tech.
+    return ExcludeSemantics(
+      child: RepaintBoundary(
+        child: CustomPaint(
+          painter: _InkPainter(_hash(seed), intensity),
+          child: const SizedBox.expand(),
+        ),
       ),
     );
   }

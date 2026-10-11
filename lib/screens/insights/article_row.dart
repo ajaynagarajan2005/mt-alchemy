@@ -11,6 +11,7 @@ import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../../widgets/common/app_icon.dart';
 import 'insights_logic.dart';
+import '../../widgets/common/tappable.dart';
 
 /// Editorial row: date, category and read time beside title and excerpt.
 class ArticleRow extends StatefulWidget {
@@ -52,7 +53,7 @@ class _ArticleRowState extends State<ArticleRow> {
         cursor: SystemMouseCursors.click,
         onEnter: (_) => setState(() => _hover = true),
         onExit: (_) => setState(() => _hover = false),
-        child: GestureDetector(
+        child: Tappable(
           behavior: HitTestBehavior.opaque,
           onTap: () => context.go(Routes.article(a.slug)),
           child: Padding(

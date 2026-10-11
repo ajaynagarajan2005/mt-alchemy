@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 
 import 'colors.dart';
 import 'radii.dart';
+import 'spacing.dart';
 import 'typography.dart';
 
 /// Light theme. Material widgets are restyled from the tokens so nothing
@@ -52,7 +53,7 @@ abstract final class AppTheme {
         filled: true,
         fillColor: AppColors.surface,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
+          horizontal: Space.fieldInset,
           vertical: 14,
         ),
         hintStyle: AppText.body.copyWith(color: AppColors.grey500),

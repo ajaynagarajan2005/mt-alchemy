@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart' show PointerHoverEvent;
 import 'package:material_ui/material_ui.dart';
 
 import '../../theme/motion.dart';
+import 'tappable.dart';
+import '../../theme/radii.dart';
 
 /// Tilts its child in 3D towards the pointer (Matrix4 perspective).
 /// Hover feedback only: inactive on touch and under reduced motion.
@@ -60,7 +62,7 @@ class _TiltCardState extends State<TiltCard> {
     );
 
     if (tappable) {
-      card = GestureDetector(onTap: widget.onTap, child: card);
+      card = Tappable(radius: Radii.cardAll, onTap: widget.onTap, child: card);
     }
 
     return MouseRegion(

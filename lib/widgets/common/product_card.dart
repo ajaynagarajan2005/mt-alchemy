@@ -10,6 +10,7 @@ import '../../theme/typography.dart';
 import 'alchemy_button.dart';
 import 'course_card.dart';
 import 'ink_art.dart';
+import 'tappable.dart';
 
 /// Currency with pence, for line totals, shipping and order totals.
 final gbpExact = NumberFormat.currency(locale: 'en_GB', symbol: '£');
@@ -47,7 +48,8 @@ class _ProductCardState extends State<ProductCard> {
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hover = true),
       onExit: (_) => setState(() => _hover = false),
-      child: GestureDetector(
+      child: Tappable(
+        radius: Radii.cardAll,
         onTap: widget.onOpen,
         behavior: HitTestBehavior.opaque,
         child: AnimatedContainer(

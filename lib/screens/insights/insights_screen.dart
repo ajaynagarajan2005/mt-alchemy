@@ -18,6 +18,7 @@ import '../../widgets/layout/section.dart';
 import '../about/content_shared.dart';
 import 'article_row.dart';
 import 'insights_logic.dart';
+import '../../widgets/common/tappable.dart';
 
 /// Insights index: category filter, featured article, editorial rows.
 ///
@@ -127,7 +128,8 @@ class _Chip extends StatelessWidget {
       selected: selected,
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: GestureDetector(
+        child: Tappable(
+          radius: Radii.pillAll,
           onTap: onTap,
           behavior: HitTestBehavior.opaque,
           // CONTAINER (decoration): pill chip, soft red fill when selected.
@@ -208,7 +210,8 @@ class _FeaturedState extends State<_Featured> {
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hover = true),
       onExit: (_) => setState(() => _hover = false),
-      child: GestureDetector(
+      child: Tappable(
+        radius: Radii.cardAll,
         behavior: HitTestBehavior.opaque,
         onTap: () => context.go(Routes.article(a.slug)),
         child: SplitRow(

@@ -7,7 +7,6 @@ import '../../theme/radii.dart';
 import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../../widgets/common/alchemy_button.dart';
-import '../../widgets/common/glass_panel.dart';
 
 /// Page title block used at the top of every portal page.
 class PortalHeader extends StatelessWidget {
@@ -58,7 +57,7 @@ class PortalHeader extends StatelessWidget {
   }
 }
 
-/// Plain white card for lists and forms (glass is kept for stat tiles).
+/// Plain white card for lists, forms and stat tiles.
 ///
 /// CONTAINER (decoration): rounded white surface with a hairline border.
 class PortalCard extends StatelessWidget {
@@ -95,7 +94,9 @@ class StatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlassPanel(
+    // Plain bordered card: nothing to blur on the white portal, and no
+    // BackdropFilter edge artefacts.
+    return PortalCard(
       padding: const EdgeInsets.all(Space.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

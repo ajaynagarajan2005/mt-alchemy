@@ -7,6 +7,7 @@ import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import 'content_frame.dart';
+import '../common/tappable.dart';
 
 /// The only dark block on the site.
 class SiteFooter extends StatelessWidget {
@@ -147,7 +148,7 @@ class _FooterLinkState extends State<_FooterLink> {
         onExit: (_) => setState(() => _hover = false),
         child: Semantics(
           link: true,
-          child: GestureDetector(
+          child: Tappable(
             onTap: () => context.go(widget.link.path),
             child: Text(
               widget.link.label,

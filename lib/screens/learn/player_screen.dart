@@ -23,6 +23,7 @@ import '../../widgets/layout/app_shell.dart';
 import '../../widgets/layout/section.dart';
 import '../upskilling/filter_pill.dart';
 import '../upskilling/notice_page.dart';
+import '../../widgets/common/tappable.dart';
 
 /// Course player. The route redirect already requires sign-in.
 ///
@@ -107,8 +108,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
       children: [
         GradientBackdrop(
           child: Padding(
-            padding: EdgeInsets.only(top: navClearance(context)),
+            padding: EdgeInsets.only(top: pageHeaderTop(context)),
             child: Section(
+              top: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -255,7 +257,7 @@ class _ModuleTile extends StatelessWidget {
       selected: selected,
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: GestureDetector(
+        child: Tappable(
           onTap: onTap,
           behavior: HitTestBehavior.opaque,
           // CONTAINER (decoration): tinted row marks the current module.

@@ -5,6 +5,7 @@ import '../../theme/colors.dart';
 import '../../theme/motion.dart';
 import '../../theme/typography.dart';
 import 'app_icon.dart';
+import 'tappable.dart';
 
 /// Inline text link with an arrow that nudges right on hover.
 class ArrowLink extends StatefulWidget {
@@ -37,7 +38,7 @@ class _ArrowLinkState extends State<ArrowLink> {
         cursor: SystemMouseCursors.click,
         onEnter: (_) => setState(() => _hover = true),
         onExit: (_) => setState(() => _hover = false),
-        child: GestureDetector(
+        child: Tappable(
           onTap: widget.onTap,
           behavior: HitTestBehavior.opaque,
           child: Row(

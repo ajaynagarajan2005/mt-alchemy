@@ -23,6 +23,7 @@ class GlassPanel extends StatelessWidget {
     this.blur = 20,
     this.strong = false,
     this.shadow = true,
+    this.backdrop = true,
   });
 
   final Widget child;
@@ -33,6 +34,11 @@ class GlassPanel extends StatelessWidget {
   /// Use a more opaque fill when the panel sits over busy media (video, photos).
   final bool strong;
   final bool shadow;
+
+  /// Set false to skip the BackdropFilter blur (frosted fill only). Use on
+  /// plain light surfaces where there is nothing to blur; it also avoids a
+  /// faint rectangular edge some GPUs draw around small blurred tiles.
+  final bool backdrop;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +86,7 @@ class GlassPanel extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: borderRadius,
-        child: highContrast
+        child: (highContrast || !backdrop)
             ? panel
             : BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),

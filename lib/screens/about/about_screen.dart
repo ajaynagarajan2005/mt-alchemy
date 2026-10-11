@@ -69,8 +69,9 @@ class _AboutHero extends StatelessWidget {
 
     return GradientBackdrop(
       child: Padding(
-        padding: EdgeInsets.only(top: navClearance(context)),
+        padding: EdgeInsets.only(top: pageHeaderTop(context)),
         child: Section(
+          top: false,
           child: SplitRow(
             flexA: 6,
             flexB: 5,

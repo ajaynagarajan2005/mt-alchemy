@@ -14,6 +14,7 @@ import '../../../widgets/common/app_icon.dart';
 import '../../../widgets/common/arrow_link.dart';
 import '../../../widgets/common/reveal.dart';
 import '../../../widgets/layout/section.dart';
+import '../../../widgets/common/tappable.dart';
 
 /// Three latest articles as editorial rows (not cards).
 class InsightsList extends StatelessWidget {
@@ -74,7 +75,7 @@ class _ArticleRowState extends State<_ArticleRow> {
         cursor: SystemMouseCursors.click,
         onEnter: (_) => setState(() => _hover = true),
         onExit: (_) => setState(() => _hover = false),
-        child: GestureDetector(
+        child: Tappable(
           behavior: HitTestBehavior.opaque,
           onTap: () => context.go(Routes.article(a.slug)),
           child: Padding(

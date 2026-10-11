@@ -29,8 +29,8 @@ class ShopPage extends StatelessWidget {
       children: [
         GradientBackdrop(
           child: Padding(
-            padding: EdgeInsets.only(top: navClearance(context)),
-            child: Section(child: child),
+            padding: EdgeInsets.only(top: pageHeaderTop(context)),
+            child: Section(top: false, child: child),
           ),
         ),
       ],

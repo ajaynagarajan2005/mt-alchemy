@@ -63,8 +63,9 @@ class _Head extends StatelessWidget {
     final compact = context.isCompact;
     return GradientBackdrop(
       child: Padding(
-        padding: EdgeInsets.only(top: navClearance(context)),
+        padding: EdgeInsets.only(top: pageHeaderTop(context)),
         child: Section(
+          top: false,
           bottom: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

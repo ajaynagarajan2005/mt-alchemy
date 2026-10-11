@@ -10,6 +10,7 @@ import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../../widgets/common/alchemy_button.dart';
 import '../../widgets/common/glass_panel.dart';
+import '../../widgets/common/crystal_view.dart';
 import '../../widgets/common/gradient_backdrop.dart';
 import '../../widgets/common/reveal.dart';
 import '../../widgets/layout/app_shell.dart';
@@ -58,28 +59,13 @@ class _UpskillingScreenState extends State<UpskillingScreen> {
       children: [
         GradientBackdrop(
           child: Padding(
-            padding: EdgeInsets.only(top: navClearance(context)),
+            padding: EdgeInsets.only(top: pageHeaderTop(context)),
             child: Section(
+              top: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Reveal(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Upskilling', style: AppText.h1(context)),
-                        const SizedBox(height: Space.md),
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 620),
-                          child: Text(
-                            'Short, practical courses you can take at your own pace. '
-                            'Pick a practice area, choose a level and start when you are ready.',
-                            style: AppText.lead,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  _header(context),
                   const SizedBox(height: Space.xl),
                   _filters(context),
                   const SizedBox(height: Space.xl),
@@ -89,6 +75,35 @@ class _UpskillingScreenState extends State<UpskillingScreen> {
             ),
           ),
         ),
+      ],
+    );
+  }
+
+  Widget _header(BuildContext context) {
+    final intro = Reveal(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Upskilling', style: AppText.h1(context)),
+          const SizedBox(height: Space.md),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 620),
+            child: Text(
+              'Short, practical courses you can take at your own pace. '
+              'Pick a practice area, choose a level and start when you are ready.',
+              style: AppText.lead,
+            ),
+          ),
+        ],
+      ),
+    );
+    // The 3D crystal is decorative and only shown from medium width up.
+    if (context.isCompact) return intro;
+    return Row(
+      children: [
+        Expanded(child: intro),
+        const SizedBox(width: Space.xl),
+        const Expanded(child: CrystalView()),
       ],
     );
   }

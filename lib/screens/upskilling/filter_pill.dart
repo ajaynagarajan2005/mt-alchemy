@@ -4,6 +4,7 @@ import '../../theme/colors.dart';
 import '../../theme/motion.dart';
 import '../../theme/radii.dart';
 import '../../theme/typography.dart';
+import '../../widgets/common/tappable.dart';
 
 /// Pill-shaped filter chip. Selected state uses the soft red tint.
 ///
@@ -28,7 +29,8 @@ class FilterPill extends StatelessWidget {
       label: label,
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: GestureDetector(
+        child: Tappable(
+          radius: Radii.pillAll,
           onTap: onTap,
           behavior: HitTestBehavior.opaque,
           child: AnimatedContainer(

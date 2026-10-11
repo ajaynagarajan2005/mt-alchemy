@@ -115,12 +115,12 @@ class _ProgressScreenState extends State<ProgressScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (!context.isCompact) ...[
-                const _Row(
+                _Row(
                   employee: 'Employee',
                   course: 'Course',
                   date: 'Assigned',
-                  bar: SizedBox.shrink(),
-                  status: SizedBox.shrink(),
+                  bar: Text('Progress', style: AppText.small),
+                  status: Text('Status', style: AppText.small),
                   header: true,
                 ),
                 const Divider(),

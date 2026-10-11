@@ -63,8 +63,9 @@ class SplitFormPage extends StatelessWidget {
       children: [
         GradientBackdrop(
           child: Padding(
-            padding: EdgeInsets.only(top: navClearance(context)),
+            padding: EdgeInsets.only(top: pageHeaderTop(context)),
             child: Section(
+              top: false,
               child: split
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -14,6 +14,7 @@ import '../../../widgets/common/glass_panel.dart';
 import '../../../widgets/common/ink_art.dart';
 import '../../../widgets/common/reveal.dart';
 import '../../../widgets/layout/section.dart';
+import '../../../widgets/common/tappable.dart';
 
 /// Split layout: product visual on one side, copy and CTA on the other.
 /// Stacks visual-first below 1024px.
@@ -37,7 +38,7 @@ class StoreTeaser extends StatelessWidget {
             Positioned(
               left: Space.lg,
               bottom: Space.lg,
-              child: GestureDetector(
+              child: Tappable(
                 onTap: () => context.go(Routes.product(featured.id)),
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,

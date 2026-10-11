@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_3d_controller: ^2.3.0
   flutter_animate: ^4.5.2
   flutter_web_plugins:
     sdk: flutter
@@ -69,6 +70,7 @@ flutter:
     - assets/textures/
     - assets/videos/
     - assets/images/
+    - assets/models/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

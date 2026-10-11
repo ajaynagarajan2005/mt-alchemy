@@ -33,8 +33,9 @@ class ContentHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return GradientBackdrop(
       child: Padding(
-        padding: EdgeInsets.only(top: navClearance(context)),
+        padding: EdgeInsets.only(top: pageHeaderTop(context)),
         child: Section(
+          top: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: staggerIn(context, [
@@ -131,8 +132,9 @@ class NotFoundView extends StatelessWidget {
       children: [
         GradientBackdrop(
           child: Padding(
-            padding: EdgeInsets.only(top: navClearance(context)),
+            padding: EdgeInsets.only(top: pageHeaderTop(context)),
             child: Section(
+              top: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

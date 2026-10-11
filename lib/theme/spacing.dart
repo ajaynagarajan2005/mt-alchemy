@@ -24,4 +24,11 @@ abstract final class Space {
   static const double gutterExpandedFactor = 0.05;
 
   static const double navHeight = 72;
+
+  /// Horizontal inner padding of text fields. Helper and error text are
+  /// shifted back by this amount so they align with the label.
+  static const double fieldInset = 16;
+
+  /// Height of the decorative 3D crystal in page headers.
+  static const double crystalHeight = 380;
 }

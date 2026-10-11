@@ -80,11 +80,17 @@ class _LabeledFieldState extends State<LabeledField> {
           maxLines: widget.obscure ? 1 : widget.maxLines,
           minLines: widget.minLines,
           style: AppText.body,
+          // Helper and error text are laid out inside the field's content
+          // padding by Material; shift them back so they line up with the label.
+          errorBuilder: (context, error) => _flush(
+            Text(error, style: AppText.small.copyWith(color: AppColors.error)),
+          ),
           decoration: InputDecoration(
             hintText: widget.hint,
-            helperText: widget.helper,
+            helper: widget.helper == null
+                ? null
+                : _flush(Text(widget.helper!, style: AppText.small)),
             helperMaxLines: 2,
-            helperStyle: AppText.small,
             suffixIcon: widget.obscure
                 ? IconButton(
                     tooltip: _hidden ? 'Show password' : 'Hide password',
@@ -104,6 +110,13 @@ class _LabeledFieldState extends State<LabeledField> {
     );
   }
 }
+
+/// Pulls sub-text left by the field's inner padding so it aligns with the label.
+Widget _flush(Widget child) => Transform.translate(
+  // Material also adds a 4 px gap (inputGap) before sub-text.
+  offset: const Offset(-(Space.fieldInset + Space.xxs), 0),
+  child: child,
+);
 
 /// A dropdown with its label above, styled like [LabeledField].
 class LabeledDropdown<T> extends StatelessWidget {
@@ -136,6 +149,9 @@ class LabeledDropdown<T> extends StatelessWidget {
           items: items,
           onChanged: onChanged,
           validator: validator,
+          errorBuilder: (context, error) => _flush(
+            Text(error, style: AppText.small.copyWith(color: AppColors.error)),
+          ),
           isExpanded: true,
           style: AppText.body,
           borderRadius: Radii.inputAll,

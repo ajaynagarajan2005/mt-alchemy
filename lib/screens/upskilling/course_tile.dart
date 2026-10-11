@@ -5,6 +5,7 @@ import '../../theme/colors.dart';
 import '../../theme/motion.dart';
 import '../../theme/radii.dart';
 import '../../widgets/common/course_card.dart';
+import '../../widgets/common/tappable.dart';
 
 /// Tappable [CourseCard] that lifts a few pixels on hover.
 ///
@@ -33,7 +34,8 @@ class _CourseTileState extends State<CourseTile> {
         cursor: SystemMouseCursors.click,
         onEnter: (_) => setState(() => _hover = true),
         onExit: (_) => setState(() => _hover = false),
-        child: GestureDetector(
+        child: Tappable(
+          radius: Radii.cardAll,
           onTap: widget.onTap,
           child: AnimatedContainer(
             duration: Motion.medium,

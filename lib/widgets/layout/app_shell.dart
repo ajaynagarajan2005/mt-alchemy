@@ -40,6 +40,12 @@ class AppShell extends StatelessWidget {
 double navClearance(BuildContext context) =>
     MediaQuery.paddingOf(context).top + Space.navHeight;
 
+/// Top padding for the first section of a page that starts under the glass
+/// nav: nav clearance plus a modest gap. Pair with `Section(top: false)` so
+/// the heading is not pushed down by the section's own large top padding.
+double pageHeaderTop(BuildContext context) =>
+    navClearance(context) + (context.isCompact ? Space.xl : Space.xxl);
+
 /// Scrollable page body with the footer at the end.
 /// Pages that do not start with a full-bleed hero get top padding so
 /// their content clears the glass app bar.

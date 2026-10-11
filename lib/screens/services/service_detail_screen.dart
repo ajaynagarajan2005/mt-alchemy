@@ -23,6 +23,7 @@ import '../../widgets/common/reveal.dart';
 import '../../widgets/layout/app_shell.dart';
 import '../../widgets/layout/section.dart';
 import '../about/content_shared.dart';
+import '../../widgets/common/tappable.dart';
 
 /// One service: summary, outcomes, formats, related courses, a quote.
 ///
@@ -121,8 +122,9 @@ class _Hero extends StatelessWidget {
 
     return GradientBackdrop(
       child: Padding(
-        padding: EdgeInsets.only(top: navClearance(context)),
+        padding: EdgeInsets.only(top: pageHeaderTop(context)),
         child: Section(
+          top: false,
           child: SplitRow(
             flexA: 6,
             flexB: 5,
@@ -193,7 +195,8 @@ class _RelatedCourses extends StatelessWidget {
                         height: 360,
                         child: MouseRegion(
                           cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
+                          child: Tappable(
+                            radius: Radii.cardAll,
                             onTap: () =>
                                 context.go(Routes.course(courses[i].id)),
                             child: CourseCard(course: courses[i]),
@@ -286,7 +289,7 @@ class _OtherRowState extends State<_OtherRow> {
         cursor: SystemMouseCursors.click,
         onEnter: (_) => setState(() => _hover = true),
         onExit: (_) => setState(() => _hover = false),
-        child: GestureDetector(
+        child: Tappable(
           behavior: HitTestBehavior.opaque,
           onTap: () => context.go(Routes.service(widget.service.slug)),
           child: Padding(
