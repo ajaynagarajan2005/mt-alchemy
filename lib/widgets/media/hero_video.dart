@@ -3,19 +3,33 @@ import 'package:video_player/video_player.dart';
 
 import '../../theme/motion.dart';
 
-/// Full-bleed, muted, looping hero video that covers its box.
+/// Home hero loop: [LoopVideo] with the hero asset and poster.
+class HeroVideo extends StatelessWidget {
+  const HeroVideo({super.key});
+
+  @override
+  Widget build(BuildContext context) => const LoopVideo(
+    asset: 'assets/videos/hero_loop.mp4',
+    poster: 'assets/images/hero_poster.jpg',
+  );
+}
+
+/// Full-bleed, muted, looping video that covers its box.
 ///
 /// A poster still is shown first and cross-fades to the video once it is
 /// initialised and playing. With reduced motion, or if the video fails to
 /// load, only the poster is shown.
-class HeroVideo extends StatefulWidget {
-  const HeroVideo({super.key});
+class LoopVideo extends StatefulWidget {
+  const LoopVideo({super.key, required this.asset, required this.poster});
+
+  final String asset;
+  final String poster;
 
   @override
-  State<HeroVideo> createState() => _HeroVideoState();
+  State<LoopVideo> createState() => _LoopVideoState();
 }
 
-class _HeroVideoState extends State<HeroVideo> {
+class _LoopVideoState extends State<LoopVideo> {
   VideoPlayerController? _controller;
   bool _started = false;
   bool _failed = false;
@@ -30,7 +44,7 @@ class _HeroVideoState extends State<HeroVideo> {
 
   Future<void> _init() async {
     final c = VideoPlayerController.asset(
-      'assets/videos/hero_loop.mp4',
+      widget.asset,
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
     );
     _controller = c;
@@ -55,7 +69,7 @@ class _HeroVideoState extends State<HeroVideo> {
   @override
   Widget build(BuildContext context) {
     final poster = Image.asset(
-      'assets/images/hero_poster.jpg',
+      widget.poster,
       fit: BoxFit.cover,
       width: double.infinity,
       height: double.infinity,
