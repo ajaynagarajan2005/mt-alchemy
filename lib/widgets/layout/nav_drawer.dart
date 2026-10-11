@@ -10,6 +10,7 @@ import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../common/alchemy_button.dart';
 import '../common/app_icon.dart';
+import '../common/theme_toggle.dart';
 
 /// Navigation for screens narrower than 1024px.
 class NavDrawer extends StatelessWidget {
@@ -38,6 +39,7 @@ class NavDrawer extends StatelessWidget {
                 children: [
                   Text('Menu', style: AppText.h4),
                   const Spacer(),
+                  const ThemeToggleButton(),
                   IconButton(
                     tooltip: 'Close menu',
                     icon: const AppIcon(HugeIcons.strokeRoundedCancel01),

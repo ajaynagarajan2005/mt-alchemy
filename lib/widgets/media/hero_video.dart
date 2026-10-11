@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../theme/colors.dart';
 import '../../theme/motion.dart';
 
 /// Home hero loop: [LoopVideo] with the hero asset and poster.
@@ -22,6 +23,8 @@ class HeroVideo extends StatelessWidget {
 class LoopVideo extends StatefulWidget {
   const LoopVideo({super.key, required this.asset, required this.poster});
 
+  /// Light-mode assets. In dark mode the `_dark` sibling is used instead
+  /// (hero_loop.mp4 becomes hero_loop_dark.mp4).
   final String asset;
   final String poster;
 
@@ -44,7 +47,7 @@ class _LoopVideoState extends State<LoopVideo> {
 
   Future<void> _init() async {
     final c = VideoPlayerController.asset(
-      widget.asset,
+      _themed(widget.asset),
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
     );
     _controller = c;
@@ -60,6 +63,11 @@ class _LoopVideoState extends State<LoopVideo> {
     }
   }
 
+  /// Adds the `_dark` suffix before the extension when the page is dark.
+  String _themed(String path) => AppColors.isDark
+      ? path.replaceFirstMapped(RegExp(r'(\.\w+)$'), (m) => '_dark${m[1]}')
+      : path;
+
   @override
   void dispose() {
     _controller?.dispose();
@@ -69,7 +77,7 @@ class _LoopVideoState extends State<LoopVideo> {
   @override
   Widget build(BuildContext context) {
     final poster = Image.asset(
-      widget.poster,
+      _themed(widget.poster),
       fit: BoxFit.cover,
       width: double.infinity,
       height: double.infinity,

@@ -24,7 +24,7 @@ class TestimonialSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AppIcon(
+              AppIcon(
                 HugeIcons.strokeRoundedQuoteDown,
                 size: 44,
                 color: AppColors.red,

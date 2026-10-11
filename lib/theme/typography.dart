@@ -23,12 +23,12 @@ abstract final class AppText {
     double size, {
     double height = 1.55,
     FontWeight w = FontWeight.w400,
-    Color color = AppColors.ink,
+    Color? color,
   }) => GoogleFonts.manrope(
     fontSize: size,
     height: height,
     fontWeight: w,
-    color: color,
+    color: color ?? AppColors.ink,
   );
 
   /// Hero headline. Scales with breakpoint so it stays within 2 lines.

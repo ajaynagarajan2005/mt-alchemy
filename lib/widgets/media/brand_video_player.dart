@@ -113,7 +113,7 @@ class _BrandVideoPlayerState extends State<BrandVideoPlayer> {
       aspectRatio: 16 / 9,
       child: Container(
         clipBehavior: Clip.antiAlias,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: Radii.cardAll,
           color: AppColors.grey100,
         ),
@@ -194,7 +194,7 @@ class _BrandVideoPlayerState extends State<BrandVideoPlayer> {
                     alignment: Alignment.centerLeft,
                     child: FractionallySizedBox(
                       widthFactor: progress,
-                      child: const ColoredBox(
+                      child: ColoredBox(
                         color: AppColors.red,
                         child: SizedBox.expand(),
                       ),
@@ -213,7 +213,7 @@ class _FailedNote extends StatelessWidget {
   const _FailedNote();
 
   @override
-  Widget build(BuildContext context) => const DecoratedBox(
+  Widget build(BuildContext context) => DecoratedBox(
     decoration: BoxDecoration(
       color: AppColors.glassFillStrong,
       borderRadius: Radii.pillAll,
@@ -264,12 +264,16 @@ class _RoundButton extends StatelessWidget {
                     ? SizedBox(
                         width: size / 3,
                         height: size / 3,
-                        child: const CircularProgressIndicator(
+                        child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: AppColors.white,
+                          color: AppColors.onInverse,
                         ),
                       )
-                    : AppIcon(icon, size: size / 2.4, color: AppColors.white),
+                    : AppIcon(
+                        icon,
+                        size: size / 2.4,
+                        color: AppColors.onInverse,
+                      ),
               ),
             ),
           ),

@@ -76,7 +76,7 @@ class _ContactScreenState extends State<ContactScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const AppIcon(
+        AppIcon(
           HugeIcons.strokeRoundedCheckmarkCircle02,
           size: 40,
           color: AppColors.success,

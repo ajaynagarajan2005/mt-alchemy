@@ -15,6 +15,7 @@ import '../../theme/typography.dart';
 import '../common/alchemy_button.dart';
 import '../common/app_icon.dart';
 import '../common/tappable.dart';
+import '../common/theme_toggle.dart';
 
 /// Frosted-glass top bar. Wraps a real Material [AppBar] (rubric: AppBar on main screens).
 class SiteNav extends StatelessWidget implements PreferredSizeWidget {
@@ -33,7 +34,7 @@ class SiteNav extends StatelessWidget implements PreferredSizeWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppColors.glassFill,
             border: Border(bottom: BorderSide(color: AppColors.glassBorder)),
           ),
@@ -48,6 +49,7 @@ class SiteNav extends StatelessWidget implements PreferredSizeWidget {
                 for (final link in primaryNav)
                   _NavItem(link: link, active: location.startsWith(link.path)),
               const SizedBox(width: Space.xs),
+              const ThemeToggleButton(),
               const _CartButton(),
               if (expanded) ...[
                 const SizedBox(width: Space.xs),
@@ -144,7 +146,7 @@ class _CartButton extends StatelessWidget {
         isLabelVisible: count > 0,
         backgroundColor: AppColors.red,
         label: Text('$count'),
-        child: const AppIcon(
+        child: AppIcon(
           HugeIcons.strokeRoundedShoppingBag01,
           size: 24,
           color: AppColors.ink,

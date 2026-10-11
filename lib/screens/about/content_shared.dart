@@ -97,7 +97,7 @@ class ClosingCta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Section(
-      color: AppColors.grey900,
+      color: AppColors.inverseSurface,
       child: Reveal(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +106,7 @@ class ClosingCta extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 760),
               child: Text(
                 title,
-                style: AppText.h2(context).copyWith(color: AppColors.white),
+                style: AppText.h2(context).copyWith(color: AppColors.onInverse),
               ),
             ),
             const SizedBox(height: Space.md),
@@ -114,7 +114,7 @@ class ClosingCta extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 520),
               child: Text(
                 text,
-                style: AppText.lead.copyWith(color: AppColors.grey300),
+                style: AppText.lead.copyWith(color: AppColors.inverseMuted),
               ),
             ),
             const SizedBox(height: Space.xl),
@@ -155,7 +155,7 @@ class NotFoundView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AppIcon(
+                  AppIcon(
                     HugeIcons.strokeRoundedCompass01,
                     size: 40,
                     color: AppColors.red,

@@ -273,7 +273,7 @@ class _ModuleTile extends StatelessWidget {
                 SizedBox(
                   width: 24,
                   child: complete
-                      ? const AppIcon(
+                      ? AppIcon(
                           HugeIcons.strokeRoundedCheckmarkCircle02,
                           size: 20,
                           color: AppColors.success,
@@ -373,11 +373,11 @@ class _Lesson extends StatelessWidget {
                 child: Container(
                   width: 64,
                   height: 64,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: AppColors.glassFillStrong,
                     shape: BoxShape.circle,
                   ),
-                  child: const Center(
+                  child: Center(
                     child: AppIcon(
                       HugeIcons.strokeRoundedPlay,
                       size: 28,
@@ -433,7 +433,7 @@ class _CompletionPanel extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(context.isCompact ? Space.lg : Space.xl),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: AppColors.transformation,
         borderRadius: Radii.cardAll,
       ),
@@ -442,18 +442,18 @@ class _CompletionPanel extends StatelessWidget {
         children: [
           Text(
             'Course complete',
-            style: AppText.h2(context).copyWith(color: AppColors.white),
+            style: AppText.h2(context).copyWith(color: AppColors.onInverse),
           ),
           const SizedBox(height: Space.xs),
           Text(
             'You have finished ${course.title}. Take the next step when you are ready.',
-            style: AppText.body.copyWith(color: AppColors.white),
+            style: AppText.body.copyWith(color: AppColors.onInverse),
           ),
           const SizedBox(height: Space.md),
           ArrowLink(
             label: 'Browse more courses',
-            color: AppColors.white,
-            hoverColor: AppColors.grey200,
+            color: AppColors.onInverse,
+            hoverColor: AppColors.inverseMuted,
             onTap: () => context.go(Routes.upskilling),
           ),
         ],

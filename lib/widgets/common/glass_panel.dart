@@ -62,7 +62,9 @@ class GlassPanel extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 stops: const [0, 0.04, 1],
                 colors: [
-                  Colors.white.withValues(alpha: strong ? 0.95 : 0.85),
+                  strong
+                      ? AppColors.glassHighlightStrong
+                      : AppColors.glassHighlight,
                   strong ? AppColors.glassFillStrong : AppColors.glassFill,
                   strong ? AppColors.glassFillStrong : AppColors.glassFill,
                 ],
@@ -75,7 +77,7 @@ class GlassPanel extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: borderRadius,
         boxShadow: shadow
-            ? const [
+            ? [
                 BoxShadow(
                   color: AppColors.shadowTint,
                   blurRadius: 40,

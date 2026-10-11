@@ -13,6 +13,7 @@ import '../../theme/typography.dart';
 import '../common/app_icon.dart';
 import '../common/gradient_backdrop.dart';
 import '../common/tappable.dart';
+import '../common/theme_toggle.dart';
 
 class _PortalDest {
   const _PortalDest(this.label, this.path, this.icon);
@@ -158,7 +159,7 @@ class _PortalBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: Space.navHeight,
       automaticallyImplyLeading: false,
       backgroundColor: AppColors.surface,
-      shape: const Border(bottom: BorderSide(color: AppColors.line)),
+      shape: Border(bottom: BorderSide(color: AppColors.line)),
       titleSpacing: showMenu ? 0 : gutter,
       leading: showMenu
           ? Builder(
@@ -191,6 +192,7 @@ class _PortalBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           const SizedBox(width: Space.xs),
         ],
+        const ThemeToggleButton(),
         if (context.isCompact)
           IconButton(
             tooltip: 'Sign out',
@@ -255,7 +257,7 @@ class _PortalRail extends StatelessWidget {
     // CONTAINER (decoration): the rail's frosted fill and divider line.
     return Container(
       width: 248,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.glassFillStrong,
         border: Border(right: BorderSide(color: AppColors.line)),
       ),
@@ -265,8 +267,8 @@ class _PortalRail extends StatelessWidget {
           backgroundColor: Colors.transparent,
           indicatorColor: AppColors.redSoft,
           indicatorShape: const StadiumBorder(),
-          selectedIconTheme: const IconThemeData(color: AppColors.red),
-          unselectedIconTheme: const IconThemeData(color: AppColors.grey600),
+          selectedIconTheme: IconThemeData(color: AppColors.red),
+          unselectedIconTheme: IconThemeData(color: AppColors.grey600),
           selectedLabelTextStyle: AppText.label.copyWith(color: AppColors.red),
           unselectedLabelTextStyle: AppText.label.copyWith(
             color: AppColors.grey700,

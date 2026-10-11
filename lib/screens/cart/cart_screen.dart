@@ -108,7 +108,7 @@ class _Items extends StatelessWidget {
       child: Column(
         children: [
           for (var i = 0; i < items.length; i++) ...[
-            if (i > 0) const Divider(height: 1, color: AppColors.line),
+            if (i > 0) Divider(height: 1, color: AppColors.line),
             _Line(item: items[i]),
           ],
         ],
@@ -163,7 +163,7 @@ class _Line extends StatelessWidget {
                     IconButton(
                       tooltip: 'Remove ${p.name} from cart',
                       onPressed: () => cart.remove(p.id),
-                      icon: const AppIcon(
+                      icon: AppIcon(
                         HugeIcons.strokeRoundedDelete02,
                         size: 20,
                         color: AppColors.grey600,

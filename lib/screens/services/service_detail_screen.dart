@@ -103,7 +103,7 @@ class _Hero extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 2),
                     child: AppIcon(
                       HugeIcons.strokeRoundedTick02,

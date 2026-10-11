@@ -86,7 +86,7 @@ class _LevelChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.grey100,
         borderRadius: Radii.pillAll,
       ),

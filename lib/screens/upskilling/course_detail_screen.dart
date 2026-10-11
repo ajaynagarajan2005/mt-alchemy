@@ -148,7 +148,7 @@ class _Main extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 2),
                   child: AppIcon(
                     HugeIcons.strokeRoundedCheckmarkCircle02,
@@ -198,7 +198,7 @@ class _ModuleRow extends StatelessWidget {
     // CONTAINER (grouping): one module row with a hairline divider beneath.
     return Container(
       padding: const EdgeInsets.symmetric(vertical: Space.md),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.line)),
       ),
       child: Row(

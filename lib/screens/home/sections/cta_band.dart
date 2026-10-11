@@ -17,7 +17,7 @@ class CtaBand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Section(
-      color: AppColors.grey900,
+      color: AppColors.inverseSurface,
       child: Reveal(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,7 +26,7 @@ class CtaBand extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 760),
               child: Text(
                 'Ready to shift how your team works?',
-                style: AppText.h1(context).copyWith(color: AppColors.white),
+                style: AppText.h1(context).copyWith(color: AppColors.onInverse),
               ),
             ),
             const SizedBox(height: Space.md),
@@ -34,7 +34,7 @@ class CtaBand extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 560),
               child: Text(
                 'Tell us what is happening in your organisation and we will suggest where to start.',
-                style: AppText.lead.copyWith(color: AppColors.grey300),
+                style: AppText.lead.copyWith(color: AppColors.inverseMuted),
               ),
             ),
             const SizedBox(height: Space.xl),

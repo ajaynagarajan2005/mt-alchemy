@@ -6,19 +6,24 @@ import 'radii.dart';
 import 'spacing.dart';
 import 'typography.dart';
 
-/// Light theme. Material widgets are restyled from the tokens so nothing
+/// Light and dark themes. Material widgets are restyled from the tokens so nothing
 /// ships in the stock Material look.
 abstract final class AppTheme {
-  static ThemeData light() {
+  static ThemeData light() => _build(Brightness.light);
+
+  /// Same structure, built from the dark palette (call after AppColors.apply).
+  static ThemeData dark() => _build(Brightness.dark);
+
+  static ThemeData _build(Brightness brightness) {
     final scheme =
         ColorScheme.fromSeed(
           seedColor: AppColors.red,
-          brightness: Brightness.light,
+          brightness: brightness,
         ).copyWith(
-          primary: AppColors.red,
-          onPrimary: AppColors.surface,
+          primary: AppColors.accentFill,
+          onPrimary: AppColors.onAccent,
           secondary: AppColors.grey800,
-          onSecondary: AppColors.surface,
+          onSecondary: AppColors.white,
           surface: AppColors.white,
           onSurface: AppColors.ink,
           error: AppColors.error,
@@ -30,21 +35,21 @@ abstract final class AppTheme {
 
     final inputBorder = OutlineInputBorder(
       borderRadius: Radii.inputAll,
-      borderSide: const BorderSide(color: AppColors.grey300),
+      borderSide: BorderSide(color: AppColors.grey300),
     );
 
     return base.copyWith(
       scaffoldBackgroundColor: AppColors.white,
       textTheme: GoogleFonts.manropeTextTheme(base.textTheme)
           .apply(bodyColor: AppColors.ink, displayColor: AppColors.ink),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
         foregroundColor: AppColors.ink,
       ),
-      dividerTheme: const DividerThemeData(
+      dividerTheme: DividerThemeData(
         color: AppColors.line,
         thickness: 1,
         space: 1,
@@ -61,33 +66,33 @@ abstract final class AppTheme {
         border: inputBorder,
         enabledBorder: inputBorder,
         focusedBorder: inputBorder.copyWith(
-          borderSide: const BorderSide(color: AppColors.red, width: 2),
+          borderSide: BorderSide(color: AppColors.red, width: 2),
         ),
         errorBorder: inputBorder.copyWith(
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: inputBorder.copyWith(
-          borderSide: const BorderSide(color: AppColors.error, width: 2),
+          borderSide: BorderSide(color: AppColors.error, width: 2),
         ),
       ),
-      textSelectionTheme: const TextSelectionThemeData(
+      textSelectionTheme: TextSelectionThemeData(
         cursorColor: AppColors.red,
         selectionColor: AppColors.redSoft,
       ),
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: AppColors.grey900,
-        contentTextStyle: AppText.body.copyWith(color: AppColors.white),
+        backgroundColor: AppColors.inverseSurface,
+        contentTextStyle: AppText.body.copyWith(color: AppColors.onInverse),
         behavior: SnackBarBehavior.floating,
         shape: const RoundedRectangleBorder(borderRadius: Radii.inputAll),
       ),
       chipTheme: base.chipTheme.copyWith(
-        shape: const StadiumBorder(side: BorderSide(color: AppColors.grey300)),
+        shape: StadiumBorder(side: BorderSide(color: AppColors.grey300)),
         backgroundColor: AppColors.surface,
         selectedColor: AppColors.redSoft,
         labelStyle: AppText.label,
         showCheckmark: false,
       ),
-      progressIndicatorTheme: const ProgressIndicatorThemeData(
+      progressIndicatorTheme: ProgressIndicatorThemeData(
         color: AppColors.red,
         linearTrackColor: AppColors.grey200,
       ),

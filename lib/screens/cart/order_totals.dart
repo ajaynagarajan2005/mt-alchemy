@@ -40,7 +40,7 @@ class OrderTotals extends StatelessWidget {
             style: AppText.small,
           ),
         ],
-        const Padding(
+        Padding(
           padding: EdgeInsets.symmetric(vertical: Space.md),
           child: Divider(height: 1, color: AppColors.line),
         ),

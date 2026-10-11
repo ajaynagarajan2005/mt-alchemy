@@ -58,14 +58,14 @@ class _AlchemyButtonState extends State<AlchemyButton> {
         shape: const WidgetStatePropertyAll(shape),
         textStyle: text,
         elevation: const WidgetStatePropertyAll(0),
-        foregroundColor: const WidgetStatePropertyAll(AppColors.surface),
+        foregroundColor: WidgetStatePropertyAll(AppColors.onAccent),
         backgroundColor: WidgetStateProperty.resolveWith((s) {
           if (s.contains(WidgetState.disabled)) return AppColors.grey300;
           if (s.contains(WidgetState.hovered) ||
               s.contains(WidgetState.pressed)) {
-            return AppColors.redDeep;
+            return AppColors.accentHover;
           }
-          return AppColors.red;
+          return AppColors.accentFill;
         }),
         overlayColor: const WidgetStatePropertyAll(Colors.transparent),
       ),
@@ -73,11 +73,11 @@ class _AlchemyButtonState extends State<AlchemyButton> {
         padding: const WidgetStatePropertyAll(padding),
         shape: const WidgetStatePropertyAll(shape),
         textStyle: text,
-        foregroundColor: const WidgetStatePropertyAll(AppColors.ink),
+        foregroundColor: WidgetStatePropertyAll(AppColors.ink),
         backgroundColor: WidgetStateProperty.resolveWith(
           (s) => s.contains(WidgetState.hovered)
               ? AppColors.grey100
-              : Colors.white.withValues(alpha: 0.6),
+              : AppColors.surface.withValues(alpha: 0.6),
         ),
         side: WidgetStateProperty.resolveWith(
           (s) => BorderSide(
@@ -92,14 +92,14 @@ class _AlchemyButtonState extends State<AlchemyButton> {
         padding: const WidgetStatePropertyAll(padding),
         shape: const WidgetStatePropertyAll(shape),
         textStyle: text,
-        foregroundColor: const WidgetStatePropertyAll(AppColors.white),
+        foregroundColor: WidgetStatePropertyAll(AppColors.onInverse),
         backgroundColor: WidgetStateProperty.resolveWith(
           (s) => s.contains(WidgetState.hovered)
               ? Colors.white.withValues(alpha: 0.12)
               : Colors.transparent,
         ),
-        side: const WidgetStatePropertyAll(
-          BorderSide(color: AppColors.grey500),
+        side: WidgetStatePropertyAll(
+          BorderSide(color: AppColors.inverseOutline),
         ),
         overlayColor: const WidgetStatePropertyAll(Colors.transparent),
       ),

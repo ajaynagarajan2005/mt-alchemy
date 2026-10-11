@@ -7,6 +7,7 @@ import 'state/auth_store.dart';
 import 'state/cart_store.dart';
 import 'state/learning_store.dart';
 import 'state/org_store.dart';
+import 'state/theme_controller.dart';
 
 void main() {
   // Clean URLs on the web (/store instead of /#/store).
@@ -18,6 +19,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => CartStore()),
         ChangeNotifierProvider(create: (_) => LearningStore()),
         ChangeNotifierProvider(create: (_) => OrgStore()),
+        ChangeNotifierProvider(create: (_) => ThemeController()),
       ],
       child: const MtAlchemyApp(),
     ),

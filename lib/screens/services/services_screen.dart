@@ -71,7 +71,7 @@ class _ServiceText extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 2),
                   child: AppIcon(
                     HugeIcons.strokeRoundedTick02,
@@ -135,7 +135,7 @@ class _GlassBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GradientBackdrop(
-      blobs: const [
+      blobs: [
         Blob(alignment: Alignment(0.9, -0.5), size: 600),
         Blob(
           alignment: Alignment(-0.8, 0.8),

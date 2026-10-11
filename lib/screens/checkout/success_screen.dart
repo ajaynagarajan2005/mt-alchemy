@@ -48,7 +48,7 @@ class SuccessScreen extends StatelessWidget {
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.all(compact ? Space.lg : Space.xxl),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: AppColors.transformation,
                 borderRadius: Radii.cardAll,
               ),
@@ -168,7 +168,7 @@ class _OnGradientButton extends StatelessWidget {
       onPressed: onPressed,
       style: FilledButton.styleFrom(
         backgroundColor: Colors.white,
-        foregroundColor: AppColors.ink,
+        foregroundColor: AppColors.inverseSurface,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: const RoundedRectangleBorder(borderRadius: Radii.pillAll),
         textStyle: AppText.button,

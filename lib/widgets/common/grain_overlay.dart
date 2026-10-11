@@ -1,5 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../../theme/colors.dart';
+
 /// Subtle film grain over the whole app. Fixed (never inside a scroll view)
 /// and ignores pointer events so it costs a single static layer.
 class GrainOverlay extends StatelessWidget {
@@ -16,7 +18,7 @@ class GrainOverlay extends StatelessWidget {
             image: DecorationImage(
               image: const AssetImage('assets/textures/grain.png'),
               repeat: ImageRepeat.repeat,
-              opacity: opacity,
+              opacity: AppColors.isDark ? opacity * 1.6 : opacity,
               filterQuality: FilterQuality.none,
             ),
           ),

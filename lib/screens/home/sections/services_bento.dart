@@ -73,7 +73,7 @@ class ServicesBento extends StatelessWidget {
     }
 
     return GradientBackdrop(
-      blobs: const [
+      blobs: [
         Blob(alignment: Alignment(-0.9, 0.1), size: 620, opacity: 0.18),
         Blob(
           alignment: Alignment(1.0, -0.4),
@@ -137,7 +137,7 @@ class _Cell extends StatelessWidget {
   Widget build(BuildContext context) {
     void open() => context.go(Routes.service(service.slug));
     final onDark = fill == _Fill.gradient;
-    final fg = onDark ? AppColors.white : AppColors.ink;
+    final fg = onDark ? AppColors.onInverse : AppColors.ink;
 
     final copy = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +148,7 @@ class _Cell extends StatelessWidget {
         Text(
           service.short,
           style: AppText.body.copyWith(
-            color: onDark ? AppColors.grey200 : AppColors.inkMuted,
+            color: onDark ? AppColors.inverseMuted : AppColors.inkMuted,
           ),
         ),
         const SizedBox(height: Space.md),
@@ -156,7 +156,7 @@ class _Cell extends StatelessWidget {
           label: 'Explore',
           onTap: open,
           color: fg,
-          hoverColor: onDark ? AppColors.white : AppColors.red,
+          hoverColor: onDark ? AppColors.onInverse : AppColors.red,
         ),
       ],
     );
@@ -164,7 +164,7 @@ class _Cell extends StatelessWidget {
     final icon = AppIcon(
       _icons[service.slug]!,
       size: 32,
-      color: onDark ? AppColors.white : AppColors.red,
+      color: onDark ? AppColors.onInverse : AppColors.red,
     );
 
     final Widget body = switch (fill) {
@@ -196,7 +196,7 @@ class _Cell extends StatelessWidget {
       // Grey to red: the "transformation" gradient, used once on this page.
       _Fill.gradient => Container(
         padding: const EdgeInsets.all(Space.xl),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: AppColors.transformation,
           borderRadius: Radii.cardAll,
         ),

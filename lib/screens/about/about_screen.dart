@@ -61,7 +61,7 @@ class _AboutHero extends StatelessWidget {
       aspectRatio: context.isCompact ? 16 / 10 : 1,
       child: Container(
         clipBehavior: Clip.antiAlias,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: Radii.cardAll,
           color: AppColors.grey100,
         ),
@@ -226,7 +226,7 @@ class _Story extends StatelessWidget {
   Widget build(BuildContext context) {
     final compact = context.isCompact;
     return GradientBackdrop(
-      blobs: const [
+      blobs: [
         Blob(alignment: Alignment(-0.9, 0.2), size: 620),
         Blob(
           alignment: Alignment(0.9, -0.6),

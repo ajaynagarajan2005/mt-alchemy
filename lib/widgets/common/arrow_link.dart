@@ -13,14 +13,14 @@ class ArrowLink extends StatefulWidget {
     super.key,
     required this.label,
     required this.onTap,
-    this.color = AppColors.ink,
-    this.hoverColor = AppColors.red,
+    this.color,
+    this.hoverColor,
   });
 
   final String label;
   final VoidCallback onTap;
-  final Color color;
-  final Color hoverColor;
+  final Color? color;
+  final Color? hoverColor;
 
   @override
   State<ArrowLink> createState() => _ArrowLinkState();
@@ -31,7 +31,9 @@ class _ArrowLinkState extends State<ArrowLink> {
 
   @override
   Widget build(BuildContext context) {
-    final color = _hover ? widget.hoverColor : widget.color;
+    final color = _hover
+        ? (widget.hoverColor ?? AppColors.red)
+        : (widget.color ?? AppColors.ink);
     return Semantics(
       link: true,
       child: MouseRegion(

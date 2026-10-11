@@ -15,7 +15,7 @@ class SiteFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final light = AppText.body.copyWith(color: AppColors.grey300);
+    final light = AppText.body.copyWith(color: AppColors.inverseMuted);
 
     final brand = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +29,7 @@ class SiteFooter extends StatelessWidget {
               ),
               TextSpan(
                 text: 'Alchemy',
-                style: AppText.wordmark.copyWith(color: AppColors.white),
+                style: AppText.wordmark.copyWith(color: AppColors.onInverse),
               ),
             ],
           ),
@@ -75,7 +75,7 @@ class SiteFooter extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: AppColors.grey900,
+      color: AppColors.inverseSurface,
       padding: const EdgeInsets.symmetric(vertical: Space.xxxl),
       child: ContentFrame(
         child: Column(
@@ -95,11 +95,11 @@ class SiteFooter extends StatelessWidget {
               Wrap(spacing: Space.xxl, runSpacing: Space.xl, children: columns),
             ],
             const SizedBox(height: Space.xxl),
-            const Divider(color: AppColors.grey700),
+            Divider(color: AppColors.inverseLine),
             const SizedBox(height: Space.lg),
             Text(
               '© 2026 MT Alchemy. Prototype built for NET4207.',
-              style: AppText.small.copyWith(color: AppColors.grey400),
+              style: AppText.small.copyWith(color: AppColors.inverseFaint),
             ),
           ],
         ),
@@ -119,7 +119,7 @@ class _FooterColumn extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(title, style: AppText.label.copyWith(color: AppColors.white)),
+        Text(title, style: AppText.label.copyWith(color: AppColors.onInverse)),
         const SizedBox(height: Space.md),
         for (final l in links) _FooterLink(link: l),
       ],
@@ -153,7 +153,7 @@ class _FooterLinkState extends State<_FooterLink> {
             child: Text(
               widget.link.label,
               style: AppText.body.copyWith(
-                color: _hover ? AppColors.red : AppColors.grey300,
+                color: _hover ? AppColors.red : AppColors.inverseMuted,
               ),
             ),
           ),
