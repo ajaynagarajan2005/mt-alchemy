@@ -4,9 +4,14 @@ import 'package:material_ui/material_ui.dart';
 import '../data/models/people.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
+import '../screens/cart/cart_screen.dart';
+import '../screens/checkout/checkout_screen.dart';
+import '../screens/checkout/success_screen.dart';
 import '../screens/contact/contact_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/placeholder_screen.dart';
+import '../screens/store/product_screen.dart';
+import '../screens/store/store_screen.dart';
 import '../state/auth_store.dart';
 import '../widgets/layout/app_shell.dart';
 import 'routes.dart';
@@ -83,12 +88,37 @@ GoRouter createRouter(AuthStore auth) {
             routes: [stub(':courseId', 'Course')],
           ),
           stub('/learn/:courseId', 'Course player'),
-          stub(Routes.store, 'Store', routes: [stub(':productId', 'Product')]),
-          stub(Routes.cart, 'Cart'),
-          stub(
-            Routes.checkout,
-            'Checkout',
-            routes: [stub('success', 'Order confirmed')],
+          GoRoute(
+            path: Routes.store,
+            pageBuilder: (context, state) => page(state, const StoreScreen()),
+            routes: [
+              GoRoute(
+                path: ':productId',
+                pageBuilder: (context, state) => page(
+                  state,
+                  ProductScreen(
+                    key: ValueKey(state.pathParameters['productId']),
+                    productId: state.pathParameters['productId']!,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: Routes.cart,
+            pageBuilder: (context, state) => page(state, const CartScreen()),
+          ),
+          GoRoute(
+            path: Routes.checkout,
+            pageBuilder: (context, state) =>
+                page(state, const CheckoutScreen()),
+            routes: [
+              GoRoute(
+                path: 'success',
+                pageBuilder: (context, state) =>
+                    page(state, const SuccessScreen()),
+              ),
+            ],
           ),
           stub(Routes.insights, 'Insights', routes: [stub(':slug', 'Article')]),
           GoRoute(
