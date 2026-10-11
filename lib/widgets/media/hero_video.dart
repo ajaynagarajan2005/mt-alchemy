@@ -62,7 +62,11 @@ class _HeroVideoState extends State<HeroVideo> {
     );
     final c = _controller;
     final showVideo =
-        !Motion.reduced(context) && !_failed && _started && c != null && c.value.isInitialized;
+        !Motion.reduced(context) &&
+        !_failed &&
+        _started &&
+        c != null &&
+        c.value.isInitialized;
 
     return Stack(
       fit: StackFit.expand,
