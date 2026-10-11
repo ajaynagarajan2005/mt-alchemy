@@ -49,3 +49,7 @@ app.*.map.json
 
 # Playwright MCP screenshots and snapshots
 .playwright-mcp/
+
+# Remotion
+video/node_modules/
+video/out/

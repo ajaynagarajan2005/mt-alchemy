@@ -8,15 +8,15 @@ import '../../../theme/spacing.dart';
 import '../../../theme/typography.dart';
 import '../../../widgets/common/alchemy_button.dart';
 import '../../../widgets/common/glass_panel.dart';
-import '../../../widgets/common/ink_art.dart';
 import '../../../widgets/common/reveal.dart';
 import '../../../widgets/layout/content_frame.dart';
+import '../../../widgets/media/hero_video.dart';
 
 /// Full-bleed hero. The media layer zooms and fades as the page scrolls,
 /// pulling the visitor "through" it into Services.
 ///
-/// The media is the seeded [InkArt] still for now; phase 7 swaps in the
-/// looping muted hero video with this still as its poster.
+/// The media is the looping muted [HeroVideo] (Remotion crimson ink), with
+/// its poster still shown until playback starts or under reduced motion.
 class HomeHero extends StatelessWidget {
   const HomeHero({super.key, required this.scroll, required this.height});
 
@@ -27,8 +27,10 @@ class HomeHero extends StatelessWidget {
   Widget build(BuildContext context) {
     final reduced = Motion.reduced(context);
     final compact = context.isCompact;
+    // Short viewports (landscape phones): tighten the panel offset so it fits.
+    final short = height < 700;
 
-    final media = const InkArt(seed: 'mt-alchemy-hero', intensity: 1);
+    const media = HeroVideo();
 
     return SizedBox(
       height: height,
@@ -57,7 +59,7 @@ class HomeHero extends StatelessWidget {
           Positioned(
             left: 0,
             right: 0,
-            bottom: compact ? Space.lg : Space.xxxl,
+            bottom: (compact || short) ? Space.lg : Space.xxxl,
             child: ContentFrame(
               child: Align(
                 alignment: Alignment.bottomLeft,

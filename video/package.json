@@ -1,0 +1,18 @@
+{
+  "name": "mt-alchemy-video",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts HeroLoop ../assets/videos/hero_loop.mp4 --codec=h264 --muted --crf=30",
+    "still": "remotion still src/index.ts HeroLoop ../assets/images/hero_poster.jpg --frame=0 --image-format=jpeg --jpeg-quality=85"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.534",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "^4.0.534",
+    "typescript": "^7.0.2"
+  }
+}

@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:material_ui/material_ui.dart';
 
-import '../../theme/breakpoints.dart';
 import '../../widgets/layout/app_shell.dart';
 import 'sections/course_row.dart';
 import 'sections/cta_band.dart';
@@ -34,7 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final viewport = MediaQuery.sizeOf(context).height;
-    final heroHeight = math.max(viewport, context.isCompact ? 600.0 : 680.0);
+    // Hero fills the viewport on every device; the floor only helps very
+    // short viewports (landscape phones).
+    final heroHeight = math.max(viewport, 560.0);
 
     return PageScroll(
       controller: _scroll,
