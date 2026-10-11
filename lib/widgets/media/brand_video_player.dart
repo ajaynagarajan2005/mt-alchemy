@@ -139,8 +139,10 @@ class _BrandVideoPlayerState extends State<BrandVideoPlayer> {
                   ),
                 ),
               ),
-            if (showCenter)
-              Center(
+            if (showCenter) // Bottom-left so the poster artwork stays clear.
+              Positioned(
+                left: Space.lg,
+                bottom: Space.lg,
                 child: _RoundButton(
                   icon: ended
                       ? HugeIcons.strokeRoundedReload
@@ -151,7 +153,9 @@ class _BrandVideoPlayerState extends State<BrandVideoPlayer> {
                 ),
               ),
             if (_ready && !ended && !_playing)
-              Center(
+              Positioned(
+                left: Space.lg,
+                bottom: Space.lg,
                 child: _RoundButton(
                   icon: HugeIcons.strokeRoundedPlay,
                   tooltip: 'Play video',
