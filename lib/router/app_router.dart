@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../data/models/people.dart';
+import '../screens/home/home_screen.dart';
 import '../screens/placeholder_screen.dart';
 import '../state/auth_store.dart';
 import '../widgets/layout/app_shell.dart';
@@ -62,7 +63,10 @@ GoRouter createRouter(AuthStore auth) {
       ShellRoute(
         builder: (context, state, child) => AppShell(child: child),
         routes: [
-          stub(Routes.home, 'Home'),
+          GoRoute(
+            path: Routes.home,
+            pageBuilder: (context, state) => page(state, const HomeScreen()),
+          ),
           stub(Routes.about, 'About'),
           stub(Routes.services, 'Services', routes: [stub(':slug', 'Service')]),
           stub(

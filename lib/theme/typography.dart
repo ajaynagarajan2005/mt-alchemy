@@ -34,9 +34,9 @@ abstract final class AppText {
   /// Hero headline. Scales with breakpoint so it stays within 2 lines.
   static TextStyle display(BuildContext context) =>
       switch (context.screenSize) {
-        ScreenSize.compact => _serif(40, height: 1.1),
-        ScreenSize.medium => _serif(56, height: 1.08),
-        ScreenSize.expanded => _serif(72, height: 1.05),
+        ScreenSize.compact => _serif(34, height: 1.1),
+        ScreenSize.medium => _serif(48, height: 1.08),
+        ScreenSize.expanded => _serif(56, height: 1.08),
       };
 
   static TextStyle h1(BuildContext context) => switch (context.screenSize) {
