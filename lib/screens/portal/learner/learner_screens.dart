@@ -3,6 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../../data/eligibility.dart';
 import '../../../router/routes.dart';
 import '../../../state/auth_store.dart';
 import '../../../state/commerce_store.dart';
@@ -16,6 +17,7 @@ import '../../../utils/validators.dart';
 import '../../../widgets/common/alchemy_button.dart';
 import '../../../widgets/common/app_icon.dart';
 import '../../../widgets/common/labeled_field.dart';
+import '../../../widgets/common/pathway_fields.dart';
 import '../../../widgets/common/product_card.dart' show gbpExact;
 import '../../learn/lesson_views.dart' show openDocument;
 import '../portal_widgets.dart';
@@ -34,7 +36,8 @@ class MyOrdersScreen extends StatelessWidget {
       children: [
         const PortalHeader(
           title: 'Orders',
-          subtitle: 'Receipts for courses and products, and where your parcels are.',
+          subtitle:
+              'Receipts for courses and products, and where your parcels are.',
         ),
         if (orders.isEmpty)
           EmptyState(
@@ -222,7 +225,8 @@ class MyDownloadsScreen extends StatelessWidget {
         if (items.isEmpty)
           EmptyState(
             title: 'No digital products yet',
-            message: 'Workbooks and planners you buy from the store appear here.',
+            message:
+                'Workbooks and planners you buy from the store appear here.',
             actionLabel: 'Browse the store',
             onAction: () => context.go(Routes.store),
           ),
@@ -282,14 +286,15 @@ class MyCertificatesScreen extends StatelessWidget {
       children: [
         const PortalHeader(
           title: 'Certificates',
-          subtitle: 'Each certificate has a public link anyone can use to verify it.',
+          subtitle:
+              'Each certificate has a public link anyone can use to verify it.',
         ),
         if (certs.isEmpty)
           EmptyState(
             title: 'No certificates yet',
             message: 'Finish every lesson and pass the quiz in a course to earn one.',
-            actionLabel: 'Go to my learning',
-            onAction: () => context.go(Routes.portalMe),
+            actionLabel: 'Open the course catalogue',
+            onAction: () => context.go(Routes.myCourses),
           ),
         PortalGrid(
           expandedColumns: 2,
@@ -341,6 +346,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   final _name = TextEditingController();
   String? _country;
   final Set<String> _hobbies = {};
+  CareerStage? _stage;
+  final Set<String> _interests = {};
   bool _busy = false;
   bool _filled = false;
 
@@ -362,6 +369,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     _name.text = u.name;
     _country = _countries.contains(u.country) ? u.country : null;
     _hobbies.addAll(u.hobbies);
+    _stage = u.stage;
+    _interests.addAll(u.interests);
   }
 
   @override
@@ -378,6 +387,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       name: _name.text,
       country: _country,
       hobbies: _hobbies.toList(),
+      careerStage: _stage?.name,
+      interests: _interests.toList(),
     );
     if (!mounted) return;
     setState(() => _busy = false);
@@ -423,7 +434,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     spacing: Space.xs,
                     runSpacing: Space.xs,
                     children: [
-                      for (final h in const ['Reading', 'Sports', 'Music', 'Travel'])
+                      for (final h in const [
+                        'Reading',
+                        'Sports',
+                        'Music',
+                        'Travel',
+                      ])
                         FilterChip(
                           label: Text(h),
                           selected: _hobbies.contains(h),
@@ -434,6 +450,19 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           ),
                         ),
                     ],
+                  ),
+                  const SizedBox(height: Space.lg),
+                  const Divider(),
+                  const SizedBox(height: Space.md),
+                  Text('Learning pathway', style: AppText.h4),
+                  const SizedBox(height: Space.sm),
+                  PathwayFields(
+                    stage: _stage,
+                    interests: _interests,
+                    onStage: (s) => setState(() => _stage = s),
+                    onInterest: (slug, on) => setState(
+                      () => on ? _interests.add(slug) : _interests.remove(slug),
+                    ),
                   ),
                   const SizedBox(height: Space.lg),
                   AlchemyButton(

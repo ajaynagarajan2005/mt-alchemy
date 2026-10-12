@@ -82,7 +82,11 @@ class ReviewsSection extends StatelessWidget {
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [list, const SizedBox(height: Space.lg), form],
+          children: [
+            list,
+            const SizedBox(height: Space.lg),
+            form,
+          ],
         );
       },
     );

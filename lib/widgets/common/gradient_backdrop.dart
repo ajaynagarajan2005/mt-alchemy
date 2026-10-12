@@ -35,13 +35,13 @@ class GradientBackdrop extends StatelessWidget {
     Blob(
       alignment: const Alignment(-1.0, -0.7),
       size: 560,
-      opacity: AppColors.isDark ? 0.2 : 0.16,
+      opacity: AppColors.isDark ? 0.2 : 0.12,
     ),
+    // Clean white and red: soft red light only, no grey haze.
     Blob(
       alignment: const Alignment(1.0, 0.3),
       size: 640,
-      color: AppColors.grey400,
-      opacity: AppColors.isDark ? 0.5 : 0.35,
+      opacity: AppColors.isDark ? 0.14 : 0.07,
     ),
     Blob(
       alignment: const Alignment(0.4, 1.1),

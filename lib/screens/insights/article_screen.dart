@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/common/card_image.dart';
 import '../../state/catalog_store.dart';
 
 import '../../data/models/article.dart';
@@ -13,7 +14,6 @@ import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../../widgets/common/arrow_link.dart';
 import '../../widgets/common/gradient_backdrop.dart';
-import '../../widgets/common/ink_art.dart';
 import '../../widgets/common/reveal.dart';
 import '../../widgets/layout/app_shell.dart';
 import '../../widgets/layout/section.dart';
@@ -100,7 +100,10 @@ class _Head extends StatelessWidget {
                 child: Container(
                   clipBehavior: Clip.antiAlias,
                   decoration: const BoxDecoration(borderRadius: Radii.cardAll),
-                  child: InkArt(seed: article.slug),
+                  child: CardImage(
+                    seed: article.slug,
+                    src: bundledImage('article-${article.slug}'),
+                  ),
                 ),
               ),
             ],

@@ -131,6 +131,7 @@ class Course {
     required this.modules,
     required this.trainer,
     this.published = true,
+    this.imageUrl,
   });
 
   final String id;
@@ -150,6 +151,9 @@ class Course {
   /// Unpublished courses are visible to trainers and admins only.
   final bool published;
 
+  /// Card photo: an `asset:` path or an https URL.
+  final String? imageUrl;
+
   int get totalMinutes => modules.fold(0, (sum, m) => sum + m.minutes);
 
   Map<String, dynamic> toMap() => {
@@ -162,6 +166,7 @@ class Course {
     'modules': [for (final m in modules) m.toMap()],
     'trainer': trainer,
     'published': published,
+    'imageUrl': imageUrl,
   };
 
   factory Course.fromMap(String id, Map<String, dynamic> m) => Course(
@@ -178,6 +183,7 @@ class Course {
     ],
     trainer: m['trainer'] as String? ?? '',
     published: m['published'] as bool? ?? true,
+    imageUrl: m['imageUrl'] as String?,
   );
 
   Course copyWith({
@@ -190,6 +196,7 @@ class Course {
     List<CourseModule>? modules,
     String? trainer,
     bool? published,
+    String? imageUrl,
   }) => Course(
     id: id,
     title: title ?? this.title,
@@ -201,5 +208,6 @@ class Course {
     modules: modules ?? this.modules,
     trainer: trainer ?? this.trainer,
     published: published ?? this.published,
+    imageUrl: imageUrl ?? this.imageUrl,
   );
 }

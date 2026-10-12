@@ -12,6 +12,7 @@ import '../screens/about/about_screen.dart';
 import '../screens/assessment/assessment_screen.dart';
 import '../screens/certificate/certificate_screen.dart';
 import '../screens/organisations/organisations_screen.dart';
+import '../screens/portal/course_catalogue_screen.dart';
 import '../screens/portal/employer_reports_screen.dart';
 import '../screens/portal/learner/learner_screens.dart';
 import '../screens/portal/super/catalog_admin_screens.dart';
@@ -275,6 +276,11 @@ GoRouter createRouter(AuthStore auth) {
                 page(state, const IndividualScreen()),
             routes: [
               GoRoute(
+                path: 'courses',
+                pageBuilder: (context, state) =>
+                    page(state, const CourseCatalogueScreen()),
+              ),
+              GoRoute(
                 path: 'orders',
                 pageBuilder: (context, state) =>
                     page(state, const MyOrdersScreen()),
@@ -317,6 +323,11 @@ GoRouter createRouter(AuthStore auth) {
                     page(state, const ProgressScreen()),
               ),
               GoRoute(
+                path: 'courses',
+                pageBuilder: (context, state) =>
+                    page(state, const CourseCatalogueScreen()),
+              ),
+              GoRoute(
                 path: 'reports',
                 pageBuilder: (context, state) =>
                     page(state, const EmployerReportsScreen()),
@@ -346,7 +357,8 @@ GoRouter createRouter(AuthStore auth) {
             routes: [
               GoRoute(
                 path: 'users',
-                pageBuilder: (context, state) => page(state, const UsersScreen()),
+                pageBuilder: (context, state) =>
+                    page(state, const UsersScreen()),
               ),
               GoRoute(
                 path: 'courses',

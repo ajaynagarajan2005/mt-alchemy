@@ -57,7 +57,9 @@ class CourseRow extends StatelessWidget {
                   borderRadius: Radii.cardAll,
                 ),
                 onTap: (i) => context.go(Routes.course(catalog.courses[i].id)),
-                children: [for (final c in catalog.courses) CourseCard(course: c)],
+                children: [
+                  for (final c in catalog.courses) CourseCard(course: c),
+                ],
               ),
             ),
           ),

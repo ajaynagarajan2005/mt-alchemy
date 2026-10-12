@@ -44,11 +44,8 @@ class AppProviders extends StatelessWidget {
               catalog!..setStaff(auth.currentUser?.role.isStaff ?? false),
         ),
         ChangeNotifierProvider(
-          create: (c) => CartStore(
-            backend,
-            c.read<AuthStore>(),
-            c.read<CatalogStore>(),
-          ),
+          create: (c) =>
+              CartStore(backend, c.read<AuthStore>(), c.read<CatalogStore>()),
         ),
         ChangeNotifierProvider(
           create: (c) => LearningStore(backend, c.read<AuthStore>()),

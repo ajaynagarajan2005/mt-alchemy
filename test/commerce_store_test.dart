@@ -30,7 +30,12 @@ void main() {
         cart: cart,
         email: s.user.email,
         card: card,
-        address: {'name': 'Test', 'line1': '1 Road', 'city': 'KL', 'postcode': '50450'},
+        address: {
+          'name': 'Test',
+          'line1': '1 Road',
+          'city': 'KL',
+          'postcode': '50450',
+        },
         random: Random(1),
       );
       expect(error, isNull);
@@ -39,7 +44,10 @@ void main() {
       expect(id, matches(RegExp(r'^MTA-\d{5}$')));
 
       final db = s.db;
-      expect((await db.collection('orders').doc(id).get()).data()!['status'], 'paid');
+      expect(
+        (await db.collection('orders').doc(id).get()).data()!['status'],
+        'paid',
+      );
       final pay = await db.collection('payments').doc('pay-$id').get();
       expect(pay.data()!['last4'], '4242');
       final ship = await db.collection('shipping').doc(id).get();

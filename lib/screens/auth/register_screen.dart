@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
+import '../../data/eligibility.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
@@ -12,6 +13,7 @@ import '../../widgets/common/alchemy_button.dart';
 import '../../widgets/common/arrow_link.dart';
 import '../../widgets/common/check_field.dart';
 import '../../widgets/common/labeled_field.dart';
+import '../../widgets/common/pathway_fields.dart';
 import '../../widgets/layout/split_form_page.dart';
 
 enum AccountType { individual, organisation }
@@ -55,6 +57,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? _gender;
   String? _country;
   final Set<String> _hobbies = {};
+  CareerStage? _stage;
+  final Set<String> _interests = {};
   bool _busy = false;
 
   bool get _isOrg => _type == AccountType.organisation;
@@ -94,6 +98,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             gender: _gender,
             country: _country,
             hobbies: _hobbies.toList(),
+            careerStage: _stage?.name,
+            interests: _interests.toList(),
           );
     if (!mounted) return;
     setState(() => _busy = false);
@@ -107,14 +113,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Welcome, ${_name.text.trim().split(' ').first}')),
     );
-    // Journey A goes to Browse Learning; Journey D goes to the employer portal.
-    context.go(_isOrg ? Routes.employer : Routes.upskilling);
+    // Journey A goes to the learner's course catalogue; Journey D to the employer portal.
+    context.go(_isOrg ? Routes.employer : Routes.myCourses);
   }
 
   Widget _personalDetails() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: Space.lg),
+        // Learning pathway: career stage sets the course levels, interest
+        // areas set the topics. Only courses matching both can be bought.
+        PathwayFields(
+          stage: _stage,
+          interests: _interests,
+          onStage: (s) => setState(() => _stage = s),
+          onInterest: (slug, on) => setState(
+            () => on ? _interests.add(slug) : _interests.remove(slug),
+          ),
+        ),
         const SizedBox(height: Space.lg),
         // Gender: radio buttons wrapped in a FormField so it validates
         // with the rest of the form.
@@ -159,7 +176,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           value: _country,
           items: [
             for (final c in _countries)
-              DropdownMenuItem(value: c, child: Text(c, style: AppText.body)),
+              DropdownMenuItem(
+                value: c,
+                child: Text(c, style: AppText.body),
+              ),
           ],
           onChanged: (v) => setState(() => _country = v),
           validator: (v) => v == null ? 'Choose your country.' : null,
@@ -177,9 +197,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 selected: _hobbies.contains(h),
                 selectedColor: AppColors.redSoft,
                 checkmarkColor: AppColors.red,
-                onSelected: (on) => setState(
-                  () => on ? _hobbies.add(h) : _hobbies.remove(h),
-                ),
+                onSelected: (on) =>
+                    setState(() => on ? _hobbies.add(h) : _hobbies.remove(h)),
               ),
           ],
         ),

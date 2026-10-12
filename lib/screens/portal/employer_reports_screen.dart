@@ -263,7 +263,8 @@ class _ProgressBars extends StatelessWidget {
               showTitles: true,
               interval: 25,
               reservedSize: 36,
-              getTitlesWidget: (v, _) => Text('${v.round()}%', style: AppText.small),
+              getTitlesWidget: (v, _) =>
+                  Text('${v.round()}%', style: AppText.small),
             ),
           ),
           bottomTitles: AxisTitles(
@@ -337,7 +338,8 @@ class _ActivityLine extends StatelessWidget {
               showTitles: true,
               interval: 1,
               reservedSize: 28,
-              getTitlesWidget: (v, _) => Text('${v.round()}', style: AppText.small),
+              getTitlesWidget: (v, _) =>
+                  Text('${v.round()}', style: AppText.small),
             ),
           ),
           bottomTitles: AxisTitles(

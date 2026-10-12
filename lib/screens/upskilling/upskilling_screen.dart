@@ -40,7 +40,9 @@ class _UpskillingScreenState extends State<UpskillingScreen> {
   static const _cardHeight = 400.0;
   static const _gap = Space.lg;
 
-  List<Course> get _filtered => context.watch<CatalogStore>().courses
+  List<Course> get _filtered => context
+      .watch<CatalogStore>()
+      .courses
       .where(
         (c) =>
             (_area == null || c.serviceSlug == _area) &&

@@ -192,7 +192,10 @@ class _OrganisationsScreenState extends State<OrganisationsScreen> {
           ),
           gap,
           if (_error != null) ...[
-            Text(_error!, style: AppText.small.copyWith(color: AppColors.error)),
+            Text(
+              _error!,
+              style: AppText.small.copyWith(color: AppColors.error),
+            ),
             const SizedBox(height: Space.md),
           ],
           AlchemyButton(
@@ -215,7 +218,10 @@ class _Steps extends StatelessWidget {
     const steps = [
       ('Enquiry', 'Share your goals and context.'),
       ('Discovery call', 'We listen to leaders and a few team members.'),
-      ('Customised programme', 'A proposal with formats, timings and measures.'),
+      (
+        'Customised programme',
+        'A proposal with formats, timings and measures.',
+      ),
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

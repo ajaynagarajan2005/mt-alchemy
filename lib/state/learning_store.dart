@@ -127,8 +127,9 @@ class LearningStore extends ChangeNotifier {
   bool _loaded = false;
 
   bool get loaded => _loaded;
-  List<Enrolment> get enrolments => _enrolments.values.toList()
-    ..sort((a, b) => b.enrolledAt.compareTo(a.enrolledAt));
+  List<Enrolment> get enrolments =>
+      _enrolments.values.toList()
+        ..sort((a, b) => b.enrolledAt.compareTo(a.enrolledAt));
   List<AssignedCourse> get assigned => _assigned;
   List<Certificate> get certificates => _certificates;
 
@@ -230,16 +231,14 @@ class LearningStore extends ChangeNotifier {
   };
 
   /// Enrols after a paid order (Journey A).
-  Future<String?> enrolFromOrder(String courseId, String orderId) =>
-      _guard(() => _ref(courseId).set({..._base(courseId), 'orderId': orderId}));
+  Future<String?> enrolFromOrder(String courseId, String orderId) => _guard(
+    () => _ref(courseId).set({..._base(courseId), 'orderId': orderId}),
+  );
 
   /// Starts a course an employer assigned (Journey D).
   Future<String?> startAssigned(AssignedCourse a) => _guard(
-    () => _ref(a.courseId).set({
-      ..._base(a.courseId),
-      'assignmentId': a.id,
-      'orgId': a.orgId,
-    }),
+    () => _ref(a.courseId)
+        .set({..._base(a.courseId), 'assignmentId': a.id, 'orgId': a.orgId}),
   );
 
   Future<String?> setModuleComplete(
@@ -248,7 +247,9 @@ class LearningStore extends ChangeNotifier {
     bool complete,
   ) async {
     final e = _enrolments[course.id];
-    if (e == null || _uid == null) return 'You are not enrolled on this course.';
+    if (e == null || _uid == null) {
+      return 'You are not enrolled on this course.';
+    }
     complete
         ? e.completedModuleIds.add(moduleId)
         : e.completedModuleIds.remove(moduleId);
@@ -269,7 +270,11 @@ class LearningStore extends ChangeNotifier {
 
   /// Records a quiz attempt; a pass also completes the module.
   /// Returns the error message, or null.
-  Future<String?> submitQuiz(Course course, String moduleId, double score) async {
+  Future<String?> submitQuiz(
+    Course course,
+    String moduleId,
+    double score,
+  ) async {
     final e = _enrolments[course.id];
     if (e == null) return 'You are not enrolled on this course.';
     final best = max(score, e.quizScores[moduleId] ?? 0);

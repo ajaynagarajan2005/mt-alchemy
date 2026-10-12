@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../../widgets/common/card_image.dart';
 import '../../../state/catalog_store.dart';
 
 import '../../../router/routes.dart';
@@ -13,7 +14,6 @@ import '../../../theme/typography.dart';
 import '../../../widgets/common/alchemy_button.dart';
 import '../../../widgets/common/course_card.dart' show gbp;
 import '../../../widgets/common/glass_panel.dart';
-import '../../../widgets/common/ink_art.dart';
 import '../../../widgets/common/reveal.dart';
 import '../../../widgets/layout/section.dart';
 import '../../../widgets/common/tappable.dart';
@@ -33,8 +33,12 @@ class StoreTeaser extends StatelessWidget {
         height: context.isCompact ? 300 : 420,
         child: Stack(
           children: [
-            const Positioned.fill(
-              child: InkArt(seed: 'store-teaser', intensity: 1),
+            Positioned.fill(
+              child: CardImage(
+                seed: 'store-teaser',
+                src:
+                    featured.imageUrl ?? bundledImage('product-${featured.id}'),
+              ),
             ),
             // Real product data from the catalogue, previewed as a glass tag.
             Positioned(

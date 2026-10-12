@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'card_image.dart';
 import '../../data/models/product.dart';
 import '../../theme/colors.dart';
 import '../../theme/motion.dart';
@@ -9,7 +10,6 @@ import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import 'alchemy_button.dart';
 import 'course_card.dart';
-import 'ink_art.dart';
 import 'tappable.dart';
 
 /// Currency with pence, for line totals, shipping and order totals.
@@ -71,58 +71,64 @@ class _ProductCardState extends State<ProductCard> {
               ),
             ],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Semantics(
-                label: 'Artwork for ${p.name}',
-                child: SizedBox(
-                  height: 190,
-                  width: double.infinity,
-                  child: InkArt(seed: p.id, intensity: 0.9),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(Space.lg),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(p.category.label, style: AppText.small),
-                      const SizedBox(height: Space.xxs),
-                      Text(
-                        p.name,
-                        style: AppText.h3.copyWith(fontSize: 21),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: Space.xs),
-                      Text(
-                        p.summary,
-                        style: AppText.bodyMuted,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const Spacer(),
-                      const SizedBox(height: Space.md),
-                      Row(
-                        children: [
-                          Text(gbp.format(p.price), style: AppText.h4),
-                          const Spacer(),
-                          Flexible(
-                            child: AlchemyButton(
-                              label: 'Add to cart',
-                              variant: ButtonVariant.secondary,
-                              onPressed: widget.onAdd,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+          child: CardHover(
+            hovered: lift,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Semantics(
+                  label: 'Photo for ${p.name}',
+                  child: SizedBox(
+                    height: 190,
+                    width: double.infinity,
+                    child: CardImage(
+                      seed: p.id,
+                      src: p.imageUrl ?? bundledImage('product-${p.id}'),
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(Space.lg),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(p.category.label, style: AppText.small),
+                        const SizedBox(height: Space.xxs),
+                        Text(
+                          p.name,
+                          style: AppText.h3.copyWith(fontSize: 21),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: Space.xs),
+                        Text(
+                          p.summary,
+                          style: AppText.bodyMuted,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const Spacer(),
+                        const SizedBox(height: Space.md),
+                        Row(
+                          children: [
+                            Text(gbp.format(p.price), style: AppText.h4),
+                            const Spacer(),
+                            Flexible(
+                              child: AlchemyButton(
+                                label: 'Add to cart',
+                                variant: ButtonVariant.secondary,
+                                onPressed: widget.onAdd,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

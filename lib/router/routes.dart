@@ -23,6 +23,7 @@ abstract final class Routes {
 
   static const portal = '/portal';
   static const portalMe = '/portal/me';
+  static const myCourses = '/portal/me/courses';
   static const myOrders = '/portal/me/orders';
   static const myDownloads = '/portal/me/downloads';
   static const myCertificates = '/portal/me/certificates';
@@ -32,6 +33,7 @@ abstract final class Routes {
   static const employerAssign = '/portal/employer/assign';
   static const employerProgress = '/portal/employer/progress';
   static const employerReports = '/portal/employer/reports';
+  static const employerCourses = '/portal/employer/courses';
 
   /// Trainer portal: course authoring.
   static const admin = '/portal/admin';

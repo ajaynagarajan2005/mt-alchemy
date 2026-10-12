@@ -175,7 +175,11 @@ class _CourseRow extends StatelessWidget {
         IconButton(
           tooltip: 'Edit ${course.title}',
           onPressed: () => context.go(Routes.editCourse(course.id)),
-          icon: AppIcon(HugeIcons.strokeRoundedEdit02, size: 20, color: AppColors.ink),
+          icon: AppIcon(
+            HugeIcons.strokeRoundedEdit02,
+            size: 20,
+            color: AppColors.ink,
+          ),
         ),
         IconButton(
           tooltip: 'Delete ${course.title}',
@@ -189,13 +193,25 @@ class _CourseRow extends StatelessWidget {
       ],
     );
     return PortalCard(
-      padding: const EdgeInsets.symmetric(horizontal: Space.lg, vertical: Space.md),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Space.lg,
+        vertical: Space.md,
+      ),
       child: context.isCompact
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [info, const SizedBox(height: Space.xs), actions],
+              children: [
+                info,
+                const SizedBox(height: Space.xs),
+                actions,
+              ],
             )
-          : Row(children: [Expanded(child: info), actions]),
+          : Row(
+              children: [
+                Expanded(child: info),
+                actions,
+              ],
+            ),
     );
   }
 }

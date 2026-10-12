@@ -45,8 +45,14 @@ void main() {
       final quiz = course.modules.firstWhere((m) => m.type == LessonType.quiz);
       await store.submitQuiz(course, quiz.id, 0.33);
       await settle();
-      expect(store.enrolment(course.id)!.completedModuleIds, isNot(contains(quiz.id)));
-      expect(store.enrolment(course.id)!.quizScores[quiz.id], closeTo(0.33, 0.001));
+      expect(
+        store.enrolment(course.id)!.completedModuleIds,
+        isNot(contains(quiz.id)),
+      );
+      expect(
+        store.enrolment(course.id)!.quizScores[quiz.id],
+        closeTo(0.33, 0.001),
+      );
       await store.submitQuiz(course, quiz.id, 1);
       await settle();
       expect(store.enrolment(course.id)!.completedModuleIds, contains(quiz.id));

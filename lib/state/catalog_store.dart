@@ -178,12 +178,12 @@ class CatalogStore extends ChangeNotifier {
       .where('targetId', isEqualTo: targetId)
       .snapshots()
       .map(
-        (s) =>
-            [for (final d in s.docs) Review.fromMap(d.id, d.data())]..sort(
-              (a, b) => (b.createdAt ?? DateTime(0)).compareTo(
-                a.createdAt ?? DateTime(0),
-              ),
+        (s) => [for (final d in s.docs) Review.fromMap(d.id, d.data())]
+          ..sort(
+            (a, b) => (b.createdAt ?? DateTime(0)).compareTo(
+              a.createdAt ?? DateTime(0),
             ),
+          ),
       );
 
   Future<String?> addReview({

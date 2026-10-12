@@ -165,9 +165,9 @@ class OrgStore extends ChangeNotifier {
   List<Assignment> assignments(String orgId) =>
       orgId == _orgId ? List.unmodifiable(_assignments) : const [];
 
-  bool emailInUse(String orgId, String email) => employees(
-    orgId,
-  ).any((e) => e.email.toLowerCase() == email.trim().toLowerCase());
+  bool emailInUse(String orgId, String email) =>
+      employees(orgId)
+          .any((e) => e.email.toLowerCase() == email.trim().toLowerCase());
 
   /// Adds an employee. They join the organisation automatically when they
   /// register with this email. Returns an error message or null.
@@ -249,7 +249,11 @@ class OrgStore extends ChangeNotifier {
       });
 
   /// Removes one assignment. Returns false if it did not exist.
-  Future<bool> unassign(String orgId, String courseId, String employeeId) async {
+  Future<bool> unassign(
+    String orgId,
+    String courseId,
+    String employeeId,
+  ) async {
     final match = _assignments.where(
       (a) => a.employeeId == employeeId && a.courseId == courseId,
     );
@@ -272,16 +276,17 @@ class OrgStore extends ChangeNotifier {
 
   /// Mean progress across all assignments, 0 when there are none.
   double averageProgress(String orgId, {String? courseId}) {
-    final list = assignments(
-      orgId,
-    ).where((a) => courseId == null || a.courseId == courseId).toList();
+    final list = assignments(orgId)
+        .where((a) => courseId == null || a.courseId == courseId)
+        .toList();
     if (list.isEmpty) return 0;
     return list.fold<double>(0, (total, a) => total + a.progress) / list.length;
   }
 
-  int completedCount(String orgId) => assignments(
-    orgId,
-  ).where((a) => a.status == ProgressStatus.complete).length;
+  int completedCount(String orgId) =>
+      assignments(orgId)
+          .where((a) => a.status == ProgressStatus.complete)
+          .length;
 
   int countWith(String orgId, ProgressStatus status) =>
       assignments(orgId).where((a) => a.status == status).length;

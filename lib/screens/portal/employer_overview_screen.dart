@@ -66,7 +66,7 @@ class EmployerOverviewScreen extends StatelessWidget {
             AlchemyButton(
               label: 'Buy course seats',
               variant: ButtonVariant.secondary,
-              onPressed: () => context.go(Routes.upskilling),
+              onPressed: () => context.go(Routes.employerCourses),
             ),
             AlchemyButton(
               label: 'View analytics',
@@ -97,7 +97,12 @@ class EmployerOverviewScreen extends StatelessWidget {
                 for (final a in recent.take(5)) ...[
                   _RecentRow(
                     name: store.employeeById(org.id, a.employeeId)?.name ?? '',
-                    course: context.read<CatalogStore>().courseById(a.courseId)?.title ?? a.courseId,
+                    course:
+                        context
+                            .read<CatalogStore>()
+                            .courseById(a.courseId)
+                            ?.title ??
+                        a.courseId,
                     date: formatDate(a.assignedAt),
                     status: a.status,
                   ),

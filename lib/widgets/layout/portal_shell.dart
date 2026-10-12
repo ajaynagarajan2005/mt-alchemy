@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
@@ -32,6 +33,11 @@ List<_PortalDest> _destinationsFor(UserRole role) => switch (role) {
       HugeIcons.strokeRoundedUserGroup,
     ),
     _PortalDest(
+      'Buy courses',
+      Routes.employerCourses,
+      HugeIcons.strokeRoundedShoppingBag01,
+    ),
+    _PortalDest(
       'Assign courses',
       Routes.employerAssign,
       HugeIcons.strokeRoundedTask01,
@@ -52,6 +58,11 @@ List<_PortalDest> _destinationsFor(UserRole role) => switch (role) {
       'My learning',
       Routes.portalMe,
       HugeIcons.strokeRoundedBookOpen01,
+    ),
+    _PortalDest(
+      'Course catalogue',
+      Routes.myCourses,
+      HugeIcons.strokeRoundedBook02,
     ),
     _PortalDest(
       'Certificates',
@@ -83,9 +94,17 @@ List<_PortalDest> _destinationsFor(UserRole role) => switch (role) {
       Routes.superAdmin,
       HugeIcons.strokeRoundedAnalytics01,
     ),
-    _PortalDest('Users', Routes.superUsers, HugeIcons.strokeRoundedUserSettings01),
+    _PortalDest(
+      'Users',
+      Routes.superUsers,
+      HugeIcons.strokeRoundedUserSettings01,
+    ),
     _PortalDest('Courses', Routes.superCourses, HugeIcons.strokeRoundedBook02),
-    _PortalDest('Products', Routes.superProducts, HugeIcons.strokeRoundedPackage),
+    _PortalDest(
+      'Products',
+      Routes.superProducts,
+      HugeIcons.strokeRoundedPackage,
+    ),
     _PortalDest(
       'Orders and shipping',
       Routes.superOrders,
@@ -112,18 +131,52 @@ String _portalTitle(UserRole role) => switch (role) {
 /// SCAFFOLD: a second Scaffold, separate from the public AppShell. It owns
 /// the portal AppBar, the Drawer used below 1024px and the body that
 /// go_router swaps per portal route.
-class PortalShell extends StatelessWidget {
+class PortalShell extends StatefulWidget {
   const PortalShell({super.key, required this.child});
 
   final Widget child;
 
   @override
+  State<PortalShell> createState() => _PortalShellState();
+}
+
+class _PortalShellState extends State<PortalShell> {
+  final _scroll = ScrollController();
+  String? _lastPath;
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  /// Wheel or trackpad scrolling anywhere in the portal (including over the
+  /// side rail) moves the page.
+  void _onPointerSignal(PointerSignalEvent e) {
+    if (e is! PointerScrollEvent || !_scroll.hasClients) return;
+    GestureBinding.instance.pointerSignalResolver.register(e, (event) {
+      final pos = _scroll.position;
+      final target = (pos.pixels + (event as PointerScrollEvent).scrollDelta.dy)
+          .clamp(pos.minScrollExtent, pos.maxScrollExtent);
+      _scroll.jumpTo(target);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final child = widget.child;
     final user = context.watch<AuthStore>().currentUser;
     // The router redirect keeps signed-out visitors out; this is a safe fallback.
     if (user == null) return const SizedBox.shrink();
 
     final location = GoRouterState.of(context).uri.path;
+    // Each portal page starts at the top.
+    if (_lastPath != location) {
+      _lastPath = location;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scroll.hasClients) _scroll.jumpTo(0);
+      });
+    }
     final dests = _destinationsFor(user.role);
     final expanded = context.isExpanded;
     final selected = _selectedIndex(dests, location);
@@ -134,35 +187,44 @@ class PortalShell extends StatelessWidget {
       drawer: expanded
           ? null
           : _PortalDrawer(user: user, dests: dests, selected: selected),
-      body: GradientBackdrop(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (expanded) _PortalRail(dests: dests, selected: selected),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  heightFactor: 1,
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 1400),
-                    // CONTAINER (padding): gutters around every portal page.
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: Breakpoints.gutter(context).clamp(16, 48),
-                        vertical: context.isCompact ? Space.lg : Space.xl,
-                      ),
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: child,
+      body: Listener(
+        onPointerSignal: _onPointerSignal,
+        child: GradientBackdrop(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (expanded) _PortalRail(dests: dests, selected: selected),
+              Expanded(
+                child: Scrollbar(
+                  controller: _scroll,
+                  thumbVisibility: true,
+                  child: SingleChildScrollView(
+                    controller: _scroll,
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      heightFactor: 1,
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 1400),
+                        // CONTAINER (padding): gutters around every portal page.
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Breakpoints.gutter(context)
+                                .clamp(16, 48),
+                            vertical: context.isCompact ? Space.lg : Space.xl,
+                          ),
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: child,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

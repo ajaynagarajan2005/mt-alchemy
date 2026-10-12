@@ -3,6 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/common/card_image.dart';
 import '../../state/catalog_store.dart';
 
 import '../../data/models/product.dart';
@@ -16,7 +17,6 @@ import '../../widgets/common/alchemy_button.dart';
 import '../../widgets/common/app_icon.dart';
 import '../../widgets/common/arrow_link.dart';
 import '../../widgets/common/course_card.dart';
-import '../../widgets/common/ink_art.dart';
 import '../../widgets/common/product_card.dart';
 import '../../widgets/common/reveal.dart';
 import 'shop_widgets.dart';
@@ -64,7 +64,10 @@ class _ProductScreenState extends State<ProductScreen> {
         aspectRatio: split ? 1 : (context.isCompact ? 1.1 : 1.6),
         child: Semantics(
           label: 'Artwork for ${product.name}',
-          child: InkArt(seed: product.id),
+          child: CardImage(
+            seed: product.id,
+            src: product.imageUrl ?? bundledImage('product-${product.id}'),
+          ),
         ),
       ),
     );

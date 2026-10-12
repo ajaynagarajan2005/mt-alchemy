@@ -3,6 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/common/card_image.dart';
 import '../../data/models/cart_item.dart';
 import '../../router/routes.dart';
 import '../../state/cart_store.dart';
@@ -14,7 +15,6 @@ import '../../theme/typography.dart';
 import '../../widgets/common/alchemy_button.dart';
 import '../../widgets/common/app_icon.dart';
 import '../../widgets/common/glass_panel.dart';
-import '../../widgets/common/ink_art.dart';
 import '../../widgets/common/product_card.dart';
 import '../../widgets/common/reveal.dart';
 import '../store/shop_widgets.dart';
@@ -138,7 +138,11 @@ class _Line extends StatelessWidget {
             child: SizedBox(
               width: size,
               height: size,
-              child: InkArt(seed: item.itemId, intensity: 0.9),
+              child: CardImage(
+                seed: item.itemId,
+                src: item.product?.imageUrl ?? item.course?.imageUrl,
+                tint: false,
+              ),
             ),
           ),
           const SizedBox(width: Space.md),
@@ -148,17 +152,14 @@ class _Line extends StatelessWidget {
               children: [
                 Text(item.name, style: AppText.h4),
                 const SizedBox(height: 2),
-                Text(
-                  switch (item.kind) {
-                    CartKind.course => 'Online course, instant access',
-                    CartKind.seats =>
-                      '${gbpExact.format(item.price)} per seat for your team',
-                    CartKind.product =>
-                      '${gbpExact.format(item.price)} each · '
-                          '${item.product!.isDigital ? 'Digital download' : 'Shipped'}',
-                  },
-                  style: AppText.small,
-                ),
+                Text(switch (item.kind) {
+                  CartKind.course => 'Online course, instant access',
+                  CartKind.seats =>
+                    '${gbpExact.format(item.price)} per seat for your team',
+                  CartKind.product =>
+                    '${gbpExact.format(item.price)} each · '
+                        '${item.product!.isDigital ? 'Digital download' : 'Shipped'}',
+                }, style: AppText.small),
                 const SizedBox(height: Space.sm),
                 Wrap(
                   spacing: Space.xs,

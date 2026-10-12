@@ -54,21 +54,22 @@ class NotificationStore extends ChangeNotifier {
         .where('userId', isEqualTo: uid)
         .snapshots()
         .listen((s) {
-          _items = [
-            for (final d in s.docs)
-              AppNotification(
-                id: d.id,
-                title: d.data()['title'] as String? ?? '',
-                body: d.data()['body'] as String? ?? '',
-                read: d.data()['read'] as bool? ?? false,
-                link: d.data()['link'] as String?,
-                createdAt: dateFrom(d.data()['createdAt']),
-              ),
-          ]..sort(
-              (a, b) => (b.createdAt ?? DateTime.now()).compareTo(
-                a.createdAt ?? DateTime.now(),
-              ),
-            );
+          _items =
+              [
+                for (final d in s.docs)
+                  AppNotification(
+                    id: d.id,
+                    title: d.data()['title'] as String? ?? '',
+                    body: d.data()['body'] as String? ?? '',
+                    read: d.data()['read'] as bool? ?? false,
+                    link: d.data()['link'] as String?,
+                    createdAt: dateFrom(d.data()['createdAt']),
+                  ),
+              ]..sort(
+                (a, b) => (b.createdAt ?? DateTime.now()).compareTo(
+                  a.createdAt ?? DateTime.now(),
+                ),
+              );
           notifyListeners();
         }, onError: (_) {});
   }

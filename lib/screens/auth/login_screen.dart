@@ -67,7 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _forgot() async {
     final messenger = ScaffoldMessenger.of(context);
     if (Validators.email(_email.text) != null) {
-      setState(() => _error = 'Enter your email above, then tap Forgot password.');
+      setState(
+        () => _error = 'Enter your email above, then tap Forgot password.',
+      );
       return;
     }
     final error = await context.read<AuthStore>().sendPasswordReset(

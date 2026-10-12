@@ -82,10 +82,9 @@ class IndividualScreen extends StatelessWidget {
         if (all.isEmpty && waiting.isEmpty)
           EmptyState(
             title: 'You have not enrolled yet',
-            message:
-                'Browse the learning catalogue and buy a course to see it here.',
-            actionLabel: 'Browse courses',
-            onAction: () => context.go(Routes.upskilling),
+            message: 'Open the course catalogue to pick a course from your learning pathway.',
+            actionLabel: 'Open the course catalogue',
+            onAction: () => context.go(Routes.myCourses),
           )
         else if (all.isNotEmpty) ...[
           Text('In progress', style: AppText.h3),
@@ -122,8 +121,8 @@ class IndividualScreen extends StatelessWidget {
         const _AssessmentPrompt(),
         const SizedBox(height: Space.lg),
         ArrowLink(
-          label: 'Browse more courses',
-          onTap: () => context.go(Routes.upskilling),
+          label: 'Add a course',
+          onTap: () => context.go(Routes.myCourses),
         ),
       ],
     );
@@ -151,7 +150,8 @@ class _AssignedCardState extends State<_AssignedCard> {
     if (!mounted) return;
     setState(() => _busy = false);
     if (error != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error)));
       return;
     }
     context.go(Routes.learn(widget.course.id));
@@ -262,7 +262,11 @@ class _EnrolmentCard extends StatelessWidget {
       child: context.isCompact
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [info, const SizedBox(height: Space.md), buttons],
+              children: [
+                info,
+                const SizedBox(height: Space.md),
+                buttons,
+              ],
             )
           : Row(
               children: [
@@ -298,8 +302,10 @@ class _AssessmentPrompt extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('How emotionally intelligent are you today?',
-                    style: AppText.h4),
+                Text(
+                  'How emotionally intelligent are you today?',
+                  style: AppText.h4,
+                ),
                 const SizedBox(height: Space.xxs),
                 Text(
                   'Take the five-minute EQ self-assessment and get a course '

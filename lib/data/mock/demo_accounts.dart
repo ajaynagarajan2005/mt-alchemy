@@ -22,6 +22,12 @@ const demoUsers = <AppUser>[
     gender: 'Female',
     country: 'Malaysia',
     hobbies: ['Reading', 'Travel'],
+    careerStage: 'professional',
+    interests: [
+      'emotional-intelligence',
+      'workplace-wellbeing',
+      'team-engagement',
+    ],
   ),
   AppUser(
     id: 'u-priya',
@@ -49,6 +55,8 @@ const demoUsers = <AppUser>[
     email: 'callum@northlight.example.com',
     role: UserRole.individual,
     organisationId: 'org-northlight',
+    careerStage: 'manager',
+    interests: ['leadership-development', 'emotional-intelligence'],
   ),
 ];
 

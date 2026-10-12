@@ -66,14 +66,13 @@ class Testimonial {
     'metric': metric,
   };
 
-  factory Testimonial.fromMap(String id, Map<String, dynamic> m) =>
-      Testimonial(
-        id: id,
-        quote: m['quote'] as String? ?? '',
-        name: m['name'] as String? ?? '',
-        role: m['role'] as String? ?? '',
-        metric: m['metric'] as String?,
-      );
+  factory Testimonial.fromMap(String id, Map<String, dynamic> m) => Testimonial(
+    id: id,
+    quote: m['quote'] as String? ?? '',
+    name: m['name'] as String? ?? '',
+    role: m['role'] as String? ?? '',
+    metric: m['metric'] as String?,
+  );
 }
 
 /// A learner's rating of a course or product.

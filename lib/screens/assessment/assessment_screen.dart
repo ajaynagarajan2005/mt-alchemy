@@ -20,7 +20,13 @@ import '../../widgets/layout/app_shell.dart';
 import '../../widgets/layout/section.dart';
 
 /// The five areas of emotional intelligence (after Goleman).
-enum EqDomain { selfAwareness, selfRegulation, motivation, empathy, socialSkill }
+enum EqDomain {
+  selfAwareness,
+  selfRegulation,
+  motivation,
+  empathy,
+  socialSkill,
+}
 
 extension EqDomainX on EqDomain {
   String get label => switch (this) {
@@ -42,16 +48,31 @@ extension EqDomainX on EqDomain {
 }
 
 const _statements = <(EqDomain, String)>[
-  (EqDomain.selfAwareness, 'I can name what I am feeling while it is happening.'),
-  (EqDomain.selfAwareness, 'I know which situations tend to pull me off balance.'),
+  (
+    EqDomain.selfAwareness,
+    'I can name what I am feeling while it is happening.',
+  ),
+  (
+    EqDomain.selfAwareness,
+    'I know which situations tend to pull me off balance.',
+  ),
   (EqDomain.selfRegulation, 'When I am frustrated, I pause before I respond.'),
-  (EqDomain.selfRegulation, 'I recover quickly after a stressful moment at work.'),
+  (
+    EqDomain.selfRegulation,
+    'I recover quickly after a stressful moment at work.',
+  ),
   (EqDomain.motivation, 'I stay focused on goals even when progress is slow.'),
   (EqDomain.motivation, 'Setbacks make me curious rather than discouraged.'),
   (EqDomain.empathy, 'I notice when a colleague is having a hard day.'),
   (EqDomain.empathy, 'I can see a disagreement from the other person\'s side.'),
-  (EqDomain.socialSkill, 'I can raise a difficult topic without damaging trust.'),
-  (EqDomain.socialSkill, 'People come to me to help resolve tensions in the team.'),
+  (
+    EqDomain.socialSkill,
+    'I can raise a difficult topic without damaging trust.',
+  ),
+  (
+    EqDomain.socialSkill,
+    'People come to me to help resolve tensions in the team.',
+  ),
 ];
 
 const _scale = ['Rarely', 'Sometimes', 'Often', 'Usually', 'Almost always'];

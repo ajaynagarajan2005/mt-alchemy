@@ -66,7 +66,7 @@ class AppPalette {
 
   static const light = AppPalette(
     brightness: Brightness.light,
-    white: Color(0xFFFCFCFC),
+    white: Color(0xFFFFFFFF),
     surface: Color(0xFFFFFFFF),
     grey50: Color(0xFFF7F7F8),
     grey100: Color(0xFFF4F4F5),

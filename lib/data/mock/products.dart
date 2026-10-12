@@ -3,6 +3,8 @@ import '../models/product.dart';
 const products = <Product>[
   Product(
     id: 'feedback-conversation-cards',
+    imageUrl:
+        'asset:assets/images/cards/product-feedback-conversation-cards.webp',
     stock: 120,
     name: 'Feedback Conversation Cards',
     category: ProductCategory.cards,
@@ -20,6 +22,7 @@ const products = <Product>[
   ),
   Product(
     id: 'ei-self-coaching-toolkit',
+    imageUrl: 'asset:assets/images/cards/product-ei-self-coaching-toolkit.webp',
     type: ProductType.digital,
     fileUrl: '/downloads/ei-self-coaching-toolkit.pdf',
     name: 'EI Self-Coaching Toolkit',
@@ -37,6 +40,8 @@ const products = <Product>[
   ),
   Product(
     id: 'team-charter-workshop-kit',
+    imageUrl:
+        'asset:assets/images/cards/product-team-charter-workshop-kit.webp',
     stock: 35,
     name: 'Team Charter Workshop Kit',
     category: ProductCategory.workshop,
@@ -53,6 +58,7 @@ const products = <Product>[
   ),
   Product(
     id: 'leading-with-care-book',
+    imageUrl: 'asset:assets/images/cards/product-leading-with-care-book.webp',
     stock: 80,
     name: 'Leading With Care',
     category: ProductCategory.book,
@@ -69,6 +75,7 @@ const products = <Product>[
   ),
   Product(
     id: 'wellbeing-check-in-deck',
+    imageUrl: 'asset:assets/images/cards/product-wellbeing-check-in-deck.webp',
     stock: 60,
     name: 'Well-being Check-in Deck',
     category: ProductCategory.cards,
@@ -81,6 +88,8 @@ const products = <Product>[
   ),
   Product(
     id: 'manager-one-to-one-planner',
+    imageUrl:
+        'asset:assets/images/cards/product-manager-one-to-one-planner.webp',
     type: ProductType.digital,
     fileUrl: '/downloads/manager-one-to-one-planner.pdf',
     name: 'Manager One-to-One Planner',

@@ -7,6 +7,9 @@ import 'sections/course_row.dart';
 import 'sections/cta_band.dart';
 import 'sections/home_hero.dart';
 import 'sections/insights_list.dart';
+import '../../router/home_sections.dart';
+import '../../router/routes.dart';
+import 'sections/landing_extras.dart';
 import 'sections/manifesto.dart';
 import 'sections/services_bento.dart';
 import 'sections/store_teaser.dart';
@@ -40,18 +43,41 @@ class _HomeScreenState extends State<HomeScreen> {
     return PageScroll(
       controller: _scroll,
       underNav: true,
+      eager: true,
+      // One landing page: each menu item has a section here (see
+      // HomeSections). Menu clicks on this page glide to them.
       children: [
         HomeHero(scroll: _scroll, height: heroHeight),
-        ZoomThrough(
-          scroll: _scroll,
-          distance: heroHeight * 0.7,
-          child: const ServicesBento(),
+        KeyedSubtree(
+          key: HomeSections.keyFor(Routes.services),
+          child: ZoomThrough(
+            scroll: _scroll,
+            distance: heroHeight * 0.7,
+            child: const ServicesBento(),
+          ),
+        ),
+        KeyedSubtree(
+          key: HomeSections.keyFor(Routes.about),
+          child: const AboutTeaser(),
         ),
         const Manifesto(),
-        const CourseRow(),
+        KeyedSubtree(
+          key: HomeSections.keyFor(Routes.upskilling),
+          child: const CourseRow(),
+        ),
         const TestimonialSection(),
-        const StoreTeaser(),
-        const InsightsList(),
+        KeyedSubtree(
+          key: HomeSections.keyFor(Routes.store),
+          child: const StoreTeaser(),
+        ),
+        KeyedSubtree(
+          key: HomeSections.keyFor(Routes.insights),
+          child: const InsightsList(),
+        ),
+        KeyedSubtree(
+          key: HomeSections.keyFor(Routes.contact),
+          child: const ContactTeaser(),
+        ),
         const CtaBand(),
       ],
     );

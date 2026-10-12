@@ -1,4 +1,3 @@
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mt_alchemy/data/mock/courses.dart';
 import 'package:mt_alchemy/data/mock/products.dart';

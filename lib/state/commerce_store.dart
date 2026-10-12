@@ -325,7 +325,8 @@ class CommerceStore extends ChangeNotifier {
           'orderId': number,
           'status': ShippingStatus.processing.name,
           'address': address ?? const {},
-          'tracking': 'MY${number.substring(4)}${(random ?? Random()).nextInt(9000) + 1000}',
+          'tracking':
+              'MY${number.substring(4)}${(random ?? Random()).nextInt(9000) + 1000}',
           'history': [
             {'status': 'processing', 'at': Timestamp.now()},
           ],

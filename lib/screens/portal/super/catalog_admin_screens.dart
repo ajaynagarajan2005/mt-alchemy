@@ -54,7 +54,11 @@ Widget _rowActions(
     IconButton(
       tooltip: 'Edit $name',
       onPressed: onEdit,
-      icon: AppIcon(HugeIcons.strokeRoundedEdit02, size: 20, color: AppColors.ink),
+      icon: AppIcon(
+        HugeIcons.strokeRoundedEdit02,
+        size: 20,
+        color: AppColors.ink,
+      ),
     ),
     IconButton(
       tooltip: 'Delete $name',
@@ -195,7 +199,15 @@ class _ProductEditorScreenState extends State<ProductEditorScreen> {
 
   @override
   void dispose() {
-    for (final c in [_name, _price, _summary, _description, _details, _stock, _file]) {
+    for (final c in [
+      _name,
+      _price,
+      _summary,
+      _description,
+      _details,
+      _stock,
+      _file,
+    ]) {
       c.dispose();
     }
     super.dispose();
@@ -231,7 +243,9 @@ class _ProductEditorScreenState extends State<ProductEditorScreen> {
     final error = await context.read<CatalogStore>().saveProduct(product);
     if (!mounted) return;
     setState(() => _busy = false);
-    messenger.showSnackBar(SnackBar(content: Text(error ?? '${product.name} saved.')));
+    messenger.showSnackBar(
+      SnackBar(content: Text(error ?? '${product.name} saved.')),
+    );
     if (error == null) router.go(Routes.superProducts);
   }
 
@@ -268,7 +282,8 @@ class _ProductEditorScreenState extends State<ProductEditorScreen> {
                       for (final c in ProductCategory.values)
                         DropdownMenuItem(value: c, child: Text(c.label)),
                     ],
-                    onChanged: (v) => setState(() => _category = v ?? _category),
+                    onChanged: (v) =>
+                        setState(() => _category = v ?? _category),
                   ),
                   gap,
                   Text('Type', style: AppText.label),
@@ -364,7 +379,8 @@ class ContentAdminScreen extends StatelessWidget {
       children: [
         const PortalHeader(
           title: 'Content',
-          subtitle: 'Insights articles and the impact stories on the home page.',
+          subtitle:
+              'Insights articles and the impact stories on the home page.',
         ),
         Row(
           children: [
@@ -413,7 +429,9 @@ class ContentAdminScreen extends StatelessWidget {
                     onDelete: () async {
                       if (!await _confirmDelete(context, a.title)) return;
                       if (context.mounted) {
-                        await context.read<CatalogStore>().deleteArticle(a.slug);
+                        await context.read<CatalogStore>().deleteArticle(
+                          a.slug,
+                        );
                       }
                     },
                   ),
@@ -520,7 +538,8 @@ class _ArticleDialogState extends State<_ArticleDialog> {
         .toList();
     final words = paragraphs.join(' ').split(RegExp(r'\s+')).length;
     final a = Article(
-      slug: widget.article?.slug ??
+      slug:
+          widget.article?.slug ??
           _title.text
               .toLowerCase()
               .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
@@ -539,7 +558,8 @@ class _ArticleDialogState extends State<_ArticleDialog> {
       Navigator.pop(context);
     } else {
       setState(() => _busy = false);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error)));
     }
   }
 
@@ -548,7 +568,10 @@ class _ArticleDialogState extends State<_ArticleDialog> {
     const gap = SizedBox(height: Space.md);
     return AlertDialog(
       backgroundColor: AppColors.surface,
-      title: Text(widget.article == null ? 'New article' : 'Edit article', style: AppText.h3),
+      title: Text(
+        widget.article == null ? 'New article' : 'Edit article',
+        style: AppText.h3,
+      ),
       content: SizedBox(
         width: 560,
         child: SingleChildScrollView(
@@ -585,7 +608,10 @@ class _ArticleDialogState extends State<_ArticleDialog> {
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
         AlchemyButton(label: 'Save', loading: _busy, onPressed: _save),
       ],
     );
@@ -633,7 +659,8 @@ class _StoryDialogState extends State<_StoryDialog> {
       Navigator.pop(context);
     } else {
       setState(() => _busy = false);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error)));
     }
   }
 
@@ -642,7 +669,10 @@ class _StoryDialogState extends State<_StoryDialog> {
     const gap = SizedBox(height: Space.md);
     return AlertDialog(
       backgroundColor: AppColors.surface,
-      title: Text(widget.story == null ? 'New impact story' : 'Edit impact story', style: AppText.h3),
+      title: Text(
+        widget.story == null ? 'New impact story' : 'Edit impact story',
+        style: AppText.h3,
+      ),
       content: SizedBox(
         width: 520,
         child: Form(
@@ -680,7 +710,10 @@ class _StoryDialogState extends State<_StoryDialog> {
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
         AlchemyButton(label: 'Save', loading: _busy, onPressed: _save),
       ],
     );

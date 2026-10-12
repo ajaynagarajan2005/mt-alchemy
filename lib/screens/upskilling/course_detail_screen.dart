@@ -3,7 +3,9 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/common/card_image.dart';
 import '../../data/mock/services.dart';
+import '../../data/eligibility.dart';
 import '../../data/models/course.dart';
 import '../../data/models/people.dart';
 import '../../router/routes.dart';
@@ -22,7 +24,6 @@ import '../../widgets/common/arrow_link.dart';
 import '../../widgets/common/course_card.dart';
 import '../../widgets/common/glass_panel.dart';
 import '../../widgets/common/gradient_backdrop.dart';
-import '../../widgets/common/ink_art.dart';
 import '../../widgets/common/reveal.dart';
 import '../../widgets/common/reviews_section.dart';
 import '../../widgets/layout/app_shell.dart';
@@ -127,7 +128,10 @@ class _Main extends StatelessWidget {
           height: compact ? 180 : 280,
           clipBehavior: Clip.antiAlias,
           decoration: const BoxDecoration(borderRadius: Radii.cardAll),
-          child: InkArt(seed: course.id),
+          child: CardImage(
+            seed: course.id,
+            src: course.imageUrl ?? bundledImage('course-${course.id}'),
+          ),
         ),
         const SizedBox(height: Space.lg),
         if (service != null) Text(service.title, style: AppText.eyebrow),
@@ -266,7 +270,8 @@ class _SummaryState extends State<_Summary> {
     if (!mounted) return;
     setState(() => _busy = false);
     if (error != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error)));
       return;
     }
     context.go(Routes.learn(course.id));
@@ -304,9 +309,8 @@ class _SummaryState extends State<_Summary> {
         ],
       );
     } else if (user.role == UserRole.employer) {
-      final owned = context.watch<AuthStore>().currentOrganisation?.seatsFor(
-            course.id,
-          ) ??
+      final owned =
+          context.watch<AuthStore>().currentOrganisation?.seatsFor(course.id) ??
           0;
       cta = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -374,8 +378,45 @@ class _SummaryState extends State<_Summary> {
           ),
         ],
       );
+    } else if (!user.canEnrol(course)) {
+      // Pathway rule: only courses matching career stage and interests.
+      cta = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.lock_outline, size: 20, color: AppColors.grey600),
+              const SizedBox(width: Space.xs),
+              Expanded(
+                child: Text(
+                  eligibilityMessage(user.eligibilityFor(course), user),
+                  style: AppText.small,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: Space.md),
+          AlchemyButton(
+            label: 'See courses in your pathway',
+            variant: ButtonVariant.secondary,
+            expand: true,
+            onPressed: () => context.go(Routes.myCourses),
+          ),
+        ],
+      );
     } else {
-      cta = AlchemyButton(label: 'Buy course', expand: true, onPressed: _buy);
+      cta = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'In your learning pathway',
+            style: AppText.small.copyWith(color: AppColors.red),
+          ),
+          const SizedBox(height: Space.sm),
+          AlchemyButton(label: 'Buy course', expand: true, onPressed: _buy),
+        ],
+      );
     }
 
     // CONTAINER (card): the one glass panel in view holds the price and CTA.

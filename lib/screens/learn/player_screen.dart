@@ -99,8 +99,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
       index: _index,
       complete: done.contains(module.id),
       onToggle: (v) => learning.setModuleComplete(course, module.id, v),
-      onQuizSubmitted: (score) =>
-          learning.submitQuiz(course, module.id, score),
+      onQuizSubmitted: (score) => learning.submitQuiz(course, module.id, score),
       bestScore: enrolment.quizScores[module.id],
       onPrevious: _index > 0 ? () => select(_index - 1) : null,
       onNext: _index < course.modules.length - 1
@@ -501,10 +500,10 @@ class _CompletionPanel extends StatelessWidget {
             const SizedBox(height: Space.xs),
           ],
           ArrowLink(
-            label: 'Browse more courses',
+            label: 'Choose your next course',
             color: AppColors.onInverse,
             hoverColor: AppColors.inverseMuted,
-            onTap: () => context.go(Routes.upskilling),
+            onTap: () => context.go(Routes.myCourses),
           ),
         ],
       ),

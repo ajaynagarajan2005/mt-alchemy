@@ -22,8 +22,15 @@ import '../learner/learner_screens.dart' show ShippingTimeline;
 import '../portal_widgets.dart';
 
 /// Super admin home: platform totals, the enquiry pipeline and recent orders.
-class SuperDashboardScreen extends StatelessWidget {
+class SuperDashboardScreen extends StatefulWidget {
   const SuperDashboardScreen({super.key});
+
+  @override
+  State<SuperDashboardScreen> createState() => _SuperDashboardScreenState();
+}
+
+class _SuperDashboardScreenState extends State<SuperDashboardScreen> {
+  Stream<Map<String, int>>? _counts;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +43,10 @@ class SuperDashboardScreen extends StatelessWidget {
           title: 'Welcome, ${user?.firstName ?? ''}',
           subtitle: 'Everything happening across MT Alchemy today.',
         ),
-        FutureBuilder<Map<String, int>>(
-          future: admin.counts(),
+        const LivePill(),
+        const SizedBox(height: Space.sm),
+        StreamBuilder<Map<String, int>>(
+          stream: _counts ??= admin.liveCounts(),
           builder: (context, snap) {
             final c = snap.data ?? const {};
             String v(String k) => snap.hasData ? '${c[k] ?? 0}' : '…';
@@ -126,9 +135,8 @@ class _UsersScreenState extends State<UsersScreen> {
       builder: (_) => const _NewUserDialog(),
     );
     if (created == true && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Account created.')),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Account created.')));
     }
   }
 
@@ -314,7 +322,11 @@ class _UserRow extends StatelessWidget {
                     ),
                   );
                   if (ok == true && context.mounted) {
-                    _run(context, admin.deleteUser(user.id), 'Profile deleted.');
+                    _run(
+                      context,
+                      admin.deleteUser(user.id),
+                      'Profile deleted.',
+                    );
                   }
                 },
           icon: AppIcon(
@@ -335,7 +347,12 @@ class _UserRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [info, controls],
             )
-          : Row(children: [Expanded(child: info), controls]),
+          : Row(
+              children: [
+                Expanded(child: info),
+                controls,
+              ],
+            ),
     );
   }
 }
@@ -463,7 +480,8 @@ class OrdersAdminScreen extends StatelessWidget {
       children: [
         const PortalHeader(
           title: 'Orders and shipping',
-          subtitle: 'Move parcels from processing to shipped to delivered. '
+          subtitle:
+              'Move parcels from processing to shipped to delivered. '
               'Buyers are notified at each step.',
         ),
         StreamBuilder<List<Shipment>>(
@@ -482,7 +500,8 @@ class OrdersAdminScreen extends StatelessWidget {
                 if (orders.isEmpty) {
                   return const EmptyState(
                     title: 'No orders yet',
-                    message: 'Orders appear here as soon as someone checks out.',
+                    message:
+                        'Orders appear here as soon as someone checks out.',
                   );
                 }
                 return Column(
@@ -540,7 +559,9 @@ class _AdminOrderCard extends StatelessWidget {
           const SizedBox(height: Space.xs),
           Text(
             order.items
-                .map((i) => i.quantity > 1 ? '${i.name} x ${i.quantity}' : i.name)
+                .map(
+                  (i) => i.quantity > 1 ? '${i.name} x ${i.quantity}' : i.name,
+                )
                 .join(', '),
             style: AppText.body,
           ),
@@ -573,7 +594,8 @@ class _AdminOrderCard extends StatelessWidget {
                   messenger.showSnackBar(
                     SnackBar(
                       content: Text(
-                        error ?? '${order.number} marked ${next.label.toLowerCase()}.',
+                        error ??
+                            '${order.number} marked ${next.label.toLowerCase()}.',
                       ),
                     ),
                   );
@@ -647,7 +669,10 @@ class _EnquiryCardState extends State<_EnquiryCard> {
     super.dispose();
   }
 
-  Future<void> _update({EnquiryStatus? status, bool saveProposal = false}) async {
+  Future<void> _update({
+    EnquiryStatus? status,
+    bool saveProposal = false,
+  }) async {
     final messenger = ScaffoldMessenger.of(context);
     setState(() => _busy = true);
     final error = await context.read<AdminStore>().updateEnquiry(
@@ -657,7 +682,9 @@ class _EnquiryCardState extends State<_EnquiryCard> {
     );
     if (!mounted) return;
     setState(() => _busy = false);
-    messenger.showSnackBar(SnackBar(content: Text(error ?? 'Enquiry updated.')));
+    messenger.showSnackBar(
+      SnackBar(content: Text(error ?? 'Enquiry updated.')),
+    );
   }
 
   @override
@@ -682,7 +709,10 @@ class _EnquiryCardState extends State<_EnquiryCard> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.redSoft,
                   borderRadius: Radii.pillAll,
@@ -730,6 +760,37 @@ class _EnquiryCardState extends State<_EnquiryCard> {
                   : null,
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A small pulsing "Live" badge: the numbers below update in real time.
+class LivePill extends StatelessWidget {
+  const LivePill({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.redSoft,
+        borderRadius: Radii.pillAll,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(
+              color: AppColors.red,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 6),
+          Text('Live', style: AppText.small.copyWith(color: AppColors.red)),
         ],
       ),
     );

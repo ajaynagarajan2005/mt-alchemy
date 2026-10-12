@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../widgets/common/card_image.dart';
 import '../../data/mock/services.dart';
 import '../../data/models/service.dart';
 import '../../router/routes.dart';
@@ -14,7 +15,6 @@ import '../../widgets/common/app_icon.dart';
 import '../../widgets/common/arrow_link.dart';
 import '../../widgets/common/glass_panel.dart';
 import '../../widgets/common/gradient_backdrop.dart';
-import '../../widgets/common/ink_art.dart';
 import '../../widgets/common/reveal.dart';
 import '../../widgets/layout/app_shell.dart';
 import '../../widgets/media/hero_video.dart';
@@ -109,7 +109,10 @@ class _SplitBlock extends StatelessWidget {
         child: Container(
           clipBehavior: Clip.antiAlias,
           decoration: const BoxDecoration(borderRadius: Radii.cardAll),
-          child: InkArt(seed: service.slug),
+          child: CardImage(
+            seed: service.slug,
+            src: bundledImage('service-${service.slug}'),
+          ),
         ),
       ),
     );
@@ -137,12 +140,7 @@ class _GlassBlock extends StatelessWidget {
     return GradientBackdrop(
       blobs: [
         Blob(alignment: Alignment(0.9, -0.5), size: 600),
-        Blob(
-          alignment: Alignment(-0.8, 0.8),
-          size: 500,
-          color: AppColors.grey400,
-          opacity: 0.3,
-        ),
+        Blob(alignment: Alignment(-0.8, 0.8), size: 500, opacity: 0.06),
       ],
       child: Section(
         child: Align(

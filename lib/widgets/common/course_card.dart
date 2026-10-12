@@ -2,13 +2,13 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'card_image.dart';
 import '../../data/models/course.dart';
 import '../../theme/colors.dart';
 import '../../theme/radii.dart';
 import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import 'app_icon.dart';
-import 'ink_art.dart';
 
 final gbp = NumberFormat.currency(
   locale: 'en_GB',
@@ -27,53 +27,62 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: Radii.cardAll,
-        border: Border.all(color: AppColors.line),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 150, child: InkArt(seed: course.id, intensity: 0.9)),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(Space.lg),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _LevelChip(label: course.level.label),
-                  const SizedBox(height: Space.sm),
-                  Text(
-                    course.title,
-                    style: AppText.h3.copyWith(fontSize: 21),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      AppIcon(
-                        HugeIcons.strokeRoundedClock01,
-                        size: 16,
-                        color: AppColors.inkMuted,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        '${course.modules.length} lessons, ${course.totalMinutes} min',
-                        style: AppText.small,
-                      ),
-                      const Spacer(),
-                      Text(gbp.format(course.price), style: AppText.label),
-                    ],
-                  ),
-                ],
+    // Hover lifts the card and zooms its photo.
+    return AnimatedCard(
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: Radii.cardAll,
+          border: Border.all(color: AppColors.line),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 170,
+              child: CardImage(
+                seed: course.id,
+                src: course.imageUrl ?? bundledImage('course-${course.id}'),
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(Space.lg),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _LevelChip(label: course.level.label),
+                    const SizedBox(height: Space.sm),
+                    Text(
+                      course.title,
+                      style: AppText.h3.copyWith(fontSize: 21),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const Spacer(),
+                    Row(
+                      children: [
+                        AppIcon(
+                          HugeIcons.strokeRoundedClock01,
+                          size: 16,
+                          color: AppColors.inkMuted,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          '${course.modules.length} lessons, ${course.totalMinutes} min',
+                          style: AppText.small,
+                        ),
+                        const Spacer(),
+                        Text(gbp.format(course.price), style: AppText.label),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

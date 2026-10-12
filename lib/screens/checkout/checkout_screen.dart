@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/common/card_image.dart';
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
 import '../../state/cart_store.dart';
@@ -15,7 +16,6 @@ import '../../theme/typography.dart';
 import '../../utils/validators.dart';
 import '../../widgets/common/alchemy_button.dart';
 import '../../widgets/common/glass_panel.dart';
-import '../../widgets/common/ink_art.dart';
 import '../../widgets/common/labeled_field.dart';
 import '../../widgets/common/product_card.dart';
 import '../../widgets/common/reveal.dart';
@@ -225,39 +225,39 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
             ),
             if (cart.hasPhysical) ...[
-            gap,
-            LabeledField(
-              label: 'Address line 1',
-              controller: _address1,
-              autofillHints: const [AutofillHints.streetAddressLine1],
-              textInputAction: TextInputAction.next,
-              validator: (v) => Validators.required(v, 'your address'),
-            ),
-            gap,
-            LabeledField(
-              label: 'Address line 2 (optional)',
-              controller: _address2,
-              autofillHints: const [AutofillHints.streetAddressLine2],
-              textInputAction: TextInputAction.next,
-            ),
-            gap,
-            _pair(
-              context,
+              gap,
               LabeledField(
-                label: 'Town or city',
-                controller: _city,
-                autofillHints: const [AutofillHints.addressCity],
+                label: 'Address line 1',
+                controller: _address1,
+                autofillHints: const [AutofillHints.streetAddressLine1],
                 textInputAction: TextInputAction.next,
-                validator: (v) => Validators.required(v, 'your town or city'),
+                validator: (v) => Validators.required(v, 'your address'),
               ),
+              gap,
               LabeledField(
-                label: 'Postcode',
-                controller: _postcode,
-                autofillHints: const [AutofillHints.postalCode],
+                label: 'Address line 2 (optional)',
+                controller: _address2,
+                autofillHints: const [AutofillHints.streetAddressLine2],
                 textInputAction: TextInputAction.next,
-                validator: CheckoutValidators.postcode,
               ),
-            ),
+              gap,
+              _pair(
+                context,
+                LabeledField(
+                  label: 'Town or city',
+                  controller: _city,
+                  autofillHints: const [AutofillHints.addressCity],
+                  textInputAction: TextInputAction.next,
+                  validator: (v) => Validators.required(v, 'your town or city'),
+                ),
+                LabeledField(
+                  label: 'Postcode',
+                  controller: _postcode,
+                  autofillHints: const [AutofillHints.postalCode],
+                  textInputAction: TextInputAction.next,
+                  validator: CheckoutValidators.postcode,
+                ),
+              ),
             ],
             const SizedBox(height: Space.xl),
             Text('Payment', style: AppText.h3),
@@ -366,7 +366,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     child: SizedBox(
                       width: 48,
                       height: 48,
-                      child: InkArt(seed: i.itemId, intensity: 0.9),
+                      child: CardImage(
+                        seed: i.itemId,
+                        src: i.product?.imageUrl ?? i.course?.imageUrl,
+                        tint: false,
+                      ),
                     ),
                   ),
                   const SizedBox(width: Space.sm),

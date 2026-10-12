@@ -42,7 +42,8 @@ class CertificateScreen extends StatelessWidget {
         if (cert == null) {
           return NoticePage(
             title: 'Certificate not found',
-            message: 'We could not verify the code $code. Check the link and try again.',
+            message:
+                'We could not verify the code $code. Check the link and try again.',
             action: AlchemyButton(
               label: 'Browse courses',
               onPressed: () => context.go(Routes.upskilling),
@@ -122,7 +123,8 @@ class _CertificateCard extends StatelessWidget {
                 Text(
                   cert.userName,
                   textAlign: TextAlign.center,
-                  style: AppText.display(context).copyWith(fontSize: compact ? 34 : 52),
+                  style: AppText.display(context)
+                      .copyWith(fontSize: compact ? 34 : 52),
                 ),
                 const SizedBox(height: Space.sm),
                 Text('has completed', style: AppText.bodyMuted),

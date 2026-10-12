@@ -5,6 +5,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../router/home_sections.dart';
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
 import '../../state/cart_store.dart';
@@ -114,7 +115,7 @@ class _NavItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: TextButton(
-        onPressed: () => context.go(link.path),
+        onPressed: () => HomeSections.navigate(context, link.path),
         style: ButtonStyle(
           padding: const WidgetStatePropertyAll(
             EdgeInsets.symmetric(horizontal: 12, vertical: 10),

@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../widgets/common/card_image.dart';
 import '../../../data/mock/services.dart';
 import '../../../data/models/service.dart';
 import '../../../router/routes.dart';
@@ -14,7 +15,6 @@ import '../../../widgets/common/app_icon.dart';
 import '../../../widgets/common/arrow_link.dart';
 import '../../../widgets/common/glass_panel.dart';
 import '../../../widgets/common/gradient_backdrop.dart';
-import '../../../widgets/common/ink_art.dart';
 import '../../../widgets/common/reveal.dart';
 import '../../../widgets/common/tilt_card.dart';
 import '../../../widgets/layout/section.dart';
@@ -38,8 +38,8 @@ class ServicesBento extends StatelessWidget {
     final size = context.screenSize;
     final cells = [
       _Cell(service: services[0], fill: _Fill.art),
-      _Cell(service: services[1], fill: _Fill.glass),
-      _Cell(service: services[2], fill: _Fill.glass),
+      _Cell(service: services[1], fill: _Fill.art),
+      _Cell(service: services[2], fill: _Fill.art),
       _Cell(service: services[3], fill: _Fill.gradient),
     ];
 
@@ -74,13 +74,8 @@ class ServicesBento extends StatelessWidget {
 
     return GradientBackdrop(
       blobs: [
-        Blob(alignment: Alignment(-0.9, 0.1), size: 620, opacity: 0.18),
-        Blob(
-          alignment: Alignment(1.0, -0.4),
-          size: 560,
-          color: AppColors.grey400,
-          opacity: 0.4,
-        ),
+        Blob(alignment: Alignment(-0.9, 0.1), size: 620, opacity: 0.12),
+        Blob(alignment: Alignment(1.0, -0.4), size: 560, opacity: 0.06),
         Blob(alignment: Alignment(0.5, 1.0), size: 480, opacity: 0.14),
       ],
       child: Section(
@@ -106,6 +101,11 @@ class ServicesBento extends StatelessWidget {
             ),
             const SizedBox(height: Space.xxl),
             grid,
+            const SizedBox(height: Space.lg),
+            ArrowLink(
+              label: 'All services',
+              onTap: () => context.go(Routes.services),
+            ),
           ],
         ),
       ),
@@ -173,8 +173,11 @@ class _Cell extends StatelessWidget {
         borderRadius: Radii.cardAll,
         child: Stack(
           children: [
-            const Positioned.fill(
-              child: InkArt(seed: 'service-ei', intensity: 1.1),
+            Positioned.fill(
+              child: CardImage(
+                seed: service.slug,
+                src: bundledImage('service-${service.slug}'),
+              ),
             ),
             Positioned(left: Space.lg, top: Space.lg, child: icon),
             Positioned(
@@ -194,15 +197,33 @@ class _Cell extends StatelessWidget {
         ),
       ),
       // Grey to red: the "transformation" gradient, used once on this page.
-      _Fill.gradient => Container(
-        padding: const EdgeInsets.all(Space.xl),
-        decoration: BoxDecoration(
-          gradient: AppColors.transformation,
-          borderRadius: Radii.cardAll,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [icon, const Spacer(), copy],
+      _Fill.gradient => ClipRRect(
+        borderRadius: Radii.cardAll,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: CardImage(
+                seed: service.slug,
+                src: bundledImage('service-${service.slug}'),
+                tint: false,
+              ),
+            ),
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.86,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(gradient: AppColors.transformation),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(Space.xl),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [icon, const Spacer(), copy],
+              ),
+            ),
+          ],
         ),
       ),
     };

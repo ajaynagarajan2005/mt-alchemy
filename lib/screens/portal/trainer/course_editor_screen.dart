@@ -182,12 +182,14 @@ class _CourseEditorScreenState extends State<CourseEditorScreen> {
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     if (_modules.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add at least one lesson.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Add at least one lesson.')));
       return;
     }
-    final id = _isNew ? _slug(_id.text.isEmpty ? _title.text : _id.text) : _id.text;
+    final id = _isNew
+        ? _slug(_id.text.isEmpty ? _title.text : _id.text)
+        : _id.text;
     final course = Course(
       id: id,
       title: _title.text.trim(),
@@ -206,7 +208,8 @@ class _CourseEditorScreenState extends State<CourseEditorScreen> {
     );
     final messenger = ScaffoldMessenger.of(context);
     final router = GoRouter.of(context);
-    final back = context.read<AuthStore>().currentUser?.role.name == 'superAdmin'
+    final back =
+        context.read<AuthStore>().currentUser?.role.name == 'superAdmin'
         ? Routes.superCourses
         : Routes.admin;
     setState(() => _saving = true);
@@ -272,7 +275,9 @@ class _CourseEditorScreenState extends State<CourseEditorScreen> {
             label: 'Price (GBP)',
             controller: _price,
             keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+            ],
             validator: (v) => double.tryParse(v ?? '') == null
                 ? 'Enter a price, for example 149.'
                 : null,
@@ -431,7 +436,11 @@ class _ModuleEditor extends StatelessWidget {
                     if (t == LessonType.quiz && draft.questions.isEmpty) {
                       draft.questions.add(
                         _QuestionDraft(
-                          const QuizQuestion(prompt: '', options: ['', ''], answer: 0),
+                          const QuizQuestion(
+                            prompt: '',
+                            options: ['', ''],
+                            answer: 0,
+                          ),
                         ),
                       );
                     }
@@ -455,13 +464,16 @@ class _ModuleEditor extends StatelessWidget {
           ),
           gap,
           LabeledField(
-            label: draft.type == LessonType.quiz ? 'Instructions' : 'Lesson text',
+            label: draft.type == LessonType.quiz
+                ? 'Instructions'
+                : 'Lesson text',
             controller: draft.body,
             maxLines: 5,
             minLines: 2,
             validator: (v) => Validators.required(v, 'some lesson text'),
           ),
-          if (draft.type == LessonType.video || draft.type == LessonType.pdf) ...[
+          if (draft.type == LessonType.video ||
+              draft.type == LessonType.pdf) ...[
             gap,
             LabeledField(
               label: draft.type == LessonType.video ? 'Video URL' : 'PDF URL',
@@ -491,7 +503,11 @@ class _ModuleEditor extends StatelessWidget {
               onPressed: () {
                 draft.questions.add(
                   _QuestionDraft(
-                    const QuizQuestion(prompt: '', options: ['', ''], answer: 0),
+                    const QuizQuestion(
+                      prompt: '',
+                      options: ['', ''],
+                      answer: 0,
+                    ),
                   ),
                 );
                 onChanged();

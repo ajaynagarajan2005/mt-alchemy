@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/common/card_image.dart';
 import '../../state/catalog_store.dart';
 
 import '../../data/models/article.dart';
@@ -13,7 +14,6 @@ import '../../theme/radii.dart';
 import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../../widgets/common/arrow_link.dart';
-import '../../widgets/common/ink_art.dart';
 import '../../widgets/common/reveal.dart';
 import '../../widgets/layout/app_shell.dart';
 import '../../widgets/layout/section.dart';
@@ -185,7 +185,10 @@ class _FeaturedState extends State<_Featured> {
           scale: _hover && !Motion.reduced(context) ? 1.03 : 1,
           duration: Motion.medium,
           curve: Motion.ease,
-          child: InkArt(seed: a.slug),
+          child: CardImage(
+            seed: a.slug,
+            src: bundledImage('article-${a.slug}'),
+          ),
         ),
       ),
     );

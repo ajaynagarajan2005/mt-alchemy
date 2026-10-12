@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../../widgets/common/card_image.dart';
 import '../../data/mock/team.dart';
 import '../../theme/breakpoints.dart';
 import '../../theme/colors.dart';
@@ -65,7 +66,7 @@ class _AboutHero extends StatelessWidget {
           borderRadius: Radii.cardAll,
           color: AppColors.grey100,
         ),
-        child: const InkArt(seed: 'about-hero'),
+        child: CardImage(seed: 'about-hero', src: bundledImage('about-studio')),
       ),
     );
 
@@ -228,12 +229,7 @@ class _Story extends StatelessWidget {
     return GradientBackdrop(
       blobs: [
         Blob(alignment: Alignment(-0.9, 0.2), size: 620),
-        Blob(
-          alignment: Alignment(0.9, -0.6),
-          size: 520,
-          color: AppColors.grey400,
-          opacity: 0.3,
-        ),
+        Blob(alignment: Alignment(0.9, -0.6), size: 520, opacity: 0.06),
       ],
       child: Section(
         child: Align(

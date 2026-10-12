@@ -90,7 +90,9 @@ class SuccessScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              i.quantity > 1 ? '${i.name} x ${i.quantity}' : i.name,
+                              i.quantity > 1
+                                  ? '${i.name} x ${i.quantity}'
+                                  : i.name,
                               style: white,
                             ),
                           ),

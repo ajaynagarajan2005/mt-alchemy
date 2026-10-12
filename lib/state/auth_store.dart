@@ -41,29 +41,33 @@ class AuthStore extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    _profileSub = _backend.col('users').doc(user.uid).snapshots().listen(
-      (snap) {
-        final data = snap.data();
-        // A brand new account has no profile until registration writes it.
-        if (data == null) return;
-        final profile = AppUser.fromMap(user.uid, data);
-        if (profile.disabled) {
-          _backend.auth.signOut();
-          return;
-        }
-        if (profile.organisationId != _current?.organisationId ||
-            _orgSub == null) {
-          _watchOrg(profile.organisationId);
-        }
-        _current = profile;
-        _ready = true;
-        notifyListeners();
-      },
-      onError: (_) {
-        _ready = true;
-        notifyListeners();
-      },
-    );
+    _profileSub = _backend
+        .col('users')
+        .doc(user.uid)
+        .snapshots()
+        .listen(
+          (snap) {
+            final data = snap.data();
+            // A brand new account has no profile until registration writes it.
+            if (data == null) return;
+            final profile = AppUser.fromMap(user.uid, data);
+            if (profile.disabled) {
+              _backend.auth.signOut();
+              return;
+            }
+            if (profile.organisationId != _current?.organisationId ||
+                _orgSub == null) {
+              _watchOrg(profile.organisationId);
+            }
+            _current = profile;
+            _ready = true;
+            notifyListeners();
+          },
+          onError: (_) {
+            _ready = true;
+            notifyListeners();
+          },
+        );
   }
 
   void _watchOrg(String? orgId) {
@@ -82,8 +86,7 @@ class AuthStore extends ChangeNotifier {
 
   /// Resolves once the profile for the signed-in account has loaded.
   Future<void> _awaitProfile() async {
-    if (_current != null &&
-        _current!.id == _backend.auth.currentUser?.uid) {
+    if (_current != null && _current!.id == _backend.auth.currentUser?.uid) {
       return;
     }
     final done = Completer<void>();
@@ -132,6 +135,8 @@ class AuthStore extends ChangeNotifier {
     String? gender,
     String? country,
     List<String> hobbies = const [],
+    String? careerStage,
+    List<String> interests = const [],
   }) async {
     try {
       final cred = await _backend.auth.createUserWithEmailAndPassword(
@@ -163,6 +168,8 @@ class AuthStore extends ChangeNotifier {
           gender: gender,
           country: country,
           hobbies: hobbies,
+          careerStage: careerStage,
+          interests: interests,
         ).toMap(),
         'createdAt': FieldValue.serverTimestamp(),
       });
@@ -223,6 +230,8 @@ class AuthStore extends ChangeNotifier {
     String? gender,
     String? country,
     List<String>? hobbies,
+    String? careerStage,
+    List<String>? interests,
   }) async {
     final user = _current;
     if (user == null) return 'Please sign in first.';
@@ -232,6 +241,8 @@ class AuthStore extends ChangeNotifier {
         'gender': ?gender,
         'country': ?country,
         'hobbies': ?hobbies,
+        'careerStage': ?careerStage,
+        'interests': ?interests,
       });
       return null;
     } catch (e) {

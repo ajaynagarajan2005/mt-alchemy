@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -126,8 +128,9 @@ class AdminStore extends ChangeNotifier {
       .col('users')
       .snapshots()
       .map(
-        (s) => [for (final d in s.docs) AppUser.fromMap(d.id, d.data())]
-          ..sort((a, b) => a.name.compareTo(b.name)),
+        (s) =>
+            [for (final d in s.docs) AppUser.fromMap(d.id, d.data())]
+              ..sort((a, b) => a.name.compareTo(b.name)),
       );
 
   Future<String?> setRole(String uid, UserRole role) =>
@@ -182,11 +185,12 @@ class AdminStore extends ChangeNotifier {
       .col('enquiries')
       .snapshots()
       .map(
-        (s) => [for (final d in s.docs) Enquiry.fromMap(d.id, d.data())]..sort(
-          (a, b) => (b.createdAt ?? DateTime.now()).compareTo(
-            a.createdAt ?? DateTime.now(),
+        (s) => [for (final d in s.docs) Enquiry.fromMap(d.id, d.data())]
+          ..sort(
+            (a, b) => (b.createdAt ?? DateTime.now()).compareTo(
+              a.createdAt ?? DateTime.now(),
+            ),
           ),
-        ),
       );
 
   Future<String?> updateEnquiry(
@@ -204,7 +208,11 @@ class AdminStore extends ChangeNotifier {
   Stream<List<Map<String, dynamic>>> contactMessages() => _backend
       .col('contactMessages')
       .snapshots()
-      .map((s) => [for (final d in s.docs) {'id': d.id, ...d.data()}]);
+      .map(
+        (s) => [
+          for (final d in s.docs) {'id': d.id, ...d.data()},
+        ],
+      );
 
   /// Learners per course (individual and employer-assigned), for trainers.
   Stream<Map<String, int>> learnersPerCourse() =>
@@ -217,6 +225,39 @@ class AdminStore extends ChangeNotifier {
         return counts;
       });
 
+  /// Live headline counts: updates the moment any of these collections
+  /// changes (real-time Firestore listeners, no refresh needed).
+  Stream<Map<String, int>> liveCounts() {
+    const names = [
+      'users',
+      'orders',
+      'enrolments',
+      'certificates',
+      'enquiries',
+    ];
+    final counts = <String, int>{};
+    late final StreamController<Map<String, int>> controller;
+    final subs = <StreamSubscription<Object?>>[];
+    controller = StreamController<Map<String, int>>(
+      onListen: () {
+        for (final n in names) {
+          subs.add(
+            _backend.col(n).snapshots().listen((snap) {
+              counts[n] = snap.size;
+              controller.add(Map.of(counts));
+            }, onError: (_) {}),
+          );
+        }
+      },
+      onCancel: () {
+        for (final s in subs) {
+          s.cancel();
+        }
+      },
+    );
+    return controller.stream;
+  }
+
   /// Headline counts for the admin dashboard.
   Future<Map<String, int>> counts() async {
     Future<int> count(String col) async {
@@ -228,7 +269,13 @@ class AdminStore extends ChangeNotifier {
       }
     }
 
-    final names = ['users', 'orders', 'enrolments', 'enquiries', 'certificates'];
+    final names = [
+      'users',
+      'orders',
+      'enrolments',
+      'enquiries',
+      'certificates',
+    ];
     final values = await Future.wait(names.map(count));
     return {for (var i = 0; i < names.length; i++) names[i]: values[i]};
   }

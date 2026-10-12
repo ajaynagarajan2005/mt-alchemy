@@ -70,7 +70,11 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      context.read<CatalogStore>().courseById(s.courseId)?.title ?? s.courseId,
+                      context
+                              .read<CatalogStore>()
+                              .courseById(s.courseId)
+                              ?.title ??
+                          s.courseId,
                       style: AppText.label,
                     ),
                     const SizedBox(height: Space.xxs),
@@ -99,7 +103,13 @@ class _ProgressScreenState extends State<ProgressScreen> {
               for (final s in summaries)
                 DropdownMenuItem(
                   value: s.courseId,
-                  child: Text(context.read<CatalogStore>().courseById(s.courseId)?.title ?? s.courseId),
+                  child: Text(
+                    context
+                            .read<CatalogStore>()
+                            .courseById(s.courseId)
+                            ?.title ??
+                        s.courseId,
+                  ),
                 ),
             ],
             onChanged: (v) => setState(() => _filter = v ?? _all),
@@ -130,7 +140,12 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   employee:
                       store.employeeById(org.id, list[i].employeeId)?.name ??
                       '',
-                  course: context.read<CatalogStore>().courseById(list[i].courseId)?.title ?? '',
+                  course:
+                      context
+                          .read<CatalogStore>()
+                          .courseById(list[i].courseId)
+                          ?.title ??
+                      '',
                   date: formatDate(list[i].assignedAt),
                   bar: Row(
                     children: [

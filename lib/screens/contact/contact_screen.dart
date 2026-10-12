@@ -188,7 +188,10 @@ class _ContactScreenState extends State<ContactScreen> {
             const SizedBox(height: Space.lg),
             // One primary (red) button per view.
             if (_error != null) ...[
-              Text(_error!, style: AppText.small.copyWith(color: AppColors.error)),
+              Text(
+                _error!,
+                style: AppText.small.copyWith(color: AppColors.error),
+              ),
               const SizedBox(height: Space.md),
             ],
             AlchemyButton(

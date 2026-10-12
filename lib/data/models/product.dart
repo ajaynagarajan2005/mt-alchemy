@@ -24,6 +24,7 @@ class Product {
     this.type = ProductType.physical,
     this.stock = 0,
     this.fileUrl,
+    this.imageUrl,
   });
 
   final String id;
@@ -41,6 +42,9 @@ class Product {
   /// Download location (digital products only).
   final String? fileUrl;
 
+  /// Card photo: an `asset:` path or an https URL.
+  final String? imageUrl;
+
   bool get isDigital => type == ProductType.digital;
   bool get inStock => isDigital || stock > 0;
 
@@ -54,6 +58,7 @@ class Product {
     'type': type.name,
     'stock': stock,
     'fileUrl': fileUrl,
+    'imageUrl': imageUrl,
   };
 
   factory Product.fromMap(String id, Map<String, dynamic> m) => Product(
@@ -70,6 +75,7 @@ class Product {
     type: m['type'] == 'digital' ? ProductType.digital : ProductType.physical,
     stock: (m['stock'] as num?)?.toInt() ?? 0,
     fileUrl: m['fileUrl'] as String?,
+    imageUrl: m['imageUrl'] as String?,
   );
 
   Product copyWith({
@@ -82,6 +88,7 @@ class Product {
     ProductType? type,
     int? stock,
     String? fileUrl,
+    String? imageUrl,
   }) => Product(
     id: id,
     name: name ?? this.name,
@@ -93,5 +100,6 @@ class Product {
     type: type ?? this.type,
     stock: stock ?? this.stock,
     fileUrl: fileUrl ?? this.fileUrl,
+    imageUrl: imageUrl ?? this.imageUrl,
   );
 }

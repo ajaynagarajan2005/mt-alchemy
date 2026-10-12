@@ -3,7 +3,6 @@ import 'package:material_ui/material_ui.dart';
 import '../../theme/breakpoints.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
-import '../common/grain_overlay.dart';
 import 'nav_drawer.dart';
 import 'site_footer.dart';
 import 'site_nav.dart';
@@ -26,12 +25,8 @@ class AppShell extends StatelessWidget {
       backgroundColor: AppColors.white,
       appBar: const SiteNav(),
       endDrawer: context.isExpanded ? null : const NavDrawer(),
-      body: Stack(
-        children: [
-          Positioned.fill(child: child),
-          const Positioned.fill(child: GrainOverlay()),
-        ],
-      ),
+      // Clean white canvas: no grain overlay.
+      body: child,
     );
   }
 }
@@ -55,6 +50,7 @@ class PageScroll extends StatelessWidget {
     required this.children,
     this.controller,
     this.underNav = false,
+    this.eager = false,
   });
 
   final List<Widget> children;
@@ -62,6 +58,10 @@ class PageScroll extends StatelessWidget {
 
   /// True when the first child is a hero that should sit behind the nav.
   final bool underNav;
+
+  /// Build every child up front (not lazily) so sections can be scrolled to
+  /// by key. Used by the landing page, which has a fixed set of sections.
+  final bool eager;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,14 @@ class PageScroll extends StatelessWidget {
       slivers: [
         SliverPadding(
           padding: EdgeInsets.only(top: top),
-          sliver: SliverList.list(children: children),
+          sliver: eager
+              ? SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: children,
+                  ),
+                )
+              : SliverList.list(children: children),
         ),
         const SliverFillRemaining(
           hasScrollBody: false,

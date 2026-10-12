@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart' show PointerHoverEvent;
 import 'package:material_ui/material_ui.dart';
 
 import '../../theme/motion.dart';
+import 'card_image.dart';
 import 'tappable.dart';
 import '../../theme/radii.dart';
 
@@ -28,6 +29,7 @@ class TiltCard extends StatefulWidget {
 class _TiltCardState extends State<TiltCard> {
   /// Pointer position relative to the card centre, -1 to 1 on each axis.
   Offset _target = Offset.zero;
+  bool _hovered = false;
 
   void _onHover(PointerHoverEvent e) {
     final box = context.findRenderObject() as RenderBox?;
@@ -50,7 +52,7 @@ class _TiltCardState extends State<TiltCard> {
       tween: Tween(end: reduced ? Offset.zero : _target),
       duration: Motion.medium,
       curve: Motion.ease,
-      child: widget.child,
+      child: CardHover(hovered: _hovered, child: widget.child),
       builder: (context, o, child) => Transform(
         alignment: Alignment.center,
         transform: Matrix4.identity()
@@ -68,7 +70,11 @@ class _TiltCardState extends State<TiltCard> {
     return MouseRegion(
       cursor: tappable ? SystemMouseCursors.click : MouseCursor.defer,
       onHover: reduced ? null : _onHover,
-      onExit: (_) => setState(() => _target = Offset.zero),
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() {
+        _target = Offset.zero;
+        _hovered = false;
+      }),
       child: card,
     );
   }

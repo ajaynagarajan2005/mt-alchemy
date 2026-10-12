@@ -142,11 +142,7 @@ class _AlchemyButtonState extends State<AlchemyButton> {
 
     final button = widget.variant == ButtonVariant.primary
         ? FilledButton(onPressed: onPressed, style: _style, child: child)
-        : OutlinedButton(
-            onPressed: onPressed,
-            style: _style,
-            child: child,
-          );
+        : OutlinedButton(onPressed: onPressed, style: _style, child: child);
 
     return Listener(
       onPointerDown: (_) => _setPressed(true),

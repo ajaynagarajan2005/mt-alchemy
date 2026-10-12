@@ -61,7 +61,10 @@ class _BrandVideoPlayerState extends State<BrandVideoPlayer> {
             Uri.parse(widget.asset),
             videoPlayerOptions: options,
           )
-        : VideoPlayerController.asset(widget.asset, videoPlayerOptions: options);
+        : VideoPlayerController.asset(
+            widget.asset,
+            videoPlayerOptions: options,
+          );
     _c = c;
     try {
       await c.initialize();

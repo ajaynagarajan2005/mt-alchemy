@@ -43,6 +43,8 @@ class AppUser {
     this.hobbies = const [],
     this.disabled = false,
     this.createdAt,
+    this.careerStage,
+    this.interests = const [],
   });
 
   /// Firebase Auth uid.
@@ -57,6 +59,12 @@ class AppUser {
   final bool disabled;
   final DateTime? createdAt;
 
+  /// [CareerStage] name chosen at registration (see eligibility.dart).
+  final String? careerStage;
+
+  /// Practice-area slugs the learner wants to grow in.
+  final List<String> interests;
+
   String get firstName => name.split(' ').first;
 
   Map<String, dynamic> toMap() => {
@@ -68,6 +76,8 @@ class AppUser {
     'country': country,
     'hobbies': hobbies,
     'disabled': disabled,
+    'careerStage': careerStage,
+    'interests': interests,
   };
 
   factory AppUser.fromMap(String id, Map<String, dynamic> m) => AppUser(
@@ -81,6 +91,8 @@ class AppUser {
     hobbies: List<String>.from(m['hobbies'] as List? ?? const []),
     disabled: m['disabled'] as bool? ?? false,
     createdAt: dateFrom(m['createdAt']),
+    careerStage: m['careerStage'] as String?,
+    interests: List<String>.from(m['interests'] as List? ?? const []),
   );
 
   AppUser copyWith({
@@ -99,6 +111,8 @@ class AppUser {
     hobbies: hobbies,
     disabled: disabled ?? this.disabled,
     createdAt: createdAt,
+    careerStage: careerStage,
+    interests: interests,
   );
 }
 

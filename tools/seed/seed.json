@@ -87,7 +87,8 @@
         }
       ],
       "trainer": "Maya Thompson",
-      "published": true
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-ei-foundations.webp"
     },
     "first-time-manager": {
       "title": "The First-Time Manager",
@@ -176,7 +177,8 @@
         }
       ],
       "trainer": "Daniel Okafor",
-      "published": true
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-first-time-manager.webp"
     },
     "leading-through-change": {
       "title": "Leading Through Change",
@@ -256,7 +258,8 @@
         }
       ],
       "trainer": "Maya Thompson",
-      "published": true
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-leading-through-change.webp"
     },
     "team-trust-reset": {
       "title": "Team Trust Reset",
@@ -336,7 +339,8 @@
         }
       ],
       "trainer": "Daniel Okafor",
-      "published": true
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-team-trust-reset.webp"
     },
     "sustainable-performance": {
       "title": "Sustainable Performance",
@@ -416,7 +420,8 @@
         }
       ],
       "trainer": "Grace Whitfield",
-      "published": true
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-sustainable-performance.webp"
     },
     "manager-wellbeing-conversations": {
       "title": "Well-being Conversations for Managers",
@@ -496,7 +501,494 @@
         }
       ],
       "trainer": "Grace Whitfield",
-      "published": true
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-manager-wellbeing-conversations.webp"
+    },
+    "ei-in-practice": {
+      "title": "Emotional Intelligence in Practice",
+      "serviceSlug": "emotional-intelligence",
+      "level": "practitioner",
+      "price": 199.0,
+      "summary": "Use emotional intelligence in real conversations: feedback, conflict and influence.",
+      "outcomes": [
+        "Stay steady in a heated conversation",
+        "Give feedback that lands without defensiveness",
+        "Influence peers without positional power"
+      ],
+      "modules": [
+        {
+          "id": "eip-1",
+          "title": "Emotions in everyday decisions",
+          "minutes": 16,
+          "body": "Every decision at work carries feeling. Learn to notice it early and use it as data instead of letting it steer you quietly.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "eip-2",
+          "title": "Feedback without the sting",
+          "minutes": 22,
+          "body": "A short structure for feedback that describes behaviour, names the impact and invites the other person into the solution.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/ei-in-practice-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "eip-3",
+          "title": "Working through conflict",
+          "minutes": 20,
+          "body": "Conflict is information about what people care about. Practise slowing a disagreement down until both sides feel heard.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "ei-in-practice-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Useful feedback describes...",
+              "options": [
+                "The person's character",
+                "Behaviour and its impact",
+                "How annoyed you are"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "In conflict, the first goal is to...",
+              "options": [
+                "Win the point",
+                "Make both sides feel heard",
+                "End it quickly"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Emotions in decisions are best treated as...",
+              "options": [
+                "Data to notice",
+                "Weakness to hide",
+                "Irrelevant"
+              ],
+              "answer": 0
+            }
+          ]
+        }
+      ],
+      "trainer": "Maya Thompson",
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-ei-in-practice.webp"
+    },
+    "emotionally-intelligent-leader": {
+      "title": "The Emotionally Intelligent Leader",
+      "serviceSlug": "emotional-intelligence",
+      "level": "leader",
+      "price": 349.0,
+      "summary": "Shape the emotional climate of your organisation and lead others through pressure.",
+      "outcomes": [
+        "Read and shape team climate deliberately",
+        "Model calm under organisational pressure",
+        "Coach managers to grow their own EI"
+      ],
+      "modules": [
+        {
+          "id": "eil-1",
+          "title": "Leaders set the weather",
+          "minutes": 18,
+          "body": "How a leader shows up spreads through a team within days. Map the signals you send in meetings, messages and corridors.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "eil-2",
+          "title": "Leading under pressure",
+          "minutes": 24,
+          "body": "Routines that keep your judgement clear when the stakes rise, and how to make it safe for others to say they are struggling.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/emotionally-intelligent-leader-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "eil-3",
+          "title": "Growing EI in your managers",
+          "minutes": 20,
+          "body": "Turn one-to-ones into coaching moments that build emotional intelligence across the layer of managers below you.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "emotionally-intelligent-leader-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "A leader's mood tends to...",
+              "options": [
+                "Stay private",
+                "Spread through the team",
+                "Only affect peers"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Under pressure, good leaders...",
+              "options": [
+                "Make it safe to speak up",
+                "Hide all concern",
+                "Decide alone"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Growing EI in managers works best through...",
+              "options": [
+                "A memo",
+                "Coaching in one-to-ones",
+                "An annual test"
+              ],
+              "answer": 1
+            }
+          ]
+        }
+      ],
+      "trainer": "Maya Thompson",
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-emotionally-intelligent-leader.webp"
+    },
+    "leadership-essentials": {
+      "title": "Leadership Essentials",
+      "serviceSlug": "leadership-development",
+      "level": "foundation",
+      "price": 139.0,
+      "summary": "The habits of good leadership, whatever your title: ownership, clarity and trust.",
+      "outcomes": [
+        "Take ownership without taking over",
+        "Communicate a clear next step",
+        "Build trust through small kept promises"
+      ],
+      "modules": [
+        {
+          "id": "le-1",
+          "title": "Leadership is a behaviour",
+          "minutes": 15,
+          "body": "You do not need a title to lead. Learn the behaviours people follow: noticing, deciding and following through.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "le-2",
+          "title": "Clarity beats charisma",
+          "minutes": 18,
+          "body": "Most confusion at work comes from unclear asks. Practise turning a vague request into a clear outcome, owner and date.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/leadership-essentials-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "le-3",
+          "title": "Earning trust",
+          "minutes": 17,
+          "body": "Trust grows from small, visible reliability. Build a simple habit of making and keeping commitments in public.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "leadership-essentials-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Leadership is mainly...",
+              "options": [
+                "A job title",
+                "A set of behaviours",
+                "Being the loudest"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "A clear request includes...",
+              "options": [
+                "An outcome, owner and date",
+                "Only a deadline",
+                "Nothing specific"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Trust grows from...",
+              "options": [
+                "Small kept promises",
+                "Big speeches",
+                "Avoiding mistakes"
+              ],
+              "answer": 0
+            }
+          ]
+        }
+      ],
+      "trainer": "Daniel Okafor",
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-leadership-essentials.webp"
+    },
+    "team-foundations": {
+      "title": "Team Foundations",
+      "serviceSlug": "team-engagement",
+      "level": "foundation",
+      "price": 119.0,
+      "summary": "What makes a team work, and how to be the colleague everyone wants on theirs.",
+      "outcomes": [
+        "Understand what healthy teams have in common",
+        "Contribute well in meetings",
+        "Raise concerns early and kindly"
+      ],
+      "modules": [
+        {
+          "id": "tf-1",
+          "title": "What great teams share",
+          "minutes": 14,
+          "body": "Psychological safety, clear goals and reliable follow-through. See what each looks like on an ordinary Tuesday.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "tf-2",
+          "title": "Meetings that matter",
+          "minutes": 18,
+          "body": "Simple ways any team member can make a meeting better: prepare, contribute, summarise and follow up.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/team-foundations-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "tf-3",
+          "title": "Speaking up",
+          "minutes": 16,
+          "body": "How to raise a concern so it is heard, and how to respond when a colleague raises one with you.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "team-foundations-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Psychological safety lets people...",
+              "options": [
+                "Speak up without fear",
+                "Skip work",
+                "Avoid feedback"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Anyone can improve a meeting by...",
+              "options": [
+                "Staying silent",
+                "Summarising and following up",
+                "Arriving late"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Concerns are best raised...",
+              "options": [
+                "Early and kindly",
+                "Only in exit interviews",
+                "Never"
+              ],
+              "answer": 0
+            }
+          ]
+        }
+      ],
+      "trainer": "Priya Raman",
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-team-foundations.webp"
+    },
+    "high-performing-teams": {
+      "title": "Building High-Performing Teams",
+      "serviceSlug": "team-engagement",
+      "level": "leader",
+      "price": 339.0,
+      "summary": "Design the rhythms, roles and culture that let teams of teams perform and stay well.",
+      "outcomes": [
+        "Diagnose what is holding a team back",
+        "Design team rituals that stick",
+        "Align several teams around shared goals"
+      ],
+      "modules": [
+        {
+          "id": "hpt-1",
+          "title": "Diagnosing a team",
+          "minutes": 20,
+          "body": "A quick health check across trust, clarity and energy, and how to share the results without blame.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "hpt-2",
+          "title": "Rituals that stick",
+          "minutes": 22,
+          "body": "Most team agreements fade by Wednesday. Design the few rituals that keep them alive week after week.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/high-performing-teams-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "hpt-3",
+          "title": "Teams of teams",
+          "minutes": 24,
+          "body": "Scaling engagement across departments: shared goals, clear interfaces and leaders who connect rather than control.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "high-performing-teams-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "A team health check looks at...",
+              "options": [
+                "Trust, clarity and energy",
+                "Only output",
+                "Desk layout"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Team agreements survive when they become...",
+              "options": [
+                "Posters",
+                "Regular rituals",
+                "Rules with fines"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Leaders of several teams should...",
+              "options": [
+                "Connect rather than control",
+                "Micromanage each team",
+                "Stay out of sight"
+              ],
+              "answer": 0
+            }
+          ]
+        }
+      ],
+      "trainer": "Priya Raman",
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-high-performing-teams.webp"
+    },
+    "wellbeing-strategy-for-leaders": {
+      "title": "Well-being Strategy for Leaders",
+      "serviceSlug": "workplace-wellbeing",
+      "level": "leader",
+      "price": 319.0,
+      "summary": "Make well-being part of how the organisation runs: workload, policy and measurement.",
+      "outcomes": [
+        "Link well-being to workload and design of work",
+        "Build a well-being plan with real measures",
+        "Make support part of everyday management"
+      ],
+      "modules": [
+        {
+          "id": "wsl-1",
+          "title": "Beyond the wellness app",
+          "minutes": 18,
+          "body": "Why perks rarely move the needle, and where the real drivers of strain sit in how work is designed.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "wsl-2",
+          "title": "Measuring what matters",
+          "minutes": 22,
+          "body": "Choose a handful of measures, from workload data to pulse surveys, that show whether things are actually improving.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/wellbeing-strategy-for-leaders-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "wsl-3",
+          "title": "Policy into practice",
+          "minutes": 20,
+          "body": "Turn a well-being policy into the everyday habits of managers, with training, prompts and follow-up.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "wellbeing-strategy-for-leaders-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "The biggest driver of strain is usually...",
+              "options": [
+                "Lack of perks",
+                "How work is designed",
+                "Office colours"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "A good well-being plan has...",
+              "options": [
+                "Real measures",
+                "A logo",
+                "No owner"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Policy becomes practice through...",
+              "options": [
+                "Manager habits and follow-up",
+                "One announcement",
+                "A new app"
+              ],
+              "answer": 0
+            }
+          ]
+        }
+      ],
+      "trainer": "Daniel Okafor",
+      "published": true,
+      "imageUrl": "asset:assets/images/cards/course-wellbeing-strategy-for-leaders.webp"
     }
   },
   "products": {
@@ -513,7 +1005,8 @@
       ],
       "type": "physical",
       "stock": 120,
-      "fileUrl": null
+      "fileUrl": null,
+      "imageUrl": "asset:assets/images/cards/product-feedback-conversation-cards.webp"
     },
     "ei-self-coaching-toolkit": {
       "name": "EI Self-Coaching Toolkit",
@@ -528,7 +1021,8 @@
       ],
       "type": "digital",
       "stock": 0,
-      "fileUrl": "/downloads/ei-self-coaching-toolkit.pdf"
+      "fileUrl": "/downloads/ei-self-coaching-toolkit.pdf",
+      "imageUrl": "asset:assets/images/cards/product-ei-self-coaching-toolkit.webp"
     },
     "team-charter-workshop-kit": {
       "name": "Team Charter Workshop Kit",
@@ -543,7 +1037,8 @@
       ],
       "type": "physical",
       "stock": 35,
-      "fileUrl": null
+      "fileUrl": null,
+      "imageUrl": "asset:assets/images/cards/product-team-charter-workshop-kit.webp"
     },
     "leading-with-care-book": {
       "name": "Leading With Care",
@@ -558,7 +1053,8 @@
       ],
       "type": "physical",
       "stock": 80,
-      "fileUrl": null
+      "fileUrl": null,
+      "imageUrl": "asset:assets/images/cards/product-leading-with-care-book.webp"
     },
     "wellbeing-check-in-deck": {
       "name": "Well-being Check-in Deck",
@@ -573,7 +1069,8 @@
       ],
       "type": "physical",
       "stock": 60,
-      "fileUrl": null
+      "fileUrl": null,
+      "imageUrl": "asset:assets/images/cards/product-wellbeing-check-in-deck.webp"
     },
     "manager-one-to-one-planner": {
       "name": "Manager One-to-One Planner",
@@ -588,7 +1085,8 @@
       ],
       "type": "digital",
       "stock": 0,
-      "fileUrl": "/downloads/manager-one-to-one-planner.pdf"
+      "fileUrl": "/downloads/manager-one-to-one-planner.pdf",
+      "imageUrl": "asset:assets/images/cards/product-manager-one-to-one-planner.webp"
     }
   },
   "productCategories": {
@@ -699,7 +1197,13 @@
         "Reading",
         "Travel"
       ],
-      "disabled": false
+      "disabled": false,
+      "careerStage": "professional",
+      "interests": [
+        "emotional-intelligence",
+        "workplace-wellbeing",
+        "team-engagement"
+      ]
     },
     {
       "key": "u-priya",
@@ -710,7 +1214,9 @@
       "gender": null,
       "country": null,
       "hobbies": [],
-      "disabled": false
+      "disabled": false,
+      "careerStage": null,
+      "interests": []
     },
     {
       "key": "u-maya",
@@ -721,7 +1227,9 @@
       "gender": null,
       "country": null,
       "hobbies": [],
-      "disabled": false
+      "disabled": false,
+      "careerStage": null,
+      "interests": []
     },
     {
       "key": "u-admin",
@@ -732,7 +1240,9 @@
       "gender": null,
       "country": null,
       "hobbies": [],
-      "disabled": false
+      "disabled": false,
+      "careerStage": null,
+      "interests": []
     },
     {
       "key": "u-callum",
@@ -743,7 +1253,12 @@
       "gender": null,
       "country": null,
       "hobbies": [],
-      "disabled": false
+      "disabled": false,
+      "careerStage": "manager",
+      "interests": [
+        "leadership-development",
+        "emotional-intelligence"
+      ]
     }
   ],
   "employees": {

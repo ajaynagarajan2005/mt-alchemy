@@ -52,7 +52,11 @@ class _StoreScreenState extends State<StoreScreen> {
   Widget build(BuildContext context) {
     final shown = _category == null
         ? context.watch<CatalogStore>().products
-        : context.watch<CatalogStore>().products.where((p) => p.category == _category).toList();
+        : context
+              .watch<CatalogStore>()
+              .products
+              .where((p) => p.category == _category)
+              .toList();
 
     // Columns: 1 on compact, 2 on medium, 3 on expanded.
     final columns = switch (context.screenSize) {
