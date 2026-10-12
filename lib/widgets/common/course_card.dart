@@ -62,7 +62,7 @@ class CourseCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '${course.modules.length} modules, ${course.totalMinutes} min',
+                        '${course.modules.length} lessons, ${course.totalMinutes} min',
                         style: AppText.small,
                       ),
                       const Spacer(),

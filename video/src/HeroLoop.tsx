@@ -47,6 +47,24 @@ const TENDRILS = [
   {d: 'M 800 200 C 980 300, 900 480, 1120 560 S 1300 760, 1220 1000', w: 14, color: 'wisp' as const, o: 0.5, phase: 3.7},
 ];
 
+// Depth layers: far particles drift slowly and blur more, near ones move
+// faster and stay crisp, so the scene reads as 3D space (parallax).
+const PARTICLES = Array.from({length: 26}, (_, i) => {
+  const r = (n: number) => {
+    const x = Math.sin(i * 127.1 + n * 311.7) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const depth = r(1); // 0 far, 1 near
+  return {
+    x: 700 + r(2) * 1220,
+    y: 60 + r(3) * 960,
+    size: 3 + depth * 11,
+    depth,
+    phase: r(4) * TAU,
+    orbit: 20 + depth * 70,
+  };
+});
+
 export const HeroLoop = ({theme = 'light'}: {theme?: Theme}) => {
   const P = PALETTE[theme];
   const frame = useCurrentFrame();
@@ -80,12 +98,39 @@ export const HeroLoop = ({theme = 'light'}: {theme?: Theme}) => {
           <filter id="tendrilBlur" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="20" />
           </filter>
+          {/* Glass orb: refracted ink inside, a bright rim and a specular highlight. */}
+          <radialGradient id="orbBody" cx="0.42" cy="0.38" r="0.65">
+            <stop offset="0" stopColor="#FFFFFF" stopOpacity={theme === 'light' ? 0.55 : 0.18} />
+            <stop offset="0.55" stopColor={P.crimson} stopOpacity="0.10" />
+            <stop offset="0.92" stopColor={P.deep} stopOpacity="0.32" />
+            <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.55" />
+          </radialGradient>
+          <radialGradient id="orbShade" cx="0.7" cy="0.8" r="0.6">
+            <stop offset="0" stopColor={P.deep} stopOpacity="0.28" />
+            <stop offset="1" stopColor={P.deep} stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="spec" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#FFFFFF" stopOpacity="0.95" />
+            <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
+          </linearGradient>
+          <clipPath id="orbClip">
+            <circle cx="0" cy="0" r="200" />
+          </clipPath>
+          <filter id="orbInk" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="18" />
+          </filter>
+          <filter id="orbShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="30" />
+          </filter>
+          <filter id="farBlur"><feGaussianBlur stdDeviation="4" /></filter>
           <radialGradient id="calm" cx="0.12" cy="0.88" r="0.5">
             <stop offset="0" stopColor={P.bg0} stopOpacity="0.85" />
             <stop offset="1" stopColor={P.bg0} stopOpacity="0" />
           </radialGradient>
         </defs>
         <rect width="1920" height="1080" fill="url(#bg)" />
+        {/* Slow camera dolly: the whole scene breathes in and out once per loop. */}
+        <g transform={`translate(960 540) scale(${1.04 + 0.03 * Math.sin(theta)}) rotate(${0.8 * Math.sin(theta + 0.6)}) translate(-960 -540)`}>
         <g filter="url(#water)">
           {BLOBS.map((b, i) => {
             const h = b.harmonic ?? 1;
@@ -123,9 +168,76 @@ export const HeroLoop = ({theme = 'light'}: {theme?: Theme}) => {
             ))}
           </g>
         </g>
+        {/* Far particles, behind the orb. */}
+        <g filter="url(#farBlur)">
+          {PARTICLES.filter((p) => p.depth < 0.5).map((p, i) => (
+            <circle
+              key={i}
+              cx={p.x + p.orbit * Math.sin(theta + p.phase)}
+              cy={p.y + p.orbit * 0.6 * Math.cos(theta + p.phase)}
+              r={p.size}
+              fill={i % 3 === 0 ? P.crimson : '#FFFFFF'}
+              opacity={0.25 + 0.2 * Math.sin(theta + p.phase)}
+            />
+          ))}
+        </g>
+        <Orb theta={theta} theme={theme} />
+        {/* Near particles, in front of the orb, moving faster. */}
+        {PARTICLES.filter((p) => p.depth >= 0.5).map((p, i) => (
+          <circle
+            key={i}
+            cx={p.x + p.orbit * Math.sin(2 * theta + p.phase)}
+            cy={p.y + p.orbit * 0.5 * Math.cos(2 * theta + p.phase)}
+            r={p.size * 0.6}
+            fill={i % 2 === 0 ? P.crimson : '#FFFFFF'}
+            opacity={0.35 + 0.25 * Math.sin(2 * theta + p.phase)}
+          />
+        ))}
+        </g>
         {/* Keep the lower-left calm for the glass text panel. */}
         <rect width="1920" height="1080" fill="url(#calm)" />
       </svg>
     </AbsoluteFill>
+  );
+};
+
+/** The alchemist's crystal: a glass sphere with swirling ink inside. */
+const Orb = ({theta, theme}: {theta: number; theme: Theme}) => {
+  const P = PALETTE[theme];
+  const cx = 1430;
+  const cy = 470 + 26 * Math.sin(theta);
+  const tilt = 6 * Math.sin(theta + 1.2);
+  return (
+    <g>
+      {/* Soft contact shadow that tightens as the orb rises. */}
+      <ellipse
+        cx={cx + 30}
+        cy={890}
+        rx={190 - 14 * Math.sin(theta)}
+        ry={34}
+        fill={P.deep}
+        opacity={theme === 'light' ? 0.18 : 0.35}
+        filter="url(#orbShadow)"
+      />
+      <g transform={`translate(${cx} ${cy}) rotate(${tilt})`}>
+        <g clipPath="url(#orbClip)">
+          {/* Refracted ink: counter-rotating swirls read as depth inside the glass. */}
+          <g filter="url(#orbInk)" transform={`rotate(${(theta * 180) / Math.PI})`}>
+            <ellipse cx={-40} cy={20} rx={150} ry={60} fill={P.crimson} opacity={0.75} />
+            <ellipse cx={60} cy={-50} rx={90} ry={40} fill={P.deep} opacity={0.7} />
+          </g>
+          <g filter="url(#orbInk)" transform={`rotate(${(-theta * 360) / Math.PI})`}>
+            <ellipse cx={30} cy={70} rx={110} ry={30} fill={P.wisp} opacity={0.55} />
+            <ellipse cx={-70} cy={-60} rx={60} ry={24} fill={P.crimson} opacity={0.5} />
+          </g>
+          <circle r={200} fill="url(#orbShade)" />
+        </g>
+        <circle r={200} fill="url(#orbBody)" />
+        <circle r={199} fill="none" stroke="#FFFFFF" strokeOpacity={0.7} strokeWidth={2.5} />
+        {/* Specular highlight and a thin reflected window. */}
+        <ellipse cx={-70} cy={-95} rx={70} ry={38} fill="url(#spec)" transform="rotate(-30 -70 -95)" opacity={0.85} />
+        <path d="M 120 -120 A 170 170 0 0 1 150 60" fill="none" stroke="#FFFFFF" strokeOpacity={0.45} strokeWidth={6} strokeLinecap="round" />
+      </g>
+    </g>
   );
 };

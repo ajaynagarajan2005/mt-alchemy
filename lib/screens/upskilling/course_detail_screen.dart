@@ -172,7 +172,7 @@ class _Main extends StatelessWidget {
             ),
           ),
         SizedBox(height: compact ? Space.xl : Space.xxl),
-        Text('Modules', style: AppText.h2(context)),
+        Text('Lessons', style: AppText.h2(context)),
         const SizedBox(height: Space.md),
         for (var i = 0; i < course.modules.length; i++)
           _ModuleRow(index: i + 1, module: course.modules[i]),
@@ -388,7 +388,7 @@ class _SummaryState extends State<_Summary> {
           Text(gbp.format(course.price), style: AppText.h2(context)),
           const SizedBox(height: Space.xs),
           Text(
-            '${course.modules.length} modules, ${course.totalMinutes} minutes in total',
+            '${course.modules.length} lessons, ${course.totalMinutes} minutes in total',
             style: AppText.bodyMuted,
           ),
           const SizedBox(height: Space.lg),

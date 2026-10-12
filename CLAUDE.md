@@ -1,9 +1,10 @@
-﻿# MT Alchemy - Flutter app (NET4207 group project)
+# MT Alchemy - Flutter app (NET4207 group project)
 
 ## Goal
 Human-centred digital platform for MT Alchemy (People Development Consultancy: Emotional Intelligence,
 Leadership Development, Team Engagement, Workplace Well-being).
-Modules: Corporate Website, LMS, E-Commerce Store, Role-Based Portals (Individual, Employer, Trainer/Admin).
+Modules: Corporate Website, LMS, E-Commerce Store, Role-Based Portals (Individual, Employer, Trainer, Super Admin).
+Journeys A-E per the Project brief (see README.md).
 Tagline: "We don't just run activities. We shift mindsets, behaviours, and team culture."
 
 ## Must-haves (marking rubric, never break these)
@@ -15,7 +16,8 @@ Tagline: "We don't just run activities. We shift mindsets, behaviours, and team 
 - Journey B: Store -> Product -> Cart -> Checkout
 - Journey C: Register Organization -> Add Employees -> Assign Course -> View Progress
 - Responsive from 360px to 1440px (use the flutter-build-responsive-layout skill)
-- No Firebase/backend for the Oct 14 checkpoint; use local mock data in lib/data/
+- Backend: Firebase project mt-alchemy-net4207 (Auth + Firestore). Stores in lib/state/ talk to Firestore via lib/data/backend.dart;
+  lib/data/mock/ is the seed + offline fallback. Seed/verify with tools/seed (npm run seed / npm run verify). Rules in firestore.rules
 
 ## Design system
 - Colours: white / grey / red. Off-white #FCFCFC base, neutral zinc grey scale (#F4F4F5 to #18181B),

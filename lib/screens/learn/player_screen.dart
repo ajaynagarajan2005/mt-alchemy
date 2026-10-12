@@ -240,7 +240,7 @@ class _ModuleList extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(Space.xs),
-            child: Text('Modules', style: AppText.h4),
+            child: Text('Lessons', style: AppText.h4),
           ),
           for (var i = 0; i < course.modules.length; i++)
             _ModuleTile(

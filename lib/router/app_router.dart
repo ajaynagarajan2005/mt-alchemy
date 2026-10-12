@@ -37,6 +37,7 @@ import '../screens/upskilling/upskilling_screen.dart';
 import '../state/auth_store.dart';
 import '../widgets/layout/app_shell.dart';
 import '../widgets/layout/portal_shell.dart';
+import '../theme/motion.dart';
 import 'routes.dart';
 
 /// Home route for each role once signed in.
@@ -48,8 +49,27 @@ String portalHomeFor(UserRole role) => switch (role) {
 };
 
 GoRouter createRouter(AuthStore auth) {
-  Page<void> page(GoRouterState state, Widget child) =>
-      NoTransitionPage(key: state.pageKey, child: child);
+  // Pages fade in with a slight lift; reduced motion gets an instant swap.
+  Page<void> page(GoRouterState state, Widget child) => CustomTransitionPage(
+    key: state.pageKey,
+    child: child,
+    transitionDuration: Motion.medium,
+    reverseTransitionDuration: Motion.fast,
+    transitionsBuilder: (context, animation, _, child) {
+      if (Motion.reduced(context)) return child;
+      final curved = CurvedAnimation(parent: animation, curve: Motion.ease);
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween(
+            begin: const Offset(0, 0.015),
+            end: Offset.zero,
+          ).animate(curved),
+          child: child,
+        ),
+      );
+    },
+  );
 
   GoRoute stub(
     String path,
