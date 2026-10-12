@@ -6,7 +6,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
 import '../data/backend.dart';
+import '../data/models/course.dart';
 import '../data/models/people.dart';
+import 'learning_store.dart';
 import 'auth_store.dart';
 
 enum EnquiryStatus { newEnquiry, inDiscussion, proposal, won, closed }
@@ -214,16 +216,88 @@ class AdminStore extends ChangeNotifier {
         ],
       );
 
-  /// Learners per course (individual and employer-assigned), for trainers.
-  Stream<Map<String, int>> learnersPerCourse() =>
-      _backend.col('enrolments').snapshots().map((s) {
-        final counts = <String, int>{};
-        for (final d in s.docs) {
-          final id = d.data()['courseId'] as String? ?? '';
-          counts[id] = (counts[id] ?? 0) + 1;
-        }
-        return counts;
+  /// Enrolment, payment and revenue totals per course (live).
+  /// [priceOf] supplies a course's list price for purchases recorded before
+  /// the amount was stored.
+  Stream<Map<String, CourseStats>> courseStats(
+    double Function(String courseId) priceOf,
+  ) => _backend.col('enrolments').snapshots().map((snap) {
+    final stats = <String, CourseStats>{};
+    for (final d in snap.docs) {
+      final e = Enrolment.fromMap(d.id, d.data());
+      stats.update(
+        e.courseId,
+        (s) => s.add(e, priceOf),
+        ifAbsent: () => const CourseStats().add(e, priceOf),
+      );
+    }
+    return stats;
+  });
+
+  /// Everyone enrolled on [courseId], newest first (live).
+  Stream<List<Enrolment>> enrolmentsFor(String courseId) => _backend
+      .col('enrolments')
+      .where('courseId', isEqualTo: courseId)
+      .snapshots()
+      .map(
+        (s) =>
+            [for (final d in s.docs) Enrolment.fromMap(d.id, d.data())]
+              ..sort((a, b) => b.enrolledAt.compareTo(a.enrolledAt)),
+      );
+
+  /// Gives [learner] free access to [course]: no payment, no seat. Returns an
+  /// error message or null.
+  Future<String?> grantAccess(AppUser learner, Course course) async {
+    final staff = _auth.currentUser;
+    if (staff == null || !staff.role.isStaff) {
+      return 'Only trainers and admins can add people to a course.';
+    }
+    return _guard(() async {
+      await _backend.col('enrolments').doc('${learner.id}_${course.id}').set({
+        'userId': learner.id,
+        'userName': learner.name,
+        'userEmail': learner.email.toLowerCase(),
+        'courseId': course.id,
+        'source': 'granted',
+        'grantedBy': staff.id,
+        'completedModuleIds': <String>[],
+        'quizScores': <String, double>{},
+        'progress': 0.0,
+        'status': 'active',
+        'enrolledAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
       });
+      await _backend.col('notifications').add({
+        'userId': learner.id,
+        'title': 'You now have access to ${course.title}',
+        'body': 'Added by ${staff.name}. Open it from My learning.',
+        'link': '/learn/${course.id}',
+        'read': false,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    });
+  }
+
+  /// Removes someone from a course. Their progress is deleted; a paid
+  /// order is not refunded automatically.
+  Future<String?> removeAccess(Enrolment e) =>
+      _guard(() => _backend.col('enrolments').doc(e.id).delete());
+
+  /// Learner accounts, for the "add a person" picker.
+  Future<List<AppUser>> findLearners(String query) async {
+    final snap = await _backend.col('users').get();
+    final q = query.trim().toLowerCase();
+    return [for (final d in snap.docs) AppUser.fromMap(d.id, d.data())]
+        .where((u) => u.role == UserRole.individual && !u.disabled)
+        .where(
+          (u) =>
+              q.isEmpty ||
+              u.name.toLowerCase().contains(q) ||
+              u.email.toLowerCase().contains(q),
+        )
+        .take(8)
+        .toList();
+  }
 
   /// Live headline counts: updates the moment any of these collections
   /// changes (real-time Firestore listeners, no refresh needed).
@@ -287,5 +361,43 @@ class AdminStore extends ChangeNotifier {
     } catch (e) {
       return friendlyError(e);
     }
+  }
+}
+
+/// Totals for one course in the admin list.
+class CourseStats {
+  const CourseStats({
+    this.enrolled = 0,
+    this.paid = 0,
+    this.assigned = 0,
+    this.granted = 0,
+    this.revenue = 0,
+  });
+
+  final int enrolled;
+
+  /// People who bought the course themselves.
+  final int paid;
+
+  /// Enrolled through an employer's seats.
+  final int assigned;
+
+  /// Given free access by staff.
+  final int granted;
+
+  /// Money received from individual purchases.
+  final double revenue;
+
+  CourseStats add(Enrolment e, double Function(String) priceOf) {
+    final type = e.accessType;
+    return CourseStats(
+      enrolled: enrolled + 1,
+      paid: paid + (type == 'purchase' ? 1 : 0),
+      assigned: assigned + (type == 'assignment' ? 1 : 0),
+      granted: granted + (type == 'granted' ? 1 : 0),
+      revenue:
+          revenue +
+          (type == 'purchase' ? (e.amountPaid ?? priceOf(e.courseId)) : 0),
+    );
   }
 }

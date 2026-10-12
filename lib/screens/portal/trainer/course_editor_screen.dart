@@ -304,16 +304,19 @@ class _CourseEditorScreenState extends State<CourseEditorScreen> {
             minLines: 3,
           ),
           gap,
-          SwitchListTile(
-            value: _published,
-            contentPadding: EdgeInsets.zero,
-            activeThumbColor: AppColors.red,
-            title: Text('Published', style: AppText.label),
-            subtitle: Text(
-              'Published courses appear in the learning library.',
-              style: AppText.small,
+          Material(
+            color: Colors.transparent,
+            child: SwitchListTile(
+              value: _published,
+              contentPadding: EdgeInsets.zero,
+              activeThumbColor: AppColors.red,
+              title: Text('Published', style: AppText.label),
+              subtitle: Text(
+                'Published courses appear in the learning library.',
+                style: AppText.small,
+              ),
+              onChanged: (v) => setState(() => _published = v),
             ),
-            onChanged: (v) => setState(() => _published = v),
           ),
         ],
       ),

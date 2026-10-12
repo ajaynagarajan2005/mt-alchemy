@@ -73,9 +73,12 @@ service cloud.firestore {
           (request.resource.data.get('assignmentId', null) != null
             && get(/databases/$(database)/documents/assignments/$(request.resource.data.assignmentId)).data.employeeEmail == email())
         );
+      // Staff can give someone free access (source 'granted'), and remove it.
+      allow create: if isStaff() && request.resource.data.source == 'granted'
+        && id == request.resource.data.userId + '_' + request.resource.data.courseId;
       allow update: if signedIn() && resource.data.userId == uid()
-        && unchanged(['userId', 'courseId', 'orgId', 'orderId', 'assignmentId']);
-      allow delete: if isSuper();
+        && unchanged(['userId', 'courseId', 'orgId', 'orderId', 'assignmentId', 'source', 'amountPaid']);
+      allow delete: if isStaff();
     }
 
     // Public read so anyone can verify a certificate code.

@@ -4,7 +4,9 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/course.dart';
+import '../../data/models/people.dart';
 import '../../router/routes.dart';
+import '../../state/auth_store.dart';
 import '../../state/catalog_store.dart';
 import '../../state/learning_store.dart';
 import '../../theme/breakpoints.dart';
@@ -44,11 +46,31 @@ class _PlayerScreenState extends State<PlayerScreen> {
   int _index = 0;
   bool _positioned = false;
 
+  // Admin preview: staff can open any course free. Progress is kept in
+  // memory only, so previewing never creates an enrolment.
+  final Set<String> _previewDone = {};
+  final Map<String, double> _previewScores = {};
+
   @override
   Widget build(BuildContext context) {
     final course = context.watch<CatalogStore>().courseById(widget.courseId);
     final learning = context.watch<LearningStore>();
-    final enrolment = course == null ? null : learning.enrolment(course.id);
+    final user = context.watch<AuthStore>().currentUser;
+    final real = course == null ? null : learning.enrolment(course.id);
+    final preview =
+        real == null && course != null && (user?.role.isStaff ?? false);
+    final enrolment =
+        real ??
+        (preview
+            ? Enrolment(
+                id: 'preview',
+                userId: user!.id,
+                courseId: course.id,
+                enrolledAt: DateTime.now(),
+                completedModuleIds: _previewDone,
+                quizScores: _previewScores,
+              )
+            : null);
 
     if (course == null) {
       return NoticePage(
@@ -98,8 +120,22 @@ class _PlayerScreenState extends State<PlayerScreen> {
       module: module,
       index: _index,
       complete: done.contains(module.id),
-      onToggle: (v) => learning.setModuleComplete(course, module.id, v),
-      onQuizSubmitted: (score) => learning.submitQuiz(course, module.id, score),
+      onToggle: preview
+          ? (v) => setState(
+              () => v
+                  ? _previewDone.add(module.id)
+                  : _previewDone.remove(module.id),
+            )
+          : (v) => learning.setModuleComplete(course, module.id, v),
+      onQuizSubmitted: preview
+          ? (score) async {
+              _previewScores[module.id] = score;
+              if (score >= CourseModule.passMark) {
+                setState(() => _previewDone.add(module.id));
+              }
+              return null;
+            }
+          : (score) => learning.submitQuiz(course, module.id, score),
       bestScore: enrolment.quizScores[module.id],
       onPrevious: _index > 0 ? () => select(_index - 1) : null,
       onNext: _index < course.modules.length - 1
@@ -125,10 +161,18 @@ class _PlayerScreenState extends State<PlayerScreen> {
                     label: course.title,
                     onTap: () => context.go(Routes.course(course.id)),
                   ),
+                  if (preview) ...[
+                    const SizedBox(height: Space.md),
+                    _PreviewBanner(
+                      onStudents: () =>
+                          context.go(Routes.courseStudents(course.id)),
+                      onEdit: () => context.go(Routes.editCourse(course.id)),
+                    ),
+                  ],
                   const SizedBox(height: Space.lg),
                   progress,
                   const SizedBox(height: Space.xl),
-                  if (enrolment.isCompleteIn(course)) ...[
+                  if (!preview && enrolment.isCompleteIn(course)) ...[
                     _CompletionPanel(
                       course: course,
                       certificate: learning.certificateFor(course.id),
@@ -505,6 +549,41 @@ class _CompletionPanel extends StatelessWidget {
             hoverColor: AppColors.inverseMuted,
             onTap: () => context.go(Routes.myCourses),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Shown to staff who open a course without being enrolled.
+class _PreviewBanner extends StatelessWidget {
+  const _PreviewBanner({required this.onStudents, required this.onEdit});
+
+  final VoidCallback onStudents;
+  final VoidCallback onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    // CONTAINER (decoration): soft red notice for the admin preview.
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(Space.md),
+      decoration: BoxDecoration(
+        color: AppColors.redSoft,
+        borderRadius: Radii.inputAll,
+      ),
+      child: Wrap(
+        spacing: Space.md,
+        runSpacing: Space.xs,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Text('Admin preview', style: AppText.label),
+          Text(
+            'You are viewing this course free. Progress here is not saved.',
+            style: AppText.small,
+          ),
+          TextButton(onPressed: onStudents, child: const Text('Students')),
+          TextButton(onPressed: onEdit, child: const Text('Edit course')),
         ],
       ),
     );

@@ -361,9 +361,12 @@ class CommerceStore extends ChangeNotifier {
         if (i.kind == CartKind.course) {
           await _backend.col('enrolments').doc('${user.id}_${i.itemId}').set({
             'userId': user.id,
+            'userName': user.name,
             'userEmail': user.email.toLowerCase(),
             'courseId': i.itemId,
             'orderId': number,
+            'source': 'purchase',
+            'amountPaid': i.price,
             'completedModuleIds': <String>[],
             'quizScores': <String, double>{},
             'progress': 0.0,

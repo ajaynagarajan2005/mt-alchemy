@@ -38,6 +38,8 @@ abstract final class Routes {
   /// Trainer portal: course authoring.
   static const admin = '/portal/admin';
   static String editCourse(String id) => '/portal/admin/courses/$id';
+  static String courseStudents(String id) =>
+      '/portal/admin/courses/$id/students';
 
   /// Super admin portal.
   static const superAdmin = '/portal/super';

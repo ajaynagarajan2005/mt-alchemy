@@ -11,6 +11,9 @@
 | Reply to an enquiry | Super Admin › Enquiries | Move it through the status chips and save the programme proposal |
 | Give someone staff access | Super Admin › Users | Change their role, or create an account with **New user** |
 | Remove access | Super Admin › Users | **Disable**. The person is signed out on their next action |
+| See who is on a course and what they paid | Courses › **Students** | Counts for enrolled, paid, employer seats and free access, plus amount received and each person's progress |
+| Give someone a course free, or remove them | Courses › Students | **Give free access** (search by name or email) or the bin icon. A paid student is not refunded automatically |
+| Try a course without paying | Courses › play icon, or **Open course free** | Admin preview: progress is not saved |
 
 ## Deploying
 
@@ -51,5 +54,5 @@ npm run still        # hero poster
 ## Security notes
 
 - Payments run in test mode only (`gateway: test-mode`). No card data is stored, only the last 4 digits.
-- The seed opens bootstrap rules for about a minute, then redeploys the real rules automatically. Never deploy `tools/seed/bootstrap.rules` on its own.
+- The seed opens bootstrap rules while it writes, then redeploys the real rules automatically. Rule changes can take a few minutes to reach every Firestore server, so wait about 3 minutes after `npm run seed` before running `npm run verify` (early runs can still see the open rules). Never deploy `tools/seed/bootstrap.rules` on its own.
 - The Firebase web API key in `lib/firebase_options.dart` is public by design. Access is enforced by Auth and the security rules.

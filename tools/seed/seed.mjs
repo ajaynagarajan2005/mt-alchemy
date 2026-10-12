@@ -117,7 +117,7 @@ async function main() {
     const complete = completed.length === modules.length;
     const uid = uids[email];
     put(['enrolments', `${uid}_${courseId}`], {
-      userId: uid, userEmail: email, courseId, orgId, assignmentId,
+      userId: uid, userName: Object.values(seed.employees).find((e) => e.email === email)?.name ?? email, userEmail: email, courseId, orgId, assignmentId, source: 'assignment',
       completedModuleIds: completed, quizScores: complete ? { [`${courseId}-quiz`]: 1 } : {},
       progress: completed.length / modules.length, status: complete ? 'complete' : 'active',
       enrolledAt: daysAgo(ago), updatedAt: daysAgo(Math.max(0, ago - done * 2)),
@@ -137,7 +137,8 @@ async function main() {
   });
   put(['payments', 'pay-MTA-10001'], { userId: amara, orderId: 'MTA-10001', amount: 149, method: 'card', last4: '4242', status: 'paid', createdAt: daysAgo(12) });
   put(['enrolments', `${amara}_ei-foundations`], {
-    userId: amara, userEmail: 'amara@example.com', courseId: 'ei-foundations', orderId: 'MTA-10001',
+    userId: amara, userName: 'Amara Osei', userEmail: 'amara@example.com', courseId: 'ei-foundations', orderId: 'MTA-10001',
+    source: 'purchase', amountPaid: 149,
     completedModuleIds: ['ei-1', 'ei-2'], quizScores: {}, progress: 2 / 5, status: 'active',
     enrolledAt: daysAgo(12), updatedAt: daysAgo(2),
   });

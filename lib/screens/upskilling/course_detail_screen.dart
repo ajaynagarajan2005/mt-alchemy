@@ -349,11 +349,31 @@ class _SummaryState extends State<_Summary> {
         ],
       );
     } else if (user.role.isStaff) {
-      cta = AlchemyButton(
-        label: 'Edit this course',
-        expand: true,
-        variant: ButtonVariant.secondary,
-        onPressed: () => context.go(Routes.editCourse(course.id)),
+      cta = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Staff access: no payment needed.', style: AppText.small),
+          const SizedBox(height: Space.sm),
+          AlchemyButton(
+            label: 'Open course free',
+            expand: true,
+            onPressed: () => context.go(Routes.learn(course.id)),
+          ),
+          const SizedBox(height: Space.xs),
+          AlchemyButton(
+            label: 'Students and payments',
+            expand: true,
+            variant: ButtonVariant.secondary,
+            onPressed: () => context.go(Routes.courseStudents(course.id)),
+          ),
+          const SizedBox(height: Space.xs),
+          AlchemyButton(
+            label: 'Edit this course',
+            expand: true,
+            variant: ButtonVariant.secondary,
+            onPressed: () => context.go(Routes.editCourse(course.id)),
+          ),
+        ],
       );
     } else if (enrolled) {
       cta = AlchemyButton(

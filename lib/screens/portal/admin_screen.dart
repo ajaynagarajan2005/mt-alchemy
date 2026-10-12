@@ -31,11 +31,14 @@ class AdminScreen extends StatelessWidget {
     final user = context.watch<AuthStore>().currentUser;
     final courses = catalog.allCourses;
 
-    return StreamBuilder<Map<String, int>>(
-      stream: context.read<AdminStore>().learnersPerCourse(),
+    return StreamBuilder<Map<String, CourseStats>>(
+      stream: context.read<AdminStore>().courseStats(
+        (id) => catalog.courseById(id)?.price ?? 0,
+      ),
       builder: (context, snap) {
-        final learners = snap.data ?? const <String, int>{};
-        final total = learners.values.fold(0, (a, b) => a + b);
+        final stats = snap.data ?? const <String, CourseStats>{};
+        final total = stats.values.fold(0, (a, b) => a + b.enrolled);
+        final revenue = stats.values.fold(0.0, (a, b) => a + b.revenue);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -53,16 +56,17 @@ class AdminScreen extends StatelessWidget {
               ),
             ),
             PortalGrid(
-              expandedColumns: 3,
-              mediumColumns: 3,
-              compactColumns: 3,
+              expandedColumns: 4,
+              mediumColumns: 2,
+              compactColumns: 2,
               children: [
                 StatTile(value: '${courses.length}', label: 'Courses'),
                 StatTile(
                   value: '${courses.where((c) => c.published).length}',
                   label: 'Published',
                 ),
-                StatTile(value: '$total', label: 'Learners'),
+                StatTile(value: '$total', label: 'Enrolments'),
+                StatTile(value: gbp.format(revenue), label: 'Received'),
               ],
             ),
             const SizedBox(height: Space.xl),
@@ -71,7 +75,10 @@ class AdminScreen extends StatelessWidget {
             for (final c in courses)
               Padding(
                 padding: const EdgeInsets.only(bottom: Space.sm),
-                child: _CourseRow(course: c, learners: learners[c.id] ?? 0),
+                child: _CourseRow(
+                  course: c,
+                  stats: stats[c.id] ?? const CourseStats(),
+                ),
               ),
           ],
         );
@@ -81,10 +88,10 @@ class AdminScreen extends StatelessWidget {
 }
 
 class _CourseRow extends StatelessWidget {
-  const _CourseRow({required this.course, required this.learners});
+  const _CourseRow({required this.course, required this.stats});
 
   final Course course;
-  final int learners;
+  final CourseStats stats;
 
   Future<void> _delete(BuildContext context) async {
     final ok = await showDialog<bool>(
@@ -156,14 +163,40 @@ class _CourseRow extends StatelessWidget {
         Text(
           '${course.level.label}  |  ${course.modules.length} lessons '
           '(${types.map((t) => t.label).join(', ')})  |  '
-          '${gbp.format(course.price)}  |  $learners learners',
+          '${gbp.format(course.price)}',
           style: AppText.small,
+        ),
+        const SizedBox(height: Space.xs),
+        // Enrolment, payment and revenue at a glance; Students opens the list.
+        Wrap(
+          spacing: Space.md,
+          runSpacing: 2,
+          children: [
+            _Fact('${stats.enrolled} enrolled'),
+            _Fact('${stats.paid} paid ${gbp.format(stats.revenue)}'),
+            if (stats.assigned > 0) _Fact('${stats.assigned} via employers'),
+            if (stats.granted > 0) _Fact('${stats.granted} free access'),
+          ],
         ),
       ],
     );
     final actions = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
+        TextButton(
+          onPressed: () => context.go(Routes.courseStudents(course.id)),
+          style: TextButton.styleFrom(foregroundColor: AppColors.red),
+          child: const Text('Students'),
+        ),
+        IconButton(
+          tooltip: 'Open ${course.title} free',
+          onPressed: () => context.go(Routes.learn(course.id)),
+          icon: AppIcon(
+            HugeIcons.strokeRoundedPlayCircle,
+            size: 22,
+            color: AppColors.ink,
+          ),
+        ),
         Tooltip(
           message: course.published ? 'Unpublish' : 'Publish',
           child: Switch(
@@ -214,4 +247,13 @@ class _CourseRow extends StatelessWidget {
             ),
     );
   }
+}
+
+class _Fact extends StatelessWidget {
+  const _Fact(this.text);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) =>
+      Text(text, style: AppText.small.copyWith(color: AppColors.ink));
 }

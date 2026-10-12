@@ -46,7 +46,13 @@ async function call(method, path, token, body) {
     headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
     body: body ? JSON.stringify(body) : undefined,
   });
-  return { status: res.status, json: await res.json().catch(() => ({})) };
+  const json = await res.json().catch(() => ({}));
+  // Anything other than allowed (200) or refused by the rules (403) is a
+  // network or quota problem, not a rules result: say so.
+  if (res.status !== 200 && res.status !== 403) {
+    console.log(`    ! ${method} ${path.slice(0, 50)} -> HTTP ${res.status} ${json.error?.status ?? ''}`);
+  }
+  return { status: res.status, json };
 }
 const get = (path, token) => call('GET', path, token);
 const set = (path, token, data) => call('PATCH', path, token, { fields: enc(data).mapValue.fields });
@@ -120,6 +126,14 @@ async function main() {
   check('guest cannot see the draft', (await get(`courses/${draft}`, null)).status === 403);
   check('deletes the course', (await del(`courses/${draft}`, maya.token)).status === 200);
   check('cannot edit products', (await set('products/verify', maya.token, { name: 'x' })).status === 403);
+  const grantId = `${amara.uid}_leading-through-change`;
+  const granted = { userId: amara.uid, userName: 'Amara Osei', userEmail: 'amara@example.com', courseId: 'leading-through-change', source: 'granted', grantedBy: maya.uid, completedModuleIds: [], quizScores: {}, progress: 0, status: 'active', enrolledAt: new Date() };
+  check('learner cannot give themselves free access', (await set(`enrolments/${grantId}`, amara.token, granted)).status === 403);
+  check('trainer grants free access (no payment)', (await set(`enrolments/${grantId}`, maya.token, granted)).status === 200);
+  check('learner then sees the course as enrolled', (await get(`enrolments/${grantId}`, amara.token)).status === 200);
+  check('trainer lists the students on a course', (await query(maya.token, 'enrolments', 'courseId', 'ei-foundations')).docs.length >= 1);
+  check('learner cannot remove their own enrolment', (await del(`enrolments/${grantId}`, amara.token)).status === 403);
+  check('trainer removes the access', (await del(`enrolments/${grantId}`, maya.token)).status === 200);
 
   console.log('\nSuper admin (Daniel) - users, products, shipping, enquiries');
   const admin = await signIn('admin@mtalchemy.example.com');

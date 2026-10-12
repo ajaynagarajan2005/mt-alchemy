@@ -18,6 +18,7 @@ import '../screens/portal/learner/learner_screens.dart';
 import '../screens/portal/super/catalog_admin_screens.dart';
 import '../screens/portal/super/super_screens.dart';
 import '../screens/portal/trainer/course_editor_screen.dart';
+import '../screens/portal/trainer/course_students_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/insights/article_screen.dart';
 import '../screens/insights/insights_screen.dart';
@@ -71,6 +72,12 @@ GoRouter createRouter(AuthStore auth) {
       );
     },
   );
+
+  GoRoute portalPage(String path, Widget Function(GoRouterState) build) =>
+      GoRoute(
+        path: path,
+        pageBuilder: (context, state) => page(state, build(state)),
+      );
 
   GoRoute stub(
     String path,
@@ -265,140 +272,71 @@ GoRouter createRouter(AuthStore auth) {
         ],
       ),
       // Signed-in portals share their own shell (second Scaffold + AppBar).
+      // Every portal page is a flat sibling route. Nested child routes would
+      // stack a second page under the first, and Flutter does not lay out
+      // the page underneath.
       ShellRoute(
         builder: (context, state, child) => PortalShell(child: child),
         routes: [
           // /portal itself always redirects to the role home.
           stub(Routes.portal, 'Portal'),
-          GoRoute(
-            path: Routes.portalMe,
-            pageBuilder: (context, state) =>
-                page(state, const IndividualScreen()),
-            routes: [
-              GoRoute(
-                path: 'courses',
-                pageBuilder: (context, state) =>
-                    page(state, const CourseCatalogueScreen()),
-              ),
-              GoRoute(
-                path: 'orders',
-                pageBuilder: (context, state) =>
-                    page(state, const MyOrdersScreen()),
-              ),
-              GoRoute(
-                path: 'downloads',
-                pageBuilder: (context, state) =>
-                    page(state, const MyDownloadsScreen()),
-              ),
-              GoRoute(
-                path: 'certificates',
-                pageBuilder: (context, state) =>
-                    page(state, const MyCertificatesScreen()),
-              ),
-              GoRoute(
-                path: 'profile',
-                pageBuilder: (context, state) =>
-                    page(state, const MyProfileScreen()),
-              ),
-            ],
+          // Learner
+          portalPage(Routes.portalMe, (_) => const IndividualScreen()),
+          portalPage(Routes.myCourses, (_) => const CourseCatalogueScreen()),
+          portalPage(Routes.myOrders, (_) => const MyOrdersScreen()),
+          portalPage(Routes.myDownloads, (_) => const MyDownloadsScreen()),
+          portalPage(
+            Routes.myCertificates,
+            (_) => const MyCertificatesScreen(),
           ),
-          GoRoute(
-            path: Routes.employer,
-            pageBuilder: (context, state) =>
-                page(state, const EmployerOverviewScreen()),
-            routes: [
-              GoRoute(
-                path: 'employees',
-                pageBuilder: (context, state) =>
-                    page(state, const EmployeesScreen()),
-              ),
-              GoRoute(
-                path: 'assign',
-                pageBuilder: (context, state) =>
-                    page(state, const AssignScreen()),
-              ),
-              GoRoute(
-                path: 'progress',
-                pageBuilder: (context, state) =>
-                    page(state, const ProgressScreen()),
-              ),
-              GoRoute(
-                path: 'courses',
-                pageBuilder: (context, state) =>
-                    page(state, const CourseCatalogueScreen()),
-              ),
-              GoRoute(
-                path: 'reports',
-                pageBuilder: (context, state) =>
-                    page(state, const EmployerReportsScreen()),
-              ),
-            ],
+          portalPage(Routes.myProfile, (_) => const MyProfileScreen()),
+          // Employer
+          portalPage(Routes.employer, (_) => const EmployerOverviewScreen()),
+          portalPage(Routes.employerEmployees, (_) => const EmployeesScreen()),
+          portalPage(Routes.employerAssign, (_) => const AssignScreen()),
+          portalPage(Routes.employerProgress, (_) => const ProgressScreen()),
+          portalPage(
+            Routes.employerCourses,
+            (_) => const CourseCatalogueScreen(),
           ),
-          GoRoute(
-            path: Routes.admin,
-            pageBuilder: (context, state) => page(state, const AdminScreen()),
-            routes: [
-              GoRoute(
-                path: 'courses/:courseId',
-                pageBuilder: (context, state) => page(
-                  state,
-                  CourseEditorScreen(
-                    key: ValueKey(state.pathParameters['courseId']),
-                    courseId: state.pathParameters['courseId']!,
-                  ),
-                ),
-              ),
-            ],
+          portalPage(
+            Routes.employerReports,
+            (_) => const EmployerReportsScreen(),
           ),
-          GoRoute(
-            path: Routes.superAdmin,
-            pageBuilder: (context, state) =>
-                page(state, const SuperDashboardScreen()),
-            routes: [
-              GoRoute(
-                path: 'users',
-                pageBuilder: (context, state) =>
-                    page(state, const UsersScreen()),
-              ),
-              GoRoute(
-                path: 'courses',
-                pageBuilder: (context, state) =>
-                    page(state, const AdminScreen(showWelcome: false)),
-              ),
-              GoRoute(
-                path: 'products',
-                pageBuilder: (context, state) =>
-                    page(state, const ProductsAdminScreen()),
-                routes: [
-                  GoRoute(
-                    path: ':productId',
-                    pageBuilder: (context, state) => page(
-                      state,
-                      ProductEditorScreen(
-                        key: ValueKey(state.pathParameters['productId']),
-                        productId: state.pathParameters['productId']!,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              GoRoute(
-                path: 'orders',
-                pageBuilder: (context, state) =>
-                    page(state, const OrdersAdminScreen()),
-              ),
-              GoRoute(
-                path: 'enquiries',
-                pageBuilder: (context, state) =>
-                    page(state, const EnquiriesScreen()),
-              ),
-              GoRoute(
-                path: 'content',
-                pageBuilder: (context, state) =>
-                    page(state, const ContentAdminScreen()),
-              ),
-            ],
+          // Trainer (the course editor and students are also used by admins)
+          portalPage(Routes.admin, (_) => const AdminScreen()),
+          portalPage(
+            '/portal/admin/courses/:courseId',
+            (state) => CourseEditorScreen(
+              key: ValueKey(state.pathParameters['courseId']),
+              courseId: state.pathParameters['courseId']!,
+            ),
           ),
+          portalPage(
+            '/portal/admin/courses/:courseId/students',
+            (state) => CourseStudentsScreen(
+              key: ValueKey(state.pathParameters['courseId']),
+              courseId: state.pathParameters['courseId']!,
+            ),
+          ),
+          // Super admin
+          portalPage(Routes.superAdmin, (_) => const SuperDashboardScreen()),
+          portalPage(Routes.superUsers, (_) => const UsersScreen()),
+          portalPage(
+            Routes.superCourses,
+            (_) => const AdminScreen(showWelcome: false),
+          ),
+          portalPage(Routes.superProducts, (_) => const ProductsAdminScreen()),
+          portalPage(
+            '/portal/super/products/:productId',
+            (state) => ProductEditorScreen(
+              key: ValueKey(state.pathParameters['productId']),
+              productId: state.pathParameters['productId']!,
+            ),
+          ),
+          portalPage(Routes.superOrders, (_) => const OrdersAdminScreen()),
+          portalPage(Routes.superEnquiries, (_) => const EnquiriesScreen()),
+          portalPage(Routes.superContent, (_) => const ContentAdminScreen()),
         ],
       ),
     ],

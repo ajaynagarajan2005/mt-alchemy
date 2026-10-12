@@ -22,6 +22,9 @@ class Enrolment {
     this.orgId,
     this.userEmail,
     this.updatedAt,
+    this.source,
+    this.amountPaid,
+    this.userName,
   }) : completedModuleIds = completedModuleIds ?? {},
        quizScores = quizScores ?? {};
 
@@ -38,6 +41,22 @@ class Enrolment {
   final String? orgId;
   final String? userEmail;
   final DateTime? updatedAt;
+
+  /// 'purchase', 'assignment' (employer seat) or 'granted' (free access
+  /// given by staff). Older records have none, so it is inferred.
+  final String? source;
+
+  /// What the learner paid for this course, when it was a purchase.
+  final double? amountPaid;
+  final String? userName;
+
+  String get accessType =>
+      source ??
+      (orderId != null
+          ? 'purchase'
+          : assignmentId != null
+          ? 'assignment'
+          : 'granted');
 
   double progressIn(Course course) => course.modules.isEmpty
       ? 0
@@ -63,6 +82,9 @@ class Enrolment {
     orgId: m['orgId'] as String?,
     userEmail: m['userEmail'] as String?,
     updatedAt: dateFrom(m['updatedAt']),
+    source: m['source'] as String?,
+    amountPaid: (m['amountPaid'] as num?)?.toDouble(),
+    userName: m['userName'] as String?,
   );
 }
 
@@ -220,6 +242,7 @@ class LearningStore extends ChangeNotifier {
 
   Map<String, dynamic> _base(String courseId) => {
     'userId': _uid,
+    'userName': _auth.currentUser?.name,
     'userEmail': _auth.currentUser?.email.toLowerCase(),
     'courseId': courseId,
     'completedModuleIds': <String>[],
@@ -231,14 +254,27 @@ class LearningStore extends ChangeNotifier {
   };
 
   /// Enrols after a paid order (Journey A).
-  Future<String?> enrolFromOrder(String courseId, String orderId) => _guard(
-    () => _ref(courseId).set({..._base(courseId), 'orderId': orderId}),
+  Future<String?> enrolFromOrder(
+    String courseId,
+    String orderId, {
+    double? amountPaid,
+  }) => _guard(
+    () => _ref(courseId).set({
+      ..._base(courseId),
+      'orderId': orderId,
+      'source': 'purchase',
+      'amountPaid': ?amountPaid,
+    }),
   );
 
   /// Starts a course an employer assigned (Journey D).
   Future<String?> startAssigned(AssignedCourse a) => _guard(
-    () => _ref(a.courseId)
-        .set({..._base(a.courseId), 'assignmentId': a.id, 'orgId': a.orgId}),
+    () => _ref(a.courseId).set({
+      ..._base(a.courseId),
+      'source': 'assignment',
+      'assignmentId': a.id,
+      'orgId': a.orgId,
+    }),
   );
 
   Future<String?> setModuleComplete(

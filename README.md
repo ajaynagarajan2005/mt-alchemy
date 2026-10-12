@@ -56,8 +56,8 @@ All demo accounts use the password `alchemy123`. The Login screen also lists the
 | Individual | amara@example.com | Course in progress, an order being shipped, a digital download |
 | Employee (individual) | callum@northlight.example.com | Courses assigned by an employer, a certificate |
 | Employer | priya@northlight.example.com | Employees, seats, assignments, progress report, analytics |
-| Trainer | maya@mtalchemy.example.com | Course CRUD with video, PDF and quiz lessons |
-| Super Admin | admin@mtalchemy.example.com | Users, products, orders and shipping, enquiries, content |
+| Trainer | maya@mtalchemy.example.com | Course CRUD with video, PDF and quiz lessons, open courses free, students and free access |
+| Super Admin | admin@mtalchemy.example.com | Open any course free, see who is enrolled and what they paid, add or remove people, users, products, orders and shipping, enquiries, content |
 
 ## The five journeys
 
