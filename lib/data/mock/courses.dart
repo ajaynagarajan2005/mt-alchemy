@@ -1,6 +1,6 @@
 import '../models/course.dart';
 
-const courses = <Course>[
+const _baseCourses = <Course>[
   Course(
     id: 'ei-foundations',
     title: 'Emotional Intelligence Foundations',
@@ -260,6 +260,141 @@ const courses = <Course>[
     ],
   ),
 ];
+
+/// Seed catalogue: the base courses with a video lesson, a PDF workbook and
+/// an end-of-course quiz added, so the player shows every lesson type.
+final courses = <Course>[for (final c in _baseCourses) _withMedia(c)];
+
+Course _withMedia(Course c) {
+  final modules = [
+    for (var i = 0; i < c.modules.length; i++)
+      switch (i) {
+        0 => c.modules[i].copyWith(
+          type: LessonType.video,
+          mediaUrl: 'asset:assets/videos/brand_intro.mp4',
+        ),
+        1 => c.modules[i].copyWith(
+          type: LessonType.pdf,
+          mediaUrl: '/downloads/${c.id}-workbook.pdf',
+        ),
+        _ => c.modules[i],
+      },
+    CourseModule(
+      id: '${c.id}-quiz',
+      title: 'Check your understanding',
+      minutes: 8,
+      body: 'Answer every question. You need 70% to pass and unlock your certificate.',
+      type: LessonType.quiz,
+      quiz: _quizzes[c.id] ?? _quizzes['ei-foundations']!,
+    ),
+  ];
+  return c.copyWith(modules: modules);
+}
+
+const _quizzes = <String, List<QuizQuestion>>{
+  'ei-foundations': [
+    QuizQuestion(
+      prompt: 'Emotional intelligence is best described as...',
+      options: ['A fixed personality trait', 'A skill that can be practised', 'Hiding your feelings at work'],
+      answer: 1,
+    ),
+    QuizQuestion(
+      prompt: 'What comes first in the ninety second pause?',
+      options: ['Breathe', 'Reply to the email', 'Explain your view'],
+      answer: 0,
+    ),
+    QuizQuestion(
+      prompt: 'Mapping triggers helps you to...',
+      options: ['Avoid difficult people', 'Spot patterns before you react', 'Win arguments'],
+      answer: 1,
+    ),
+  ],
+  'first-time-manager': [
+    QuizQuestion(
+      prompt: 'The most useful first habit for a new manager is...',
+      options: ['Regular one-to-ones', 'Doing the work yourself', 'Avoiding feedback'],
+      answer: 0,
+    ),
+    QuizQuestion(
+      prompt: 'Good feedback is...',
+      options: ['Saved for the annual review', 'Specific and timely', 'Only ever positive'],
+      answer: 1,
+    ),
+    QuizQuestion(
+      prompt: 'Delegation works best when you share...',
+      options: ['The task only', 'The outcome and the why', 'Nothing until it fails'],
+      answer: 1,
+    ),
+  ],
+  'leading-through-change': [
+    QuizQuestion(
+      prompt: 'People resist change mostly because of...',
+      options: ['Laziness', 'Uncertainty and loss', 'Too much information'],
+      answer: 1,
+    ),
+    QuizQuestion(
+      prompt: 'During change, leaders should communicate...',
+      options: ['Once, at the start', 'Early, often and honestly', 'Only when asked'],
+      answer: 1,
+    ),
+    QuizQuestion(
+      prompt: 'A quick win during change helps to...',
+      options: ['Build momentum and trust', 'Hide the real plan', 'Replace listening'],
+      answer: 0,
+    ),
+  ],
+  'team-trust-reset': [
+    QuizQuestion(
+      prompt: 'Psychological safety means people feel able to...',
+      options: ['Avoid all conflict', 'Speak up without fear', 'Skip meetings'],
+      answer: 1,
+    ),
+    QuizQuestion(
+      prompt: 'A team charter should be...',
+      options: ['Written once and filed', 'Visible and revisited', 'Kept by the manager only'],
+      answer: 1,
+    ),
+    QuizQuestion(
+      prompt: 'Trust is rebuilt mostly through...',
+      options: ['Small kept promises', 'One big speech', 'New job titles'],
+      answer: 0,
+    ),
+  ],
+  'sustainable-performance': [
+    QuizQuestion(
+      prompt: 'Sustainable performance depends on...',
+      options: ['Working longer hours', 'Recovery as well as effort', 'Never saying no'],
+      answer: 1,
+    ),
+    QuizQuestion(
+      prompt: 'An early sign of burnout is...',
+      options: ['Ongoing exhaustion and cynicism', 'Taking a holiday', 'Asking questions'],
+      answer: 0,
+    ),
+    QuizQuestion(
+      prompt: 'A healthy boundary sounds like...',
+      options: ['"I can do that on Thursday"', '"Yes to everything"', 'Silence'],
+      answer: 0,
+    ),
+  ],
+  'manager-wellbeing-conversations': [
+    QuizQuestion(
+      prompt: 'In a wellbeing conversation, a manager should mainly...',
+      options: ['Diagnose the problem', 'Listen and signpost support', 'Share their own story'],
+      answer: 1,
+    ),
+    QuizQuestion(
+      prompt: 'A good opening question is...',
+      options: ['"What is wrong with you?"', '"How are things, really?"', '"Can this wait?"'],
+      answer: 1,
+    ),
+    QuizQuestion(
+      prompt: 'If someone needs professional help you should...',
+      options: ['Become their therapist', 'Signpost to the right support', 'Ignore it'],
+      answer: 1,
+    ),
+  ],
+};
 
 Course? courseById(String id) {
   for (final c in courses) {

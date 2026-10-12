@@ -1,0 +1,57 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "mt-alchemy-net4207",
+          "appId": "1:948184688004:android:e39437c5b38dda9f4269d1",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "mt-alchemy-net4207",
+          "configurations": {
+            "android": "1:948184688004:android:e39437c5b38dda9f4269d1",
+            "web": "1:948184688004:web:d571ca54cdfebd984269d1"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "database": "(default)",
+    "location": "asia-southeast1",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(mp4|glb|png|jpg|pdf)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=604800"
+          }
+        ]
+      }
+    ]
+  },
+  "auth": {
+    "providers": {
+      "emailPassword": true
+    }
+  }
+}

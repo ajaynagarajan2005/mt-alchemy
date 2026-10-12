@@ -1,0 +1,776 @@
+{
+  "courses": {
+    "ei-foundations": {
+      "title": "Emotional Intelligence Foundations",
+      "serviceSlug": "emotional-intelligence",
+      "level": "foundation",
+      "price": 149.0,
+      "summary": "Build self-awareness and learn to respond rather than react at work.",
+      "outcomes": [
+        "Recognise your own emotional patterns",
+        "Use a simple pause routine under pressure",
+        "Read the room in meetings more accurately"
+      ],
+      "modules": [
+        {
+          "id": "ei-1",
+          "title": "What emotional intelligence is (and is not)",
+          "minutes": 18,
+          "body": "Emotional intelligence is the ability to notice emotion, understand what it is telling you and choose a useful response. It is a skill, not a personality type, which means it can be practised and improved.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "ei-2",
+          "title": "Mapping your triggers",
+          "minutes": 24,
+          "body": "Most reactive moments follow a pattern. In this module you will map the situations, people and times of day that tend to pull you off balance.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/ei-foundations-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "ei-3",
+          "title": "The ninety second pause",
+          "minutes": 15,
+          "body": "A short, repeatable routine for the gap between a trigger and your response: breathe, name the feeling, decide the next useful step.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "ei-4",
+          "title": "Reading the room",
+          "minutes": 21,
+          "body": "Practise noticing the signals other people give off in meetings and adjust how you contribute so your point lands.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "ei-foundations-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Emotional intelligence is best described as...",
+              "options": [
+                "A fixed personality trait",
+                "A skill that can be practised",
+                "Hiding your feelings at work"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "What comes first in the ninety second pause?",
+              "options": [
+                "Breathe",
+                "Reply to the email",
+                "Explain your view"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Mapping triggers helps you to...",
+              "options": [
+                "Avoid difficult people",
+                "Spot patterns before you react",
+                "Win arguments"
+              ],
+              "answer": 1
+            }
+          ]
+        }
+      ],
+      "trainer": "Maya Thompson",
+      "published": true
+    },
+    "first-time-manager": {
+      "title": "The First-Time Manager",
+      "serviceSlug": "leadership-development",
+      "level": "practitioner",
+      "price": 249.0,
+      "summary": "The conversations, habits and boundaries that make the first year of managing work.",
+      "outcomes": [
+        "Run one-to-ones people find useful",
+        "Delegate without disappearing",
+        "Give feedback that changes behaviour"
+      ],
+      "modules": [
+        {
+          "id": "ftm-1",
+          "title": "From doing the work to leading it",
+          "minutes": 20,
+          "body": "The shift from individual contributor to manager is mostly about where you spend your attention. We look at what to let go of first.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "ftm-2",
+          "title": "One-to-ones that matter",
+          "minutes": 26,
+          "body": "A simple structure for weekly one-to-ones that puts the other person first and surfaces problems early.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/first-time-manager-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "ftm-3",
+          "title": "Delegation without disappearing",
+          "minutes": 22,
+          "body": "Match the level of support to the person and the task, and agree check-ins before you hand anything over.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "ftm-4",
+          "title": "Feedback that lands",
+          "minutes": 25,
+          "body": "Describe the behaviour, its impact and what you would like instead. Then stop talking and listen.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "first-time-manager-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "The most useful first habit for a new manager is...",
+              "options": [
+                "Regular one-to-ones",
+                "Doing the work yourself",
+                "Avoiding feedback"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Good feedback is...",
+              "options": [
+                "Saved for the annual review",
+                "Specific and timely",
+                "Only ever positive"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Delegation works best when you share...",
+              "options": [
+                "The task only",
+                "The outcome and the why",
+                "Nothing until it fails"
+              ],
+              "answer": 1
+            }
+          ]
+        }
+      ],
+      "trainer": "Daniel Okafor",
+      "published": true
+    },
+    "leading-through-change": {
+      "title": "Leading Through Change",
+      "serviceSlug": "leadership-development",
+      "level": "leader",
+      "price": 329.0,
+      "summary": "Help your team understand, shape and commit to change instead of enduring it.",
+      "outcomes": [
+        "Explain the why of a change in plain language",
+        "Spot and address resistance early",
+        "Keep momentum after the launch"
+      ],
+      "modules": [
+        {
+          "id": "ltc-1",
+          "title": "Why people resist change",
+          "minutes": 19,
+          "body": "Resistance is usually information. We look at the losses people expect and how to talk about them honestly.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "ltc-2",
+          "title": "The change story",
+          "minutes": 23,
+          "body": "Write a short, honest narrative that covers where we are, where we are going and what will not change.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/leading-through-change-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "ltc-3",
+          "title": "Keeping momentum",
+          "minutes": 17,
+          "body": "Most change efforts fade after launch. Build small rituals that keep progress visible.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "leading-through-change-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "People resist change mostly because of...",
+              "options": [
+                "Laziness",
+                "Uncertainty and loss",
+                "Too much information"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "During change, leaders should communicate...",
+              "options": [
+                "Once, at the start",
+                "Early, often and honestly",
+                "Only when asked"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "A quick win during change helps to...",
+              "options": [
+                "Build momentum and trust",
+                "Hide the real plan",
+                "Replace listening"
+              ],
+              "answer": 0
+            }
+          ]
+        }
+      ],
+      "trainer": "Maya Thompson",
+      "published": true
+    },
+    "team-trust-reset": {
+      "title": "Team Trust Reset",
+      "serviceSlug": "team-engagement",
+      "level": "practitioner",
+      "price": 189.0,
+      "summary": "Tools for team leads to rebuild trust and agree how the team works together.",
+      "outcomes": [
+        "Run a team charter session",
+        "Name and work through team tensions",
+        "Set up a monthly team health check"
+      ],
+      "modules": [
+        {
+          "id": "ttr-1",
+          "title": "What trust looks like in practice",
+          "minutes": 16,
+          "body": "Trust shows up in small behaviours: following through, admitting mistakes and asking for help. We make those visible.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "ttr-2",
+          "title": "Writing a team charter",
+          "minutes": 28,
+          "body": "A one-page agreement on how the team makes decisions, communicates and handles disagreement.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/team-trust-reset-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "ttr-3",
+          "title": "The monthly health check",
+          "minutes": 14,
+          "body": "Ten minutes a month to ask how the team is really doing, using five simple questions.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "team-trust-reset-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Psychological safety means people feel able to...",
+              "options": [
+                "Avoid all conflict",
+                "Speak up without fear",
+                "Skip meetings"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "A team charter should be...",
+              "options": [
+                "Written once and filed",
+                "Visible and revisited",
+                "Kept by the manager only"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Trust is rebuilt mostly through...",
+              "options": [
+                "Small kept promises",
+                "One big speech",
+                "New job titles"
+              ],
+              "answer": 0
+            }
+          ]
+        }
+      ],
+      "trainer": "Daniel Okafor",
+      "published": true
+    },
+    "sustainable-performance": {
+      "title": "Sustainable Performance",
+      "serviceSlug": "workplace-wellbeing",
+      "level": "foundation",
+      "price": 129.0,
+      "summary": "Practical habits for energy, focus and recovery during demanding seasons of work.",
+      "outcomes": [
+        "Plan your week around energy, not just time",
+        "Set boundaries you can keep",
+        "Notice early signs of overload"
+      ],
+      "modules": [
+        {
+          "id": "sp-1",
+          "title": "Energy is the real resource",
+          "minutes": 17,
+          "body": "Time management only works if you have the energy to use the time. Track what gives and drains your energy for one week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "sp-2",
+          "title": "Boundaries you can keep",
+          "minutes": 21,
+          "body": "Small, specific boundaries beat big promises. Choose one and tell your manager about it.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/sustainable-performance-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "sp-3",
+          "title": "Recognising overload early",
+          "minutes": 19,
+          "body": "Learn the physical, emotional and behavioural signs that you or a colleague are running on empty.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "sustainable-performance-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Sustainable performance depends on...",
+              "options": [
+                "Working longer hours",
+                "Recovery as well as effort",
+                "Never saying no"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "An early sign of burnout is...",
+              "options": [
+                "Ongoing exhaustion and cynicism",
+                "Taking a holiday",
+                "Asking questions"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "A healthy boundary sounds like...",
+              "options": [
+                "\"I can do that on Thursday\"",
+                "\"Yes to everything\"",
+                "Silence"
+              ],
+              "answer": 0
+            }
+          ]
+        }
+      ],
+      "trainer": "Grace Whitfield",
+      "published": true
+    },
+    "manager-wellbeing-conversations": {
+      "title": "Well-being Conversations for Managers",
+      "serviceSlug": "workplace-wellbeing",
+      "level": "practitioner",
+      "price": 179.0,
+      "summary": "Start supportive conversations about well-being and know where your role ends.",
+      "outcomes": [
+        "Open a well-being conversation with confidence",
+        "Listen without trying to fix",
+        "Signpost to the right support"
+      ],
+      "modules": [
+        {
+          "id": "mwc-1",
+          "title": "Opening the conversation",
+          "minutes": 18,
+          "body": "Simple, low-pressure ways to check in, and how to choose the right time and place.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
+          "quiz": []
+        },
+        {
+          "id": "mwc-2",
+          "title": "Listening without fixing",
+          "minutes": 20,
+          "body": "Most people want to be heard before they want advice. Practise reflective listening.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/manager-wellbeing-conversations-workbook.pdf",
+          "quiz": []
+        },
+        {
+          "id": "mwc-3",
+          "title": "Knowing your limits",
+          "minutes": 15,
+          "body": "You are a manager, not a therapist. Learn when and how to signpost to professional support.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": []
+        },
+        {
+          "id": "manager-wellbeing-conversations-quiz",
+          "title": "Check your understanding",
+          "minutes": 8,
+          "body": "Answer every question. You need 70% to pass and unlock your certificate.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "In a wellbeing conversation, a manager should mainly...",
+              "options": [
+                "Diagnose the problem",
+                "Listen and signpost support",
+                "Share their own story"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "A good opening question is...",
+              "options": [
+                "\"What is wrong with you?\"",
+                "\"How are things, really?\"",
+                "\"Can this wait?\""
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "If someone needs professional help you should...",
+              "options": [
+                "Become their therapist",
+                "Signpost to the right support",
+                "Ignore it"
+              ],
+              "answer": 1
+            }
+          ]
+        }
+      ],
+      "trainer": "Grace Whitfield",
+      "published": true
+    }
+  },
+  "products": {
+    "feedback-conversation-cards": {
+      "name": "Feedback Conversation Cards",
+      "category": "cards",
+      "price": 24.0,
+      "summary": "52 prompts for honest, useful feedback conversations.",
+      "description": "A deck of prompts that help managers and peers start feedback conversations without the awkwardness. Use one card per one-to-one or work through a set in a team session.",
+      "details": [
+        "52 cards in a recycled box",
+        "Facilitator guide included",
+        "Ships in 2 to 3 days"
+      ],
+      "type": "physical",
+      "stock": 120,
+      "fileUrl": null
+    },
+    "ei-self-coaching-toolkit": {
+      "name": "EI Self-Coaching Toolkit",
+      "category": "toolkit",
+      "price": 39.0,
+      "summary": "A six-week workbook for building emotional intelligence.",
+      "description": "A guided workbook with weekly reflections, trigger maps and practice routines drawn from our Emotional Intelligence programmes.",
+      "details": [
+        "120-page workbook",
+        "Printable trigger map",
+        "Six weekly practice routines"
+      ],
+      "type": "digital",
+      "stock": 0,
+      "fileUrl": "/downloads/ei-self-coaching-toolkit.pdf"
+    },
+    "team-charter-workshop-kit": {
+      "name": "Team Charter Workshop Kit",
+      "category": "workshop",
+      "price": 89.0,
+      "summary": "Everything you need to run a two-hour team charter session.",
+      "description": "A ready-to-run kit with a facilitator script, slides, canvas posters and follow-up templates so your team leaves with a charter they wrote themselves.",
+      "details": [
+        "Facilitator script and slides",
+        "A1 charter canvas x2",
+        "Follow-up templates"
+      ],
+      "type": "physical",
+      "stock": 35,
+      "fileUrl": null
+    },
+    "leading-with-care-book": {
+      "name": "Leading With Care",
+      "category": "book",
+      "price": 18.0,
+      "summary": "Short essays on leadership that keeps people at the centre.",
+      "description": "A collection of short, practical essays from the MT Alchemy team on leadership, accountability and care. Easy to read between meetings.",
+      "details": [
+        "Paperback, 180 pages",
+        "Discussion questions per chapter",
+        "Ships in 2 to 3 days"
+      ],
+      "type": "physical",
+      "stock": 80,
+      "fileUrl": null
+    },
+    "wellbeing-check-in-deck": {
+      "name": "Well-being Check-in Deck",
+      "category": "cards",
+      "price": 22.0,
+      "summary": "Gentle prompts for team well-being check-ins.",
+      "description": "Forty prompts that make it easier for teams to talk about energy, workload and support in a safe, light-touch way.",
+      "details": [
+        "40 cards",
+        "Guidance for managers",
+        "Suitable for remote teams"
+      ],
+      "type": "physical",
+      "stock": 60,
+      "fileUrl": null
+    },
+    "manager-one-to-one-planner": {
+      "name": "Manager One-to-One Planner",
+      "category": "toolkit",
+      "price": 29.0,
+      "summary": "A twelve-month planner for better one-to-ones.",
+      "description": "A structured planner that keeps one-to-ones focused on the other person, with space for goals, notes and follow-ups for up to eight team members.",
+      "details": [
+        "Hardback planner",
+        "Pages for 8 team members",
+        "Quarterly review prompts"
+      ],
+      "type": "digital",
+      "stock": 0,
+      "fileUrl": "/downloads/manager-one-to-one-planner.pdf"
+    }
+  },
+  "productCategories": {
+    "toolkit": {
+      "label": "Toolkits"
+    },
+    "cards": {
+      "label": "Card decks"
+    },
+    "book": {
+      "label": "Books"
+    },
+    "workshop": {
+      "label": "Workshop kits"
+    }
+  },
+  "articles": {
+    "why-team-away-days-fade": {
+      "title": "Why team away days fade by Wednesday",
+      "category": "Team Engagement",
+      "readMinutes": 5,
+      "published": "2026-09-22T00:00:00.000",
+      "excerpt": "The energy of an away day rarely survives the first full inbox. Here is how to make it last.",
+      "body": [
+        "Most teams come back from an away day feeling closer and clearer. By the following Wednesday, most of that has gone. The problem is rarely the day itself.",
+        "What fades is anything that was not turned into a habit. Agreements written on flipcharts need an owner, a date and a place they will be seen again.",
+        "Before your next away day, decide which one or two rituals you want the team to keep, and plan the first three repetitions before anyone leaves the room."
+      ]
+    },
+    "feedback-is-a-skill": {
+      "title": "Feedback is a skill, not a personality trait",
+      "category": "Leadership",
+      "readMinutes": 4,
+      "published": "2026-09-08T00:00:00.000",
+      "excerpt": "Good feedback givers are made, not born. Three habits that make the difference.",
+      "body": [
+        "We often describe people as naturally good at feedback. In our experience, the people who are good at it have simply practised more.",
+        "Three habits make the biggest difference: describe behaviour rather than character, explain the impact, and ask what the other person sees.",
+        "Practise these in low-stakes conversations first so they are available when it matters."
+      ]
+    },
+    "wellbeing-starts-with-workload": {
+      "title": "Well-being starts with workload",
+      "category": "Well-being",
+      "readMinutes": 6,
+      "published": "2026-08-25T00:00:00.000",
+      "excerpt": "Resilience training cannot fix a job that does not fit in the week.",
+      "body": [
+        "Well-being programmes often focus on helping people cope. That matters, but it is only half the picture.",
+        "If a role reliably needs fifty hours a week, the most effective well-being intervention is a conversation about priorities, not a breathing exercise.",
+        "Start with a simple workload review in each team and act on what you find."
+      ]
+    },
+    "naming-emotions-at-work": {
+      "title": "The surprising power of naming emotions at work",
+      "category": "Emotional Intelligence",
+      "readMinutes": 4,
+      "published": "2026-08-11T00:00:00.000",
+      "excerpt": "Putting a feeling into words takes some of its heat away. Here is how to use that.",
+      "body": [
+        "Research on affect labelling suggests that naming a feeling can reduce its intensity. At work, that gives us a simple, practical tool.",
+        "Try adding a feelings check to the start of difficult meetings. One word each is enough.",
+        "Over time the team builds a shared vocabulary that makes hard conversations easier."
+      ]
+    }
+  },
+  "impactStories": {
+    "story-hm": {
+      "quote": "Our managers stopped avoiding the hard conversations. You can feel the difference in every team meeting.",
+      "name": "Helen Marsh",
+      "role": "Head of People, regional housing association",
+      "metric": "3x more feedback conversations logged"
+    },
+    "story-rp": {
+      "quote": "It was the first leadership programme where people kept using the tools months later.",
+      "name": "Rajesh Patel",
+      "role": "Operations Director, logistics firm",
+      "metric": "87% still using the tools after 6 months"
+    },
+    "story-sk": {
+      "quote": "Practical, warm and honest. Our team charter is still on the wall and still used.",
+      "name": "Siobhan Kelly",
+      "role": "Team Lead, public health service",
+      "metric": "Team engagement up 24 points"
+    }
+  },
+  "organization": {
+    "id": "org-northlight",
+    "name": "Northlight Housing",
+    "sector": "Housing and community services",
+    "size": "250 to 500 employees",
+    "ownerId": null,
+    "seats": {
+      "leading-through-change": 3,
+      "team-trust-reset": 5
+    }
+  },
+  "users": [
+    {
+      "key": "u-amara",
+      "name": "Amara Osei",
+      "email": "amara@example.com",
+      "role": "individual",
+      "orgId": null,
+      "gender": "Female",
+      "country": "Malaysia",
+      "hobbies": [
+        "Reading",
+        "Travel"
+      ],
+      "disabled": false
+    },
+    {
+      "key": "u-priya",
+      "name": "Priya Shah",
+      "email": "priya@northlight.example.com",
+      "role": "employer",
+      "orgId": "org-northlight",
+      "gender": null,
+      "country": null,
+      "hobbies": [],
+      "disabled": false
+    },
+    {
+      "key": "u-maya",
+      "name": "Maya Thompson",
+      "email": "maya@mtalchemy.example.com",
+      "role": "trainer",
+      "orgId": null,
+      "gender": null,
+      "country": null,
+      "hobbies": [],
+      "disabled": false
+    },
+    {
+      "key": "u-admin",
+      "name": "Daniel Lim",
+      "email": "admin@mtalchemy.example.com",
+      "role": "superAdmin",
+      "orgId": null,
+      "gender": null,
+      "country": null,
+      "hobbies": [],
+      "disabled": false
+    },
+    {
+      "key": "u-callum",
+      "name": "Callum Reid",
+      "email": "callum@northlight.example.com",
+      "role": "individual",
+      "orgId": "org-northlight",
+      "gender": null,
+      "country": null,
+      "hobbies": [],
+      "disabled": false
+    }
+  ],
+  "employees": {
+    "e-1": {
+      "name": "Callum Reid",
+      "email": "callum@northlight.example.com",
+      "team": "Lettings",
+      "orgId": "org-northlight"
+    },
+    "e-2": {
+      "name": "Fatima Begum",
+      "email": "fatima@northlight.example.com",
+      "team": "Lettings",
+      "orgId": "org-northlight"
+    },
+    "e-3": {
+      "name": "Owen Hughes",
+      "email": "owen@northlight.example.com",
+      "team": "Maintenance",
+      "orgId": "org-northlight"
+    },
+    "e-4": {
+      "name": "Leah Morgan",
+      "email": "leah@northlight.example.com",
+      "team": "Customer Care",
+      "orgId": "org-northlight"
+    }
+  },
+  "password": "alchemy123"
+}

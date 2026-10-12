@@ -3,12 +3,13 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/mock/courses.dart';
 import '../../data/mock/services.dart';
 import '../../data/models/course.dart';
 import '../../data/models/people.dart';
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
+import '../../state/cart_store.dart';
+import '../../state/catalog_store.dart';
 import '../../state/learning_store.dart';
 import '../../theme/breakpoints.dart';
 import '../../theme/colors.dart';
@@ -23,6 +24,7 @@ import '../../widgets/common/glass_panel.dart';
 import '../../widgets/common/gradient_backdrop.dart';
 import '../../widgets/common/ink_art.dart';
 import '../../widgets/common/reveal.dart';
+import '../../widgets/common/reviews_section.dart';
 import '../../widgets/layout/app_shell.dart';
 import '../../widgets/layout/section.dart';
 import 'notice_page.dart';
@@ -40,7 +42,7 @@ class CourseDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final course = courseById(courseId);
+    final course = context.watch<CatalogStore>().courseById(courseId);
     if (course == null) {
       return NoticePage(
         title: 'We could not find that course',
@@ -87,6 +89,14 @@ class CourseDetailScreen extends StatelessWidget {
                       ],
                     ),
             ),
+          ),
+        ),
+        Section(
+          child: ReviewsSection(
+            targetId: course.id,
+            title: 'What learners say',
+            canReview: (c) => c.read<LearningStore>().isEnrolled(course.id),
+            cannotReviewMessage: 'Enrol on this course to leave a review.',
           ),
         ),
       ],
@@ -213,22 +223,52 @@ class _ModuleRow extends StatelessWidget {
           ),
           Expanded(child: Text(module.title, style: AppText.body)),
           const SizedBox(width: Space.md),
-          Text('${module.minutes} min', style: AppText.small),
+          Text(
+            '${module.type.label} · ${module.minutes} min',
+            style: AppText.small,
+          ),
         ],
       ),
     );
   }
 }
 
-class _Summary extends StatelessWidget {
+class _Summary extends StatefulWidget {
   const _Summary({required this.course});
   final Course course;
 
-  void _enrol(BuildContext context, AppUser user) {
-    context.read<LearningStore>().enrol(user.id, course.id);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('You are enrolled in ${course.title}')),
-    );
+  @override
+  State<_Summary> createState() => _SummaryState();
+}
+
+class _SummaryState extends State<_Summary> {
+  int _seats = 5;
+  bool _busy = false;
+
+  Course get course => widget.course;
+
+  /// Journey A: the course goes into the cart and straight to payment.
+  void _buy() {
+    final cart = context.read<CartStore>();
+    if (!cart.containsCourse(course.id)) cart.addCourse(course);
+    context.go(Routes.checkout);
+  }
+
+  /// Journey D: an employer buys seats to assign later.
+  void _buySeats() {
+    context.read<CartStore>().addSeats(course, _seats);
+    context.go(Routes.checkout);
+  }
+
+  Future<void> _startAssigned(AssignedCourse a) async {
+    setState(() => _busy = true);
+    final error = await context.read<LearningStore>().startAssigned(a);
+    if (!mounted) return;
+    setState(() => _busy = false);
+    if (error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+      return;
+    }
     context.go(Routes.learn(course.id));
   }
 
@@ -236,7 +276,8 @@ class _Summary extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.watch<AuthStore>().currentUser;
     final learning = context.watch<LearningStore>();
-    final enrolled = user != null && learning.isEnrolled(user.id, course.id);
+    final enrolled = learning.isEnrolled(course.id);
+    final assigned = learning.assignmentFor(course.id);
 
     final Widget cta;
     if (user == null) {
@@ -244,7 +285,7 @@ class _Summary extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AlchemyButton(
-            label: 'Enrol',
+            label: 'Buy course',
             expand: true,
             onPressed: () => context.go(
               Uri(
@@ -262,11 +303,53 @@ class _Summary extends StatelessWidget {
           ),
         ],
       );
-    } else if (user.role != UserRole.individual) {
-      cta = Text(
-        'Courses are assigned through the employer portal, so you do not '
-        'enrol yourself here.',
-        style: AppText.bodyMuted,
+    } else if (user.role == UserRole.employer) {
+      final owned = context.watch<AuthStore>().currentOrganisation?.seatsFor(
+            course.id,
+          ) ??
+          0;
+      cta = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Buy seats for your team', style: AppText.h4),
+          const SizedBox(height: Space.xxs),
+          Text(
+            owned > 0
+                ? 'You have $owned unassigned seat${owned == 1 ? '' : 's'}.'
+                : 'Each seat lets one employee take this course.',
+            style: AppText.small,
+          ),
+          const SizedBox(height: Space.sm),
+          Row(
+            children: [
+              IconButton.outlined(
+                tooltip: 'Fewer seats',
+                onPressed: _seats > 1 ? () => setState(() => _seats--) : null,
+                icon: const Icon(Icons.remove),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Space.md),
+                child: Text('$_seats', style: AppText.h3),
+              ),
+              IconButton.outlined(
+                tooltip: 'More seats',
+                onPressed: () => setState(() => _seats++),
+                icon: const Icon(Icons.add),
+              ),
+              const Spacer(),
+              Text(gbp.format(course.price * _seats), style: AppText.h4),
+            ],
+          ),
+          const SizedBox(height: Space.md),
+          AlchemyButton(label: 'Buy seats', expand: true, onPressed: _buySeats),
+        ],
+      );
+    } else if (user.role.isStaff) {
+      cta = AlchemyButton(
+        label: 'Edit this course',
+        expand: true,
+        variant: ButtonVariant.secondary,
+        onPressed: () => context.go(Routes.editCourse(course.id)),
       );
     } else if (enrolled) {
       cta = AlchemyButton(
@@ -274,12 +357,25 @@ class _Summary extends StatelessWidget {
         expand: true,
         onPressed: () => context.go(Routes.learn(course.id)),
       );
-    } else {
-      cta = AlchemyButton(
-        label: 'Enrol',
-        expand: true,
-        onPressed: () => _enrol(context, user),
+    } else if (assigned != null) {
+      cta = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Your organisation has assigned you this course.',
+            style: AppText.small,
+          ),
+          const SizedBox(height: Space.sm),
+          AlchemyButton(
+            label: 'Start course',
+            expand: true,
+            loading: _busy,
+            onPressed: () => _startAssigned(assigned),
+          ),
+        ],
       );
+    } else {
+      cta = AlchemyButton(label: 'Buy course', expand: true, onPressed: _buy);
     }
 
     // CONTAINER (card): the one glass panel in view holds the price and CTA.

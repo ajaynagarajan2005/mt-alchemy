@@ -1,0 +1,180 @@
+rules_version = '2';
+
+// MT Alchemy role-based access control.
+// Roles live in users/{uid}.role: individual | employer | trainer | superAdmin.
+// Guests (signed out) can read the public catalogue and send enquiries.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function uid() { return request.auth.uid; }
+    function me() { return get(/databases/$(database)/documents/users/$(uid())).data; }
+    function hasProfile() { return signedIn() && exists(/databases/$(database)/documents/users/$(uid())); }
+    function role() { return hasProfile() ? me().role : 'guest'; }
+    function active() { return hasProfile() && me().get('disabled', false) == false; }
+    function isSuper() { return active() && role() == 'superAdmin'; }
+    function isTrainer() { return active() && role() == 'trainer'; }
+    function isStaff() { return isSuper() || isTrainer(); }
+    function myOrg() { return hasProfile() ? me().get('orgId', null) : null; }
+    function isEmployerOf(orgId) { return active() && role() == 'employer' && myOrg() == orgId; }
+    function email() { return request.auth.token.email; }
+    function unchanged(fields) { return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields); }
+
+    // ---------- People ----------
+    match /users/{userId} {
+      allow read: if signedIn() && (uid() == userId || isStaff());
+      // Self-registration: only individual or employer, never staff roles.
+      allow create: if signedIn() && uid() == userId
+        && request.resource.data.role in ['individual', 'employer']
+        && request.resource.data.email == email();
+      // Super admins can create accounts for any role (admin user CRUD).
+      allow create: if isSuper();
+      allow update: if (uid() == userId && unchanged(['role', 'disabled', 'email'])) || isSuper();
+      allow delete: if isSuper();
+    }
+
+    match /organizations/{orgId} {
+      allow read: if myOrg() == orgId || isStaff();
+      allow create: if signedIn() && request.resource.data.ownerId == uid();
+      allow update: if isEmployerOf(orgId) || isSuper();
+      allow delete: if isSuper();
+    }
+
+    match /employees/{id} {
+      allow read: if (signedIn() && resource.data.email == email())
+        || isEmployerOf(resource.data.orgId) || isStaff();
+      allow create: if isEmployerOf(request.resource.data.orgId) || isSuper();
+      allow update, delete: if isEmployerOf(resource.data.orgId) || isSuper();
+    }
+
+    // ---------- Learning ----------
+    match /courses/{courseId} {
+      allow read: if resource.data.published == true || isStaff();
+      allow write: if isStaff();
+    }
+
+    match /assignments/{id} {
+      allow read: if (signedIn() && resource.data.employeeEmail == email())
+        || isEmployerOf(resource.data.orgId) || isStaff();
+      allow create, update: if isEmployerOf(request.resource.data.orgId) || isSuper();
+      allow delete: if isEmployerOf(resource.data.orgId) || isSuper();
+    }
+
+    // Doc id: {uid}_{courseId}. Created after a paid order or from an employer assignment.
+    match /enrolments/{id} {
+      allow read: if (signedIn() && resource.data.userId == uid())
+        || isEmployerOf(resource.data.get('orgId', '')) || isStaff();
+      allow create: if signedIn() && request.resource.data.userId == uid()
+        && id == uid() + '_' + request.resource.data.courseId
+        && (
+          (request.resource.data.get('orderId', null) != null
+            && get(/databases/$(database)/documents/orders/$(request.resource.data.orderId)).data.userId == uid())
+          ||
+          (request.resource.data.get('assignmentId', null) != null
+            && get(/databases/$(database)/documents/assignments/$(request.resource.data.assignmentId)).data.employeeEmail == email())
+        );
+      allow update: if signedIn() && resource.data.userId == uid()
+        && unchanged(['userId', 'courseId', 'orgId', 'orderId', 'assignmentId']);
+      allow delete: if isSuper();
+    }
+
+    // Public read so anyone can verify a certificate code.
+    match /certificates/{code} {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.userId == uid()
+        && get(/databases/$(database)/documents/enrolments/$(uid() + '_' + request.resource.data.courseId)).data.status == 'complete';
+      allow delete: if isSuper();
+    }
+
+    // ---------- Commerce ----------
+    match /productCategories/{id} {
+      allow read: if true;
+      allow write: if isSuper();
+    }
+
+    match /products/{id} {
+      allow read: if true;
+      allow write: if isSuper();
+      // Checkout may only decrement stock of a physical product.
+      allow update: if signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stock'])
+        && request.resource.data.stock < resource.data.stock
+        && request.resource.data.stock >= 0;
+    }
+
+    match /carts/{userId} {
+      allow read, write: if signedIn() && uid() == userId;
+    }
+
+    match /orders/{id} {
+      allow read: if (signedIn() && resource.data.userId == uid())
+        || isEmployerOf(resource.data.get('orgId', '')) || isSuper();
+      allow create: if signedIn() && request.resource.data.userId == uid();
+      allow update: if isSuper();
+    }
+
+    match /payments/{id} {
+      allow read: if (signedIn() && resource.data.userId == uid()) || isSuper();
+      allow create: if signedIn() && request.resource.data.userId == uid();
+      allow update: if isSuper();
+    }
+
+    match /shipping/{orderId} {
+      allow read: if (signedIn() && resource.data.userId == uid()) || isSuper();
+      allow create: if signedIn() && request.resource.data.userId == uid()
+        && request.resource.data.status == 'processing';
+      allow update: if isSuper();
+    }
+
+    match /downloads/{id} {
+      allow read: if (signedIn() && resource.data.userId == uid()) || isSuper();
+      allow create: if signedIn() && request.resource.data.userId == uid();
+      allow update: if signedIn() && resource.data.userId == uid()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['downloadCount', 'lastDownloadedAt']);
+    }
+
+    // ---------- Content ----------
+    match /articles/{id} {
+      allow read: if true;
+      allow write: if isStaff();
+    }
+
+    match /impactStories/{id} {
+      allow read: if true;
+      allow write: if isSuper();
+    }
+
+    match /reviews/{id} {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.userId == uid()
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1 && request.resource.data.rating <= 5;
+      allow delete: if (signedIn() && resource.data.userId == uid()) || isSuper();
+    }
+
+    // ---------- Enquiries and messages ----------
+    match /enquiries/{id} {
+      allow create: if request.resource.data.status == 'new';
+      allow read, update, delete: if isSuper();
+    }
+
+    match /contactMessages/{id} {
+      allow create: if true;
+      allow read, delete: if isSuper();
+    }
+
+    match /notifications/{id} {
+      allow read: if signedIn() && resource.data.userId == uid();
+      allow create: if isStaff() || (active() && role() == 'employer');
+      allow update: if signedIn() && resource.data.userId == uid()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+      allow delete: if signedIn() && resource.data.userId == uid();
+    }
+
+    match /assessments/{id} {
+      // EQ self-assessment results.
+      allow read: if signedIn() && resource.data.userId == uid();
+      allow create: if signedIn() && request.resource.data.userId == uid();
+    }
+  }
+}

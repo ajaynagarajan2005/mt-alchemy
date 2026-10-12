@@ -54,6 +54,7 @@ class CartScreen extends StatelessWidget {
             subtotal: cart.subtotal,
             shipping: cart.shipping,
             total: cart.total,
+            physicalSubtotal: cart.physicalSubtotal,
           ),
           const SizedBox(height: Space.lg),
           AlchemyButton(
@@ -125,7 +126,6 @@ class _Line extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = context.read<CartStore>();
-    final p = item.product;
     final size = context.isCompact ? 72.0 : 104.0;
 
     return Padding(
@@ -138,7 +138,7 @@ class _Line extends StatelessWidget {
             child: SizedBox(
               width: size,
               height: size,
-              child: InkArt(seed: p.id, intensity: 0.9),
+              child: InkArt(seed: item.itemId, intensity: 0.9),
             ),
           ),
           const SizedBox(width: Space.md),
@@ -146,23 +146,34 @@ class _Line extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(p.name, style: AppText.h4),
+                Text(item.name, style: AppText.h4),
                 const SizedBox(height: 2),
-                Text('${gbpExact.format(p.price)} each', style: AppText.small),
+                Text(
+                  switch (item.kind) {
+                    CartKind.course => 'Online course, instant access',
+                    CartKind.seats =>
+                      '${gbpExact.format(item.price)} per seat for your team',
+                    CartKind.product =>
+                      '${gbpExact.format(item.price)} each · '
+                          '${item.product!.isDigital ? 'Digital download' : 'Shipped'}',
+                  },
+                  style: AppText.small,
+                ),
                 const SizedBox(height: Space.sm),
                 Wrap(
                   spacing: Space.xs,
                   runSpacing: Space.xs,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    QuantityStepper(
-                      value: item.quantity,
-                      itemName: p.name,
-                      onChanged: (q) => cart.setQuantity(p.id, q),
-                    ),
+                    if (!item.fixedQuantity)
+                      QuantityStepper(
+                        value: item.quantity,
+                        itemName: item.name,
+                        onChanged: (q) => cart.setQuantity(item.key, q),
+                      ),
                     IconButton(
-                      tooltip: 'Remove ${p.name} from cart',
-                      onPressed: () => cart.remove(p.id),
+                      tooltip: 'Remove ${item.name} from cart',
+                      onPressed: () => cart.remove(item.key),
                       icon: AppIcon(
                         HugeIcons.strokeRoundedDelete02,
                         size: 20,

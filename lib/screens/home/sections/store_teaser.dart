@@ -1,7 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
-import '../../../data/mock/products.dart';
+import '../../../state/catalog_store.dart';
+
 import '../../../router/routes.dart';
 import '../../../theme/breakpoints.dart';
 import '../../../theme/colors.dart';
@@ -23,7 +25,7 @@ class StoreTeaser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final featured = products.first;
+    final featured = context.watch<CatalogStore>().products.first;
 
     final visual = ClipRRect(
       borderRadius: Radii.cardAll,

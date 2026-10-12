@@ -14,6 +14,7 @@ class OrderTotals extends StatelessWidget {
     required this.shipping,
     required this.total,
     this.showNudge = true,
+    this.physicalSubtotal,
   });
 
   final double subtotal;
@@ -21,16 +22,24 @@ class OrderTotals extends StatelessWidget {
   final double total;
   final bool showNudge;
 
+  /// Spend on shipped goods; null means everything ships. Zero hides the
+  /// shipping row because digital items and courses never ship.
+  final double? physicalSubtotal;
+
   @override
   Widget build(BuildContext context) {
-    final remaining = CartStore.freeShippingFrom - subtotal;
+    final shipped = physicalSubtotal ?? subtotal;
+    final remaining = CartStore.freeShippingFrom - shipped;
+    final ships = shipped > 0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _Row('Subtotal', gbpExact.format(subtotal)),
-        const SizedBox(height: Space.xs),
-        _Row('Shipping', shipping == 0 ? 'Free' : gbpExact.format(shipping)),
-        if (showNudge) ...[
+        if (ships) ...[
+          const SizedBox(height: Space.xs),
+          _Row('Shipping', shipping == 0 ? 'Free' : gbpExact.format(shipping)),
+        ],
+        if (showNudge && ships) ...[
           const SizedBox(height: Space.xs),
           Text(
             remaining > 0

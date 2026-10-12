@@ -1,7 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
-import '../../../data/mock/courses.dart';
+import '../../../state/catalog_store.dart';
+
 import '../../../router/routes.dart';
 import '../../../theme/breakpoints.dart';
 import '../../../theme/colors.dart';
@@ -19,6 +21,7 @@ class CourseRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final catalog = context.watch<CatalogStore>();
     final compact = context.isCompact;
     return Section(
       child: Column(
@@ -53,8 +56,8 @@ class CourseRow extends StatelessWidget {
                 shape: const RoundedRectangleBorder(
                   borderRadius: Radii.cardAll,
                 ),
-                onTap: (i) => context.go(Routes.course(courses[i].id)),
-                children: [for (final c in courses) CourseCard(course: c)],
+                onTap: (i) => context.go(Routes.course(catalog.courses[i].id)),
+                children: [for (final c in catalog.courses) CourseCard(course: c)],
               ),
             ),
           ),

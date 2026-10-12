@@ -51,6 +51,7 @@ class SiteFooter extends StatelessWidget {
         links: const [
           NavLink('About', Routes.about),
           NavLink('Services', Routes.services),
+          NavLink('For organisations', Routes.organisations),
           NavLink('Insights', Routes.insights),
           NavLink('Contact', Routes.contact),
         ],
@@ -60,6 +61,7 @@ class SiteFooter extends StatelessWidget {
         links: const [
           NavLink('Upskilling', Routes.upskilling),
           NavLink('Store', Routes.store),
+          NavLink('EQ self-assessment', Routes.assessment),
           NavLink('Cart', Routes.cart),
         ],
       ),

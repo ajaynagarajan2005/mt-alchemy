@@ -42,21 +42,33 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
     super.dispose();
   }
 
-  void _submit(String orgId) {
+  Future<void> _submit(String orgId) async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     final name = _name.text.trim();
-    context.read<OrgStore>().addEmployee(
+    final messenger = ScaffoldMessenger.of(context);
+    final error = await context.read<OrgStore>().addEmployee(
       orgId,
       name: name,
       email: _email.text,
       team: _team.text,
     );
+    if (!mounted) return;
+    if (error != null) {
+      messenger.showSnackBar(SnackBar(content: Text(error)));
+      return;
+    }
     _formKey.currentState?.reset();
     _name.clear();
     _email.clear();
     _team.clear();
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('$name has been added.')));
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(
+          '$name has been added. They join your organisation when they '
+          'register with that email.',
+        ),
+      ),
+    );
   }
 
   Future<void> _confirmRemove(String orgId, Employee e) async {
@@ -83,9 +95,11 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
       ),
     );
     if (ok == true && mounted) {
-      context.read<OrgStore>().removeEmployee(orgId, e.id);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('${e.name} has been removed.')));
+      final messenger = ScaffoldMessenger.of(context);
+      final error = await context.read<OrgStore>().removeEmployee(orgId, e.id);
+      messenger.showSnackBar(
+        SnackBar(content: Text(error ?? '${e.name} has been removed.')),
+      );
     }
   }
 

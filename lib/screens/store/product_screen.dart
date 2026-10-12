@@ -1,8 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
-import '../../data/mock/products.dart';
+import '../../state/catalog_store.dart';
+
 import '../../data/models/product.dart';
 import '../../router/routes.dart';
 import '../../theme/breakpoints.dart';
@@ -41,7 +43,8 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final product = productById(widget.productId);
+    final catalog = context.watch<CatalogStore>();
+    final product = catalog.productById(widget.productId);
     if (product == null) {
       return const ShopPage(
         child: ShopMessage(
@@ -72,7 +75,7 @@ class _ProductScreenState extends State<ProductScreen> {
     );
 
     final others = [
-      for (final p in products)
+      for (final p in catalog.products)
         if (p.id != product.id) p,
     ].take(3).toList();
     final columns = switch (context.screenSize) {

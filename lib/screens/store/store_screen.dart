@@ -2,7 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/mock/products.dart';
+import '../../state/catalog_store.dart';
+
 import '../../data/models/product.dart';
 import '../../router/routes.dart';
 import '../../state/cart_store.dart';
@@ -50,8 +51,8 @@ class _StoreScreenState extends State<StoreScreen> {
   @override
   Widget build(BuildContext context) {
     final shown = _category == null
-        ? products
-        : products.where((p) => p.category == _category).toList();
+        ? context.watch<CatalogStore>().products
+        : context.watch<CatalogStore>().products.where((p) => p.category == _category).toList();
 
     // Columns: 1 on compact, 2 on medium, 3 on expanded.
     final columns = switch (context.screenSize) {

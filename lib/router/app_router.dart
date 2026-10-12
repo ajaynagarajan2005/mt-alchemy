@@ -9,6 +9,14 @@ import '../screens/checkout/checkout_screen.dart';
 import '../screens/checkout/success_screen.dart';
 import '../screens/contact/contact_screen.dart';
 import '../screens/about/about_screen.dart';
+import '../screens/assessment/assessment_screen.dart';
+import '../screens/certificate/certificate_screen.dart';
+import '../screens/organisations/organisations_screen.dart';
+import '../screens/portal/employer_reports_screen.dart';
+import '../screens/portal/learner/learner_screens.dart';
+import '../screens/portal/super/catalog_admin_screens.dart';
+import '../screens/portal/super/super_screens.dart';
+import '../screens/portal/trainer/course_editor_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/insights/article_screen.dart';
 import '../screens/insights/insights_screen.dart';
@@ -36,6 +44,7 @@ String portalHomeFor(UserRole role) => switch (role) {
   UserRole.individual => Routes.portalMe,
   UserRole.employer => Routes.employer,
   UserRole.trainer => Routes.admin,
+  UserRole.superAdmin => Routes.superAdmin,
 };
 
 GoRouter createRouter(AuthStore auth) {
@@ -62,6 +71,10 @@ GoRouter createRouter(AuthStore auth) {
       final needsAuth =
           path.startsWith(Routes.portal) || path.startsWith('/learn');
 
+      // Until Firebase restores the session, hold protected pages rather
+      // than bouncing a signed-in user to the login screen.
+      if (!auth.ready) return null;
+
       if (needsAuth && user == null) {
         return Uri(
           path: Routes.login,
@@ -83,6 +96,9 @@ GoRouter createRouter(AuthStore auth) {
         UserRole.individual => path.startsWith(Routes.portalMe),
         UserRole.employer => path.startsWith(Routes.employer),
         UserRole.trainer => path.startsWith(Routes.admin),
+        // Super admins also use the trainer course editor.
+        UserRole.superAdmin =>
+          path.startsWith(Routes.superAdmin) || path.startsWith(Routes.admin),
       };
       if (path.startsWith(Routes.portal) && !roleAllowed) return home;
       return null;
@@ -186,6 +202,23 @@ GoRouter createRouter(AuthStore auth) {
             ],
           ),
           GoRoute(
+            path: Routes.organisations,
+            pageBuilder: (context, state) =>
+                page(state, const OrganisationsScreen()),
+          ),
+          GoRoute(
+            path: Routes.assessment,
+            pageBuilder: (context, state) =>
+                page(state, const AssessmentScreen()),
+          ),
+          GoRoute(
+            path: '/certificates/:code',
+            pageBuilder: (context, state) => page(
+              state,
+              CertificateScreen(code: state.pathParameters['code']!),
+            ),
+          ),
+          GoRoute(
             path: Routes.contact,
             pageBuilder: (context, state) => page(state, const ContactScreen()),
           ),
@@ -220,6 +253,28 @@ GoRouter createRouter(AuthStore auth) {
             path: Routes.portalMe,
             pageBuilder: (context, state) =>
                 page(state, const IndividualScreen()),
+            routes: [
+              GoRoute(
+                path: 'orders',
+                pageBuilder: (context, state) =>
+                    page(state, const MyOrdersScreen()),
+              ),
+              GoRoute(
+                path: 'downloads',
+                pageBuilder: (context, state) =>
+                    page(state, const MyDownloadsScreen()),
+              ),
+              GoRoute(
+                path: 'certificates',
+                pageBuilder: (context, state) =>
+                    page(state, const MyCertificatesScreen()),
+              ),
+              GoRoute(
+                path: 'profile',
+                pageBuilder: (context, state) =>
+                    page(state, const MyProfileScreen()),
+              ),
+            ],
           ),
           GoRoute(
             path: Routes.employer,
@@ -241,11 +296,76 @@ GoRouter createRouter(AuthStore auth) {
                 pageBuilder: (context, state) =>
                     page(state, const ProgressScreen()),
               ),
+              GoRoute(
+                path: 'reports',
+                pageBuilder: (context, state) =>
+                    page(state, const EmployerReportsScreen()),
+              ),
             ],
           ),
           GoRoute(
             path: Routes.admin,
             pageBuilder: (context, state) => page(state, const AdminScreen()),
+            routes: [
+              GoRoute(
+                path: 'courses/:courseId',
+                pageBuilder: (context, state) => page(
+                  state,
+                  CourseEditorScreen(
+                    key: ValueKey(state.pathParameters['courseId']),
+                    courseId: state.pathParameters['courseId']!,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: Routes.superAdmin,
+            pageBuilder: (context, state) =>
+                page(state, const SuperDashboardScreen()),
+            routes: [
+              GoRoute(
+                path: 'users',
+                pageBuilder: (context, state) => page(state, const UsersScreen()),
+              ),
+              GoRoute(
+                path: 'courses',
+                pageBuilder: (context, state) =>
+                    page(state, const AdminScreen(showWelcome: false)),
+              ),
+              GoRoute(
+                path: 'products',
+                pageBuilder: (context, state) =>
+                    page(state, const ProductsAdminScreen()),
+                routes: [
+                  GoRoute(
+                    path: ':productId',
+                    pageBuilder: (context, state) => page(
+                      state,
+                      ProductEditorScreen(
+                        key: ValueKey(state.pathParameters['productId']),
+                        productId: state.pathParameters['productId']!,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              GoRoute(
+                path: 'orders',
+                pageBuilder: (context, state) =>
+                    page(state, const OrdersAdminScreen()),
+              ),
+              GoRoute(
+                path: 'enquiries',
+                pageBuilder: (context, state) =>
+                    page(state, const EnquiriesScreen()),
+              ),
+              GoRoute(
+                path: 'content',
+                pageBuilder: (context, state) =>
+                    page(state, const ContentAdminScreen()),
+              ),
+            ],
           ),
         ],
       ),

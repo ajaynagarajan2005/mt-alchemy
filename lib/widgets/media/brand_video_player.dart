@@ -20,10 +20,15 @@ class BrandVideoPlayer extends StatefulWidget {
     super.key,
     required this.asset,
     required this.poster,
+    this.muted = true,
   });
 
+  /// A bundled asset path, or an http(s) URL for hosted lesson videos.
   final String asset;
   final String poster;
+
+  /// Brand films play muted; lesson videos play with sound.
+  final bool muted;
 
   @override
   State<BrandVideoPlayer> createState() => _BrandVideoPlayerState();
@@ -50,14 +55,17 @@ class _BrandVideoPlayerState extends State<BrandVideoPlayer> {
       _loading = true;
       _failed = false;
     });
-    final c = VideoPlayerController.asset(
-      widget.asset,
-      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-    );
+    final options = VideoPlayerOptions(mixWithOthers: true);
+    final c = widget.asset.startsWith('http')
+        ? VideoPlayerController.networkUrl(
+            Uri.parse(widget.asset),
+            videoPlayerOptions: options,
+          )
+        : VideoPlayerController.asset(widget.asset, videoPlayerOptions: options);
     _c = c;
     try {
       await c.initialize();
-      await c.setVolume(0);
+      await c.setVolume(widget.muted ? 0 : 1);
       c.addListener(_onTick);
       await c.play();
     } catch (_) {

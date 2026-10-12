@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/mock/courses.dart';
+import '../../state/catalog_store.dart';
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
 import '../../state/org_store.dart';
@@ -64,9 +64,14 @@ class EmployerOverviewScreen extends StatelessWidget {
               onPressed: () => context.go(Routes.employerAssign),
             ),
             AlchemyButton(
-              label: 'View progress',
+              label: 'Buy course seats',
               variant: ButtonVariant.secondary,
-              onPressed: () => context.go(Routes.employerProgress),
+              onPressed: () => context.go(Routes.upskilling),
+            ),
+            AlchemyButton(
+              label: 'View analytics',
+              variant: ButtonVariant.secondary,
+              onPressed: () => context.go(Routes.employerReports),
             ),
           ],
         ),
@@ -92,7 +97,7 @@ class EmployerOverviewScreen extends StatelessWidget {
                 for (final a in recent.take(5)) ...[
                   _RecentRow(
                     name: store.employeeById(org.id, a.employeeId)?.name ?? '',
-                    course: courseById(a.courseId)?.title ?? a.courseId,
+                    course: context.read<CatalogStore>().courseById(a.courseId)?.title ?? a.courseId,
                     date: formatDate(a.assignedAt),
                     status: a.status,
                   ),

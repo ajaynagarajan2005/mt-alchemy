@@ -1,6 +1,6 @@
-import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mt_alchemy/data/mock/courses.dart';
 import 'package:mt_alchemy/data/mock/products.dart';
 import 'package:mt_alchemy/state/cart_store.dart';
 import 'package:mt_alchemy/utils/validators.dart';
@@ -98,14 +98,27 @@ void main() {
       expect(cart.isEmpty, isTrue);
     });
 
-    test('placeOrder stores the order and clears the cart', () {
-      final cart = CartStore()..add(cheap);
-      final order = cart.placeOrder(email: 'a@b.co', random: Random(1));
-      expect(order.number, matches(RegExp(r'^MTA-\d{5}$')));
-      expect(order.total, 18 + CartStore.shippingFlat);
-      expect(order.items.single.quantity, 1);
-      expect(cart.isEmpty, isTrue);
-      expect(cart.lastOrder, same(order));
+    test('digital items and courses never pay shipping', () {
+      final toolkit = productById('ei-self-coaching-toolkit')!; // digital
+      final cart = CartStore()
+        ..add(toolkit)
+        ..addCourse(courses.first);
+      expect(cart.hasPhysical, isFalse);
+      expect(cart.shipping, 0);
+      expect(cart.total, toolkit.price + courses.first.price);
+    });
+
+    test('a course is bought once; seats add up per course', () {
+      final course = courses.first;
+      final cart = CartStore()
+        ..addCourse(course)
+        ..addCourse(course)
+        ..addSeats(course, 3)
+        ..addSeats(course, 2);
+      expect(cart.items.length, 2);
+      expect(cart.containsCourse(course.id), isTrue);
+      expect(cart.items.last.quantity, 5);
+      expect(cart.subtotal, course.price * 6);
     });
   });
 }

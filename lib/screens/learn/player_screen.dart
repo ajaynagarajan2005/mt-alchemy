@@ -3,10 +3,9 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/mock/courses.dart';
 import '../../data/models/course.dart';
 import '../../router/routes.dart';
-import '../../state/auth_store.dart';
+import '../../state/catalog_store.dart';
 import '../../state/learning_store.dart';
 import '../../theme/breakpoints.dart';
 import '../../theme/colors.dart';
@@ -21,6 +20,8 @@ import '../../widgets/common/gradient_backdrop.dart';
 import '../../widgets/common/ink_art.dart';
 import '../../widgets/layout/app_shell.dart';
 import '../../widgets/layout/section.dart';
+import '../../widgets/media/brand_video_player.dart';
+import 'lesson_views.dart';
 import '../upskilling/filter_pill.dart';
 import '../upskilling/notice_page.dart';
 import '../../widgets/common/tappable.dart';
@@ -45,12 +46,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final course = courseById(widget.courseId);
-    final user = context.watch<AuthStore>().currentUser;
+    final course = context.watch<CatalogStore>().courseById(widget.courseId);
     final learning = context.watch<LearningStore>();
-    final enrolment = (course == null || user == null)
-        ? null
-        : learning.enrolment(user.id, course.id);
+    final enrolment = course == null ? null : learning.enrolment(course.id);
 
     if (course == null) {
       return NoticePage(
@@ -62,7 +60,15 @@ class _PlayerScreenState extends State<PlayerScreen> {
         ),
       );
     }
-    if (enrolment == null || user == null) {
+    if (enrolment == null && !learning.loaded) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(Space.section),
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    if (enrolment == null) {
       return NoticePage(
         title: 'You are not enrolled yet',
         message: 'Enrol in ${course.title} to open its lessons.',
@@ -92,8 +98,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
       module: module,
       index: _index,
       complete: done.contains(module.id),
-      onToggle: (v) =>
-          learning.setModuleComplete(user.id, course.id, module.id, v),
+      onToggle: (v) => learning.setModuleComplete(course, module.id, v),
+      onQuizSubmitted: (score) =>
+          learning.submitQuiz(course, module.id, score),
+      bestScore: enrolment.quizScores[module.id],
       onPrevious: _index > 0 ? () => select(_index - 1) : null,
       onNext: _index < course.modules.length - 1
           ? () => select(_index + 1)
@@ -121,8 +129,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   const SizedBox(height: Space.lg),
                   progress,
                   const SizedBox(height: Space.xl),
-                  if (enrolment.isComplete) ...[
-                    _CompletionPanel(course: course),
+                  if (enrolment.isCompleteIn(course)) ...[
+                    _CompletionPanel(
+                      course: course,
+                      certificate: learning.certificateFor(course.id),
+                    ),
                     const SizedBox(height: Space.xl),
                   ],
                   expanded
@@ -173,19 +184,29 @@ class _Progress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final count = enrolment.completedModuleIds.length;
+    final count = course.modules
+        .where((m) => enrolment.completedModuleIds.contains(m.id))
+        .length;
+    final pct = (enrolment.progressIn(course) * 100).round();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '$count of ${course.modules.length} modules complete',
-          style: AppText.label,
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                '$count of ${course.modules.length} lessons complete',
+                style: AppText.label,
+              ),
+            ),
+            Text('$pct%', style: AppText.h4.copyWith(color: AppColors.red)),
+          ],
         ),
         const SizedBox(height: Space.xs),
         ClipRRect(
           borderRadius: Radii.pillAll,
           child: LinearProgressIndicator(
-            value: enrolment.progress,
+            value: enrolment.progressIn(course),
             minHeight: 8,
             color: AppColors.red,
             backgroundColor: AppColors.grey200,
@@ -281,7 +302,18 @@ class _ModuleTile extends StatelessWidget {
                       : Text('$number', style: AppText.label),
                 ),
                 const SizedBox(width: Space.xs),
-                Expanded(child: Text(module.title, style: AppText.body)),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(module.title, style: AppText.body),
+                      Text(
+                        '${module.type.label} · ${module.minutes} min',
+                        style: AppText.small,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -332,8 +364,10 @@ class _Lesson extends StatelessWidget {
     required this.index,
     required this.complete,
     required this.onToggle,
+    required this.onQuizSubmitted,
     required this.onPrevious,
     required this.onNext,
+    this.bestScore,
   });
 
   final Course course;
@@ -341,17 +375,20 @@ class _Lesson extends StatelessWidget {
   final int index;
   final bool complete;
   final ValueChanged<bool> onToggle;
+  final Future<String?> Function(double score) onQuizSubmitted;
   final VoidCallback? onPrevious;
   final VoidCallback? onNext;
+  final double? bestScore;
 
   @override
   Widget build(BuildContext context) {
     final compact = context.isCompact;
+    final isQuiz = module.type == LessonType.quiz;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Module ${index + 1} of ${course.modules.length}',
+          'Lesson ${index + 1} of ${course.modules.length} · ${module.type.label}',
           style: AppText.eyebrow,
         ),
         const SizedBox(height: Space.xs),
@@ -359,42 +396,31 @@ class _Lesson extends StatelessWidget {
         const SizedBox(height: Space.xs),
         Text('${module.minutes} minutes', style: AppText.small),
         const SizedBox(height: Space.lg),
-        // CONTAINER (decoration): PLACEHOLDER for the lesson video. A real
-        // player replaces this InkArt panel once lesson media exists.
-        Container(
-          height: compact ? 200 : 340,
-          clipBehavior: Clip.antiAlias,
-          decoration: const BoxDecoration(borderRadius: Radii.cardAll),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              InkArt(seed: module.id),
-              Center(
-                child: Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                    color: AppColors.glassFillStrong,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: AppIcon(
-                      HugeIcons.strokeRoundedPlay,
-                      size: 28,
-                      color: AppColors.red,
-                      semanticLabel: 'Lesson video placeholder',
-                    ),
-                  ),
-                ),
-              ),
-            ],
+        // Modular player: each lesson type renders its own view.
+        switch (module.type) {
+          LessonType.video => _videoView(module),
+          LessonType.pdf => PdfLessonView(module: module),
+          LessonType.quiz => QuizLessonView(
+            key: ValueKey(module.id),
+            module: module,
+            bestScore: bestScore,
+            onSubmitted: onQuizSubmitted,
           ),
-        ),
-        const SizedBox(height: Space.lg),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 680),
-          child: Text(module.body, style: AppText.body.copyWith(height: 1.7)),
-        ),
+          // CONTAINER (decoration): artwork header for reading lessons.
+          LessonType.text => Container(
+            height: compact ? 160 : 240,
+            clipBehavior: Clip.antiAlias,
+            decoration: const BoxDecoration(borderRadius: Radii.cardAll),
+            child: InkArt(seed: module.id),
+          ),
+        },
+        if (!isQuiz) ...[
+          const SizedBox(height: Space.lg),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 680),
+            child: Text(module.body, style: AppText.body.copyWith(height: 1.7)),
+          ),
+        ],
         const SizedBox(height: Space.xl),
         Wrap(
           spacing: Space.sm,
@@ -402,15 +428,19 @@ class _Lesson extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             AlchemyButton(
-              label: complete ? 'Marked as complete' : 'Mark as complete',
-              icon: complete ? HugeIcons.strokeRoundedCheckmarkCircle02 : null,
-              onPressed: () => onToggle(!complete),
-            ),
-            AlchemyButton(
               label: 'Previous',
               variant: ButtonVariant.secondary,
               onPressed: onPrevious,
             ),
+            // Quizzes complete themselves when passed.
+            if (!isQuiz)
+              AlchemyButton(
+                label: complete ? 'Marked as complete' : 'Mark as complete',
+                icon: complete
+                    ? HugeIcons.strokeRoundedCheckmarkCircle02
+                    : null,
+                onPressed: () => onToggle(!complete),
+              ),
             AlchemyButton(
               label: 'Next',
               variant: ButtonVariant.secondary,
@@ -421,11 +451,22 @@ class _Lesson extends StatelessWidget {
       ],
     );
   }
+
+  Widget _videoView(CourseModule module) {
+    final url = module.mediaUrl ?? 'asset:assets/videos/brand_intro.mp4';
+    return BrandVideoPlayer(
+      key: ValueKey(module.id),
+      asset: url.startsWith('asset:') ? url.substring(6) : url,
+      poster: 'assets/images/brand_intro_poster.jpg',
+      muted: false,
+    );
+  }
 }
 
 class _CompletionPanel extends StatelessWidget {
-  const _CompletionPanel({required this.course});
+  const _CompletionPanel({required this.course, this.certificate});
   final Course course;
+  final Certificate? certificate;
 
   @override
   Widget build(BuildContext context) {
@@ -446,10 +487,19 @@ class _CompletionPanel extends StatelessWidget {
           ),
           const SizedBox(height: Space.xs),
           Text(
-            'You have finished ${course.title}. Take the next step when you are ready.',
+            'You have finished ${course.title}. Your certificate is ready.',
             style: AppText.body.copyWith(color: AppColors.onInverse),
           ),
           const SizedBox(height: Space.md),
+          if (certificate != null) ...[
+            ArrowLink(
+              label: 'View your certificate',
+              color: AppColors.onInverse,
+              hoverColor: AppColors.inverseMuted,
+              onTap: () => context.go(Routes.certificate(certificate!.code)),
+            ),
+            const SizedBox(height: Space.xs),
+          ],
           ArrowLink(
             label: 'Browse more courses',
             color: AppColors.onInverse,

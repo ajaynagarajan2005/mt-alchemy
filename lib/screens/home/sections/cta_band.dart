@@ -43,8 +43,8 @@ class CtaBand extends StatelessWidget {
               runSpacing: Space.sm,
               children: [
                 AlchemyButton(
-                  label: 'Book a call',
-                  onPressed: () => context.go(Routes.contact),
+                  label: 'Design a programme',
+                  onPressed: () => context.go(Routes.organisations),
                 ),
                 AlchemyButton(
                   label: 'Register your organisation',

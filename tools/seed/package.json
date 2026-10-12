@@ -1,0 +1,13 @@
+{
+  "name": "mt-alchemy-seed",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "export": "cd ../.. && dart run tools/export_seed.dart",
+    "rules:open": "cd ../.. && firebase deploy --only firestore:rules --config tools/seed/firebase.seed.json --project mt-alchemy-net4207",
+    "rules:secure": "cd ../.. && firebase deploy --only firestore:rules --project mt-alchemy-net4207",
+    "write": "node seed.mjs",
+    "verify": "node verify.mjs",
+    "seed": "npm run export && npm run rules:open && npm run write && npm run rules:secure"
+  }
+}

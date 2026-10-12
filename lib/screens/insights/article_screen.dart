@@ -1,7 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
-import '../../data/mock/articles.dart';
+import '../../state/catalog_store.dart';
+
 import '../../data/models/article.dart';
 import '../../router/routes.dart';
 import '../../theme/breakpoints.dart';
@@ -29,7 +31,8 @@ class ArticleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final article = articleBySlug(slug);
+    final catalog = context.watch<CatalogStore>();
+    final article = catalog.articleBySlug(slug);
     if (article == null) {
       return const NotFoundView(
         title: 'We could not find that article',
@@ -37,7 +40,7 @@ class ArticleScreen extends StatelessWidget {
         backTo: Routes.insights,
       );
     }
-    final related = relatedArticles(article, articles, 2);
+    final related = relatedArticles(article, catalog.articles, 2);
 
     return PageScroll(
       underNav: true,

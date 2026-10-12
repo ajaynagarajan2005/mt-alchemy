@@ -77,17 +77,23 @@ const testimonials = <Testimonial>[
     quote:
         'Our managers stopped avoiding the hard conversations. You can feel the difference '
         'in every team meeting.',
+    id: 'story-hm',
     name: 'Helen Marsh',
+    metric: '3x more feedback conversations logged',
     role: 'Head of People, regional housing association',
   ),
   Testimonial(
     quote: 'It was the first leadership programme where people kept using the tools months later.',
+    id: 'story-rp',
     name: 'Rajesh Patel',
+    metric: '87% still using the tools after 6 months',
     role: 'Operations Director, logistics firm',
   ),
   Testimonial(
     quote: 'Practical, warm and honest. Our team charter is still on the wall and still used.',
+    id: 'story-sk',
     name: 'Siobhan Kelly',
+    metric: 'Team engagement up 24 points',
     role: 'Team Lead, public health service',
   ),
 ];

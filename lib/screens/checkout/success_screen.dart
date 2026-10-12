@@ -4,7 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 import '../../router/routes.dart';
-import '../../state/cart_store.dart';
+import '../../state/commerce_store.dart';
 import '../../theme/breakpoints.dart';
 import '../../theme/colors.dart';
 import '../../theme/radii.dart';
@@ -22,7 +22,7 @@ class SuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final order = context.watch<CartStore>().lastOrder;
+    final order = context.watch<CommerceStore>().lastOrder;
 
     if (order == null) {
       return const ShopPage(
@@ -76,8 +76,8 @@ class SuccessScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: Space.sm),
                   Text(
-                    'A confirmation would be sent to ${order.email}. '
-                    'This is a demo, so no payment was taken.',
+                    'Paid in test mode. Your receipt is saved to your account '
+                    '(${order.email}).',
                     style: white,
                   ),
                   const SizedBox(height: Space.lg),
@@ -90,7 +90,7 @@ class SuccessScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              '${i.product.name} x ${i.quantity}',
+                              i.quantity > 1 ? '${i.name} x ${i.quantity}' : i.name,
                               style: white,
                             ),
                           ),
@@ -129,22 +129,7 @@ class SuccessScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: Space.xl),
-                  Wrap(
-                    spacing: Space.md,
-                    runSpacing: Space.md,
-                    children: [
-                      // The single primary action; the other is inverse.
-                      _OnGradientButton(
-                        label: 'Keep shopping',
-                        onPressed: () => context.go(Routes.store),
-                      ),
-                      AlchemyButton(
-                        label: 'Browse learning',
-                        variant: ButtonVariant.inverse,
-                        onPressed: () => context.go(Routes.upskilling),
-                      ),
-                    ],
-                  ),
+                  ..._nextSteps(context, order),
                 ],
               ),
             ),
@@ -153,6 +138,33 @@ class SuccessScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+/// What to do next depends on what was bought (Journeys A to D).
+List<Widget> _nextSteps(BuildContext context, Order order) {
+  final course = order.items.where((i) => i.kind == 'course');
+  final (label, route) = course.isNotEmpty
+      ? ('Start learning', Routes.learn(course.first.id))
+      : order.items.any((i) => i.kind == 'seats')
+      ? ('Assign your seats', Routes.employerAssign)
+      : order.items.any((i) => i.kind == 'digital')
+      ? ('Go to my downloads', Routes.myDownloads)
+      : ('Track my order', Routes.myOrders);
+  return [
+    Wrap(
+      spacing: Space.md,
+      runSpacing: Space.md,
+      children: [
+        // The single primary action; the other is inverse.
+        _OnGradientButton(label: label, onPressed: () => context.go(route)),
+        AlchemyButton(
+          label: 'Keep shopping',
+          variant: ButtonVariant.inverse,
+          onPressed: () => context.go(Routes.store),
+        ),
+      ],
+    ),
+  ];
 }
 
 /// White pill so the primary action stays legible on the gradient.

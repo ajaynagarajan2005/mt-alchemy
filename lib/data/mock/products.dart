@@ -3,6 +3,7 @@ import '../models/product.dart';
 const products = <Product>[
   Product(
     id: 'feedback-conversation-cards',
+    stock: 120,
     name: 'Feedback Conversation Cards',
     category: ProductCategory.cards,
     price: 24,
@@ -19,6 +20,8 @@ const products = <Product>[
   ),
   Product(
     id: 'ei-self-coaching-toolkit',
+    type: ProductType.digital,
+    fileUrl: '/downloads/ei-self-coaching-toolkit.pdf',
     name: 'EI Self-Coaching Toolkit',
     category: ProductCategory.toolkit,
     price: 39,
@@ -34,6 +37,7 @@ const products = <Product>[
   ),
   Product(
     id: 'team-charter-workshop-kit',
+    stock: 35,
     name: 'Team Charter Workshop Kit',
     category: ProductCategory.workshop,
     price: 89,
@@ -49,6 +53,7 @@ const products = <Product>[
   ),
   Product(
     id: 'leading-with-care-book',
+    stock: 80,
     name: 'Leading With Care',
     category: ProductCategory.book,
     price: 18,
@@ -64,6 +69,7 @@ const products = <Product>[
   ),
   Product(
     id: 'wellbeing-check-in-deck',
+    stock: 60,
     name: 'Well-being Check-in Deck',
     category: ProductCategory.cards,
     price: 22,
@@ -75,6 +81,8 @@ const products = <Product>[
   ),
   Product(
     id: 'manager-one-to-one-planner',
+    type: ProductType.digital,
+    fileUrl: '/downloads/manager-one-to-one-planner.pdf',
     name: 'Manager One-to-One Planner',
     category: ProductCategory.toolkit,
     price: 29,

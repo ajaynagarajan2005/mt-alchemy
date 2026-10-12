@@ -1,7 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
-import '../../data/mock/articles.dart';
+import '../../state/catalog_store.dart';
+
 import '../../data/models/article.dart';
 import '../../router/routes.dart';
 import '../../theme/breakpoints.dart';
@@ -35,6 +37,7 @@ class _InsightsScreenState extends State<InsightsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final articles = context.watch<CatalogStore>().articles;
     final shown = filterArticles(articles, _category);
     final featured = shown.isEmpty ? null : shown.first;
     final rest = shown.length > 1 ? shown.sublist(1) : <Article>[];
@@ -104,7 +107,7 @@ class _Filters extends StatelessWidget {
           selected: selected == null,
           onTap: () => onSelect(null),
         ),
-        for (final c in categoriesOf(articles))
+        for (final c in categoriesOf(context.watch<CatalogStore>().articles))
           _Chip(label: c, selected: selected == c, onTap: () => onSelect(c)),
       ],
     );

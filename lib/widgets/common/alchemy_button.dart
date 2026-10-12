@@ -26,6 +26,7 @@ class AlchemyButton extends StatefulWidget {
     this.variant = ButtonVariant.primary,
     this.icon,
     this.expand = false,
+    this.loading = false,
   });
 
   final String label;
@@ -35,6 +36,9 @@ class AlchemyButton extends StatefulWidget {
 
   /// Fill the available width (forms, mobile).
   final bool expand;
+
+  /// Shows a spinner and ignores taps while an async action runs.
+  final bool loading;
 
   @override
   State<AlchemyButton> createState() => _AlchemyButtonState();
@@ -119,17 +123,27 @@ class _AlchemyButtonState extends State<AlchemyButton> {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        if (widget.icon != null) ...[
+        if (widget.loading) ...[
+          const SizedBox(width: 10),
+          const SizedBox.square(
+            dimension: 16,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Colors.white,
+            ),
+          ),
+        ] else if (widget.icon != null) ...[
           const SizedBox(width: 10),
           AppIcon(widget.icon!, size: 18),
         ],
       ],
     );
+    final onPressed = widget.loading ? null : widget.onPressed;
 
     final button = widget.variant == ButtonVariant.primary
-        ? FilledButton(onPressed: widget.onPressed, style: _style, child: child)
+        ? FilledButton(onPressed: onPressed, style: _style, child: child)
         : OutlinedButton(
-            onPressed: widget.onPressed,
+            onPressed: onPressed,
             style: _style,
             child: child,
           );

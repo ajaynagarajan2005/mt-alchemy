@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
 import '../../state/cart_store.dart';
+import '../../state/commerce_store.dart';
 import '../../theme/breakpoints.dart';
 import '../../theme/colors.dart';
 import '../../theme/radii.dart';
@@ -44,6 +45,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final _cvc = TextEditingController();
 
   bool _placing = false;
+  String? _error;
 
   @override
   void initState() {
@@ -74,18 +76,58 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     super.dispose();
   }
 
-  void _placeOrder() {
+  Future<void> _placeOrder() async {
+    setState(() => _error = null);
     if (!_formKey.currentState!.validate()) return;
     setState(() => _placing = true);
     // Clear any stale "Added to cart" message before the confirmation.
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    context.read<CartStore>().placeOrder(email: _email.text.trim());
+    final cart = context.read<CartStore>();
+    final (order, error) = await context.read<CommerceStore>().checkout(
+      cart: cart,
+      email: _email.text.trim(),
+      card: CardPayment(name: _cardName.text, number: _cardNumber.text),
+      address: cart.hasPhysical
+          ? {
+              'name': _name.text.trim(),
+              'line1': _address1.text.trim(),
+              'line2': _address2.text.trim(),
+              'city': _city.text.trim(),
+              'postcode': _postcode.text.trim(),
+            }
+          : null,
+    );
+    if (!mounted) return;
+    if (order == null) {
+      setState(() {
+        _placing = false;
+        _error = error;
+      });
+      return;
+    }
     context.go(Routes.checkoutSuccess);
   }
 
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartStore>();
+    final signedIn = context.watch<AuthStore>().isSignedIn;
+
+    if (!signedIn && !cart.isEmpty) {
+      return ShopPage(
+        child: ShopMessage(
+          title: 'Sign in to check out',
+          message:
+              'Your cart is saved. Sign in or create an account so we can '
+              'send your receipt and keep your courses and downloads safe.',
+          actionLabel: 'Sign in',
+          route: Uri(
+            path: Routes.login,
+            queryParameters: {'from': Routes.checkout},
+          ).toString(),
+        ),
+      );
+    }
 
     if (cart.isEmpty && !_placing) {
       return const ShopPage(
@@ -99,7 +141,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
 
     final split = context.isExpanded;
-    final form = _form(context);
+    final form = _form(context, cart);
     final summary = _summary(context, cart);
 
     return ShopPage(
@@ -148,7 +190,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Widget _form(BuildContext context) {
+  Widget _form(BuildContext context, CartStore cart) {
     const gap = SizedBox(height: Space.md);
     // CONTAINER (decoration): the whole form sits in a strong GlassPanel.
     return GlassPanel(
@@ -159,7 +201,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Delivery details', style: AppText.h3),
+            Text(
+              cart.hasPhysical ? 'Delivery details' : 'Your details',
+              style: AppText.h3,
+            ),
             const SizedBox(height: Space.lg),
             _pair(
               context,
@@ -179,6 +224,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 validator: Validators.email,
               ),
             ),
+            if (cart.hasPhysical) ...[
             gap,
             LabeledField(
               label: 'Address line 1',
@@ -212,6 +258,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 validator: CheckoutValidators.postcode,
               ),
             ),
+            ],
             const SizedBox(height: Space.xl),
             Text('Payment', style: AppText.h3),
             const SizedBox(height: Space.xs),
@@ -223,8 +270,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 borderRadius: Radii.inputAll,
               ),
               child: Text(
-                'Demo payment. No real payment is taken. Use any valid test '
-                'card number, such as 4242 4242 4242 4242.',
+                'Test mode. No real payment is taken. Use 4242 4242 4242 4242 '
+                'to approve, or 4000 0000 0000 0002 to see a declined card.',
                 style: AppText.small.copyWith(color: AppColors.ink),
               ),
             ),
@@ -272,10 +319,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 validator: CheckoutValidators.cvc,
               ),
             ),
+            if (_error != null) ...[
+              const SizedBox(height: Space.md),
+              Semantics(
+                liveRegion: true,
+                child: Text(
+                  _error!,
+                  style: AppText.small.copyWith(color: AppColors.error),
+                ),
+              ),
+            ],
             const SizedBox(height: Space.xl),
             AlchemyButton(
-              label: 'Place order',
+              label: 'Pay ${gbpExact.format(cart.total)}',
               expand: context.isCompact,
+              loading: _placing,
               onPressed: _placeOrder,
             ),
           ],
@@ -308,13 +366,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     child: SizedBox(
                       width: 48,
                       height: 48,
-                      child: InkArt(seed: i.product.id, intensity: 0.9),
+                      child: InkArt(seed: i.itemId, intensity: 0.9),
                     ),
                   ),
                   const SizedBox(width: Space.sm),
                   Expanded(
                     child: Text(
-                      '${i.product.name} x ${i.quantity}',
+                      i.quantity > 1 ? '${i.name} x ${i.quantity}' : i.name,
                       style: AppText.body,
                     ),
                   ),
@@ -328,6 +386,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             subtotal: cart.subtotal,
             shipping: cart.shipping,
             total: cart.total,
+            physicalSubtotal: cart.physicalSubtotal,
           ),
         ],
       ),

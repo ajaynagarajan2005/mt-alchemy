@@ -1,0 +1,9 @@
+{
+  "indexes": [
+    {"collectionGroup": "orders", "queryScope": "COLLECTION", "fields": [{"fieldPath": "userId", "order": "ASCENDING"}, {"fieldPath": "createdAt", "order": "DESCENDING"}]},
+    {"collectionGroup": "notifications", "queryScope": "COLLECTION", "fields": [{"fieldPath": "userId", "order": "ASCENDING"}, {"fieldPath": "createdAt", "order": "DESCENDING"}]},
+    {"collectionGroup": "enquiries", "queryScope": "COLLECTION", "fields": [{"fieldPath": "status", "order": "ASCENDING"}, {"fieldPath": "createdAt", "order": "DESCENDING"}]},
+    {"collectionGroup": "reviews", "queryScope": "COLLECTION", "fields": [{"fieldPath": "targetId", "order": "ASCENDING"}, {"fieldPath": "createdAt", "order": "DESCENDING"}]}
+  ],
+  "fieldOverrides": []
+}

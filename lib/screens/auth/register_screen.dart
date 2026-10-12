@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
+import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../../utils/validators.dart';
@@ -27,6 +28,16 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   static const _sizes = ['1 to 49', '50 to 249', '250 to 999', '1000+'];
+  static const _genders = ['Female', 'Male', 'Prefer not to say'];
+  static const _countries = [
+    'Malaysia',
+    'Singapore',
+    'Indonesia',
+    'Thailand',
+    'United Kingdom',
+    'Other',
+  ];
+  static const _hobbyOptions = ['Reading', 'Sports', 'Music', 'Travel'];
 
   // FORM: one key validates the whole registration form on submit.
   final _formKey = GlobalKey<FormState>();
@@ -41,6 +52,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? _size;
   bool _terms = false;
   String? _emailError;
+  String? _gender;
+  String? _country;
+  final Set<String> _hobbies = {};
+  bool _busy = false;
 
   bool get _isOrg => _type == AccountType.organisation;
 
@@ -58,19 +73,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     setState(() => _emailError = null);
-    final auth = context.read<AuthStore>();
-    // Taken email shows as an inline field error, set before validation runs.
-    if (Validators.email(_email.text) == null && auth.emailTaken(_email.text)) {
-      setState(
-        () => _emailError = 'An account with that email already exists.',
-      );
-    }
     if (!_formKey.currentState!.validate()) return;
-
+    final auth = context.read<AuthStore>();
+    setState(() => _busy = true);
     final error = _isOrg
-        ? auth.registerOrganisation(
+        ? await auth.registerOrganisation(
             name: _name.text,
             email: _email.text,
             password: _password.text,
@@ -78,22 +87,104 @@ class _RegisterScreenState extends State<RegisterScreen> {
             sector: _sector.text,
             size: _size!,
           )
-        : auth.registerIndividual(
+        : await auth.registerIndividual(
             name: _name.text,
             email: _email.text,
             password: _password.text,
+            gender: _gender,
+            country: _country,
+            hobbies: _hobbies.toList(),
           );
+    if (!mounted) return;
+    setState(() => _busy = false);
     if (error != null) {
+      // Account problems (e.g. email in use) show inline on the email field.
       setState(() => _emailError = error);
       _formKey.currentState!.validate();
       return;
     }
 
-    final user = auth.currentUser!;
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Welcome, ${user.firstName}')));
-    // Journey A goes to Browse Learning; Journey C goes to the employer portal.
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Welcome, ${_name.text.trim().split(' ').first}')),
+    );
+    // Journey A goes to Browse Learning; Journey D goes to the employer portal.
     context.go(_isOrg ? Routes.employer : Routes.upskilling);
+  }
+
+  Widget _personalDetails() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: Space.lg),
+        // Gender: radio buttons wrapped in a FormField so it validates
+        // with the rest of the form.
+        FormField<String>(
+          validator: (_) => _gender == null ? 'Choose an option.' : null,
+          builder: (field) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Gender', style: AppText.label),
+              RadioGroup<String>(
+                groupValue: _gender,
+                onChanged: (v) {
+                  setState(() => _gender = v);
+                  field.didChange(v);
+                },
+                child: Wrap(
+                  spacing: Space.md,
+                  children: [
+                    for (final g in _genders)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Radio<String>(value: g, activeColor: AppColors.red),
+                          Text(g, style: AppText.body),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+              if (field.hasError)
+                Text(
+                  field.errorText!,
+                  style: AppText.small.copyWith(color: AppColors.error),
+                ),
+            ],
+          ),
+        ),
+        const SizedBox(height: Space.md),
+        LabeledDropdown<String>(
+          label: 'Country',
+          hint: 'Choose your country',
+          value: _country,
+          items: [
+            for (final c in _countries)
+              DropdownMenuItem(value: c, child: Text(c, style: AppText.body)),
+          ],
+          onChanged: (v) => setState(() => _country = v),
+          validator: (v) => v == null ? 'Choose your country.' : null,
+        ),
+        const SizedBox(height: Space.lg),
+        Text('Hobbies (optional)', style: AppText.label),
+        const SizedBox(height: Space.xs),
+        Wrap(
+          spacing: Space.xs,
+          runSpacing: Space.xs,
+          children: [
+            for (final h in _hobbyOptions)
+              FilterChip(
+                label: Text(h),
+                selected: _hobbies.contains(h),
+                selectedColor: AppColors.redSoft,
+                checkmarkColor: AppColors.red,
+                onSelected: (on) => setState(
+                  () => on ? _hobbies.add(h) : _hobbies.remove(h),
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
   }
 
   @override
@@ -157,6 +248,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
                 validator: (v) => Validators.email(v) ?? _emailError,
               ),
+              if (!_isOrg) _personalDetails(),
               if (_isOrg) ...[
                 const SizedBox(height: Space.lg),
                 LabeledField(
@@ -223,6 +315,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               AlchemyButton(
                 label: _isOrg ? 'Register organisation' : 'Create account',
                 onPressed: _submit,
+                loading: _busy,
                 expand: true,
               ),
             ],

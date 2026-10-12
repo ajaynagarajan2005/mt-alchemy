@@ -1,7 +1,9 @@
 import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
 import '../../data/mock/services.dart';
+import '../../state/admin_store.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
@@ -12,7 +14,8 @@ import '../../widgets/common/check_field.dart';
 import '../../widgets/common/labeled_field.dart';
 import '../../widgets/layout/split_form_page.dart';
 
-/// Contact screen. No backend: a valid submit shows a success state.
+/// Contact screen. A valid submit saves to Firestore (contactMessages)
+/// and shows a success state.
 class ContactScreen extends StatefulWidget {
   const ContactScreen({super.key});
 
@@ -33,6 +36,8 @@ class _ContactScreenState extends State<ContactScreen> {
   String? _topic;
   bool _consent = false;
   String? _sentTo; // first name once sent
+  bool _busy = false;
+  String? _error;
 
   List<String> get _topics => [for (final s in services) s.title, _other];
 
@@ -44,9 +49,26 @@ class _ContactScreenState extends State<ContactScreen> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _sentTo = _name.text.trim().split(' ').first);
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    final error = await context.read<AdminStore>().submitContact(
+      name: _name.text,
+      email: _email.text,
+      topic: _topic ?? _other,
+      message: _org.text.trim().isEmpty
+          ? _message.text
+          : '${_message.text}\n\nOrganisation: ${_org.text.trim()}',
+    );
+    if (!mounted) return;
+    setState(() {
+      _busy = false;
+      _error = error;
+      if (error == null) _sentTo = _name.text.trim().split(' ').first;
+    });
   }
 
   void _reset() {
@@ -165,9 +187,14 @@ class _ContactScreenState extends State<ContactScreen> {
             ),
             const SizedBox(height: Space.lg),
             // One primary (red) button per view.
+            if (_error != null) ...[
+              Text(_error!, style: AppText.small.copyWith(color: AppColors.error)),
+              const SizedBox(height: Space.md),
+            ],
             AlchemyButton(
               label: 'Send message',
               onPressed: _submit,
+              loading: _busy,
               expand: true,
             ),
           ],

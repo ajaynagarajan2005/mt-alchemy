@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   String? _error;
+  bool _busy = false;
 
   @override
   void dispose() {
@@ -42,21 +43,43 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     setState(() => _error = null);
     if (!_formKey.currentState!.validate()) return;
     final auth = context.read<AuthStore>();
-    final error = auth.signIn(_email.text, _password.text);
+    setState(() => _busy = true);
+    final error = await auth.signIn(_email.text, _password.text);
+    if (!mounted) return;
+    setState(() => _busy = false);
     if (error != null) {
       setState(() => _error = error);
       return;
     }
+    if (auth.currentUser == null) return; // Router redirects once loaded.
     final from = widget.from;
     // Only follow in-app paths so the link cannot send people elsewhere.
     final target = (from != null && from.startsWith('/'))
         ? from
         : portalHomeFor(auth.currentUser!.role);
     context.go(target);
+  }
+
+  Future<void> _forgot() async {
+    final messenger = ScaffoldMessenger.of(context);
+    if (Validators.email(_email.text) != null) {
+      setState(() => _error = 'Enter your email above, then tap Forgot password.');
+      return;
+    }
+    final error = await context.read<AuthStore>().sendPasswordReset(
+      _email.text,
+    );
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(
+          error ?? 'If that email has an account, a reset link is on its way.',
+        ),
+      ),
+    );
   }
 
   void _useDemo(String email) {
@@ -120,7 +143,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: Space.md),
               ],
               // One primary (red) button per view.
-              AlchemyButton(label: 'Sign in', onPressed: _submit, expand: true),
+              AlchemyButton(
+                label: 'Sign in',
+                onPressed: _submit,
+                loading: _busy,
+                expand: true,
+              ),
+              const SizedBox(height: Space.sm),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: _forgot,
+                  style: TextButton.styleFrom(foregroundColor: AppColors.red),
+                  child: Text('Forgot password?', style: AppText.label),
+                ),
+              ),
               const SizedBox(height: Space.xl),
               _DemoAccounts(onUse: _useDemo),
             ],

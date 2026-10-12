@@ -2,9 +2,10 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/mock/courses.dart';
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
+import '../../state/cart_store.dart';
+import '../../state/catalog_store.dart';
 import '../../state/org_store.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
@@ -29,27 +30,46 @@ class _AssignScreenState extends State<AssignScreen> {
   final Set<String> _selected = {};
   bool _showEmployeeError = false;
   bool _justAssigned = false;
+  bool _busy = false;
+  String? _seatError;
 
-  void _submit(String orgId) {
+  Future<void> _submit(String orgId) async {
     final valid = _formKey.currentState?.validate() ?? false;
-    setState(() => _showEmployeeError = _selected.isEmpty);
+    setState(() {
+      _showEmployeeError = _selected.isEmpty;
+      _seatError = null;
+    });
     if (!valid || _selected.isEmpty) return;
 
-    final course = courseById(_courseId!)!;
-    final added = context.read<OrgStore>().assign(
+    final course = context.read<CatalogStore>().courseById(_courseId!)!;
+    final messenger = ScaffoldMessenger.of(context);
+    setState(() => _busy = true);
+    final (added, error) = await context.read<OrgStore>().assign(
       orgId,
       course.id,
       _selected.toList(),
     );
+    if (!mounted) return;
+    setState(() => _busy = false);
+    if (error != null) {
+      setState(() => _seatError = error);
+      return;
+    }
     final message = added == 0
         ? 'Everyone selected already has this course.'
         : 'Assigned ${course.title} to $added ${added == 1 ? 'person' : 'people'}.';
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    messenger.showSnackBar(SnackBar(content: Text(message)));
     setState(() {
       _selected.clear();
       _justAssigned = added > 0;
     });
+  }
+
+  void _buySeats() {
+    final course = context.read<CatalogStore>().courseById(_courseId!)!;
+    final needed = _selected.isEmpty ? 1 : _selected.length;
+    context.read<CartStore>().addSeats(course, needed);
+    context.go(Routes.checkout);
   }
 
   @override
@@ -95,11 +115,27 @@ class _AssignScreenState extends State<AssignScreen> {
                   value: _courseId,
                   validator: (v) => v == null ? 'Choose a course.' : null,
                   items: [
-                    for (final c in courses)
-                      DropdownMenuItem(value: c.id, child: Text(c.title)),
+                    for (final c in context.watch<CatalogStore>().courses)
+                      DropdownMenuItem(
+                        value: c.id,
+                        child: Text(
+                          '${c.title}  (${org.seatsFor(c.id)} seats)',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                   ],
-                  onChanged: (v) => setState(() => _courseId = v),
+                  onChanged: (v) => setState(() {
+                    _courseId = v;
+                    _seatError = null;
+                  }),
                 ),
+                if (_courseId != null) ...[
+                  const SizedBox(height: Space.xs),
+                  Text(
+                    '${org.seatsFor(_courseId!)} unassigned seats for this course.',
+                    style: AppText.small,
+                  ),
+                ],
                 const SizedBox(height: Space.lg),
                 Row(
                   children: [
@@ -141,12 +177,32 @@ class _AssignScreenState extends State<AssignScreen> {
                       style: AppText.small.copyWith(color: AppColors.error),
                     ),
                   ),
+                if (_seatError != null) ...[
+                  const SizedBox(height: Space.md),
+                  Text(
+                    _seatError!,
+                    style: AppText.small.copyWith(color: AppColors.error),
+                  ),
+                ],
                 const SizedBox(height: Space.lg),
-                AlchemyButton(
-                  label: _selected.isEmpty
-                      ? 'Assign course'
-                      : 'Assign to ${_selected.length}',
-                  onPressed: () => _submit(org.id),
+                Wrap(
+                  spacing: Space.sm,
+                  runSpacing: Space.sm,
+                  children: [
+                    AlchemyButton(
+                      label: _selected.isEmpty
+                          ? 'Assign course'
+                          : 'Assign to ${_selected.length}',
+                      loading: _busy,
+                      onPressed: () => _submit(org.id),
+                    ),
+                    if (_courseId != null)
+                      AlchemyButton(
+                        label: 'Buy seats',
+                        variant: ButtonVariant.secondary,
+                        onPressed: _buySeats,
+                      ),
+                  ],
                 ),
               ],
             ),

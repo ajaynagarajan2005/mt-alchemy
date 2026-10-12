@@ -1,8 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
-import '../../../data/mock/articles.dart';
+import '../../../state/catalog_store.dart';
+
 import '../../../data/models/article.dart';
 import '../../../router/routes.dart';
 import '../../../theme/breakpoints.dart';
@@ -22,7 +24,7 @@ class InsightsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final latest = articles.take(3).toList();
+    final latest = context.watch<CatalogStore>().articles.take(3).toList();
     return Section(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

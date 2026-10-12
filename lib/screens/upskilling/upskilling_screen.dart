@@ -1,7 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
-import '../../data/mock/courses.dart';
+import '../../state/catalog_store.dart';
+
 import '../../data/mock/services.dart';
 import '../../data/models/course.dart';
 import '../../router/routes.dart';
@@ -38,7 +40,7 @@ class _UpskillingScreenState extends State<UpskillingScreen> {
   static const _cardHeight = 400.0;
   static const _gap = Space.lg;
 
-  List<Course> get _filtered => courses
+  List<Course> get _filtered => context.watch<CatalogStore>().courses
       .where(
         (c) =>
             (_area == null || c.serviceSlug == _area) &&

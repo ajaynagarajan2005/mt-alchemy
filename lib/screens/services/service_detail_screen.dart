@@ -1,9 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
-import '../../data/mock/articles.dart';
-import '../../data/mock/courses.dart';
+import '../../state/catalog_store.dart';
+
 import '../../data/mock/services.dart';
 import '../../data/models/course.dart';
 import '../../data/models/service.dart';
@@ -45,7 +46,7 @@ class ServiceDetailScreen extends StatelessWidget {
     }
     final index = services.indexOf(service);
     final related = [
-      for (final c in courses)
+      for (final c in context.watch<CatalogStore>().courses)
         if (c.serviceSlug == service.slug) c,
     ];
     return PageScroll(
@@ -220,7 +221,8 @@ class _Quote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = testimonials[index % testimonials.length];
+    final stories = context.watch<CatalogStore>().stories;
+    final t = stories[index % stories.length];
     return Section(
       child: Reveal(
         child: Align(

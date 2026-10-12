@@ -14,6 +14,7 @@ import '../common/app_icon.dart';
 import '../common/gradient_backdrop.dart';
 import '../common/tappable.dart';
 import '../common/theme_toggle.dart';
+import 'notification_bell.dart';
 
 class _PortalDest {
   const _PortalDest(this.label, this.path, this.icon);
@@ -36,9 +37,14 @@ List<_PortalDest> _destinationsFor(UserRole role) => switch (role) {
       HugeIcons.strokeRoundedTask01,
     ),
     _PortalDest(
-      'Progress',
+      'Progress report',
       Routes.employerProgress,
       HugeIcons.strokeRoundedChartLineData01,
+    ),
+    _PortalDest(
+      'Analytics',
+      Routes.employerReports,
+      HugeIcons.strokeRoundedPieChart,
     ),
   ],
   UserRole.individual => const [
@@ -48,20 +54,57 @@ List<_PortalDest> _destinationsFor(UserRole role) => switch (role) {
       HugeIcons.strokeRoundedBookOpen01,
     ),
     _PortalDest(
-      'Browse courses',
-      Routes.upskilling,
-      HugeIcons.strokeRoundedBook02,
+      'Certificates',
+      Routes.myCertificates,
+      HugeIcons.strokeRoundedAward01,
+    ),
+    _PortalDest(
+      'Orders',
+      Routes.myOrders,
+      HugeIcons.strokeRoundedShoppingBag01,
+    ),
+    _PortalDest(
+      'My downloads',
+      Routes.myDownloads,
+      HugeIcons.strokeRoundedDownload01,
+    ),
+    _PortalDest(
+      'Profile',
+      Routes.myProfile,
+      HugeIcons.strokeRoundedUserAccount,
     ),
   ],
   UserRole.trainer => const [
-    _PortalDest('Overview', Routes.admin, HugeIcons.strokeRoundedHome01),
+    _PortalDest('Courses', Routes.admin, HugeIcons.strokeRoundedBook02),
+  ],
+  UserRole.superAdmin => const [
+    _PortalDest(
+      'Dashboard',
+      Routes.superAdmin,
+      HugeIcons.strokeRoundedAnalytics01,
+    ),
+    _PortalDest('Users', Routes.superUsers, HugeIcons.strokeRoundedUserSettings01),
+    _PortalDest('Courses', Routes.superCourses, HugeIcons.strokeRoundedBook02),
+    _PortalDest('Products', Routes.superProducts, HugeIcons.strokeRoundedPackage),
+    _PortalDest(
+      'Orders and shipping',
+      Routes.superOrders,
+      HugeIcons.strokeRoundedDeliveryTruck01,
+    ),
+    _PortalDest(
+      'Enquiries',
+      Routes.superEnquiries,
+      HugeIcons.strokeRoundedMail01,
+    ),
+    _PortalDest('Content', Routes.superContent, HugeIcons.strokeRoundedNews01),
   ],
 };
 
 String _portalTitle(UserRole role) => switch (role) {
   UserRole.employer => 'Employer portal',
   UserRole.individual => 'Learner portal',
-  UserRole.trainer => 'Trainer and admin',
+  UserRole.trainer => 'Trainer portal',
+  UserRole.superAdmin => 'Super admin',
 };
 
 /// Chrome for every signed-in portal page.
@@ -192,6 +235,7 @@ class _PortalBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           const SizedBox(width: Space.xs),
         ],
+        const NotificationBell(),
         const ThemeToggleButton(),
         if (context.isCompact)
           IconButton(
@@ -212,9 +256,10 @@ class _PortalBar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-void _signOut(BuildContext context) {
-  context.read<AuthStore>().signOut();
-  context.go(Routes.home);
+Future<void> _signOut(BuildContext context) async {
+  final router = GoRouter.of(context);
+  await context.read<AuthStore>().signOut();
+  router.go(Routes.home);
 }
 
 class _Wordmark extends StatelessWidget {

@@ -56,3 +56,9 @@ video/out/
 
 # Agent worktrees
 .claude/worktrees/
+
+# Firebase
+.secrets/
+.firebase/
+firebase-debug.log
+tools/seed/node_modules/
