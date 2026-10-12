@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MT Alchemy: Platform and Architecture</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm 20mm; }
+  :root { --red:#C8102E; --deep:#9E0C24; --soft:#FBE7EA; --ink:#18181B; --muted:#52525B; --line:#E4E4E7; --ash:#F4F4F5; }
+  * { box-sizing: border-box; }
+  body { font: 10.5pt/1.55 "Segoe UI", Inter, Arial, sans-serif; color: var(--ink); margin: 0; }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; line-height: 1.2; }
+  h1 { font-size: 30pt; margin: 0 0 6mm; }
+  h2 { font-size: 17pt; margin: 9mm 0 3mm; padding-bottom: 2mm; border-bottom: 2px solid var(--red); break-after: avoid; }
+  h3 { font-size: 12.5pt; margin: 5mm 0 2mm; color: var(--deep); break-after: avoid; }
+  p { margin: 0 0 3mm; }
+  .muted { color: var(--muted); }
+  .eyebrow { font: 600 8.5pt/1 "Segoe UI", Arial; letter-spacing: .14em; color: var(--red); text-transform: uppercase; }
+  .cover { height: 250mm; display: flex; flex-direction: column; justify-content: space-between; break-after: page; }
+  .cover .band { background: linear-gradient(120deg, #F4F4F5 0%, #FBE7EA 45%, #C8102E 100%); border-radius: 6mm; padding: 14mm; color: #fff; }
+  .cover .band h1 { color: var(--ink); }
+  .cover .band p { color: var(--ink); font-size: 12pt; max-width: 120mm; }
+  .wordmark { font: 500 22pt Georgia, serif; }
+  .wordmark b { color: var(--red); font-weight: 500; }
+  .meta td { padding: 1.2mm 6mm 1.2mm 0; vertical-align: top; }
+  table { width: 100%; border-collapse: collapse; margin: 2mm 0 4mm; font-size: 9.5pt; break-inside: auto; }
+  th { text-align: left; background: var(--ash); font-weight: 600; }
+  th, td { padding: 2mm 2.5mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr { break-inside: avoid; }
+  code { font: 9pt Consolas, monospace; background: var(--ash); padding: .3mm 1.2mm; border-radius: 1mm; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  .card { border: 1px solid var(--line); border-radius: 3mm; padding: 4mm; break-inside: avoid; }
+  .card h3 { margin-top: 0; }
+  .pill { display: inline-block; background: var(--soft); color: var(--red); border-radius: 10mm; padding: .6mm 2.6mm; font-size: 8.5pt; margin: 0 1mm 1mm 0; }
+  figure { margin: 3mm 0 5mm; break-inside: avoid; }
+  figure img { width: 100%; border: 1px solid var(--line); border-radius: 2.5mm; display: block; }
+  figcaption { font-size: 8.5pt; color: var(--muted); margin-top: 1.5mm; }
+  svg text { font-family: "Segoe UI", Arial, sans-serif; }
+  .steps { counter-reset: s; list-style: none; padding: 0; margin: 0 0 3mm; }
+  .steps li { counter-increment: s; position: relative; padding: 0 0 1.6mm 8mm; }
+  .steps li::before { content: counter(s); position: absolute; left: 0; top: .2mm; width: 5mm; height: 5mm; border-radius: 50%; background: var(--red); color: #fff; font-size: 7.5pt; text-align: center; line-height: 5mm; }
+  .page-break { break-before: page; }
+  .toc li { margin: .8mm 0; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div>
+    <div class="wordmark"><b>MT</b> Alchemy</div>
+    <div class="muted">NET4207 Group Project · Flutter + Firebase</div>
+  </div>
+  <div class="band">
+    <div class="eyebrow">Platform guide</div>
+    <h1>The MT Alchemy platform and its architecture</h1>
+    <p>A human-centred learning and people-development platform for emotional intelligence, leadership, team engagement and workplace well-being. It combines a corporate website, a learning management system, an online store and role-based portals in one Flutter app on Firebase.</p>
+  </div>
+  <table class="meta">
+    <tr><td><b>Firebase project</b></td><td>mt-alchemy-net4207 (Authentication, Cloud Firestore in asia-southeast1, Hosting)</td></tr>
+    <tr><td><b>Client</b></td><td>Flutter 3.47 (web, Android, iOS), Provider state management, go_router</td></tr>
+    <tr><td><b>Roles</b></td><td>Guest · Individual learner · Employer · Trainer · Super Admin</td></tr>
+    <tr><td><b>Journeys</b></td><td>A Learning · B Digital product · C Physical product · D Employer · E Corporate enquiry</td></tr>
+    <tr><td><b>Date</b></td><td>October 2026</td></tr>
+  </table>
+</section>
+
+<h2>Contents</h2>
+<ol class="toc">
+  <li>What the site does</li>
+  <li>System architecture</li>
+  <li>Code structure and state management</li>
+  <li>Navigation, landing page and role guards</li>
+  <li>Data model (Firestore)</li>
+  <li>Security model</li>
+  <li>The five user journeys</li>
+  <li>Learning pathways and course eligibility</li>
+  <li>Design system, imagery and motion</li>
+  <li>Quality, testing and verification</li>
+  <li>Deployment and maintenance</li>
+  <li>Screens</li>
+</ol>
+
+<h2>1. What the site does</h2>
+<p>MT Alchemy's tagline is <i>"We don't just run activities. We shift mindsets, behaviours, and team culture."</i> The platform turns visitors into enquiries, learners and corporate clients through four connected modules:</p>
+<div class="grid2">
+  <div class="card"><h3>Corporate website</h3><p>A single landing page with sections for About, Services, Upskilling, Store, Insights and Contact. Each section links to a full page. There's also an Impact Stories carousel, a free EQ self-assessment and a "For organisations" enquiry form.</p></div>
+  <div class="card"><h3>Learning management system</h3><p>A course catalogue filtered by each learner's pathway, with purchase, enrolment and a modular course player (video, PDF, reading and quiz lessons). Progress is tracked, and completing a course issues a certificate with a public verification link.</p></div>
+  <div class="card"><h3>E-commerce store</h3><p>Digital products are downloaded after payment. Physical products are shipped and tracked from Processing to Shipped to Delivered. One checkout handles products, courses and employer seats. Payments run in test mode.</p></div>
+  <div class="card"><h3>Role-based portals</h3><p><b>Learners:</b> learning, catalogue, certificates, orders, downloads and profile. <b>Employers:</b> employees, seats, assignments, progress and analytics charts. <b>Trainers:</b> course authoring. <b>Super admins:</b> users, products, orders and shipping, enquiries and content.</p></div>
+</div>
+
+<h2 class="page-break">2. System architecture</h2>
+<p>The app is a single Flutter codebase that talks directly to Firebase. There is no custom server: business rules run in the client stores, and Firestore security rules enforce who can read or write each document.</p>
+<figure>
+<svg viewBox="0 0 760 470" width="100%">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C8102E"/></marker></defs>
+  <rect x="10" y="10" width="740" height="60" rx="10" fill="#F4F4F5"/>
+  <text x="30" y="36" font-size="13" font-weight="700" fill="#18181B">Users</text>
+  <text x="30" y="56" font-size="11" fill="#52525B">Guest · Individual · Employer · Trainer · Super Admin, on web (desktop, tablet, mobile), Android and iOS</text>
+  <rect x="10" y="95" width="740" height="215" rx="12" fill="#fff" stroke="#C8102E" stroke-width="1.5"/>
+  <text x="30" y="120" font-size="13" font-weight="700" fill="#C8102E">Flutter client (lib/)</text>
+  <rect x="30" y="135" width="220" height="75" rx="8" fill="#FBE7EA"/>
+  <text x="42" y="157" font-size="11.5" font-weight="700">UI layer</text>
+  <text x="42" y="175" font-size="10" fill="#52525B">screens/ · widgets/ · theme/</text>
+  <text x="42" y="191" font-size="10" fill="#52525B">AppShell and PortalShell Scaffolds,</text>
+  <text x="42" y="205" font-size="10" fill="#52525B">glass cards, forms, charts</text>
+  <rect x="270" y="135" width="220" height="75" rx="8" fill="#FBE7EA"/>
+  <text x="282" y="157" font-size="11.5" font-weight="700">Navigation</text>
+  <text x="282" y="175" font-size="10" fill="#52525B">go_router · role redirects</text>
+  <text x="282" y="191" font-size="10" fill="#52525B">HomeSections (menu scrolls the</text>
+  <text x="282" y="205" font-size="10" fill="#52525B">landing page) · page transitions</text>
+  <rect x="510" y="135" width="220" height="75" rx="8" fill="#FBE7EA"/>
+  <text x="522" y="157" font-size="11.5" font-weight="700">State (Provider)</text>
+  <text x="522" y="175" font-size="10" fill="#52525B">Auth · Catalog · Cart · Commerce</text>
+  <text x="522" y="191" font-size="10" fill="#52525B">Learning · Org · Admin</text>
+  <text x="522" y="205" font-size="10" fill="#52525B">Notification · Theme</text>
+  <rect x="30" y="225" width="700" height="70" rx="8" fill="#F4F4F5"/>
+  <text x="42" y="247" font-size="11.5" font-weight="700">Data layer</text>
+  <text x="42" y="265" font-size="10" fill="#52525B">data/backend.dart wraps FirebaseAuth and FirebaseFirestore. Tests swap in fakes. models/ handle toMap and fromMap.</text>
+  <text x="42" y="281" font-size="10" fill="#52525B">data/mock/ is the seed catalogue and the offline fallback · data/eligibility.dart holds the pathway rule</text>
+  <line x1="380" y1="310" x2="380" y2="345" stroke="#C8102E" stroke-width="2" marker-end="url(#a)"/>
+  <text x="390" y="333" font-size="10" fill="#52525B">real-time snapshot streams · batched writes · transactions</text>
+  <rect x="10" y="350" width="740" height="110" rx="12" fill="#fff" stroke="#18181B" stroke-width="1"/>
+  <text x="30" y="375" font-size="13" font-weight="700">Firebase (mt-alchemy-net4207)</text>
+  <rect x="30" y="388" width="160" height="58" rx="8" fill="#F4F4F5"/><text x="42" y="410" font-size="11" font-weight="700">Authentication</text><text x="42" y="428" font-size="9.5" fill="#52525B">Email and password</text>
+  <rect x="205" y="388" width="200" height="58" rx="8" fill="#F4F4F5"/><text x="217" y="410" font-size="11" font-weight="700">Cloud Firestore</text><text x="217" y="428" font-size="9.5" fill="#52525B">22 collections · asia-southeast1</text>
+  <rect x="420" y="388" width="150" height="58" rx="8" fill="#FBE7EA"/><text x="432" y="410" font-size="11" font-weight="700" fill="#C8102E">Security rules</text><text x="432" y="428" font-size="9.5" fill="#52525B">Role-based access</text>
+  <rect x="585" y="388" width="150" height="58" rx="8" fill="#F4F4F5"/><text x="597" y="410" font-size="11" font-weight="700">Hosting</text><text x="597" y="428" font-size="9.5" fill="#52525B">build/web + /downloads</text>
+</svg>
+<figcaption>Figure 1. Layers of the platform. Arrows show the direction of data requests. Firestore pushes changes back over live listeners, so every screen updates in real time.</figcaption>
+</figure>
+
+<h3>Supporting tooling</h3>
+<table>
+  <tr><th>Tool</th><th>Purpose</th></tr>
+  <tr><td><code>tools/seed/seed.mjs</code></td><td>Creates the 8 demo accounts and the catalogue (12 courses, 6 products, articles, stories), an organisation, assignments, orders, shipping, downloads, reviews and an enquiry. It uses Firebase REST APIs and needs no npm packages.</td></tr>
+  <tr><td><code>tools/seed/verify.mjs</code></td><td>Runs 33 live checks. It signs in as every role, performs each journey's writes, and confirms that forbidden writes are refused.</td></tr>
+  <tr><td><code>video/</code> (Remotion)</td><td>Renders the landing loop (ink in water, a floating glass crystal, parallax particles) and the brand and services films to H.264, in light and dark versions.</td></tr>
+  <tr><td><code>tools/make_pdfs.py</code></td><td>Generates the branded PDF workbooks and digital products served from <code>/downloads</code>.</td></tr>
+</table>
+
+<h2 class="page-break">3. Code structure and state management</h2>
+<table>
+  <tr><th>Folder</th><th>Contents</th></tr>
+  <tr><td><code>lib/data/</code></td><td><code>backend.dart</code> (Firebase access and friendly error messages), <code>models/</code> (Course with lessons and quizzes, Product, AppUser, Organisation, Employee, Article, Review, CartItem), <code>mock/</code> (seed catalogue), <code>eligibility.dart</code></td></tr>
+  <tr><td><code>lib/state/</code></td><td>One <code>ChangeNotifier</code> per domain. Each store subscribes to the signed-in user's Firestore queries and exposes plain getters and async actions that return an error message or null.</td></tr>
+  <tr><td><code>lib/router/</code></td><td><code>routes.dart</code> (every path), <code>app_router.dart</code> (shell routes, role guards, transitions), <code>home_sections.dart</code> (landing anchors)</td></tr>
+  <tr><td><code>lib/screens/</code></td><td>Public pages, <code>learn/</code> (course player and lesson views), <code>portal/</code> (learner, employer, trainer and super admin screens)</td></tr>
+  <tr><td><code>lib/widgets/</code></td><td>Reusable UI: GlassPanel, AlchemyButton, AnimatedCard, CardImage, Reveal, TiltCard, ReviewsSection, PathwayFields, the layout shells and the notification bell</td></tr>
+  <tr><td><code>lib/theme/</code></td><td>Colour, typography, spacing, radius and motion tokens for light and dark themes</td></tr>
+</table>
+<h3>How data flows</h3>
+<ol class="steps">
+  <li><b>AuthStore</b> listens to Firebase Auth. On sign-in it streams <code>users/{uid}</code> (role, organisation, pathway) and the user's organisation.</li>
+  <li>The other stores listen to AuthStore. When the uid changes, they cancel their old listeners and subscribe to that user's data, for example <code>enrolments where userId == uid</code>.</li>
+  <li>Screens <code>watch</code> stores and rebuild automatically. CatalogStore starts with the bundled catalogue, so pages draw instantly and work offline. Firestore then replaces it live.</li>
+  <li>Actions such as checkout, marking a lesson complete or assigning a course write batches or transactions. Progress updates optimistically, so the UI responds before the server confirms.</li>
+</ol>
+
+<h2>4. Navigation, landing page and role guards</h2>
+<p>Public pages share <b>AppShell</b> (one Scaffold with a glass AppBar and a drawer below 1024px). Signed-in pages share <b>PortalShell</b> (a second Scaffold with its own AppBar, a side rail or drawer, a notification bell, and one scroll area with a visible scrollbar).</p>
+<p><b>Landing behaviour:</b> on the home page, the menu items glide to the matching section of the landing page (<code>HomeSections.navigate</code> with <code>Scrollable.ensureVisible</code>). From any other page, they open the full page with a fade-and-lift transition. Each landing section also has a "See all" link.</p>
+<table>
+  <tr><th>Role</th><th>Portal home</th><th>Can open</th></tr>
+  <tr><td>Guest</td><td>none</td><td>Public site. Portals and the course player redirect to sign-in and return afterwards.</td></tr>
+  <tr><td>Individual</td><td><code>/portal/me</code></td><td>My learning, Course catalogue, Certificates, Orders, My downloads, Profile, Course player</td></tr>
+  <tr><td>Employer</td><td><code>/portal/employer</code></td><td>Overview, Employees, Buy courses, Assign courses, Progress report, Analytics</td></tr>
+  <tr><td>Trainer</td><td><code>/portal/admin</code></td><td>Courses (create, edit, publish, delete) and the course editor</td></tr>
+  <tr><td>Super Admin</td><td><code>/portal/super</code></td><td>Dashboard (live totals), Users, Courses, Products, Orders and shipping, Enquiries, Content, plus the course editor</td></tr>
+</table>
+
+<h2 class="page-break">5. Data model (Firestore)</h2>
+<p>Each entity is a top-level collection. Lessons and quiz questions are embedded in the course document, so the player loads in a single read. Order items are embedded in the order. The full ER diagram is in <code>docs/ER_DIAGRAM.md</code>.</p>
+<table>
+  <tr><th>Collection</th><th>Key fields</th><th>Written by</th></tr>
+  <tr><td>users</td><td>name, email, role, orgId, careerStage, interests[], gender, country, hobbies[], disabled</td><td>Self at registration (individual or employer only), super admin</td></tr>
+  <tr><td>organizations</td><td>name, sector, size, ownerId, seats {courseId: n}</td><td>Employer</td></tr>
+  <tr><td>employees · assignments</td><td>orgId, name, email, team · employeeEmail, courseId</td><td>Employer</td></tr>
+  <tr><td>courses</td><td>title, level, serviceSlug, price, imageUrl, published, modules[] {type, mediaUrl, quiz[]}</td><td>Trainer, super admin</td></tr>
+  <tr><td>enrolments</td><td>userId, courseId, orderId or assignmentId, orgId, completedModuleIds[], quizScores, progress, status</td><td>Learner (needs a paid order or an assignment)</td></tr>
+  <tr><td>certificates</td><td>code, userId, courseId, userName, courseTitle, issuedAt (publicly readable)</td><td>Learner, only when the enrolment is complete</td></tr>
+  <tr><td>products · productCategories</td><td>type (digital or physical), stock, fileUrl, imageUrl, price</td><td>Super admin (checkout may only decrease stock)</td></tr>
+  <tr><td>carts · orders · payments</td><td>items · status, totals, orgId · amount, last4, gateway: test-mode</td><td>Buyer</td></tr>
+  <tr><td>shipping · downloads</td><td>status, tracking, history[] · url, downloadCount</td><td>Buyer creates them, super admin advances shipping</td></tr>
+  <tr><td>reviews · impactStories · articles</td><td>rating, comment · quote, metric · body[]</td><td>Learners · super admin · staff</td></tr>
+  <tr><td>enquiries · contactMessages</td><td>organisation, interest, status, proposal · message</td><td>Anyone (guests too). The super admin manages them.</td></tr>
+  <tr><td>notifications · assessments</td><td>userId, title, read · EQ scores</td><td>Staff and employers · learner</td></tr>
+</table>
+
+<h2>6. Security model</h2>
+<p><code>firestore.rules</code> reads the caller's role from <code>users/{uid}</code>. Key guarantees, each proven by <code>verify.mjs</code> against the live project:</p>
+<ul>
+  <li>Users cannot change their own role or disabled flag. Self-registration can only create individual or employer accounts.</li>
+  <li>An enrolment needs either an order owned by the learner or an employer assignment for their email address.</li>
+  <li>A certificate can only be created when the matching enrolment's status is <code>complete</code>.</li>
+  <li>Employers can only read and write their own organisation's employees, assignments, enrolments and orders.</li>
+  <li>Draft (unpublished) courses are hidden from everyone except trainers and super admins.</li>
+  <li>Buyers can create a shipment in the Processing state, but only a super admin can mark it Shipped or Delivered.</li>
+</ul>
+
+<h2 class="page-break">7. The five user journeys</h2>
+<div class="grid2">
+<div class="card"><h3>A · Individual learning</h3><ol class="steps">
+  <li>Register and choose a career stage and interest areas</li><li>The course catalogue shows only pathway courses</li><li>Buy the course, then pay at checkout (test card 4242…)</li><li>Enrolment is created and the dashboard shows progress</li><li>Watch the video, read the PDF, Mark complete, Next</li><li>Pass the quiz (70% or more) to receive a verifiable certificate</li></ol></div>
+<div class="card"><h3>B · Digital product</h3><ol class="steps">
+  <li>Store, then choose the EI Self-Coaching Toolkit</li><li>Add to cart, then Checkout (no shipping charge)</li><li>Payment record is created in test mode</li><li>My digital products, then Download (the count is tracked)</li></ol></div>
+<div class="card"><h3>C · Physical product</h3><ol class="steps">
+  <li>Store, then Cart (free delivery from £50)</li><li>Enter a shipping address at checkout and pay</li><li>Stock is decremented in a transaction</li><li>The admin marks it Shipped (with tracking), then Delivered, and the buyer is notified each time</li></ol></div>
+<div class="card"><h3>D · Employer</h3><ol class="steps">
+  <li>Register an organisation</li><li>Add employees (they join automatically when they register with that email)</li><li>Buy courses: choose the number of seats and pay</li><li>Assign courses, which uses up the seats</li><li>Progress report and analytics charts</li></ol></div>
+<div class="card"><h3>E · Corporate enquiry</h3><ol class="steps">
+  <li>Open "For organisations" from the landing page or footer</li><li>Submit an enquiry (saved to Firestore)</li><li>The super admin inbox tracks it: New, In discussion, Proposal, Agreed</li><li>The admin writes the customised programme proposal</li></ol></div>
+<div class="card"><h3>Extras</h3><p>An EQ self-assessment with an animated profile and a recommended course, an Impact Stories carousel, reviews, notifications, dark mode, live admin totals, and public certificate verification.</p></div>
+</div>
+
+<h2>8. Learning pathways and course eligibility</h2>
+<p>At registration, a learner picks a <b>career stage</b> (which sets the course levels they can take) and one or more <b>interest areas</b> (which set the topics). A course is open to them only when it matches <b>both</b>. Learners can buy any course in that set. Other courses stay visible but locked, with the reason shown. Employer assignments bypass the rule because the organisation chooses for its staff.</p>
+<table>
+  <tr><th>Career stage</th><th>Foundation</th><th>Practitioner</th><th>Leader</th></tr>
+  <tr><td>Student or graduate</td><td>✔</td><td></td><td></td></tr>
+  <tr><td>Professional</td><td>✔</td><td>✔</td><td></td></tr>
+  <tr><td>Manager or team lead</td><td></td><td>✔</td><td>✔</td></tr>
+  <tr><td>Senior leader</td><td></td><td></td><td>✔</td></tr>
+</table>
+<p>The catalogue holds 12 courses, one for every level in each of the four practice areas, so every combination of stage and interests has at least one course to choose from. The rule lives in <code>lib/data/eligibility.dart</code>, and the catalogue, course page and checkout all use it.</p>
+
+<h2 class="page-break">9. Design system, imagery and motion</h2>
+<ul>
+  <li><b>Colour:</b> pure white (#FFFFFF) with a zinc ash scale and Crimson Red (#C8102E) as the single accent. Grey-to-red gradients mark moments of change, such as a passed quiz, a completed order or a finished course. There is no grain or grey haze.</li>
+  <li><b>Glassmorphism:</b> a shared GlassPanel (backdrop blur, translucent fill, light border) is used on the navigation, hero copy, summaries and forms.</li>
+  <li><b>Typography:</b> Fraunces for headings and Manrope for body text.</li>
+  <li><b>Imagery:</b> 30 free-licence Unsplash photos (WebP), one on every course, product, service and article card. Courses and products store an <code>imageUrl</code> that admins can change. The seeded red ink artwork is the fallback.</li>
+  <li><b>Motion:</b> a looping landing film (Remotion) with a floating glass crystal and parallax particles; staggered reveals; hover lift, red-tinted shadow and photo zoom on every card; 3D tilt on service cards; fade-and-lift page transitions; a smooth glide to landing sections; animated assessment bars. Reduced-motion settings are respected throughout.</li>
+  <li><b>Responsive:</b> breakpoints at 600px and 1024px. Fluid gutters, layouts that collapse below 1024px, and a full-window canvas (viewport meta, no fixed widths).</li>
+</ul>
+
+<h2>10. Quality, testing and verification</h2>
+<table>
+  <tr><th>Check</th><th>Result</th></tr>
+  <tr><td><code>flutter analyze</code></td><td>No issues</td></tr>
+  <tr><td><code>flutter test</code> (fake Firestore and mock Auth)</td><td>43 tests: cart rules, checkout writes, declined cards, shipping states, enrolment, quiz pass and fail, certificates, seats and assignments, analytics buckets, validators, portal scrolling</td></tr>
+  <tr><td><code>npm run verify</code> (live Firebase)</td><td>33 of 33 pass: every journey and every forbidden write, per role</td></tr>
+  <tr><td>Visual checks</td><td>Playwright screenshots at 1440px and 375px, in light and dark themes</td></tr>
+</table>
+
+<h2>11. Deployment and maintenance</h2>
+<table>
+  <tr><th>Task</th><th>Command or place</th></tr>
+  <tr><td>Run locally</td><td><code>flutter run -d chrome</code></td></tr>
+  <tr><td>Build and serve</td><td><code>flutter build web --release</code> then <code>node tools/serve_web.mjs 8080</code></td></tr>
+  <tr><td>Publish the site</td><td><code>firebase deploy --only hosting</code></td></tr>
+  <tr><td>Change rules or indexes</td><td><code>firebase deploy --only firestore</code>, then <code>npm run verify</code></td></tr>
+  <tr><td>Reset demo data</td><td><code>cd tools/seed &amp;&amp; npm run seed</code></td></tr>
+  <tr><td>Day-to-day content</td><td>Trainer portal (courses), Super admin (products, users, orders, enquiries, content)</td></tr>
+</table>
+<p class="muted">Demo accounts (password <code>alchemy123</code>): amara@example.com (individual) · callum@northlight.example.com (employee) · priya@northlight.example.com (employer) · maya@mtalchemy.example.com (trainer) · admin@mtalchemy.example.com (super admin).</p>
+
+<h2 class="page-break">12. Screens</h2>
+<figure><img src="img/f-home-1440.png"><figcaption>Landing hero: the looping ink film with the glass crystal, behind glass copy.</figcaption></figure>
+<figure><img src="img/n-about.png"><figcaption>The landing page's About section, reached by clicking "About" in the menu (smooth scroll).</figcaption></figure>
+<figure><img src="img/n-store.png"><figcaption>Store section on the landing page, with a live featured product.</figcaption></figure>
+<figure class="page-break"><img src="img/n-cat.png"><figcaption>Learner course catalogue: the pathway banner and only the courses this learner is eligible for (live data).</figcaption></figure>
+<figure><img src="img/f-course-1440.png"><figcaption>Course detail with a photo header and the purchase panel.</figcaption></figure>
+<figure class="page-break"><img src="img/p3.png"><figcaption>Learner orders with the live shipping timeline.</figcaption></figure>
+<div class="grid2">
+  <figure><img src="img/f-orgs-1440.png"><figcaption>Journey E: corporate enquiry form.</figcaption></figure>
+  <figure><img src="img/f-eq-375.png" style="width:60%"><figcaption>EQ self-assessment at 375px (mobile).</figcaption></figure>
+</div>
+
+</body>
+</html>
