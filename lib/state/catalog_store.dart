@@ -6,9 +6,11 @@ import 'package:flutter/foundation.dart';
 import '../data/backend.dart';
 import '../data/mock/articles.dart' as seed;
 import '../data/mock/courses.dart' as seed;
+import '../data/mock/founders.dart' as seed;
 import '../data/mock/products.dart' as seed;
 import '../data/models/article.dart';
 import '../data/models/course.dart';
+import '../data/models/founder.dart';
 import '../data/models/product.dart';
 
 /// Live catalogue from Firestore: courses, products, articles and impact
@@ -28,6 +30,7 @@ class CatalogStore extends ChangeNotifier {
   List<Product> _products = seed.products;
   List<Article> _articles = seed.articles;
   List<Testimonial> _stories = seed.testimonials;
+  List<Founder> _founders = seed.founders;
   bool _staff = false;
   bool _live = false;
   String? _error;
@@ -39,6 +42,7 @@ class CatalogStore extends ChangeNotifier {
   List<Product> get products => _products;
   List<Article> get articles => _articles;
   List<Testimonial> get stories => _stories;
+  List<Founder> get founders => _founders;
 
   /// True once at least one collection has loaded from Firestore.
   bool get isLive => _live;
@@ -92,6 +96,14 @@ class CatalogStore extends ChangeNotifier {
           (list) =>
               _articles = list
                 ..sort((a, b) => b.published.compareTo(a.published)),
+        ),
+      )
+      ..add(
+        _watch(
+          _backend.col('founders'),
+          (d) => Founder.fromMap(d.id, d.data()),
+          (list) =>
+              _founders = list..sort((a, b) => a.order.compareTo(b.order)),
         ),
       )
       ..add(
@@ -151,6 +163,18 @@ class CatalogStore extends ChangeNotifier {
 
   Future<String?> deleteArticle(String slug) =>
       _write(() => _backend.col('articles').doc(slug).delete());
+
+  Future<String?> saveFounder(Founder founder) => _write(
+    () => _backend.col('founders').doc(founder.id).set(founder.toMap()),
+  );
+
+  /// Stores a new photo for a founder (a data: URL, see Founder.imageUrl).
+  Future<String?> setFounderPhoto(Founder founder, String dataUrl) => _write(
+    () => _backend.col('founders').doc(founder.id).set({
+      ...founder.toMap(),
+      'imageUrl': dataUrl,
+    }),
+  );
 
   Future<String?> saveStory(Testimonial story) {
     final ref = story.id.isEmpty

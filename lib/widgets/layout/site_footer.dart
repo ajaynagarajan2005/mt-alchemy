@@ -52,6 +52,7 @@ class SiteFooter extends StatelessWidget {
           NavLink('About', Routes.about),
           NavLink('Services', Routes.services),
           NavLink('For organisations', Routes.organisations),
+          NavLink('Virtual tour', Routes.tour),
           NavLink('Insights', Routes.insights),
           NavLink('Contact', Routes.contact),
         ],

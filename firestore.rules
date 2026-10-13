@@ -142,6 +142,12 @@ service cloud.firestore {
       allow write: if isStaff();
     }
 
+    // The people behind the site: public to read, super admin to edit.
+    match /founders/{id} {
+      allow read: if true;
+      allow write: if isSuper();
+    }
+
     match /impactStories/{id} {
       allow read: if true;
       allow write: if isSuper();

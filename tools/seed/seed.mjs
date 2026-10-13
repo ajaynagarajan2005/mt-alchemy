@@ -93,6 +93,7 @@ async function main() {
   for (const [id, p] of Object.entries(seed.products)) put(['products', id], p);
   for (const [id, c] of Object.entries(seed.productCategories)) put(['productCategories', id], c);
   for (const [id, a] of Object.entries(seed.articles)) put(['articles', id], a);
+  for (const [id, f] of Object.entries(seed.founders)) put(['founders', id], f);
   for (const [id, s] of Object.entries(seed.impactStories)) put(['impactStories', id], { ...s, createdAt: serverTimestamp() });
 
   const { id: orgId, ...org } = seed.organization;

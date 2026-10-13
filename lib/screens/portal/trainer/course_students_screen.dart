@@ -3,6 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../../widgets/common/course_thumb.dart';
 import '../../../data/models/people.dart';
 import '../../../router/routes.dart';
 import '../../../state/admin_store.dart';
@@ -158,6 +159,12 @@ class _CourseStudentsScreenState extends State<CourseStudentsScreen> {
                 ],
               ),
             ),
+            CourseThumb.banner(
+              courseId: course.id,
+              height: 150,
+              radius: Radii.cardAll,
+            ),
+            const SizedBox(height: Space.lg),
             PortalGrid(
               expandedColumns: 5,
               mediumColumns: 3,

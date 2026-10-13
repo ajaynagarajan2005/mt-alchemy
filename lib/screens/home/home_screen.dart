@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../widgets/layout/app_shell.dart';
 import 'sections/course_row.dart';
 import 'sections/cta_band.dart';
+import 'sections/founders_section.dart';
 import 'sections/home_hero.dart';
 import 'sections/insights_list.dart';
 import '../../router/home_sections.dart';
@@ -60,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
           key: HomeSections.keyFor(Routes.about),
           child: const AboutTeaser(),
         ),
+        const FoundersSection(),
         const Manifesto(),
         KeyedSubtree(
           key: HomeSections.keyFor(Routes.upskilling),
@@ -79,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: const ContactTeaser(),
         ),
         const CtaBand(),
+        const TourQrSection(),
       ],
     );
   }

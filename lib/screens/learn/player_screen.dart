@@ -3,6 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/common/course_thumb.dart';
 import '../../data/models/course.dart';
 import '../../data/models/people.dart';
 import '../../router/routes.dart';
@@ -281,6 +282,12 @@ class _ModuleList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          CourseThumb.banner(
+            courseId: course.id,
+            height: 120,
+            radius: Radii.smallAll,
+          ),
+          const SizedBox(height: Space.sm),
           Padding(
             padding: const EdgeInsets.all(Space.xs),
             child: Text('Lessons', style: AppText.h4),

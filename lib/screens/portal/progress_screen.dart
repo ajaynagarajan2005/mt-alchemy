@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/common/course_thumb.dart';
 import '../../state/catalog_store.dart';
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
@@ -65,27 +66,43 @@ class _ProgressScreenState extends State<ProgressScreen> {
           children: [
             for (final s in summaries)
               PortalCard(
-                padding: const EdgeInsets.all(Space.md),
+                padding: EdgeInsets.zero,
+                // CONTAINER (card): photo banner above the course totals.
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      context
-                              .read<CatalogStore>()
-                              .courseById(s.courseId)
-                              ?.title ??
-                          s.courseId,
-                      style: AppText.label,
+                    CourseThumb.banner(
+                      courseId: s.courseId,
+                      height: 100,
+                      radius: const BorderRadius.vertical(
+                        top: Radius.circular(24),
+                      ),
                     ),
-                    const SizedBox(height: Space.xxs),
-                    Text(
-                      '${s.completed} of ${s.assigned} complete  |  ${(s.averageProgress * 100).round()}% average',
-                      style: AppText.small,
-                    ),
-                    const SizedBox(height: Space.sm),
-                    ProgressBar(
-                      value: s.averageProgress,
-                      complete: s.completed == s.assigned,
+                    Padding(
+                      padding: const EdgeInsets.all(Space.md),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            context
+                                    .read<CatalogStore>()
+                                    .courseById(s.courseId)
+                                    ?.title ??
+                                s.courseId,
+                            style: AppText.label,
+                          ),
+                          const SizedBox(height: Space.xxs),
+                          Text(
+                            '${s.completed} of ${s.assigned} complete  |  ${(s.averageProgress * 100).round()}% average',
+                            style: AppText.small,
+                          ),
+                          const SizedBox(height: Space.sm),
+                          ProgressBar(
+                            value: s.averageProgress,
+                            complete: s.completed == s.assigned,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -137,6 +154,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               ],
               for (var i = 0; i < list.length; i++) ...[
                 _Row(
+                  courseId: list[i].courseId,
                   employee:
                       store.employeeById(org.id, list[i].employeeId)?.name ??
                       '',
@@ -186,8 +204,10 @@ class _Row extends StatelessWidget {
     required this.bar,
     required this.status,
     this.header = false,
+    this.courseId,
   });
 
+  final String? courseId;
   final String employee;
   final String course;
   final String date;
@@ -213,7 +233,17 @@ class _Row extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 2),
-            Text('$course  |  $date', style: AppText.small),
+            Row(
+              children: [
+                if (courseId != null) ...[
+                  CourseThumb(courseId: courseId!, width: 44, height: 44),
+                  const SizedBox(width: Space.sm),
+                ],
+                Expanded(
+                  child: Text('$course  |  $date', style: AppText.small),
+                ),
+              ],
+            ),
             const SizedBox(height: Space.sm),
             bar,
           ],
@@ -226,7 +256,18 @@ class _Row extends StatelessWidget {
       child: Row(
         children: [
           Expanded(flex: 3, child: Text(employee, style: strong)),
-          Expanded(flex: 4, child: Text(course, style: plain)),
+          Expanded(
+            flex: 4,
+            child: Row(
+              children: [
+                if (courseId != null) ...[
+                  CourseThumb(courseId: courseId!, width: 48, height: 48),
+                  const SizedBox(width: Space.sm),
+                ],
+                Expanded(child: Text(course, style: plain)),
+              ],
+            ),
+          ),
           Expanded(flex: 2, child: Text(date, style: plain)),
           Expanded(
             flex: 3,

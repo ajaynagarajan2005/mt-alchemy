@@ -3,6 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../../widgets/common/course_thumb.dart';
 import '../../../data/eligibility.dart';
 import '../../../router/routes.dart';
 import '../../../state/auth_store.dart';
@@ -305,12 +306,12 @@ class MyCertificatesScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppIcon(
-                      HugeIcons.strokeRoundedAward01,
-                      size: 32,
-                      color: AppColors.red,
+                    CourseThumb.banner(
+                      courseId: c.courseId,
+                      height: 110,
+                      radius: Radii.smallAll,
                     ),
-                    const SizedBox(height: Space.sm),
+                    const SizedBox(height: Space.md),
                     Text(c.courseTitle, style: AppText.h4),
                     Text(
                       'Issued ${formatDate(c.issuedAt)}  ·  ${c.code}',

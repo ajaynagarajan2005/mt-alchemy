@@ -1,6 +1,8 @@
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../router/routes.dart';
 import '../../../theme/breakpoints.dart';
@@ -214,6 +216,175 @@ class ContactTeaser extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Last section of the landing page: a QR code that opens the virtual tour
+/// (a cartoon explainer film). The code encodes this site's own address plus
+/// `/tour`, so it is correct on whatever host the site is published to.
+class TourQrSection extends StatelessWidget {
+  const TourQrSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // The site may live under a sub-path (GitHub Pages serves it from
+    // /<repo>/), so the tour address includes the build's base path.
+    const base = String.fromEnvironment('SITE_BASE', defaultValue: '/');
+    final tourUrl = '${Uri.base.origin}${base}tour';
+    final local = const {'localhost', '127.0.0.1'}.contains(Uri.base.host);
+    final expanded = context.isExpanded;
+
+    final qr = Reveal(
+      child: AnimatedCard(
+        // CONTAINER (card): white tile so the code scans in dark mode too.
+        child: Container(
+          padding: const EdgeInsets.all(Space.lg),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: Radii.cardAll,
+            border: Border.all(color: AppColors.line),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              QrImageView(
+                data: tourUrl,
+                size: 200,
+                padding: EdgeInsets.zero,
+                backgroundColor: Colors.white,
+                eyeStyle: const QrEyeStyle(
+                  eyeShape: QrEyeShape.square,
+                  color: Color(0xFFC8102E),
+                ),
+                dataModuleStyle: const QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                  color: Color(0xFF18181B),
+                ),
+                semanticsLabel:
+                    'QR code that opens the MT Alchemy virtual tour',
+              ),
+              const SizedBox(height: Space.sm),
+              Text(
+                'Scan with your phone camera',
+                style: AppText.small.copyWith(color: const Color(0xFF52525B)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    final copy = Reveal(
+      delay: const Duration(milliseconds: 100),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('VIRTUAL TOUR', style: AppText.eyebrow),
+          const SizedBox(height: Space.sm),
+          Text(
+            'Scan to take a tour in under a minute',
+            style: AppText.h2(context),
+          ),
+          const SizedBox(height: Space.md),
+          Text(
+            'Meet Alchy and friends in a short cartoon that shows what '
+            'MT Alchemy does and how it helps learners, teams and trainers.',
+            style: AppText.lead,
+          ),
+          const SizedBox(height: Space.lg),
+          Wrap(
+            spacing: Space.sm,
+            runSpacing: Space.sm,
+            children: [
+              AlchemyButton(
+                label: 'Open the tour',
+                icon: HugeIcons.strokeRoundedPlayCircle,
+                onPressed: () => context.go(Routes.tour),
+              ),
+              AlchemyButton(
+                label: 'Copy link',
+                variant: ButtonVariant.secondary,
+                onPressed: () async {
+                  final messenger = ScaffoldMessenger.of(context);
+                  await Clipboard.setData(ClipboardData(text: tourUrl));
+                  messenger.showSnackBar(
+                    const SnackBar(content: Text('Tour link copied.')),
+                  );
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: Space.sm),
+          SelectableText(tourUrl, style: AppText.small),
+          if (local) ...[
+            const SizedBox(height: Space.xs),
+            Text(
+              'This copy runs on your computer, so the code only opens here. '
+              'Publish the site and it will scan from any phone.',
+              style: AppText.small.copyWith(color: AppColors.red),
+            ),
+          ],
+        ],
+      ),
+    );
+
+    final preview = Reveal(
+      delay: const Duration(milliseconds: 200),
+      child: AnimatedCard(
+        onTap: () => context.go(Routes.tour),
+        child: ClipRRect(
+          borderRadius: Radii.cardAll,
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                CardImage(
+                  seed: 'tour',
+                  src: 'asset:assets/images/tour_poster.jpg',
+                  tint: false,
+                ),
+                Center(
+                  child: CircleAvatar(
+                    radius: 34,
+                    backgroundColor: AppColors.red,
+                    child: const Icon(
+                      Icons.play_arrow_rounded,
+                      size: 42,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return Section(
+      child: expanded
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                qr,
+                const SizedBox(width: Space.xxl),
+                Expanded(flex: 5, child: copy),
+                const SizedBox(width: Space.xxl),
+                Expanded(flex: 5, child: preview),
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                copy,
+                const SizedBox(height: Space.xl),
+                Center(child: qr),
+                const SizedBox(height: Space.xl),
+                preview,
+              ],
+            ),
     );
   }
 }

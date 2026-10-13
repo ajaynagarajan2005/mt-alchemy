@@ -15,9 +15,12 @@ class ThemeToggleButton extends StatelessWidget {
     final dark = AppColors.isDark;
     return IconButton(
       tooltip: dark ? 'Switch to light mode' : 'Switch to dark mode',
-      onPressed: () => context.read<ThemeController>().toggle(
-        dark ? Brightness.dark : Brightness.light,
-      ),
+      // Read the live brightness at press time, not the one captured when
+      // this button was built, so repeated taps always flip.
+      onPressed: () {
+        final theme = context.read<ThemeController>();
+        theme.toggle(theme.effective(MediaQuery.platformBrightnessOf(context)));
+      },
       icon: AppIcon(
         dark ? HugeIcons.strokeRoundedSun01 : HugeIcons.strokeRoundedMoon02,
         size: 22,

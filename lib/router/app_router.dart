@@ -24,6 +24,7 @@ import '../screens/insights/article_screen.dart';
 import '../screens/insights/insights_screen.dart';
 import '../screens/learn/player_screen.dart';
 import '../screens/services/service_detail_screen.dart';
+import '../screens/tour/tour_screen.dart';
 import '../screens/services/services_screen.dart';
 import '../screens/placeholder_screen.dart';
 import '../screens/portal/admin_screen.dart';
@@ -233,6 +234,10 @@ GoRouter createRouter(AuthStore auth) {
             path: Routes.organisations,
             pageBuilder: (context, state) =>
                 page(state, const OrganisationsScreen()),
+          ),
+          GoRoute(
+            path: Routes.tour,
+            pageBuilder: (context, state) => page(state, const TourScreen()),
           ),
           GoRoute(
             path: Routes.assessment,

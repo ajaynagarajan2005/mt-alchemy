@@ -147,6 +147,7 @@ async function main() {
   // Tidy up the records this script created.
   await del(`enquiries/verify-${stamp}`, admin.token);
   await del(`enrolments/${amara.uid}_team-trust-reset`, admin.token);
+  await del(`certificates/FAKE-${stamp}`, admin.token);
 
   console.log(`\n${passed} passed, ${failed} failed\n`);
   process.exit(failed ? 1 : 0);

@@ -6,7 +6,8 @@
     "studio": "remotion studio src/index.ts",
     "render": "remotion render src/index.ts HeroLoop ../assets/videos/hero_loop.mp4 --codec=h264 --muted --crf=30",
     "render:all": "npm run render && remotion render src/index.ts BrandIntro ../assets/videos/brand_intro.mp4 --codec=h264 --muted --crf=28 && remotion render src/index.ts ServicesLoop ../assets/videos/services_loop.mp4 --codec=h264 --muted --crf=30 && remotion render src/index.ts HeroLoopDark ../assets/videos/hero_loop_dark.mp4 --codec=h264 --muted --crf=30 && remotion render src/index.ts ServicesLoopDark ../assets/videos/services_loop_dark.mp4 --codec=h264 --muted --crf=30",
-    "still":"remotion still src/index.ts HeroLoop ../assets/images/hero_poster.jpg --frame=0 --image-format=jpeg --jpeg-quality=85"
+    "still": "remotion still src/index.ts HeroLoop ../assets/images/hero_poster.jpg --frame=0 --image-format=jpeg --jpeg-quality=85",
+    "render:tour": "remotion render src/index.ts SiteTour ../assets/videos/site_tour.mp4 --codec=h264 --muted --crf=27 && remotion still src/index.ts SiteTour ../assets/images/tour_poster.jpg --frame=300 --image-format=jpeg --jpeg-quality=85"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.534",

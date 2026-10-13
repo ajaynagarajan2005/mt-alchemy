@@ -1153,6 +1153,29 @@
       ]
     }
   },
+  "founders": {
+    "ajay-an": {
+      "name": "AJAY A.N",
+      "role": "Founder",
+      "bio": "Co-founder of the MT Alchemy platform.",
+      "imageUrl": null,
+      "order": 1
+    },
+    "maahir-faheem": {
+      "name": "MAAHIR FAHEEM",
+      "role": "Founder",
+      "bio": "Co-founder of the MT Alchemy platform.",
+      "imageUrl": null,
+      "order": 2
+    },
+    "tanuj-sakthi-kumar": {
+      "name": "TANUJ SAKTHI KUMAR",
+      "role": "Founder",
+      "bio": "Co-founder of the MT Alchemy platform.",
+      "imageUrl": null,
+      "order": 3
+    }
+  },
   "impactStories": {
     "story-hm": {
       "quote": "Our managers stopped avoiding the hard conversations. You can feel the difference in every team meeting.",

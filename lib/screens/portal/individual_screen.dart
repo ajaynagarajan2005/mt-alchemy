@@ -3,6 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/common/course_thumb.dart';
 import '../../data/models/course.dart';
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
@@ -15,7 +16,6 @@ import '../../theme/radii.dart';
 import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../../widgets/common/alchemy_button.dart';
-import '../../widgets/common/app_icon.dart';
 import '../../widgets/common/arrow_link.dart';
 import 'portal_widgets.dart';
 
@@ -162,11 +162,7 @@ class _AssignedCardState extends State<_AssignedCard> {
     return PortalCard(
       child: Row(
         children: [
-          AppIcon(
-            HugeIcons.strokeRoundedTask01,
-            size: 28,
-            color: AppColors.red,
-          ),
+          CourseThumb(courseId: widget.course.id, width: 88, height: 66),
           const SizedBox(width: Space.md),
           Expanded(
             child: Column(
@@ -263,6 +259,12 @@ class _EnrolmentCard extends StatelessWidget {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                CourseThumb.banner(
+                  courseId: course.id,
+                  height: 120,
+                  radius: Radii.smallAll,
+                ),
+                const SizedBox(height: Space.md),
                 info,
                 const SizedBox(height: Space.md),
                 buttons,
@@ -270,6 +272,8 @@ class _EnrolmentCard extends StatelessWidget {
             )
           : Row(
               children: [
+                CourseThumb(courseId: course.id, width: 120, height: 84),
+                const SizedBox(width: Space.lg),
                 Expanded(child: info),
                 const SizedBox(width: Space.lg),
                 buttons,

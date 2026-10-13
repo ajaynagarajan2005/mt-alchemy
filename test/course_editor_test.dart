@@ -28,7 +28,9 @@ void main() {
             theme: AppTheme.light(),
             home: Scaffold(
               body: SingleChildScrollView(
-                child: CourseEditorScreen(courseId: id == 'new' ? 'new' : courses.first.id),
+                child: CourseEditorScreen(
+                  courseId: id == 'new' ? 'new' : courses.first.id,
+                ),
               ),
             ),
           ),

@@ -15,6 +15,7 @@ import '../../widgets/common/reveal.dart';
 import '../../widgets/layout/app_shell.dart';
 import '../../widgets/layout/section.dart';
 import '../../widgets/media/brand_video_player.dart';
+import '../home/sections/founders_section.dart';
 import 'content_shared.dart';
 
 /// About page: hero, principles, story, team, closing CTA.
@@ -33,6 +34,7 @@ class AboutScreen extends StatelessWidget {
         _BrandFilm(),
         _Principles(),
         _Story(),
+        FoundersSection(),
         _Team(),
         ClosingCta(),
       ],

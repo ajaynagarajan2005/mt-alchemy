@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/common/course_thumb.dart';
 import '../../state/catalog_store.dart';
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
@@ -96,6 +97,7 @@ class EmployerOverviewScreen extends StatelessWidget {
               children: [
                 for (final a in recent.take(5)) ...[
                   _RecentRow(
+                    courseId: a.courseId,
                     name: store.employeeById(org.id, a.employeeId)?.name ?? '',
                     course:
                         context
@@ -127,8 +129,10 @@ class _RecentRow extends StatelessWidget {
     required this.course,
     required this.date,
     required this.status,
+    required this.courseId,
   });
 
+  final String courseId;
   final String name;
   final String course;
   final String date;
@@ -148,6 +152,8 @@ class _RecentRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: Space.sm),
       child: Row(
         children: [
+          CourseThumb(courseId: courseId, width: 56, height: 56),
+          const SizedBox(width: Space.md),
           Expanded(child: text),
           const SizedBox(width: Space.sm),
           StatusChip(status: status),

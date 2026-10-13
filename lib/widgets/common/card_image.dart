@@ -85,6 +85,14 @@ class CardImage extends StatelessWidget {
     Widget image;
     if (url == null || url.isEmpty) {
       image = fallback;
+    } else if (url.startsWith('data:')) {
+      // An uploaded photo stored in the document itself.
+      final bytes = UriData.parse(url).contentAsBytes();
+      image = Image.memory(
+        bytes,
+        fit: fit,
+        errorBuilder: (_, _, _) => fallback,
+      );
     } else if (url.startsWith('asset:')) {
       image = Image.asset(
         url.substring(6),

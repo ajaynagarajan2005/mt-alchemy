@@ -19,6 +19,7 @@ abstract final class Routes {
   static const register = '/register';
   static const organisations = '/organisations';
   static const assessment = '/eq-assessment';
+  static const tour = '/tour';
   static String certificate(String code) => '/certificates/$code';
 
   static const portal = '/portal';
