@@ -2,6 +2,8 @@
 
 A human-centred learning and people-development platform for MT Alchemy, built in Flutter with a Firebase backend (NET4207 group project).
 
+**Live site:** https://ajaynagarajan2005.github.io/mt-alchemy/ · **Virtual tour:** https://ajaynagarajan2005.github.io/mt-alchemy/tour · **Code:** https://github.com/ajaynagarajan2005/mt-alchemy
+
 > We don't just run activities. We shift mindsets, behaviours, and team culture.
 
 The platform has four modules: a corporate website, an LMS, an e-commerce store and role-based portals for five roles (Guest, Individual, Employer, Trainer, Super Admin).

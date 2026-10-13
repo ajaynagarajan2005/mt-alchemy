@@ -17,6 +17,16 @@
 
 ## Deploying
 
+**GitHub Pages (the public site):** commit your changes, then
+
+```bash
+bash tools/deploy_pages.sh
+```
+
+It builds with the `/mt-alchemy/` base path, adds a 404 fallback so deep links work, and publishes to the `gh-pages` branch. The site updates about a minute later. The domain `ajaynagarajan2005.github.io` is already allowed in Firebase Authentication; a different GitHub account or a custom domain must be added under Authentication > Settings > Authorized domains.
+
+**Firebase Hosting (alternative):**
+
 ```bash
 flutter build web --release
 firebase deploy --only hosting            # site
