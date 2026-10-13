@@ -105,4 +105,4 @@ node tools/serve_web.mjs 8080     # serves build/web with a single-page-app fall
 - **CRUD.** Courses (Trainer and Super Admin), Products, Users, Articles and Impact Stories (Super Admin), Employees and Assignments (Employer).
 - **Extras.** EQ self-assessment with course recommendation, employer analytics charts, an Impact Stories carousel, dark mode, public certificate verification and in-app notifications.
 
-See `docs/ER_DIAGRAM.md` and `docs/MAINTENANCE.md`.
+Documentation: **`docs/MT_Alchemy_Documentation.pdf`** (every page of the site with screenshots, architecture, data model, security, journeys, testing, deployment; source in `docs/documentation/`), `docs/MT_Alchemy_Architecture.pdf` (short architecture guide), `docs/ER_DIAGRAM.md` and `docs/MAINTENANCE.md`.
