@@ -67,7 +67,7 @@
   <div class="band">
     <div class="eyebrow">Complete project documentation</div>
     <h1>MT Alchemy: a human-centred learning and people-development platform</h1>
-    <p>Every page, role, journey and design decision, with the system architecture, data model, security rules, testing and deployment, in one document.</p>
+    <p>This document describes each page and role of the site, and how it is built, secured, tested and deployed.</p>
   </div>
   <div>
     <table>
@@ -84,24 +84,24 @@
 <!-- ================= CONTENTS ================= -->
 <h2>Contents</h2>
 <ol class="toc">
-  <li><b>Overview</b>: purpose, modules, roles, the project in numbers, how it meets the brief</li>
-  <li><b>Information architecture</b>: sitemap and navigation</li>
-  <li><b>System architecture</b>: layers, technology, code structure, state, routing, build and delivery</li>
-  <li><b>Page-by-page guide</b>: every page with a screenshot, route, access, purpose, data and actions
-    <ul><li>4.1 Public website · 4.2 Course player and certificates · 4.3 Learner portal · 4.4 Employer portal · 4.5 Trainer portal · 4.6 Super admin portal</li></ul></li>
-  <li><b>The five user journeys</b>, step by step</li>
-  <li><b>Data and security</b>: collections, relationships, access rules, business rules</li>
-  <li><b>Design system, imagery and motion</b></li>
-  <li><b>Media pipeline</b>: videos, the virtual tour and the QR code</li>
-  <li><b>Quality and verification</b></li>
-  <li><b>Deployment and operations</b></li>
-  <li><b>Limitations and future work</b></li>
-  <li><b>Appendices</b>: demo accounts, route table, credits, glossary</li>
+  <li>Overview</li>
+  <li>Information architecture</li>
+  <li>System architecture</li>
+  <li>Page-by-page guide
+    <ul><li>4.1 Public website · 4.2 Course player · 4.3 Learner portal · 4.4 Employer portal · 4.5 Trainer portal · 4.6 Super admin portal</li></ul></li>
+  <li>The five user journeys</li>
+  <li>Data and security</li>
+  <li>Design system, imagery and motion</li>
+  <li>Media: videos, virtual tour and QR code</li>
+  <li>Quality and verification</li>
+  <li>Deployment and operations</li>
+  <li>Limitations and future work</li>
+  <li>Appendices: demo accounts, route table, credits, glossary</li>
 </ol>
 
 <!-- ================= 1 OVERVIEW ================= -->
 <h2 class="chapter">1. Overview</h2>
-<p><b>MT Alchemy</b> is a People Development Consultancy specialising in Emotional Intelligence, Leadership Development, Team Engagement and Workplace Well-being. Its tagline is <i>"We don't just run activities. We shift mindsets, behaviours, and team culture."</i> The platform turns visitors into enquiries, learners and corporate clients.</p>
+<p>MT Alchemy is a People Development Consultancy specialising in Emotional Intelligence, Leadership Development, Team Engagement and Workplace Well-being. Its tagline is <i>"We don't just run activities. We shift mindsets, behaviours, and team culture."</i> The platform turns visitors into enquiries, learners and corporate clients.</p>
 <h3>Four modules in one application</h3>
 <div class="grid2">
   <div class="card"><h4>Corporate website</h4><p>A single landing page whose menu glides to About, Services, Upskilling, Store, Insights and Contact. It adds founders, impact stories, an EQ self-assessment, a "For organisations" enquiry and a cartoon virtual tour reached by QR code.</p></div>
@@ -224,7 +224,7 @@
 <h3>Technology</h3>
 <table>
   <tr><th style="width:36mm">Area</th><th>Choice</th><th>Why</th></tr>
-  <tr><td>UI framework</td><td>Flutter 3.47 (Dart 3.13), Material 3 with a custom theme</td><td>One codebase for web, Android and iOS; rich animation.</td></tr>
+  <tr><td>UI framework</td><td>Flutter 3.47 (Dart 3.13), Material 3 with a custom theme</td><td>One codebase for web, Android and iOS, with built-in animation support.</td></tr>
   <tr><td>Navigation</td><td><code>go_router</code> 18</td><td>Declarative routes, clean URLs, redirect guards per role.</td></tr>
   <tr><td>State</td><td><code>provider</code> with <code>ChangeNotifier</code> stores</td><td>Brief-approved; simple and testable.</td></tr>
   <tr><td>Auth and data</td><td><code>firebase_auth</code>, <code>cloud_firestore</code></td><td>Managed sign-in and a real-time database with declarative security rules.</td></tr>
@@ -252,11 +252,11 @@
 
 <h3>How data flows</h3>
 <ol class="steps">
-  <li><b>Sign-in.</b> <code>AuthStore</code> listens to Firebase Auth. When a user signs in it streams <code>users/{uid}</code> (role, organisation, pathway) and their organisation document.</li>
-  <li><b>Fan-out.</b> The other stores listen to <code>AuthStore</code>. When the uid changes they cancel old listeners and subscribe to that user's data, for example <code>enrolments where userId == uid</code>.</li>
-  <li><b>Rendering.</b> Screens <code>watch</code> stores and rebuild automatically. <code>CatalogStore</code> starts with the bundled catalogue so pages paint instantly and work offline; Firestore then replaces it live.</li>
-  <li><b>Writes.</b> Checkout, assignment and enrolment use batched writes or transactions (stock decrement). Lesson progress updates optimistically, so the interface responds before the server confirms.</li>
-  <li><b>Errors.</b> Every action returns a friendly message (for example "That email and password do not match an account.") instead of throwing.</li>
+  <li>On sign-in, <code>AuthStore</code> (which listens to Firebase Auth) streams <code>users/{uid}</code> (role, organisation, pathway) and their organisation document.</li>
+  <li>The other stores listen to <code>AuthStore</code>. When the uid changes they cancel their old listeners and subscribe to that user's data, for example <code>enrolments where userId == uid</code>.</li>
+  <li>Screens <code>watch</code> the stores and rebuild automatically. <code>CatalogStore</code> starts with the bundled catalogue so pages paint instantly and work offline; Firestore then replaces it live.</li>
+  <li>Checkout, assignment and enrolment use batched writes, and the stock decrement uses a transaction. Lesson progress updates optimistically, so the interface responds before the server confirms.</li>
+  <li>Actions return a readable message, such as "That email and password do not match an account.", instead of throwing.</li>
 </ol>
 
 <h3>Routing and role guards</h3>
@@ -292,7 +292,7 @@
 
 <!-- ================= 4 PAGE BY PAGE ================= -->
 <h2 class="chapter">4. Page-by-page guide</h2>
-<p>Each entry shows the page as it appears on the live site, its route, who can open it, what it is for, the Firestore data it uses, and what a user can do. Screenshots were captured from the published site at 1440 px.</p>
+<p>Screenshots were taken from the published site at 1440 px, signed in as the role that owns each page.</p>
 <div id="pages"></div>
 
 <!-- ================= 5 JOURNEYS ================= -->
@@ -396,12 +396,12 @@
   <tr><td>orders, payments, shipping, downloads</td><td>none</td><td>own</td><td>own organisation's orders</td><td>none</td><td>full; advances shipping</td></tr>
   <tr><td>enquiries</td><td>create only</td><td>create only</td><td>create only</td><td>none</td><td>read and update</td></tr>
 </table>
-<p>Key guarantees, each proven by the live verification script: users cannot change their own role; self-registration can only create individual or employer accounts; an enrolment needs a paid order or an assignment; a certificate can be created only when the enrolment is complete; employers cannot touch another organisation's data; draft courses are hidden from everyone except staff; buyers cannot mark their own parcel delivered.</p>
+<p>The live verification script checks each of these: users cannot change their own role; self-registration can only create individual or employer accounts; an enrolment needs a paid order or an assignment; a certificate can be created only when the enrolment is complete; employers cannot touch another organisation's data; draft courses are hidden from everyone except staff; buyers cannot mark their own parcel delivered.</p>
 
 <h3>Business rules</h3>
 <table>
   <tr><th style="width:38mm">Rule</th><th>Behaviour</th></tr>
-  <tr><td>Learning pathway</td><td>A course is open to a learner only if its <b>level</b> suits their career stage <b>and</b> its <b>practice area</b> is one of their interests. Student: Foundation. Professional: Foundation and Practitioner. Manager: Practitioner and Leader. Senior leader: Leader. Other courses stay visible but locked, with the reason. Employer assignments and staff are not restricted.</td></tr>
+  <tr><td>Learning pathway</td><td>A course is open to a learner only if its level suits their career stage and its practice area is one of their interests. Student: Foundation. Professional: Foundation and Practitioner. Manager: Practitioner and Leader. Senior leader: Leader. Other courses stay visible but locked, with the reason. Employer assignments and staff are not restricted.</td></tr>
   <tr><td>Pricing and shipping</td><td>Prices in GBP. Delivery is £4.95, free from £50 of shipped goods. Digital products and courses never ship.</td></tr>
   <tr><td>Seats</td><td>An employer buys seats per course (stored on the organisation). Assigning a course uses one seat per person; the assignment is refused when seats run out.</td></tr>
   <tr><td>Progress and certificates</td><td>Progress is lessons completed divided by lessons. Quizzes pass at 70% and complete their lesson. Completing every lesson creates the certificate, whose code is built from the first three letters of the course id and the start of the learner id.</td></tr>
@@ -415,11 +415,11 @@
 <div class="grid2">
 <div>
 <h3>Colour</h3>
-<p>Pure white (#FFFFFF), a neutral zinc "ash" scale (#F4F4F5 to #18181B) and <b>Crimson Red #C8102E</b> as the single accent for calls to action, active states, progress and focus. Grey-to-red gradients appear only at moments of change: a passed quiz, a completed order, a finished course. There is no grain texture and no grey haze. A full dark palette mirrors the light one.</p>
+<p>Pure white (#FFFFFF), a neutral zinc "ash" scale (#F4F4F5 to #18181B) and Crimson Red (#C8102E) as the single accent for calls to action, active states, progress and focus. Grey-to-red gradients appear only at moments of change: a passed quiz, a completed order, a finished course. There is no grain texture and no grey haze. A full dark palette mirrors the light one.</p>
 <h3>Glassmorphism</h3>
 <p>A shared <code>GlassPanel</code> (backdrop blur, translucent fill, hairline border) is used on the navigation, hero copy, summaries and forms. Few panels per screen, never nested, with a solid fallback for high contrast.</p>
 <h3>Typography</h3>
-<p><b>Fraunces</b> (serif) for headings and <b>Manrope</b> for body text, with a fluid scale (display, h1 to h4, lead, body, small, label).</p>
+<p>Fraunces (serif) for headings and Manrope for body text, on a scale that runs from display down to small and label sizes.</p>
 </div>
 <div>
 <h3>Imagery</h3>
@@ -436,7 +436,7 @@
   <li>All of it respects the reduced-motion setting</li>
 </ul>
 <h3>Accessibility</h3>
-<p>Semantic labels on icon buttons, live regions on form errors, visible focus, contrast-checked tokens, captions on the tour film, and an explicit table of text in every chart legend.</p>
+<p>Icon buttons have semantic labels, form errors are announced through live regions, focus outlines are visible, the tour film has captions, and the chart legends spell out their counts.</p>
 </div>
 </div>
 <div class="grid3">
@@ -454,13 +454,13 @@
 
 <!-- ================= 8 MEDIA ================= -->
 <h2 class="chapter">8. Media pipeline: videos, virtual tour and QR code</h2>
-<p>All videos are made with <b>Remotion</b>, which renders React components to H.264 files, so every film is reproducible from code.</p>
+<p>All videos are made with Remotion, which renders React components to H.264 files, so any film can be regenerated from code.</p>
 <table>
   <tr><th style="width:36mm">Film</th><th>Used on</th><th>Notes</th></tr>
-  <tr><td><code>hero_loop</code> (+ dark)</td><td>Landing hero</td><td>Ink blooming through water, a floating glass crystal, parallax particles, a slow camera drift. Seamless 8 second loop, under 1 MB.</td></tr>
+  <tr><td><code>hero_loop</code> (+ dark)</td><td>Landing hero</td><td>Ink blooming through water, a floating glass crystal, parallax particles, a slow camera drift. An 8 second loop that repeats without a visible cut, under 1 MB.</td></tr>
   <tr><td><code>services_loop</code> (+ dark)</td><td>Services header</td><td>Quiet ink loop.</td></tr>
   <tr><td><code>brand_intro</code></td><td>About page, lesson video</td><td>Brand film with the wordmark and four practice areas.</td></tr>
-  <tr><td><code>site_tour</code></td><td>Virtual tour</td><td>42 seconds, 1280×720, no sound, with captions. Seven scenes: welcome, learn, shop, teams, trainers and admins, EQ check, call to action. Characters and the faceted-crystal mascot <b>Alchy</b> are drawn in SVG, so nothing is licensed.</td></tr>
+  <tr><td><code>site_tour</code></td><td>Virtual tour</td><td>42 seconds, 1280×720, no sound, with captions. Seven scenes: welcome, learn, shop, teams, trainers and admins, EQ check, call to action. Characters and the faceted-crystal mascot Alchy are drawn in SVG, so no outside artwork is involved.</td></tr>
 </table>
 <figure><img src="img/tour.jpg" style="max-width:130mm"><figcaption>The virtual tour page (<code>/tour</code>): the cartoon film, then one card per part of the site to try.</figcaption></figure>
 <h3>The QR code</h3>
@@ -475,9 +475,9 @@
   <tr><td><code>flutter test</code></td><td>56 tests on a fake Firestore and mock Auth: cart rules; checkout writes (order, payment, shipping, download, enrolment, stock) and declined cards; shipping state changes with notifications; enrolment from an order and from an assignment; quiz pass and fail; certificate issue and verification; employer seats, assignments, progress and weekly activity; staff free access, removal and revenue totals; founders and photos; theme toggle; validators; portal scrolling; screen layout.</td></tr>
   <tr><td><code>npm run verify</code> (live Firebase)</td><td>39 of 39 checks pass. It signs in as each role over REST, performs each journey's writes, and confirms forbidden writes are refused, such as a learner promoting themselves, enrolling without paying, or giving themselves free access.</td></tr>
   <tr><td>Visual checks</td><td>Browser screenshots at 1440 px and 375 px, light and dark; the live GitHub Pages site was checked including a deep link and a real sign-in.</td></tr>
-  <tr><td>Performance</td><td>Videos under 1.5 MB each; photographs 25 to 170 KB (WebP); the live loop video and 3D crystal load lazily.</td></tr>
+  <tr><td>Performance</td><td>Videos under 1.5 MB each; photographs 25 to 170 KB (WebP).</td></tr>
 </table>
-<div class="note"><b>Lesson from testing.</b> Firestore rule changes take a few minutes to reach every server. A verification run started during that window briefly saw the temporary open seed rules. The seed and maintenance notes now say to wait about three minutes before verifying, and the verification script cleans up the records it creates.</div>
+<div class="note">Firestore rule changes take a few minutes to reach every server. A verification run started during that window briefly saw the temporary open seed rules. The seed and maintenance notes now say to wait about three minutes before verifying, and the verification script deletes the records it creates.</div>
 
 <!-- ================= 10 DEPLOYMENT ================= -->
 <h2 class="chapter">10. Deployment and operations</h2>
@@ -527,7 +527,7 @@
   <tr><td>Employee (individual)</td><td>callum@northlight.example.com</td><td>Courses assigned by an employer, pathway: Manager</td></tr>
   <tr><td>Employer</td><td>priya@northlight.example.com</td><td>Employees, seats, assignments, progress, analytics</td></tr>
   <tr><td>Trainer</td><td>maya@mtalchemy.example.com</td><td>Course CRUD, open courses free, students and free access</td></tr>
-  <tr><td>Super admin</td><td>admin@mtalchemy.example.com</td><td>Everything: users, products, orders, enquiries, content, founders' photos</td></tr>
+  <tr><td>Super admin</td><td>admin@mtalchemy.example.com</td><td>Full access: users, products, orders, enquiries, content, founders' photos</td></tr>
 </table>
 <p>Test card for checkout: <code>4242 4242 4242 4242</code> (approved) or <code>4000 0000 0000 0002</code> (declined); any future expiry and any 3-digit CVC.</p>
 
@@ -552,11 +552,11 @@
 
 <h3>C. Credits and licences</h3>
 <ul>
-  <li><b>Photographs:</b> free-licence images from Unsplash (people, workshops, well-being, books, teams), converted to WebP. The Unsplash licence permits this use without attribution.</li>
-  <li><b>Fonts:</b> Fraunces and Manrope (SIL Open Font Licence) via Google Fonts.</li>
-  <li><b>Icons:</b> HugeIcons (stroke rounded set).</li>
-  <li><b>Cartoon characters and mascot:</b> original artwork drawn for this project.</li>
-  <li><b>Packages:</b> Flutter, go_router, provider, Firebase plugins, fl_chart, qr_flutter, video_player, file_picker, image, flutter_animate, Remotion and their dependencies, each under its own open-source licence.</li>
+  <li>Photographs: free-licence images from Unsplash (people, workshops, well-being, books, teams), converted to WebP. The Unsplash licence permits this use without attribution.</li>
+  <li>Fonts: Fraunces and Manrope (SIL Open Font Licence) via Google Fonts.</li>
+  <li>Icons: HugeIcons (stroke rounded set).</li>
+  <li>Cartoon characters and mascot: original artwork drawn for this project.</li>
+  <li>Packages: Flutter, go_router, provider, Firebase plugins, fl_chart, qr_flutter, video_player, file_picker, image, flutter_animate, Remotion and their dependencies, each under its own open-source licence.</li>
 </ul>
 
 <h3>D. Glossary</h3>
@@ -574,7 +574,7 @@
 // Each entry: image, title, route, access, purpose, data, actions.
 const SECTIONS = [
  { id: '4.1', title: '4.1 Public website', intro: 'Open to everyone. The home page is one long landing page; its menu items glide to the matching section.', pages: [
-  { img: 'home-hero', t: 'Home: landing hero', r: '/', a: ['Everyone'], p: 'The first impression: a looping ink-in-water film with a floating glass crystal behind glass copy, "We shift mindsets, behaviours, and team culture", and two calls to action.', d: 'None (static hero).', f: ['Book a call, Explore learning', 'Menu and theme toggle', 'Cart badge shows the item count'] },
+  { img: 'home-hero', t: 'Home: landing hero', r: '/', a: ['Everyone'], p: 'A looping ink-in-water film with a floating glass crystal sits behind glass copy: "We shift mindsets, behaviours, and team culture", and two calls to action.', d: 'None (static hero).', f: ['Book a call, Explore learning', 'Menu and theme toggle', 'Cart badge shows the item count'] },
   { img: 'home-s1', t: 'Home: services', r: '/ (section)', a: ['Everyone'], p: 'The hero zooms into four photo cards, one per practice area, with a 3D tilt on hover.', d: 'Services (bundled).', f: ['Open a service', 'All services link', 'Menu "Services" glides here'] },
   { img: 'home-s2', t: 'Home: about', r: '/ (section)', a: ['Everyone'], p: 'Who we are: a team photograph, a short introduction and three key numbers. The founders section begins underneath.', d: 'None (static content).', f: ['Our story link', 'Menu "About" glides here'] },
   { img: 'home-s3', t: 'Home: founders and manifesto', r: '/ (section)', a: ['Everyone'], p: 'Three animated founder cards (AJAY A.N, MAAHIR FAHEEM, TANUJ SAKTHI KUMAR) with a photo slot each, followed by the statement of belief. A placeholder with initials shows until a photo is added.', d: 'founders (live).', f: ['Hover: the card lifts', 'Super admin: Upload or Change photo, Edit details'] },
@@ -595,14 +595,14 @@ const SECTIONS = [
   { img: 'article', t: 'Article', r: '/insights/:slug', a: ['Everyone'], p: 'A full article with a photo header, reading time and related articles.', d: 'articles.', f: ['Read', 'Open a related article'] },
   { img: 'contact', t: 'Contact', r: '/contact', a: ['Everyone'], p: 'A form (name, email, topic, message, consent) with validation that saves to Firestore and shows a success state.', d: 'contactMessages (write).', f: ['Send a message', 'Send another'] },
   { img: 'login', t: 'Sign in', r: '/login', a: ['Guests'], p: 'Email and password with validation, "Forgot password?" (sends a Firebase reset email) and one-tap demo accounts.', d: 'Firebase Auth; users.', f: ['Sign in and land on your portal', 'Reset password', 'Use a demo account'] },
-  { img: 'register', t: 'Register: individual', r: '/register', a: ['Guests'], p: 'Name, email, password, gender (radio), country (dropdown), hobbies (checkboxes) and the <b>learning pathway</b>: career stage plus interest areas, all validated.', d: 'users (create).', f: ['Create account, then go to the course catalogue'] },
+  { img: 'register', t: 'Register: individual', r: '/register', a: ['Guests'], p: 'Name, email, password, gender (radio), country (dropdown), hobbies (checkboxes) and the learning pathway: career stage plus interest areas, all validated.', d: 'users (create).', f: ['Create account, then go to the course catalogue'] },
   { img: 'register-org', t: 'Register: organisation', r: '/register?type=organisation', a: ['Guests'], p: 'Journey D starts here: organisation name, sector and size, plus the employer\'s own login.', d: 'users, organizations (create).', f: ['Register, then go to the employer portal'] },
   { img: 'organisations', t: 'For organisations (Journey E)', r: '/organisations', a: ['Everyone'], p: 'A corporate enquiry form with a three-step explanation: enquiry, discovery call, customised programme.', d: 'enquiries (create).', f: ['Send enquiry', 'Then register the organisation'] },
   { img: 'assessment', t: 'EQ self-assessment', r: '/eq-assessment', a: ['Everyone (results saved if signed in)'], p: 'Ten statements across five emotional-intelligence areas, one at a time. The result shows animated bars, a strength, a growth edge and a recommended course.', d: 'assessments (write when signed in).', f: ['Answer, go back, retake', 'View the recommended course'] },
   { img: 'tour', t: 'Virtual tour', r: '/tour', a: ['Everyone'], p: 'The page the QR code opens: the cartoon explainer film, then six "Try it yourself" cards linking to learning, shop, teams, trainers, the EQ check and insights.', d: 'None.', f: ['Play the film', 'Open any part of the site', 'Create a free account'] },
-  { img: 'certificate', t: 'Certificate', r: '/certificates/:code', a: ['Everyone (public by design)'], p: 'A printable certificate with the learner\'s name, course, issue date and verification code. Anyone with the link can verify it, and an unknown code shows "Certificate not found".', d: 'certificates (public read).', f: ['Share the link', 'Verify a code'] },
+  { img: 'certificate', t: 'Certificate', r: '/certificates/:code', a: ['Everyone (public by design)'], p: 'A certificate page with the learner\'s name, course, issue date and verification code. Anyone with the link can verify it, and an unknown code shows "Certificate not found".', d: 'certificates (public read).', f: ['Share the link', 'Verify a code'] },
  ]},
- { id: '4.2', title: '4.2 Course player', intro: 'Where learning happens. Signed-in learners open the courses they own; staff can open any course free.', pages: [
+ { id: '4.2', title: '4.2 Course player', intro: 'Signed-in learners open the courses they own. Staff can open any course free.', pages: [
   { img: 'player-video', t: 'Course player: video lesson', r: '/learn/:id', a: ['Enrolled learners; staff (free preview)'], p: 'A progress bar with a percentage, a lesson list with a photo banner and a type and duration for each lesson, and the lesson view. Video lessons use the film player; PDF lessons open the workbook; readings show the text.', d: 'courses, enrolments, certificates.', f: ['Previous, Mark as complete, Next', 'Progress is saved to Firestore', 'Finishing creates the certificate'] },
   { img: 'player-quiz', t: 'Course player: quiz lesson', r: '/learn/:id', a: ['Enrolled learners; staff (free preview)'], p: 'One choice per question. Submitting shows which answers were right; 70% passes and completes the lesson, otherwise "Try again".', d: 'enrolments.quizScores.', f: ['Answer all questions', 'Submit', 'Retry until passed'] },
   { img: 'admin-preview', t: 'Admin preview', r: '/learn/:id', a: ['Trainer, super admin'], p: 'Staff open any course free. A banner says "You are viewing this course free. Progress here is not saved" and offers Students and Edit course.', d: 'courses.', f: ['Try every lesson', 'Jump to Students or the editor'] },
