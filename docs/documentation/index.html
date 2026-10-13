@@ -2,72 +2,69 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>MT Alchemy: Complete Project Documentation</title>
+<title>MT Alchemy: Project Documentation</title>
 <style>
-  @page { size: A4; margin: 16mm 14mm 18mm; }
+  @page { size: A4; margin: 15mm 14mm 16mm; }
   :root { --red:#C8102E; --deep:#9E0C24; --soft:#FBE7EA; --ink:#18181B; --muted:#52525B; --line:#E4E4E7; --ash:#F4F4F5; }
   * { box-sizing: border-box; }
-  body { font: 10pt/1.55 "Segoe UI", Inter, Arial, sans-serif; color: var(--ink); margin: 0; }
+  body { font: 10pt/1.52 "Segoe UI", Inter, Arial, sans-serif; color: var(--ink); margin: 0; }
   h1, h2, h3, h4 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; line-height: 1.2; }
   h1 { font-size: 30pt; margin: 0 0 6mm; }
-  h2 { font-size: 17pt; margin: 0 0 4mm; padding-bottom: 2mm; border-bottom: 2px solid var(--red); break-after: avoid; }
-  h3 { font-size: 12.5pt; margin: 5mm 0 2mm; color: var(--deep); break-after: avoid; }
-  h4 { font-size: 11pt; margin: 3mm 0 1mm; break-after: avoid; }
-  p { margin: 0 0 2.6mm; }
-  ul, ol { margin: 0 0 3mm; padding-left: 5mm; }
-  li { margin: .6mm 0; }
+  h2 { font-size: 16pt; margin: 8mm 0 3mm; padding-bottom: 1.8mm; border-bottom: 2px solid var(--red); break-after: avoid; }
+  h3 { font-size: 12pt; margin: 4.5mm 0 1.8mm; color: var(--deep); break-after: avoid; }
+  h4 { font-size: 10.5pt; margin: 2.5mm 0 1mm; break-after: avoid; }
+  p { margin: 0 0 2.4mm; }
+  ul, ol { margin: 0 0 2.6mm; padding-left: 5mm; }
+  li { margin: .5mm 0; }
   .muted { color: var(--muted); }
   .eyebrow { font: 700 8pt/1 "Segoe UI", Arial; letter-spacing: .14em; color: var(--red); text-transform: uppercase; }
-  .chapter { break-before: page; }
+  .pb { break-before: page; margin-top: 0; }
   .cover { height: 255mm; display: flex; flex-direction: column; justify-content: space-between; break-after: page; }
   .band { background: linear-gradient(120deg, #F4F4F5 0%, #FBE7EA 45%, #C8102E 100%); border-radius: 6mm; padding: 14mm; }
   .band h1 { color: var(--ink); } .band p { font-size: 12pt; max-width: 125mm; }
   .wordmark { font: 500 22pt Georgia, serif; } .wordmark b { color: var(--red); font-weight: 500; }
-  table { width: 100%; border-collapse: collapse; margin: 2mm 0 4mm; font-size: 9pt; }
+  table { width: 100%; border-collapse: collapse; margin: 1.5mm 0 3.5mm; font-size: 8.8pt; }
   th { text-align: left; background: var(--ash); font-weight: 600; }
-  th, td { padding: 1.8mm 2.4mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th, td { padding: 1.5mm 2.2mm; border-bottom: 1px solid var(--line); vertical-align: top; }
   tr { break-inside: avoid; }
-  code { font: 8.6pt Consolas, monospace; background: var(--ash); padding: .3mm 1.1mm; border-radius: 1mm; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  code { font: 8.4pt Consolas, monospace; background: var(--ash); padding: .3mm 1.1mm; border-radius: 1mm; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5mm; }
   .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
-  .card { border: 1px solid var(--line); border-radius: 3mm; padding: 3.5mm; break-inside: avoid; }
+  .card { border: 1px solid var(--line); border-radius: 3mm; padding: 3mm 3.5mm; break-inside: avoid; }
   .card h3, .card h4 { margin-top: 0; }
-  .stat { text-align: center; }
-  .stat b { display: block; font: 500 20pt Georgia, serif; color: var(--red); }
-  .stat span { font-size: 8.5pt; color: var(--muted); }
-  .pill { display: inline-block; background: var(--soft); color: var(--red); border-radius: 10mm; padding: .5mm 2.4mm; font-size: 8pt; margin: 0 1mm 1mm 0; font-weight: 600; }
-  .pill.grey { background: var(--ash); color: var(--muted); }
-  figure { margin: 3mm 0 5mm; break-inside: avoid; } figure img { width: 100%; border: 1px solid var(--line); border-radius: 2mm; display: block; }
-  figcaption { font-size: 8.5pt; color: var(--muted); margin-top: 1.2mm; }
+  .stat { text-align: center; padding: 2mm; }
+  .stat b { display: block; font: 500 17pt Georgia, serif; color: var(--red); }
+  .stat span { font-size: 8pt; color: var(--muted); }
+  .pill { display: inline-block; background: var(--soft); color: var(--red); border-radius: 10mm; padding: .4mm 2.2mm; font-size: 7.8pt; margin: 0 1mm 0 0; font-weight: 600; }
+  figure { margin: 2.5mm 0 4mm; break-inside: avoid; } figure img { width: 100%; border: 1px solid var(--line); border-radius: 2mm; display: block; }
+  figcaption { font-size: 8.3pt; color: var(--muted); margin-top: 1.2mm; }
   svg text { font-family: "Segoe UI", Arial, sans-serif; }
-  .steps { counter-reset: s; list-style: none; padding: 0; margin: 0 0 3mm; }
-  .steps li { counter-increment: s; position: relative; padding: 0 0 1.4mm 7.5mm; }
-  .steps li::before { content: counter(s); position: absolute; left: 0; top: .3mm; width: 4.8mm; height: 4.8mm; border-radius: 50%; background: var(--red); color: #fff; font-size: 7.2pt; text-align: center; line-height: 4.8mm; }
-  /* page entries: screenshot left, explanation right */
-  .entry { display: grid; grid-template-columns: 1.22fr 1fr; gap: 5mm; padding: 4mm 0; border-bottom: 1px solid var(--line); break-inside: avoid; }
-  .entry:last-child { border-bottom: 0; }
+  .steps { counter-reset: s; list-style: none; padding: 0; margin: 0 0 2mm; }
+  .steps li { counter-increment: s; position: relative; padding: 0 0 1.1mm 7mm; font-size: 9pt; }
+  .steps li::before { content: counter(s); position: absolute; left: 0; top: .3mm; width: 4.6mm; height: 4.6mm; border-radius: 50%; background: var(--red); color: #fff; font-size: 7pt; text-align: center; line-height: 4.6mm; }
+  .entry { display: grid; grid-template-columns: 72mm 1fr; gap: 5mm; padding: 3.2mm 0; border-bottom: 1px solid var(--line); break-inside: avoid; }
   .entry img { width: 100%; border: 1px solid var(--line); border-radius: 2mm; display: block; }
-  .entry h4 { margin: 0 0 1mm; font-size: 12pt; }
-  .route { font: 8.4pt Consolas, monospace; color: var(--deep); background: var(--soft); padding: .4mm 1.8mm; border-radius: 1.2mm; display: inline-block; margin-bottom: 1.4mm; }
-  .entry .lab { font: 700 7.6pt "Segoe UI"; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; margin-top: 1.8mm; }
-  .entry ul { margin: .6mm 0 1mm; padding-left: 4mm; font-size: 8.9pt; line-height: 1.45; }
-  .entry p { font-size: 9pt; margin-bottom: 1mm; }
-  .toc li { margin: .6mm 0; }
-  .note { background: var(--soft); border-radius: 2.5mm; padding: 3mm 4mm; margin: 2mm 0 4mm; font-size: 9pt; }
+  .entry h4 { margin: 0 0 1mm; font-size: 10.5pt; }
+  .route { font: 8pt Consolas, monospace; color: var(--deep); background: var(--soft); padding: .3mm 1.6mm; border-radius: 1.2mm; display: inline-block; margin: 0 1.5mm 1.2mm 0; }
+  .entry p { font-size: 9.2pt; margin-bottom: .8mm; line-height: 1.42; }
+  .entry .meta { color: var(--muted); font-size: 8.6pt; }
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5mm; margin: 2mm 0 3mm; }
+  .gallery figure { margin: 0; } .gallery figcaption { font-size: 7.8pt; margin-top: .8mm; }
+  .note { background: var(--soft); border-radius: 2.5mm; padding: 2.6mm 3.6mm; margin: 2mm 0 3mm; font-size: 8.8pt; }
+  .two { columns: 2; column-gap: 7mm; } .two h3 { margin-top: 0; }
 </style>
 </head>
 <body>
 
-<!-- ================= COVER ================= -->
 <section class="cover">
   <div>
     <div class="wordmark"><b>MT</b> Alchemy</div>
     <div class="muted">NET4207 · Group Project · Flutter + Firebase</div>
   </div>
   <div class="band">
-    <div class="eyebrow">Complete project documentation</div>
+    <div class="eyebrow">Project documentation</div>
     <h1>MT Alchemy: a human-centred learning and people-development platform</h1>
-    <p>This document describes each page and role of the site, and how it is built, secured, tested and deployed.</p>
+    <p>The pages, roles, architecture, security, testing and deployment of the MT Alchemy site.</p>
   </div>
   <div>
     <table>
@@ -81,36 +78,20 @@
   </div>
 </section>
 
-<!-- ================= CONTENTS ================= -->
-<h2>Contents</h2>
-<ol class="toc">
-  <li>Overview</li>
-  <li>Information architecture</li>
-  <li>System architecture</li>
-  <li>Page-by-page guide
-    <ul><li>4.1 Public website · 4.2 Course player · 4.3 Learner portal · 4.4 Employer portal · 4.5 Trainer portal · 4.6 Super admin portal</li></ul></li>
-  <li>The five user journeys</li>
-  <li>Data and security</li>
-  <li>Design system, imagery and motion</li>
-  <li>Media: videos, virtual tour and QR code</li>
-  <li>Quality and verification</li>
-  <li>Deployment and operations</li>
-  <li>Limitations and future work</li>
-  <li>Appendices: demo accounts, route table, credits, glossary</li>
-</ol>
+<h2 style="margin-top:0">Contents</h2>
+<p style="columns:2;column-gap:8mm;margin-bottom:0">
+1. Overview<br>2. Information architecture<br>3. System architecture<br>4. Page-by-page guide<br>5. The five user journeys<br>6. Data and security<br>
+7. Design system, imagery and motion<br>8. Videos, virtual tour and QR code<br>9. Quality and verification<br>10. Deployment and operations<br>11. Limitations and future work<br>12. Appendices</p>
 
-<!-- ================= 1 OVERVIEW ================= -->
-<h2 class="chapter">1. Overview</h2>
-<p>MT Alchemy is a People Development Consultancy specialising in Emotional Intelligence, Leadership Development, Team Engagement and Workplace Well-being. Its tagline is <i>"We don't just run activities. We shift mindsets, behaviours, and team culture."</i> The platform turns visitors into enquiries, learners and corporate clients.</p>
-<h3>Four modules in one application</h3>
+<h2>1. Overview</h2>
+<p>MT Alchemy is a People Development Consultancy specialising in Emotional Intelligence, Leadership Development, Team Engagement and Workplace Well-being. Its tagline is <i>"We don't just run activities. We shift mindsets, behaviours, and team culture."</i> The platform turns visitors into enquiries, learners and corporate clients, and has four modules.</p>
 <div class="grid2">
-  <div class="card"><h4>Corporate website</h4><p>A single landing page whose menu glides to About, Services, Upskilling, Store, Insights and Contact. It adds founders, impact stories, an EQ self-assessment, a "For organisations" enquiry and a cartoon virtual tour reached by QR code.</p></div>
+  <div class="card"><h4>Corporate website</h4><p>One landing page whose menu glides to About, Services, Upskilling, Store, Insights and Contact. It also has founders, impact stories, an EQ self-assessment, a "For organisations" enquiry and a cartoon virtual tour reached by QR code.</p></div>
   <div class="card"><h4>Learning management system</h4><p>A course catalogue filtered by each learner's pathway (career stage and interests), purchase and enrolment, a modular player (video, PDF, reading, quiz), progress tracking, and certificates with a public verification link.</p></div>
-  <div class="card"><h4>E-commerce store</h4><p>Digital products download after payment; physical products ship with a tracked Processing, Shipped, Delivered timeline. One checkout handles products, courses and employer seats. Payments run in test mode.</p></div>
+  <div class="card"><h4>E-commerce store</h4><p>Digital products download after payment; physical products ship with a Processing, Shipped, Delivered timeline. One checkout handles products, courses and employer seats. Payments run in test mode.</p></div>
   <div class="card"><h4>Role-based portals</h4><p>Five roles (Guest, Individual, Employer, Trainer, Super Admin), each with its own navigation, notifications and permissions enforced by database security rules.</p></div>
 </div>
-<h3>The project in numbers</h3>
-<div class="grid3" style="grid-template-columns:repeat(6,1fr)">
+<div class="grid3" style="grid-template-columns:repeat(6,1fr);margin-top:3mm">
   <div class="card stat"><b>5</b><span>user roles</span></div>
   <div class="card stat"><b>5</b><span>user journeys</span></div>
   <div class="card stat"><b>12</b><span>courses</span></div>
@@ -128,23 +109,21 @@
 <h3>How the platform meets the Employer Project brief</h3>
 <table>
   <tr><th style="width:38mm">Brief requirement</th><th>Where it is delivered</th></tr>
-  <tr><td>Five core journeys (A to E)</td><td>Journey A learning to certificate; B digital product to download; C physical product to delivery; D employer seats, assignment and progress; E corporate enquiry to customised programme. See chapter 5.</td></tr>
-  <tr><td>Five roles with authentication</td><td>Guest, Individual, Employer, Trainer, Super Admin. Firebase Authentication plus role-based redirects in the app and security rules in the database.</td></tr>
+  <tr><td>Five core journeys (A to E)</td><td>A learning to certificate; B digital product to download; C physical product to delivery; D employer seats, assignment and progress; E corporate enquiry to customised programme (chapter 5).</td></tr>
+  <tr><td>Five roles with authentication</td><td>Guest, Individual, Employer, Trainer, Super Admin. Firebase Authentication, role-based redirects in the app and security rules in the database.</td></tr>
   <tr><td>CRUD for courses, products and users</td><td>Courses (trainer and admin, with lessons and quizzes), products (admin), users (admin: create, change role, disable, delete), plus articles, impact stories, founders, employees and assignments.</td></tr>
-  <tr><td>Course player: video, PDF, quiz, progress, Previous / Mark complete / Next</td><td>Modular player with a progress percentage, per-lesson views, quiz scoring (70% pass mark) and persisted progress.</td></tr>
-  <tr><td>Responsive on web, tablet and mobile</td><td>Three breakpoints (600 px and 1024 px), fluid gutters, drawers below 1024 px. Verified at 1440 px and 375 px.</td></tr>
-  <tr><td>Backend: Firebase (Auth, Firestore, Storage) or Supabase</td><td>Authentication and Firestore are used. Storage is not used (see chapter 11); files are served from the site itself.</td></tr>
-  <tr><td>Provider / Riverpod / Bloc</td><td>Provider with one <code>ChangeNotifier</code> store per domain.</td></tr>
-  <tr><td>README, ER diagram, maintenance guide</td><td><code>README.md</code>, <code>docs/ER_DIAGRAM.md</code>, <code>docs/MAINTENANCE.md</code>, and this document.</td></tr>
-  <tr><td>Innovation</td><td>EQ self-assessment with course recommendation, employer analytics charts, Impact Stories carousel, learning pathways, admin free-access tools, public certificate verification, dark mode, cartoon virtual tour with QR code.</td></tr>
-  <tr><td>Scaffold, Container, Form (prototype brief)</td><td>Two Scaffolds (public <code>AppShell</code>, portal <code>PortalShell</code>) with AppBars; Containers for cards, padding, decoration and grouping; ten Forms with required-field validation. Code is annotated with <code>SCAFFOLD:</code>, <code>CONTAINER (</code> and <code>FORM:</code> comments.</td></tr>
+  <tr><td>Course player</td><td>Progress percentage, per-lesson views for video, PDF and quiz (70% pass mark), Previous / Mark complete / Next, and saved progress.</td></tr>
+  <tr><td>Responsive on web, tablet and mobile</td><td>Breakpoints at 600 px and 1024 px, fluid gutters, drawers below 1024 px. Checked at 1440 px and 375 px.</td></tr>
+  <tr><td>Backend and state</td><td>Firebase Authentication and Firestore (Storage is not used, see chapter 11). Provider with one <code>ChangeNotifier</code> store per domain.</td></tr>
+  <tr><td>README, ER diagram, maintenance guide</td><td><code>README.md</code>, <code>docs/ER_DIAGRAM.md</code>, <code>docs/MAINTENANCE.md</code> and this document.</td></tr>
+  <tr><td>Innovation</td><td>EQ self-assessment with course recommendation, employer analytics charts, impact stories carousel, learning pathways, admin free-access tools, public certificate verification, dark mode, cartoon virtual tour with QR code.</td></tr>
+  <tr><td>Scaffold, Container, Form</td><td>Two Scaffolds (public <code>AppShell</code>, portal <code>PortalShell</code>) with AppBars; Containers for cards, padding, decoration and grouping; ten Forms with required-field validation. The code is annotated with <code>SCAFFOLD:</code>, <code>CONTAINER (</code> and <code>FORM:</code> comments.</td></tr>
 </table>
 
-<!-- ================= 2 INFORMATION ARCHITECTURE ================= -->
-<h2 class="chapter">2. Information architecture</h2>
-<p>The site has one public area and four signed-in portals. The menu (About, Services, Upskilling, Store, Insights, Contact) is available everywhere; on the home page, each item glides to its section of the landing page, and from any other page it opens the full page.</p>
+<h2>2. Information architecture</h2>
+<p>The site has one public area and four signed-in portals. The menu is available everywhere. On the home page each item glides to its section of the landing page; from any other page it opens the full page.</p>
 <figure>
-<svg viewBox="0 0 780 560" width="100%">
+<svg viewBox="0 0 780 560" style="width:100%;max-width:150mm;display:block;margin:0 auto">
   <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C8102E"/></marker></defs>
   <rect x="290" y="8" width="200" height="42" rx="10" fill="#C8102E"/><text x="390" y="34" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Home (landing page)</text>
   <line x1="390" y1="50" x2="390" y2="76" stroke="#C8102E" stroke-width="2"/>
@@ -186,14 +165,13 @@
     <text x="594" y="356">Dashboard (live)</text><text x="594" y="374">Users</text><text x="594" y="392">Courses · Products</text><text x="594" y="410">Orders and shipping</text><text x="594" y="428">Enquiries</text><text x="594" y="446">Content</text><text x="594" y="470" fill="#52525B">+ everything a trainer has</text>
   </g>
 </svg>
-<figcaption>Figure 2.1. Sitemap. Portals are reachable only by the matching role; any other role is redirected to its own portal home.</figcaption>
+<figcaption>Figure 2.1. Sitemap. Portals are open only to the matching role; any other role is redirected to its own portal home.</figcaption>
 </figure>
 
-<!-- ================= 3 SYSTEM ARCHITECTURE ================= -->
-<h2 class="chapter">3. System architecture</h2>
-<p>The application is a single Flutter codebase that talks directly to Firebase. There is no custom server: business rules run in the client stores, and Firestore security rules decide who may read or write each document. Everything is delivered as a static web app (GitHub Pages) that connects to Firebase over HTTPS.</p>
+<h2 class="pb">3. System architecture</h2>
+<p>The application is one Flutter codebase that talks directly to Firebase. There is no custom server: business rules run in the client stores, and Firestore security rules decide who may read or write each document. The web app is a static site on GitHub Pages that connects to Firebase over HTTPS.</p>
 <figure>
-<svg viewBox="0 0 780 540" width="100%">
+<svg viewBox="0 0 780 540" style="width:100%;max-width:160mm;display:block;margin:0 auto">
   <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C8102E"/></marker></defs>
   <rect x="10" y="8" width="760" height="50" rx="10" fill="#F4F4F5"/>
   <text x="26" y="30" font-size="13" font-weight="700">Users</text>
@@ -223,60 +201,51 @@
 
 <h3>Technology</h3>
 <table>
-  <tr><th style="width:36mm">Area</th><th>Choice</th><th>Why</th></tr>
-  <tr><td>UI framework</td><td>Flutter 3.47 (Dart 3.13), Material 3 with a custom theme</td><td>One codebase for web, Android and iOS, with built-in animation support.</td></tr>
-  <tr><td>Navigation</td><td><code>go_router</code> 18</td><td>Declarative routes, clean URLs, redirect guards per role.</td></tr>
-  <tr><td>State</td><td><code>provider</code> with <code>ChangeNotifier</code> stores</td><td>Brief-approved; simple and testable.</td></tr>
-  <tr><td>Auth and data</td><td><code>firebase_auth</code>, <code>cloud_firestore</code></td><td>Managed sign-in and a real-time database with declarative security rules.</td></tr>
-  <tr><td>Charts</td><td><code>fl_chart</code></td><td>Employer analytics (donut, bars, line).</td></tr>
-  <tr><td>Media</td><td><code>video_player</code>, <code>flutter_3d_controller</code>, <code>flutter_animate</code></td><td>Looping films, a 3D crystal, staggered reveals.</td></tr>
-  <tr><td>Utilities</td><td><code>qr_flutter</code>, <code>file_picker</code>, <code>image</code>, <code>url_launcher</code>, <code>intl</code>, <code>google_fonts</code>, <code>hugeicons</code></td><td>QR code, founder photo upload and resize, downloads, formatting, typography, icons.</td></tr>
-  <tr><td>Video production</td><td>Remotion (React) renders to H.264</td><td>Programmatic, repeatable films: landing loop, brand film, cartoon tour.</td></tr>
-  <tr><td>Hosting</td><td>GitHub Pages (static) + Firebase (backend)</td><td>Free tier; the web app needs no server.</td></tr>
+  <tr><th style="width:30mm">Area</th><th>Choice</th><th>Reason</th></tr>
+  <tr><td>UI</td><td>Flutter 3.47 (Dart 3.13), Material 3 with a custom theme</td><td>One codebase for web, Android and iOS.</td></tr>
+  <tr><td>Navigation</td><td><code>go_router</code> 18</td><td>Declarative routes, clean URLs, role redirects.</td></tr>
+  <tr><td>State</td><td><code>provider</code> with <code>ChangeNotifier</code> stores</td><td>Allowed by the brief; simple and testable.</td></tr>
+  <tr><td>Auth and data</td><td><code>firebase_auth</code>, <code>cloud_firestore</code></td><td>Managed sign-in and a real-time database with declarative rules.</td></tr>
+  <tr><td>Charts, media</td><td><code>fl_chart</code>, <code>video_player</code>, <code>flutter_3d_controller</code>, <code>flutter_animate</code></td><td>Employer analytics, looping films, a 3D crystal, staggered reveals.</td></tr>
+  <tr><td>Utilities</td><td><code>qr_flutter</code>, <code>file_picker</code>, <code>image</code>, <code>url_launcher</code>, <code>intl</code>, <code>google_fonts</code>, <code>hugeicons</code></td><td>QR code, founder photo upload and resize, downloads, formatting, type, icons.</td></tr>
+  <tr><td>Video</td><td>Remotion (React) to H.264</td><td>Repeatable films: landing loop, brand film, cartoon tour.</td></tr>
+  <tr><td>Hosting</td><td>GitHub Pages and Firebase</td><td>Free tier; the web app needs no server.</td></tr>
 </table>
 
 <h3>Code structure</h3>
 <table>
-  <tr><th style="width:36mm">Folder</th><th>What lives there</th></tr>
-  <tr><td><code>lib/data/</code></td><td><code>backend.dart</code> (Firebase access, friendly error messages), <code>models/</code> (Course with lessons and quiz questions, Product, AppUser, Organisation, Employee, Article, Review, Founder, CartItem), <code>mock/</code> (seed catalogue), <code>eligibility.dart</code></td></tr>
-  <tr><td><code>lib/state/</code></td><td>Nine <code>ChangeNotifier</code> stores. Each subscribes to the signed-in user's Firestore queries and exposes getters plus async actions that return an error message or null.</td></tr>
+  <tr><th style="width:30mm">Folder</th><th>Contents</th></tr>
+  <tr><td><code>lib/data/</code></td><td><code>backend.dart</code> (Firebase access, friendly error messages), <code>models/</code>, <code>mock/</code> (seed catalogue and offline fallback), <code>eligibility.dart</code> (pathway rule)</td></tr>
+  <tr><td><code>lib/state/</code></td><td>Nine <code>ChangeNotifier</code> stores (Auth, Catalog, Cart, Commerce, Learning, Org, Admin, Notification, Theme). Each subscribes to the signed-in user's Firestore queries and exposes getters and async actions that return an error message or null.</td></tr>
   <tr><td><code>lib/router/</code></td><td><code>routes.dart</code> (every path), <code>app_router.dart</code> (shell routes, role guards, fade transitions), <code>home_sections.dart</code> (landing anchors)</td></tr>
-  <tr><td><code>lib/screens/</code></td><td>55 files: public pages, <code>learn/</code> (player and lessons), <code>portal/</code> (learner, employer, trainer, super admin), <code>tour/</code>, <code>certificate/</code>, <code>assessment/</code></td></tr>
-  <tr><td><code>lib/widgets/</code></td><td>31 reusable widgets: GlassPanel, AlchemyButton, AnimatedCard, CardImage, CourseThumb, Reveal, TiltCard, ReviewsSection, PathwayFields, the two layout shells, the notification bell</td></tr>
-  <tr><td><code>lib/theme/</code></td><td>Colour, typography, spacing, radius and motion tokens for light and dark</td></tr>
-  <tr><td><code>test/</code></td><td>13 test files on a fake Firestore and mock Auth (<code>helpers/fake_backend.dart</code>)</td></tr>
-  <tr><td><code>tools/</code></td><td><code>seed/</code> (seed.mjs, verify.mjs), <code>export_seed.dart</code>, <code>make_pdfs.py</code>, <code>serve_web.mjs</code>, <code>deploy_pages.sh</code></td></tr>
-  <tr><td><code>video/</code></td><td>Remotion project: HeroLoop, ServicesLoop, BrandIntro, SiteTour</td></tr>
-  <tr><td><code>web/</code>, <code>assets/</code></td><td>HTML shell and downloads (<code>web/downloads/*.pdf</code>); 30 photographs, 6 videos, a 3D model, textures</td></tr>
+  <tr><td><code>lib/screens/</code></td><td>55 files: public pages, <code>learn/</code>, <code>portal/</code> (learner, employer, trainer, super admin), <code>tour/</code>, <code>certificate/</code>, <code>assessment/</code></td></tr>
+  <tr><td><code>lib/widgets/</code></td><td>31 reusable widgets, including GlassPanel, AlchemyButton, AnimatedCard, CardImage, Reveal, TiltCard, PathwayFields and the two layout shells</td></tr>
+  <tr><td><code>test/</code>, <code>tools/</code></td><td>13 test files on a fake Firestore and mock Auth; <code>tools/seed/</code> (seed.mjs, verify.mjs), <code>deploy_pages.sh</code>, <code>serve_web.mjs</code></td></tr>
+  <tr><td><code>video/</code>, <code>web/</code>, <code>assets/</code></td><td>Remotion project (HeroLoop, ServicesLoop, BrandIntro, SiteTour); HTML shell and downloads; 30 photographs, 6 videos, a 3D model, textures</td></tr>
 </table>
 
 <h3>How data flows</h3>
 <ol class="steps">
-  <li>On sign-in, <code>AuthStore</code> (which listens to Firebase Auth) streams <code>users/{uid}</code> (role, organisation, pathway) and their organisation document.</li>
-  <li>The other stores listen to <code>AuthStore</code>. When the uid changes they cancel their old listeners and subscribe to that user's data, for example <code>enrolments where userId == uid</code>.</li>
+  <li>On sign-in, <code>AuthStore</code> (listening to Firebase Auth) streams <code>users/{uid}</code> (role, organisation, pathway) and the organisation document.</li>
+  <li>The other stores listen to <code>AuthStore</code>. When the uid changes they cancel their listeners and subscribe to that user's data, for example <code>enrolments where userId == uid</code>.</li>
   <li>Screens <code>watch</code> the stores and rebuild automatically. <code>CatalogStore</code> starts with the bundled catalogue so pages paint instantly and work offline; Firestore then replaces it live.</li>
-  <li>Checkout, assignment and enrolment use batched writes, and the stock decrement uses a transaction. Lesson progress updates optimistically, so the interface responds before the server confirms.</li>
+  <li>Checkout, assignment and enrolment use batched writes, and the stock decrement uses a transaction. Lesson progress updates optimistically.</li>
   <li>Actions return a readable message, such as "That email and password do not match an account.", instead of throwing.</li>
 </ol>
 
-<h3>Routing and role guards</h3>
-<p>Public pages share <code>AppShell</code>: one Scaffold with a glass AppBar and an end drawer below 1024 px. Signed-in pages share <code>PortalShell</code>: a second Scaffold with its own AppBar, a side rail (drawer on small screens), the notification bell, a theme toggle and one scroll area with a visible scrollbar. All portal pages are flat sibling routes, because nested child routes would stack a page underneath that Flutter never lays out.</p>
+<h3>Routing, role guards and theme</h3>
+<p>Public pages share <code>AppShell</code>: one Scaffold with a glass AppBar and an end drawer below 1024 px. Signed-in pages share <code>PortalShell</code>: a second Scaffold with its own AppBar, a side rail (a drawer on small screens), the notification bell, a theme toggle and one scroll area. Portal pages are flat sibling routes, because nested child routes would stack a page that Flutter never lays out. The router waits for Firebase to restore the session before deciding, so a signed-in user is not sent to the login screen on refresh.</p>
 <table>
-  <tr><th>Role</th><th>Home after sign-in</th><th>Guard</th></tr>
-  <tr><td>Guest</td><td>public site</td><td>Portal paths and <code>/learn</code> redirect to <code>/login?from=…</code>, and return afterwards.</td></tr>
+  <tr><th style="width:26mm">Role</th><th style="width:40mm">Home after sign-in</th><th>Guard</th></tr>
+  <tr><td>Guest</td><td>public site</td><td>Portal paths and <code>/learn</code> redirect to <code>/login?from=…</code> and return afterwards.</td></tr>
   <tr><td>Individual</td><td><code>/portal/me</code></td><td>May open only <code>/portal/me/*</code>.</td></tr>
   <tr><td>Employer</td><td><code>/portal/employer</code></td><td>May open only <code>/portal/employer/*</code>.</td></tr>
   <tr><td>Trainer</td><td><code>/portal/admin</code></td><td>May open only <code>/portal/admin/*</code>.</td></tr>
   <tr><td>Super admin</td><td><code>/portal/super</code></td><td>May open <code>/portal/super/*</code> and the trainer's course editor and students pages.</td></tr>
 </table>
-<p>The router waits for Firebase to restore the session before deciding, so a signed-in user is never bounced to the login screen on refresh.</p>
-
-<h3>Theme switching</h3>
-<p>Colour tokens are static getters on the active palette. When the brightness changes, every element is marked for rebuild so each widget re-reads the tokens, without recreating the tree; the current page, scroll position and widget state survive. The toggle reads the live brightness at press time, so it always flips.</p>
-
-<h3>Build and delivery pipeline</h3>
+<p>Colour tokens are static getters on the active palette. When the brightness changes, every element is marked for rebuild so each widget re-reads the tokens; the page, scroll position and widget state survive. The toggle reads the live brightness when pressed, so it always flips.</p>
 <figure>
-<svg viewBox="0 0 780 120" width="100%">
+<svg viewBox="0 0 780 120" style="width:100%;max-width:180mm;display:block;margin:0 auto">
   <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C8102E"/></marker></defs>
   <g font-size="11">
     <rect x="6" y="30" width="118" height="58" rx="8" fill="#F4F4F5"/><text x="65" y="55" text-anchor="middle" font-weight="700">Edit code</text><text x="65" y="72" text-anchor="middle" fill="#52525B">Flutter · Dart</text>
@@ -290,50 +259,47 @@
 <figcaption>Figure 3.2. From a code change to the live site. Rules and data changes go to Firebase separately (chapter 10).</figcaption>
 </figure>
 
-<!-- ================= 4 PAGE BY PAGE ================= -->
-<h2 class="chapter">4. Page-by-page guide</h2>
-<p>Screenshots were taken from the published site at 1440 px, signed in as the role that owns each page.</p>
+<h2 class="pb">4. Page-by-page guide</h2>
+<p class="muted">Screenshots are from the published site at 1440 px, signed in as the role that owns each page.</p>
 <div id="pages"></div>
 
-<!-- ================= 5 JOURNEYS ================= -->
-<h2 class="chapter">5. The five user journeys</h2>
+<h2 class="pb">5. The five user journeys</h2>
 <div class="grid2">
 <div class="card"><h4>A · Individual learning</h4><ol class="steps">
-  <li>Register: choose a career stage and interest areas (<code>/register</code>).</li>
-  <li>The course catalogue shows only courses that match both (<code>/portal/me/courses</code>).</li>
-  <li>Buy the course, then pay at checkout (test card 4242 4242 4242 4242).</li>
+  <li>Register and choose a career stage and interest areas (<code>/register</code>).</li>
+  <li>The catalogue shows only courses that match both (<code>/portal/me/courses</code>).</li>
+  <li>Buy the course and pay at checkout (test card 4242 4242 4242 4242).</li>
   <li>An enrolment is created from the paid order; the dashboard shows progress.</li>
   <li>Open the course: watch the video, read the PDF, Mark complete, Next.</li>
-  <li>Pass the quiz (70% or more) to complete the course and receive a certificate with a public verification link.</li></ol></div>
+  <li>Pass the quiz (70% or more) to finish and receive a certificate with a public verification link.</li></ol></div>
 <div class="card"><h4>B · Digital product</h4><ol class="steps">
   <li>Store, then the EI Self-Coaching Toolkit.</li>
-  <li>Add to cart, then checkout (no delivery address, no shipping).</li>
+  <li>Add to cart and check out (no delivery address, no shipping).</li>
   <li>A payment record is created in test mode.</li>
-  <li>My digital products, then Download. The count is tracked.</li></ol></div>
+  <li>My downloads, then Download. The count is tracked.</li></ol></div>
 <div class="card"><h4>C · Physical product</h4><ol class="steps">
   <li>Store, then Cart (delivery is free from £50 of shipped goods).</li>
   <li>Enter a delivery address at checkout and pay.</li>
-  <li>Stock is reduced in a transaction; a shipment is created as Processing.</li>
+  <li>Stock is reduced in a transaction and a shipment is created as Processing.</li>
   <li>The super admin marks it Shipped (with a tracking number), then Delivered; the buyer is notified each time.</li></ol></div>
 <div class="card"><h4>D · Employer</h4><ol class="steps">
   <li>Register an organisation (<code>/register?type=organisation</code>).</li>
   <li>Add employees; they join automatically when they register with that email.</li>
   <li>Buy courses: choose the number of seats and pay.</li>
   <li>Assign courses to people; each assignment uses a seat.</li>
-  <li>Watch the progress report and the analytics charts update live.</li></ol></div>
+  <li>Watch the progress report and analytics update live.</li></ol></div>
 <div class="card"><h4>E · Corporate enquiry</h4><ol class="steps">
   <li>Open "For organisations" from the landing page or footer.</li>
   <li>Submit the enquiry (saved to Firestore).</li>
   <li>The super admin inbox tracks it: New, In discussion, Proposal sent, Programme agreed, Closed.</li>
   <li>The admin writes the customised programme proposal.</li></ol></div>
-<div class="card"><h4>Staff: free access</h4><ol class="steps">
+<div class="card"><h4>Staff free access</h4><ol class="steps">
   <li>A trainer or admin opens any course free (admin preview, nothing is saved).</li>
   <li>Courses, then Students shows enrolled, paid, employer seats and free access.</li>
-  <li>Search a learner and give free access, or remove someone. A removed payer is not refunded automatically.</li></ol></div>
+  <li>Search a learner to give free access, or remove someone. A removed payer is not refunded automatically.</li></ol></div>
 </div>
 
-<!-- ================= 6 DATA AND SECURITY ================= -->
-<h2 class="chapter">6. Data and security</h2>
+<h2 class="pb">6. Data and security</h2>
 <h3>Collections (22)</h3>
 <p>Each entity is a top-level collection. Lessons and quiz questions are embedded in the course document so the player loads in one read; order items are embedded in the order.</p>
 <table>
@@ -342,20 +308,18 @@
   <tr><td>organizations</td><td>name, sector, size, ownerId, seats {courseId: n}</td><td>Employer</td></tr>
   <tr><td>employees · assignments</td><td>orgId, name, email, team · employeeEmail, courseId</td><td>Employer</td></tr>
   <tr><td>courses</td><td>title, level, serviceSlug, price, imageUrl, published, modules[] {type, mediaUrl, quiz[]}</td><td>Trainer, super admin</td></tr>
-  <tr><td>enrolments</td><td>userId, courseId, source (purchase, assignment, granted), amountPaid, orderId or assignmentId, completedModuleIds[], quizScores, progress, status</td><td>Learner (needs a paid order or an assignment); staff for free access</td></tr>
+  <tr><td>enrolments</td><td>userId, courseId, source (purchase, assignment, granted), amountPaid, completedModuleIds[], quizScores, progress, status</td><td>Learner (needs a paid order or an assignment); staff for free access</td></tr>
   <tr><td>certificates</td><td>code, userId, courseId, userName, courseTitle, issuedAt (public read)</td><td>Learner, only when the enrolment is complete</td></tr>
   <tr><td>products · productCategories</td><td>type (digital or physical), stock, fileUrl, imageUrl, price</td><td>Super admin (checkout may only reduce stock)</td></tr>
   <tr><td>carts · orders · payments</td><td>items · status, totals, orgId · amount, last4, gateway "test-mode"</td><td>The buyer</td></tr>
   <tr><td>shipping · downloads</td><td>status, tracking, history[] · url, downloadCount</td><td>Buyer creates; super admin advances shipping</td></tr>
   <tr><td>articles · impactStories · founders</td><td>body[] · quote, metric · name, role, bio, imageUrl</td><td>Staff · super admin · super admin</td></tr>
   <tr><td>reviews</td><td>targetId, userId, rating 1 to 5, comment</td><td>Signed-in learners</td></tr>
-  <tr><td>enquiries · contactMessages</td><td>organisation, interest, status, proposal · message</td><td>Anyone (guests too); the super admin manages them</td></tr>
+  <tr><td>enquiries · contactMessages</td><td>organisation, interest, status, proposal · message</td><td>Anyone, guests included; the super admin manages them</td></tr>
   <tr><td>notifications · assessments</td><td>userId, title, link, read · EQ scores</td><td>Staff and employers · the learner</td></tr>
 </table>
-
-<h3>Relationships</h3>
 <figure>
-<svg viewBox="0 0 780 330" width="100%">
+<svg viewBox="0 0 780 330" style="width:100%;max-width:150mm;display:block;margin:0 auto">
   <g font-size="11">
     <rect x="10" y="10" width="110" height="40" rx="8" fill="#FBE7EA"/><text x="65" y="35" text-anchor="middle" font-weight="700">users</text>
     <rect x="170" y="10" width="120" height="40" rx="8" fill="#F4F4F5"/><text x="230" y="35" text-anchor="middle" font-weight="700">organizations</text>
@@ -396,257 +360,207 @@
   <tr><td>orders, payments, shipping, downloads</td><td>none</td><td>own</td><td>own organisation's orders</td><td>none</td><td>full; advances shipping</td></tr>
   <tr><td>enquiries</td><td>create only</td><td>create only</td><td>create only</td><td>none</td><td>read and update</td></tr>
 </table>
-<p>The live verification script checks each of these: users cannot change their own role; self-registration can only create individual or employer accounts; an enrolment needs a paid order or an assignment; a certificate can be created only when the enrolment is complete; employers cannot touch another organisation's data; draft courses are hidden from everyone except staff; buyers cannot mark their own parcel delivered.</p>
+<p>The live verification script checks these rules. Users cannot change their own role. Self-registration can only create individual or employer accounts. An enrolment needs a paid order or an assignment. A certificate can be created only when the enrolment is complete. Employers cannot touch another organisation's data, draft courses are hidden from everyone except staff, and buyers cannot mark their own parcel delivered.</p>
 
 <h3>Business rules</h3>
 <table>
-  <tr><th style="width:38mm">Rule</th><th>Behaviour</th></tr>
+  <tr><th style="width:34mm">Rule</th><th>Behaviour</th></tr>
   <tr><td>Learning pathway</td><td>A course is open to a learner only if its level suits their career stage and its practice area is one of their interests. Student: Foundation. Professional: Foundation and Practitioner. Manager: Practitioner and Leader. Senior leader: Leader. Other courses stay visible but locked, with the reason. Employer assignments and staff are not restricted.</td></tr>
   <tr><td>Pricing and shipping</td><td>Prices in GBP. Delivery is £4.95, free from £50 of shipped goods. Digital products and courses never ship.</td></tr>
-  <tr><td>Seats</td><td>An employer buys seats per course (stored on the organisation). Assigning a course uses one seat per person; the assignment is refused when seats run out.</td></tr>
-  <tr><td>Progress and certificates</td><td>Progress is lessons completed divided by lessons. Quizzes pass at 70% and complete their lesson. Completing every lesson creates the certificate, whose code is built from the first three letters of the course id and the start of the learner id.</td></tr>
+  <tr><td>Seats</td><td>An employer buys seats per course (stored on the organisation). Each assignment uses one seat per person and is refused when seats run out.</td></tr>
+  <tr><td>Progress and certificates</td><td>Progress is lessons completed divided by lessons. Quizzes pass at 70% and complete their lesson. Completing every lesson creates the certificate; its code is built from the first three letters of the course id and the start of the learner id.</td></tr>
   <tr><td>Payments</td><td>Simulated gateway in test mode. A card number starting 4000 0000 0000 0002 is declined; any other valid test number is approved. Only the last four digits are stored.</td></tr>
-  <tr><td>Free access</td><td>Staff can create an enrolment with source "granted"; it needs no order and no seat.</td></tr>
-  <tr><td>Offline fallback</td><td>If Firestore is unreachable the bundled catalogue keeps pages working.</td></tr>
+  <tr><td>Free access</td><td>Staff can create an enrolment with source "granted". It needs no order and no seat.</td></tr>
+  <tr><td>Offline fallback</td><td>If Firestore is unreachable, the bundled catalogue keeps pages working.</td></tr>
 </table>
 
-<!-- ================= 7 DESIGN ================= -->
-<h2 class="chapter">7. Design system, imagery and motion</h2>
-<div class="grid2">
-<div>
+<h2 class="pb">7. Design system, imagery and motion</h2>
+<div class="two">
 <h3>Colour</h3>
-<p>Pure white (#FFFFFF), a neutral zinc "ash" scale (#F4F4F5 to #18181B) and Crimson Red (#C8102E) as the single accent for calls to action, active states, progress and focus. Grey-to-red gradients appear only at moments of change: a passed quiz, a completed order, a finished course. There is no grain texture and no grey haze. A full dark palette mirrors the light one.</p>
-<h3>Glassmorphism</h3>
-<p>A shared <code>GlassPanel</code> (backdrop blur, translucent fill, hairline border) is used on the navigation, hero copy, summaries and forms. Few panels per screen, never nested, with a solid fallback for high contrast.</p>
-<h3>Typography</h3>
-<p>Fraunces (serif) for headings and Manrope for body text, on a scale that runs from display down to small and label sizes.</p>
-</div>
-<div>
+<p>Pure white (#FFFFFF), a neutral zinc "ash" scale (#F4F4F5 to #18181B) and Crimson Red (#C8102E) as the single accent for calls to action, active states, progress and focus. Grey-to-red gradients appear only at moments of change: a passed quiz, a completed order, a finished course. There is no grain texture. A full dark palette mirrors the light one.</p>
+<h3>Glassmorphism and type</h3>
+<p>A shared <code>GlassPanel</code> (backdrop blur, translucent fill, hairline border) is used on the navigation, hero copy, summaries and forms, a few per screen and never nested, with a solid fallback for high contrast. Headings use Fraunces and body text uses Manrope.</p>
 <h3>Imagery</h3>
-<p>Thirty free-licence photographs (Unsplash, converted to WebP) appear on every course, product, service and article card. Courses and products store an <code>imageUrl</code> that admins can change; the seeded red ink artwork is the fallback. Founder portraits are uploaded from the site.</p>
+<p>Thirty free-licence Unsplash photographs, converted to WebP, appear on every course, product, service and article card. Courses and products store an <code>imageUrl</code> that admins can change; the seeded red ink artwork is the fallback. Founder portraits are uploaded from the site.</p>
 <h3>Motion</h3>
-<ul>
-  <li>Landing film with a floating glass crystal and parallax particles</li>
-  <li>Staggered reveals on scroll</li>
-  <li>Every card: hover lift, soft red shadow, photo zoom, press feedback</li>
-  <li>3D tilt on service cards</li>
-  <li>Fade-and-lift page transitions</li>
-  <li>Smooth glide from menu to landing section</li>
-  <li>Animated EQ result bars, rotating impact stories</li>
-  <li>All of it respects the reduced-motion setting</li>
-</ul>
+<p>The landing film has a floating glass crystal and parallax particles. Content reveals in staggered steps on scroll. Every card lifts on hover with a soft red shadow, a photo zoom and press feedback; service cards also tilt in 3D. Pages change with a fade-and-lift transition, the menu glides to its landing section, EQ result bars animate and impact stories rotate. All of it respects the reduced-motion setting.</p>
 <h3>Accessibility</h3>
-<p>Icon buttons have semantic labels, form errors are announced through live regions, focus outlines are visible, the tour film has captions, and the chart legends spell out their counts.</p>
-</div>
+<p>Icon buttons have semantic labels, form errors are announced through live regions, focus outlines are visible, the tour film has captions and chart legends spell out their counts.</p>
 </div>
 <div class="grid3">
   <figure><img src="img/home-hero.jpg"><figcaption>Light theme</figcaption></figure>
   <figure><img src="img/home-dark.jpg"><figcaption>Dark theme</figcaption></figure>
   <figure><img src="img/home-s1.jpg"><figcaption>Photo service cards</figcaption></figure>
 </div>
-<h3>Responsive behaviour</h3>
 <table>
-  <tr><th>Size</th><th>Width</th><th>Layout</th></tr>
+  <tr><th style="width:24mm">Size</th><th style="width:34mm">Width</th><th>Layout</th></tr>
   <tr><td>Compact</td><td>under 600 px</td><td>Single column, full-width buttons, banner photos on cards, drawers for navigation.</td></tr>
   <tr><td>Medium</td><td>600 to 1023 px</td><td>Two columns, drawers for navigation.</td></tr>
   <tr><td>Expanded</td><td>1024 px and up</td><td>Side rails, three or four columns, fluid gutters (5% of the width, 48 to 120 px).</td></tr>
 </table>
 
-<!-- ================= 8 MEDIA ================= -->
-<h2 class="chapter">8. Media pipeline: videos, virtual tour and QR code</h2>
-<p>All videos are made with Remotion, which renders React components to H.264 files, so any film can be regenerated from code.</p>
+<h2>8. Videos, virtual tour and QR code</h2>
+<p>All videos are made with Remotion, which renders React components to H.264, so any film can be regenerated from code.</p>
 <table>
-  <tr><th style="width:36mm">Film</th><th>Used on</th><th>Notes</th></tr>
-  <tr><td><code>hero_loop</code> (+ dark)</td><td>Landing hero</td><td>Ink blooming through water, a floating glass crystal, parallax particles, a slow camera drift. An 8 second loop that repeats without a visible cut, under 1 MB.</td></tr>
+  <tr><th style="width:34mm">Film</th><th style="width:28mm">Used on</th><th>Notes</th></tr>
+  <tr><td><code>hero_loop</code> (+ dark)</td><td>Landing hero</td><td>Ink blooming through water, a floating glass crystal, parallax particles, a slow camera drift. An 8 second loop without a visible cut, under 1 MB.</td></tr>
   <tr><td><code>services_loop</code> (+ dark)</td><td>Services header</td><td>Quiet ink loop.</td></tr>
   <tr><td><code>brand_intro</code></td><td>About page, lesson video</td><td>Brand film with the wordmark and four practice areas.</td></tr>
-  <tr><td><code>site_tour</code></td><td>Virtual tour</td><td>42 seconds, 1280×720, no sound, with captions. Seven scenes: welcome, learn, shop, teams, trainers and admins, EQ check, call to action. Characters and the faceted-crystal mascot Alchy are drawn in SVG, so no outside artwork is involved.</td></tr>
+  <tr><td><code>site_tour</code></td><td>Virtual tour</td><td>42 seconds, 1280×720, no sound, with captions. Seven scenes: welcome, learn, shop, teams, trainers and admins, EQ check, call to action. The characters and the faceted-crystal mascot Alchy are drawn in SVG, so no outside artwork is involved.</td></tr>
 </table>
-<figure><img src="img/tour.jpg" style="max-width:130mm"><figcaption>The virtual tour page (<code>/tour</code>): the cartoon film, then one card per part of the site to try.</figcaption></figure>
-<h3>The QR code</h3>
-<p>The last section of the landing page shows a QR code that opens the tour. It encodes the site's own address, taken from the browser plus the build's base path, so it is correct on whatever host the site is published to. On a computer's <code>localhost</code> the page warns that the code only opens locally; on the live site it scans from any phone. The same section has an "Open the tour" button and a "Copy link" button.</p>
-<figure><img src="img/home-s7.jpg" style="max-width:150mm"><figcaption>QR section at the end of the landing page, with a preview of the film.</figcaption></figure>
+<p>The last section of the landing page shows a QR code that opens the tour. It encodes the site's own address, taken from the browser plus the build's base path, so it is correct on whatever host the site is published to. On <code>localhost</code> the page warns that the code only opens locally; on the live site it scans from any phone. The section also has "Open the tour" and "Copy link" buttons.</p>
+<div class="grid2">
+<figure><img src="img/tour.jpg"><figcaption>The virtual tour page (<code>/tour</code>): the film, then one card per part of the site to try.</figcaption></figure>
+<figure><img src="img/home-s7.jpg"><figcaption>The QR section at the end of the landing page, with a preview of the film.</figcaption></figure>
+</div>
 
-<!-- ================= 9 QUALITY ================= -->
-<h2 class="chapter">9. Quality and verification</h2>
+<h2 class="pb">9. Quality and verification</h2>
 <table>
-  <tr><th style="width:44mm">Check</th><th>Result</th></tr>
+  <tr><th style="width:40mm">Check</th><th>Result</th></tr>
   <tr><td><code>flutter analyze</code></td><td>No issues.</td></tr>
-  <tr><td><code>flutter test</code></td><td>56 tests on a fake Firestore and mock Auth: cart rules; checkout writes (order, payment, shipping, download, enrolment, stock) and declined cards; shipping state changes with notifications; enrolment from an order and from an assignment; quiz pass and fail; certificate issue and verification; employer seats, assignments, progress and weekly activity; staff free access, removal and revenue totals; founders and photos; theme toggle; validators; portal scrolling; screen layout.</td></tr>
-  <tr><td><code>npm run verify</code> (live Firebase)</td><td>39 of 39 checks pass. It signs in as each role over REST, performs each journey's writes, and confirms forbidden writes are refused, such as a learner promoting themselves, enrolling without paying, or giving themselves free access.</td></tr>
-  <tr><td>Visual checks</td><td>Browser screenshots at 1440 px and 375 px, light and dark; the live GitHub Pages site was checked including a deep link and a real sign-in.</td></tr>
+  <tr><td><code>flutter test</code></td><td>56 tests on a fake Firestore and mock Auth: cart rules; checkout writes (order, payment, shipping, download, enrolment, stock) and declined cards; shipping changes with notifications; enrolment from an order and from an assignment; quiz pass and fail; certificate issue and verification; employer seats, assignments, progress and weekly activity; staff free access, removal and revenue totals; founders and photos; theme toggle; validators; portal scrolling; screen layout.</td></tr>
+  <tr><td><code>npm run verify</code> (live Firebase)</td><td>39 of 39 checks pass. It signs in as each role over REST, performs each journey's writes and confirms forbidden writes are refused: a learner promoting themselves, enrolling without paying, or giving themselves free access.</td></tr>
+  <tr><td>Visual checks</td><td>Browser screenshots at 1440 px and 375 px, light and dark. The live GitHub Pages site was checked, including a deep link and a real sign-in.</td></tr>
   <tr><td>Performance</td><td>Videos under 1.5 MB each; photographs 25 to 170 KB (WebP).</td></tr>
 </table>
-<div class="note">Firestore rule changes take a few minutes to reach every server. A verification run started during that window briefly saw the temporary open seed rules. The seed and maintenance notes now say to wait about three minutes before verifying, and the verification script deletes the records it creates.</div>
+<div class="note">Firestore rule changes take a few minutes to reach every server. A verification run started in that window briefly saw the temporary open seed rules. Wait about three minutes after deploying rules before verifying; the script deletes the records it creates.</div>
 
-<!-- ================= 10 DEPLOYMENT ================= -->
-<h2 class="chapter">10. Deployment and operations</h2>
+<h2 class="pb">10. Deployment and operations</h2>
 <table>
-  <tr><th style="width:46mm">Task</th><th>How</th></tr>
+  <tr><th style="width:38mm">Task</th><th>How</th></tr>
   <tr><td>Run locally</td><td><code>flutter pub get</code> then <code>flutter run -d chrome</code></td></tr>
-  <tr><td>Publish the site</td><td>Commit, then <code>bash tools/deploy_pages.sh</code>. It builds with the <code>/mt-alchemy/</code> base path, copies <code>index.html</code> to <code>404.html</code> (so deep links such as <code>/portal</code> load), adds <code>.nojekyll</code> and pushes the <code>gh-pages</code> branch.</td></tr>
-  <tr><td>Change rules or indexes</td><td>Edit <code>firestore.rules</code> or <code>firestore.indexes.json</code>, then <code>firebase deploy --only firestore</code>, wait three minutes, then <code>npm run verify</code>.</td></tr>
-  <tr><td>Reset demo data</td><td><code>cd tools/seed &amp;&amp; npm run seed</code> (exports the catalogue, opens the temporary seed rules, writes 71 documents, redeploys the real rules).</td></tr>
+  <tr><td>Publish the site</td><td>Commit, then <code>bash tools/deploy_pages.sh</code>. It builds with the <code>/mt-alchemy/</code> base path, copies <code>index.html</code> to <code>404.html</code> so deep links such as <code>/portal</code> load, adds <code>.nojekyll</code> and pushes the <code>gh-pages</code> branch.</td></tr>
+  <tr><td>Change rules or indexes</td><td>Edit <code>firestore.rules</code> or <code>firestore.indexes.json</code>, run <code>firebase deploy --only firestore</code>, wait three minutes, then <code>npm run verify</code>.</td></tr>
+  <tr><td>Reset demo data</td><td><code>cd tools/seed &amp;&amp; npm run seed</code>. It exports the catalogue, opens the temporary seed rules, writes 71 documents and redeploys the real rules.</td></tr>
   <tr><td>Re-render a video</td><td><code>cd video &amp;&amp; npm run render:tour</code> (or <code>render:all</code>).</td></tr>
-  <tr><td>Authorized domains</td><td>The Firebase Authentication allow-list contains <code>localhost</code>, <code>*.firebaseapp.com</code>, <code>*.web.app</code> and <code>ajaynagarajan2005.github.io</code>. Add any new domain under Authentication, Settings.</td></tr>
-  <tr><td>Day-to-day content</td><td>Trainer portal (courses), Super admin (users, products, orders, enquiries, content), landing page founder cards (photo upload for the super admin).</td></tr>
+  <tr><td>Authorized domains</td><td>The Authentication allow-list holds <code>localhost</code>, <code>*.firebaseapp.com</code>, <code>*.web.app</code> and <code>ajaynagarajan2005.github.io</code>. Add any new domain under Authentication, Settings.</td></tr>
+  <tr><td>Day-to-day content</td><td>Trainer portal (courses); super admin (users, products, orders, enquiries, content); founder photo upload on the landing page cards (super admin).</td></tr>
 </table>
 <h3>Troubleshooting</h3>
 <table>
-  <tr><th style="width:46mm">Symptom</th><th>Likely cause and fix</th></tr>
-  <tr><td>"You do not have permission to do that."</td><td>A security rule refused the write. Check the role in <code>users/{uid}</code> and reproduce it in <code>verify.mjs</code>.</td></tr>
-  <tr><td>Catalogue shows but never updates</td><td>Firestore unreachable; the app falls back to the bundled catalogue. Look for "Could not reach Cloud Firestore" in the console.</td></tr>
-  <tr><td>"requires an index"</td><td>A new compound query. Follow the link in the error or add it to <code>firestore.indexes.json</code>.</td></tr>
+  <tr><th style="width:38mm">Symptom</th><th>Likely cause and fix</th></tr>
+  <tr><td>"You do not have permission to do that."</td><td>A security rule refused the write. Check the role in <code>users/{uid}</code> and reproduce the case in <code>verify.mjs</code>.</td></tr>
+  <tr><td>Catalogue shows but never updates</td><td>Firestore is unreachable and the app is using the bundled catalogue. Look for "Could not reach Cloud Firestore" in the console.</td></tr>
+  <tr><td>"requires an index"</td><td>A new compound query. Follow the link in the error or add the index to <code>firestore.indexes.json</code>.</td></tr>
   <tr><td>Portal is empty after login</td><td>The profile document is missing. Re-run the seed or create <code>users/{uid}</code> with a role.</td></tr>
-  <tr><td>QR code opens a blank or wrong address</td><td>The build was made without <code>SITE_BASE</code>; rebuild with <code>deploy_pages.sh</code>.</td></tr>
+  <tr><td>QR code opens a blank or wrong address</td><td>The build was made without <code>SITE_BASE</code>. Rebuild with <code>deploy_pages.sh</code>.</td></tr>
 </table>
 
-<!-- ================= 11 LIMITATIONS ================= -->
-<h2 class="chapter">11. Limitations and future work</h2>
+<h2 class="pb">11. Limitations and future work</h2>
 <table>
-  <tr><th style="width:46mm">Area</th><th>Current state and the next step</th></tr>
-  <tr><td>Payments</td><td>Simulated in test mode, with no real charge. Next: a payment provider (Stripe or similar) with a server-side webhook, which needs Cloud Functions.</td></tr>
-  <tr><td>File storage</td><td>Firebase Storage needs the paid plan, so PDFs and downloads are served from the site's own <code>/downloads</code> folder, and founder photos are stored in Firestore as small JPEGs. Next: Storage for lesson videos, PDFs and photos.</td></tr>
-  <tr><td>Email</td><td>Password-reset email is sent by Firebase. Order receipts, employee invitations and enquiry replies are not emailed; people see them in the app (notification bell). Next: transactional email.</td></tr>
-  <tr><td>Certificates</td><td>Viewable and verifiable by link; no PDF download button yet.</td></tr>
-  <tr><td>Refunds</td><td>Removing a paying student does not refund them; an admin must handle that with the payment provider.</td></tr>
-  <tr><td>Devices</td><td>Verified in desktop and phone-sized browsers. Native Android and iOS builds use the same code but were not tested on devices.</td></tr>
+  <tr><th style="width:34mm">Area</th><th>Current state and next step</th></tr>
+  <tr><td>Payments</td><td>Simulated in test mode with no real charge. Next: a payment provider such as Stripe with a server-side webhook, which needs Cloud Functions.</td></tr>
+  <tr><td>File storage</td><td>Firebase Storage needs the paid plan, so PDFs and downloads are served from the site's own <code>/downloads</code> folder and founder photos are stored in Firestore as small JPEGs. Next: Storage for lesson videos, PDFs and photos.</td></tr>
+  <tr><td>Email</td><td>Firebase sends password-reset email. Order receipts, employee invitations and enquiry replies appear in the app (notification bell) and are not emailed. Next: transactional email.</td></tr>
+  <tr><td>Certificates</td><td>Viewable and verifiable by link; there is no PDF download button yet.</td></tr>
+  <tr><td>Refunds</td><td>Removing a paying student does not refund them. An admin handles that with the payment provider.</td></tr>
+  <tr><td>Devices</td><td>Checked in desktop and phone-sized browsers. Native Android and iOS builds share the code but were not tested on devices.</td></tr>
   <tr><td>Browser window fit</td><td>One report of the page not filling the window edge to edge on a particular display was not reproduced and remains open.</td></tr>
-  <tr><td>Hosting deep links</td><td>GitHub Pages returns HTTP 404 for deep links before the app loads (the app then renders normally). Firebase Hosting would return 200.</td></tr>
-  <tr><td>EQ self-assessment</td><td>An engagement tool with ten statements across five areas, not a validated psychometric instrument.</td></tr>
-  <tr><td>Hero video</td><td>An AI-generated landing clip was deferred; the Remotion films are used instead.</td></tr>
+  <tr><td>Hosting deep links</td><td>GitHub Pages returns HTTP 404 for deep links before the app loads, then the app renders normally. Firebase Hosting would return 200.</td></tr>
+  <tr><td>EQ self-assessment</td><td>An engagement tool with ten statements across five areas. It is not a validated psychometric instrument.</td></tr>
+  <tr><td>Hero video</td><td>An AI-generated landing clip was deferred; the Remotion films are used.</td></tr>
 </table>
 
-<!-- ================= 12 APPENDICES ================= -->
-<h2 class="chapter">12. Appendices</h2>
+<h2>12. Appendices</h2>
 <h3>A. Demo accounts</h3>
-<p>Password for every account: <code>alchemy123</code>. The login page also lists them.</p>
+<p>The password for every account is <code>alchemy123</code>. The login page also lists them.</p>
 <table>
-  <tr><th>Role</th><th>Email</th><th>What to try</th></tr>
-  <tr><td>Individual</td><td>amara@example.com</td><td>Course in progress, a shipped order, a digital download, pathway: Professional with three interest areas</td></tr>
-  <tr><td>Employee (individual)</td><td>callum@northlight.example.com</td><td>Courses assigned by an employer, pathway: Manager</td></tr>
+  <tr><th style="width:30mm">Role</th><th style="width:60mm">Email</th><th>What to try</th></tr>
+  <tr><td>Individual</td><td>amara@example.com</td><td>Course in progress, a shipped order, a digital download; pathway Professional with three interest areas</td></tr>
+  <tr><td>Employee</td><td>callum@northlight.example.com</td><td>Courses assigned by an employer; pathway Manager</td></tr>
   <tr><td>Employer</td><td>priya@northlight.example.com</td><td>Employees, seats, assignments, progress, analytics</td></tr>
   <tr><td>Trainer</td><td>maya@mtalchemy.example.com</td><td>Course CRUD, open courses free, students and free access</td></tr>
-  <tr><td>Super admin</td><td>admin@mtalchemy.example.com</td><td>Full access: users, products, orders, enquiries, content, founders' photos</td></tr>
+  <tr><td>Super admin</td><td>admin@mtalchemy.example.com</td><td>Users, products, orders, enquiries, content, founder photos</td></tr>
 </table>
-<p>Test card for checkout: <code>4242 4242 4242 4242</code> (approved) or <code>4000 0000 0000 0002</code> (declined); any future expiry and any 3-digit CVC.</p>
+<p>Test cards for checkout: <code>4242 4242 4242 4242</code> (approved) or <code>4000 0000 0000 0002</code> (declined), with any future expiry and any 3-digit CVC.</p>
 
-<h3>B. Route table</h3>
-<table>
-  <tr><th style="width:62mm">Route</th><th>Screen</th><th style="width:30mm">Access</th></tr>
-  <tr><td><code>/</code></td><td>Landing page</td><td>Public</td></tr>
-  <tr><td><code>/about</code> · <code>/services</code> · <code>/services/:slug</code></td><td>About; services; service detail</td><td>Public</td></tr>
-  <tr><td><code>/upskilling</code> · <code>/upskilling/:id</code></td><td>Course catalogue; course detail</td><td>Public</td></tr>
-  <tr><td><code>/learn/:id</code></td><td>Course player</td><td>Signed in</td></tr>
-  <tr><td><code>/store</code> · <code>/store/:id</code></td><td>Store; product</td><td>Public</td></tr>
-  <tr><td><code>/cart</code> · <code>/checkout</code> · <code>/checkout/success</code></td><td>Cart; checkout; confirmation</td><td>Cart public; checkout signed in</td></tr>
-  <tr><td><code>/insights</code> · <code>/insights/:slug</code></td><td>Articles</td><td>Public</td></tr>
-  <tr><td><code>/contact</code> · <code>/organisations</code></td><td>Contact form; corporate enquiry</td><td>Public</td></tr>
-  <tr><td><code>/eq-assessment</code> · <code>/tour</code> · <code>/certificates/:code</code></td><td>EQ check; virtual tour; certificate</td><td>Public</td></tr>
-  <tr><td><code>/login</code> · <code>/register</code></td><td>Sign in; register (individual or organisation)</td><td>Public</td></tr>
-  <tr><td><code>/portal/me</code> and <code>/courses</code> <code>/certificates</code> <code>/orders</code> <code>/downloads</code> <code>/profile</code></td><td>Learner portal</td><td>Individual</td></tr>
-  <tr><td><code>/portal/employer</code> and <code>/employees</code> <code>/courses</code> <code>/assign</code> <code>/progress</code> <code>/reports</code></td><td>Employer portal</td><td>Employer</td></tr>
-  <tr><td><code>/portal/admin</code>, <code>/portal/admin/courses/:id</code>, <code>…/students</code></td><td>Trainer courses; editor; students</td><td>Trainer, super admin</td></tr>
-  <tr><td><code>/portal/super</code> and <code>/users</code> <code>/courses</code> <code>/products</code> <code>/products/:id</code> <code>/orders</code> <code>/enquiries</code> <code>/content</code></td><td>Super admin portal</td><td>Super admin</td></tr>
-</table>
-
-<h3>C. Credits and licences</h3>
+<div class="two">
+<h3>B. Credits and licences</h3>
 <ul>
-  <li>Photographs: free-licence images from Unsplash (people, workshops, well-being, books, teams), converted to WebP. The Unsplash licence permits this use without attribution.</li>
+  <li>Photographs: free-licence Unsplash images converted to WebP; the licence permits this use without attribution.</li>
   <li>Fonts: Fraunces and Manrope (SIL Open Font Licence) via Google Fonts.</li>
   <li>Icons: HugeIcons (stroke rounded set).</li>
   <li>Cartoon characters and mascot: original artwork drawn for this project.</li>
-  <li>Packages: Flutter, go_router, provider, Firebase plugins, fl_chart, qr_flutter, video_player, file_picker, image, flutter_animate, Remotion and their dependencies, each under its own open-source licence.</li>
+  <li>Packages: Flutter, go_router, provider, the Firebase plugins, fl_chart, qr_flutter, video_player, file_picker, image, flutter_animate and Remotion, each under its own open-source licence.</li>
 </ul>
-
-<h3>D. Glossary</h3>
-<table>
-  <tr><td style="width:36mm"><b>Pathway</b></td><td>A learner's career stage plus interest areas; decides which courses they can buy.</td></tr>
-  <tr><td><b>Seat</b></td><td>One employee's place on a course, bought by an employer and used when assigning.</td></tr>
-  <tr><td><b>Free access (granted)</b></td><td>An enrolment created by staff with no payment.</td></tr>
-  <tr><td><b>Admin preview</b></td><td>Staff opening a course without enrolling; nothing is saved.</td></tr>
-  <tr><td><b>Alchy</b></td><td>The crystal mascot who narrates the virtual tour.</td></tr>
-  <tr><td><b>Seed</b></td><td>The script that fills Firebase with demo accounts and content.</td></tr>
-  <tr><td><b>Test mode</b></td><td>Payments are simulated; no real card is charged.</td></tr>
-</table>
+<h3>C. Glossary</h3>
+<ul>
+  <li>Pathway: a learner's career stage plus interest areas; it decides which courses they can buy.</li>
+  <li>Seat: one employee's place on a course, bought by an employer and used on assignment.</li>
+  <li>Free access (granted): an enrolment created by staff with no payment.</li>
+  <li>Admin preview: staff opening a course without enrolling; nothing is saved.</li>
+  <li>Alchy: the crystal mascot who narrates the tour.</li>
+  <li>Seed: the script that fills Firebase with demo accounts and content.</li>
+  <li>Test mode: payments are simulated and no real card is charged.</li>
+</ul>
+</div>
 
 <script>
-// Each entry: image, title, route, access, purpose, data, actions.
+const GALLERY = [
+  ['home-hero','Hero'],['home-s1','Services'],['home-s2','About'],['home-s3','Founders and manifesto'],
+  ['home-s4','Courses and impact stories'],['home-s5','Store and insights'],['home-s6','Contact and call to action'],['home-s7','Virtual tour QR']];
 const SECTIONS = [
- { id: '4.1', title: '4.1 Public website', intro: 'Open to everyone. The home page is one long landing page; its menu items glide to the matching section.', pages: [
-  { img: 'home-hero', t: 'Home: landing hero', r: '/', a: ['Everyone'], p: 'A looping ink-in-water film with a floating glass crystal sits behind glass copy: "We shift mindsets, behaviours, and team culture", and two calls to action.', d: 'None (static hero).', f: ['Book a call, Explore learning', 'Menu and theme toggle', 'Cart badge shows the item count'] },
-  { img: 'home-s1', t: 'Home: services', r: '/ (section)', a: ['Everyone'], p: 'The hero zooms into four photo cards, one per practice area, with a 3D tilt on hover.', d: 'Services (bundled).', f: ['Open a service', 'All services link', 'Menu "Services" glides here'] },
-  { img: 'home-s2', t: 'Home: about', r: '/ (section)', a: ['Everyone'], p: 'Who we are: a team photograph, a short introduction and three key numbers. The founders section begins underneath.', d: 'None (static content).', f: ['Our story link', 'Menu "About" glides here'] },
-  { img: 'home-s3', t: 'Home: founders and manifesto', r: '/ (section)', a: ['Everyone'], p: 'Three animated founder cards (AJAY A.N, MAAHIR FAHEEM, TANUJ SAKTHI KUMAR) with a photo slot each, followed by the statement of belief. A placeholder with initials shows until a photo is added.', d: 'founders (live).', f: ['Hover: the card lifts', 'Super admin: Upload or Change photo, Edit details'] },
-  { img: 'home-s4', t: 'Home: courses and impact stories', r: '/ (section)', a: ['Everyone'], p: 'A snapping carousel of featured courses with photos, then client quotes with a headline result that rotate every seven seconds, with dots to jump between stories.', d: 'courses (published only), impactStories (live).', f: ['Open a course', 'Browse all courses', 'Jump to a story', 'No auto-rotation under reduced motion'] },
-  { img: 'home-s5', t: 'Home: store and insights', r: '/ (section)', a: ['Everyone'], p: 'A featured product from the live catalogue and the three latest articles as editorial rows.', d: 'products, articles (live).', f: ['Visit the store', 'Open an article'] },
-  { img: 'home-s6', t: 'Home: contact and call to action', r: '/ (section)', a: ['Everyone'], p: 'Three animated contact cards and a closing band inviting organisations to design a programme.', d: 'None.', f: ['Book a call', 'For organisations', 'Register your organisation'] },
-  { img: 'home-s7', t: 'Home: virtual tour QR', r: '/ (final section)', a: ['Everyone'], p: 'The last section: a QR code that opens the cartoon tour, with the address, copy and open buttons, and a clickable preview of the film.', d: 'None. The address is computed from the host.', f: ['Scan or open the tour', 'Copy link'] },
-  { img: 'about', t: 'About', r: '/about', a: ['Everyone'], p: 'The story of MT Alchemy: hero, the brand film, guiding principles, the founders and the team.', d: 'founders (live).', f: ['Play the brand film', 'Read the principles', 'Book a call'] },
-  { img: 'services', t: 'Services', r: '/services', a: ['Everyone'], p: 'The four practice areas: Emotional Intelligence, Leadership Development, Team Engagement and Workplace Well-being, each with a photograph and a one-line promise.', d: 'Services (bundled).', f: ['Open a service'] },
-  { img: 'service-detail', t: 'Service detail', r: '/services/:slug', a: ['Everyone'], p: 'One practice area in depth: summary, what changes, formats, related self-paced courses and a client quote.', d: 'courses, impactStories (live).', f: ['Open a related course', 'Book a call'] },
-  { img: 'upskilling', t: 'Upskilling (course library)', r: '/upskilling', a: ['Everyone'], p: 'The public course library with level and practice-area filters and photo cards that lift and zoom on hover.', d: 'courses (live).', f: ['Filter by level or area', 'Open a course'] },
-  { img: 'course-detail', t: 'Course detail', r: '/upskilling/:id', a: ['Everyone (actions depend on role)'], p: 'Photo header, what you will learn, lessons (type and duration), reviews and a summary panel whose button depends on who is looking.', d: 'courses, reviews, enrolments, assignments.', f: ['Guest: sign in or create account', 'Learner: Buy course (if in pathway) or See courses in your pathway', 'Employee: Start assigned course', 'Employer: buy seats', 'Staff: Open free, Students, Edit', 'Learners post reviews'] },
-  { img: 'store', t: 'Store', r: '/store', a: ['Everyone'], p: 'Toolkits, card decks, books and workshop kits with a category filter and photo cards.', d: 'products (live).', f: ['Filter by category', 'Open a product', 'Add to cart'] },
-  { img: 'product', t: 'Product', r: '/store/:id', a: ['Everyone'], p: 'Product photo, description, what is included, price, digital or shipped, reviews and related products.', d: 'products, reviews.', f: ['Add to cart', 'Quantity', 'Read reviews'] },
-  { img: 'cart', t: 'Cart', r: '/cart', a: ['Everyone'], p: 'Mixed lines (products, a course, employer seats) with quantity steppers, remove, totals and a free-delivery nudge. A guest cart is merged into the saved cart on sign-in.', d: 'carts/{uid} when signed in.', f: ['Change quantity', 'Remove', 'Go to checkout'] },
-  { img: 'checkout', t: 'Checkout', r: '/checkout', a: ['Signed in'], p: 'Details, a delivery address only when something ships, and a test-mode card form. The confirmation page (<code>/checkout/success</code>) offers the next step: Start learning, Assign your seats, My downloads or Track my order.', d: 'orders, payments, shipping, downloads, enrolments, organizations (seats), products (stock).', f: ['Pay (validated card number, expiry, CVC)', 'Declined test card shows an error'] },
-  { img: 'insights', t: 'Insights', r: '/insights', a: ['Everyone'], p: 'Short practical articles with a category filter and a featured story.', d: 'articles (live).', f: ['Filter by category', 'Open an article'] },
-  { img: 'article', t: 'Article', r: '/insights/:slug', a: ['Everyone'], p: 'A full article with a photo header, reading time and related articles.', d: 'articles.', f: ['Read', 'Open a related article'] },
-  { img: 'contact', t: 'Contact', r: '/contact', a: ['Everyone'], p: 'A form (name, email, topic, message, consent) with validation that saves to Firestore and shows a success state.', d: 'contactMessages (write).', f: ['Send a message', 'Send another'] },
-  { img: 'login', t: 'Sign in', r: '/login', a: ['Guests'], p: 'Email and password with validation, "Forgot password?" (sends a Firebase reset email) and one-tap demo accounts.', d: 'Firebase Auth; users.', f: ['Sign in and land on your portal', 'Reset password', 'Use a demo account'] },
-  { img: 'register', t: 'Register: individual', r: '/register', a: ['Guests'], p: 'Name, email, password, gender (radio), country (dropdown), hobbies (checkboxes) and the learning pathway: career stage plus interest areas, all validated.', d: 'users (create).', f: ['Create account, then go to the course catalogue'] },
-  { img: 'register-org', t: 'Register: organisation', r: '/register?type=organisation', a: ['Guests'], p: 'Journey D starts here: organisation name, sector and size, plus the employer\'s own login.', d: 'users, organizations (create).', f: ['Register, then go to the employer portal'] },
-  { img: 'organisations', t: 'For organisations (Journey E)', r: '/organisations', a: ['Everyone'], p: 'A corporate enquiry form with a three-step explanation: enquiry, discovery call, customised programme.', d: 'enquiries (create).', f: ['Send enquiry', 'Then register the organisation'] },
-  { img: 'assessment', t: 'EQ self-assessment', r: '/eq-assessment', a: ['Everyone (results saved if signed in)'], p: 'Ten statements across five emotional-intelligence areas, one at a time. The result shows animated bars, a strength, a growth edge and a recommended course.', d: 'assessments (write when signed in).', f: ['Answer, go back, retake', 'View the recommended course'] },
-  { img: 'tour', t: 'Virtual tour', r: '/tour', a: ['Everyone'], p: 'The page the QR code opens: the cartoon explainer film, then six "Try it yourself" cards linking to learning, shop, teams, trainers, the EQ check and insights.', d: 'None.', f: ['Play the film', 'Open any part of the site', 'Create a free account'] },
-  { img: 'certificate', t: 'Certificate', r: '/certificates/:code', a: ['Everyone (public by design)'], p: 'A certificate page with the learner\'s name, course, issue date and verification code. Anyone with the link can verify it, and an unknown code shows "Certificate not found".', d: 'certificates (public read).', f: ['Share the link', 'Verify a code'] },
+ { title: '4.1 Public website', intro: 'Open to everyone. The home page is one long landing page; each menu item glides to the matching section.', gallery: true, pages: [
+  { img: 'about', t: 'About', r: '/about', a: 'Everyone', p: 'The story of MT Alchemy: hero, the brand film, guiding principles, the founders and the team.', d: 'founders (live)', f: 'Play the brand film · Read the principles · Book a call' },
+  { img: 'services', t: 'Services and service detail', r: '/services · /services/:slug', a: 'Everyone', p: 'The four practice areas (Emotional Intelligence, Leadership Development, Team Engagement, Workplace Well-being), each with a photograph and a one-line promise. A detail page covers one area: summary, what changes, formats, related self-paced courses and a client quote.', d: 'courses, impactStories (live)', f: 'Open a service · Open a related course · Book a call' },
+  { img: 'upskilling', t: 'Upskilling (course library)', r: '/upskilling', a: 'Everyone', p: 'The public course library with level and practice-area filters and photo cards that lift and zoom on hover.', d: 'courses (live)', f: 'Filter by level or area · Open a course' },
+  { img: 'course-detail', t: 'Course detail', r: '/upskilling/:id', a: 'Everyone; actions depend on role', p: 'Photo header, what you will learn, lessons with type and duration, reviews, and a summary panel whose button depends on who is looking.', d: 'courses, reviews, enrolments, assignments', f: 'Guest: sign in · Learner: Buy course, or See courses in your pathway · Employee: Start assigned course · Employer: buy seats · Staff: Open free, Students, Edit · Learners post reviews' },
+  { img: 'store', t: 'Store and product', r: '/store · /store/:id', a: 'Everyone', p: 'Toolkits, card decks, books and workshop kits with a category filter and photo cards. A product page adds the description, what is included, price, digital or shipped, reviews and related products.', d: 'products, reviews (live)', f: 'Filter by category · Open a product · Set quantity · Add to cart' },
+  { img: 'checkout', t: 'Cart and checkout', r: '/cart · /checkout · /checkout/success', a: 'Cart: everyone. Checkout: signed in', p: 'The cart mixes products, a course and employer seats, with quantity steppers, totals and a free-delivery nudge. A guest cart merges into the saved cart on sign-in. Checkout asks for details, a delivery address only when something ships, and a test-mode card. The confirmation page offers the next step: Start learning, Assign your seats, My downloads or Track my order.', d: 'carts, orders, payments, shipping, downloads, enrolments, organizations (seats), products (stock)', f: 'Change quantity · Remove · Pay (validated card; the declined test card shows an error)' },
+  { img: 'insights', t: 'Insights and article', r: '/insights · /insights/:slug', a: 'Everyone', p: 'Short practical articles with a category filter and a featured story. An article page has a photo header, reading time and related articles.', d: 'articles (live)', f: 'Filter by category · Read · Open a related article' },
+  { img: 'contact', t: 'Contact', r: '/contact', a: 'Everyone', p: 'A form (name, email, topic, message, consent) with validation that saves to Firestore and shows a success state.', d: 'contactMessages (write)', f: 'Send a message · Send another' },
+  { img: 'login', t: 'Sign in', r: '/login', a: 'Guests', p: 'Email and password with validation, "Forgot password?" (sends a Firebase reset email) and one-tap demo accounts.', d: 'Firebase Auth, users', f: 'Sign in and land on your portal · Reset password · Use a demo account' },
+  { img: 'register', t: 'Register: individual or organisation', r: '/register · /register?type=organisation', a: 'Guests', p: 'Individuals give name, email, password, gender (radio), country (dropdown), hobbies (checkboxes) and a learning pathway: career stage plus interest areas. Journey D starts at the organisation form: organisation name, sector and size, plus the employer\'s own login.', d: 'users, organizations (create)', f: 'Create account, then go to the course catalogue or the employer portal' },
+  { img: 'organisations', t: 'For organisations (Journey E)', r: '/organisations', a: 'Everyone', p: 'A corporate enquiry form with a three-step explanation: enquiry, discovery call, customised programme.', d: 'enquiries (create)', f: 'Send enquiry · Register the organisation' },
+  { img: 'assessment', t: 'EQ self-assessment', r: '/eq-assessment', a: 'Everyone; results saved if signed in', p: 'Ten statements across five emotional-intelligence areas, one at a time. The result shows animated bars, a strength, a growth edge and a recommended course.', d: 'assessments (write when signed in)', f: 'Answer, go back, retake · View the recommended course' },
+  { img: 'tour', t: 'Virtual tour', r: '/tour', a: 'Everyone', p: 'The page the QR code opens: the cartoon explainer film, then six "Try it yourself" cards linking to learning, shop, teams, trainers, the EQ check and insights.', d: 'none', f: 'Play the film · Open any part of the site · Create a free account' },
+  { img: 'certificate', t: 'Certificate', r: '/certificates/:code', a: 'Everyone (public by design)', p: 'The learner\'s name, course, issue date and verification code. Anyone with the link can verify it, and an unknown code shows "Certificate not found".', d: 'certificates (public read)', f: 'Share the link · Verify a code' },
  ]},
- { id: '4.2', title: '4.2 Course player', intro: 'Signed-in learners open the courses they own. Staff can open any course free.', pages: [
-  { img: 'player-video', t: 'Course player: video lesson', r: '/learn/:id', a: ['Enrolled learners; staff (free preview)'], p: 'A progress bar with a percentage, a lesson list with a photo banner and a type and duration for each lesson, and the lesson view. Video lessons use the film player; PDF lessons open the workbook; readings show the text.', d: 'courses, enrolments, certificates.', f: ['Previous, Mark as complete, Next', 'Progress is saved to Firestore', 'Finishing creates the certificate'] },
-  { img: 'player-quiz', t: 'Course player: quiz lesson', r: '/learn/:id', a: ['Enrolled learners; staff (free preview)'], p: 'One choice per question. Submitting shows which answers were right; 70% passes and completes the lesson, otherwise "Try again".', d: 'enrolments.quizScores.', f: ['Answer all questions', 'Submit', 'Retry until passed'] },
-  { img: 'admin-preview', t: 'Admin preview', r: '/learn/:id', a: ['Trainer, super admin'], p: 'Staff open any course free. A banner says "You are viewing this course free. Progress here is not saved" and offers Students and Edit course.', d: 'courses.', f: ['Try every lesson', 'Jump to Students or the editor'] },
+ { title: '4.2 Course player', intro: 'Signed-in learners open the courses they own. Staff can open any course free.', pages: [
+  { img: 'player-video', t: 'Video, PDF and reading lessons', r: '/learn/:id', a: 'Enrolled learners; staff (free preview)', p: 'A progress bar with a percentage, a lesson list with a photo banner and a type and duration for each lesson, and the lesson view. Video lessons use the film player, PDF lessons open the workbook and readings show the text.', d: 'courses, enrolments, certificates', f: 'Previous · Mark as complete · Next. Progress is saved; finishing creates the certificate' },
+  { img: 'player-quiz', t: 'Quiz lesson', r: '/learn/:id', a: 'Enrolled learners; staff (free preview)', p: 'One choice per question. Submitting shows which answers were right; 70% passes and completes the lesson, otherwise "Try again". When staff open a course, a banner says "You are viewing this course free. Progress here is not saved" and offers Students and Edit course.', d: 'enrolments.quizScores', f: 'Answer all questions · Submit · Retry until passed' },
  ]},
- { id: '4.3', title: '4.3 Learner portal', intro: 'For individuals. Side navigation: My learning, Course catalogue, Certificates, Orders, My downloads, Profile. The top bar has a notification bell, a theme toggle and sign out.', pages: [
-  { img: 'learner-dashboard', t: 'My learning', r: '/portal/me', a: ['Individual'], p: 'Totals for enrolled, completed and certificates; courses assigned by an employer; courses in progress with a photo and progress bar; completed courses; and a prompt to take the EQ check.', d: 'enrolments, assignments, certificates, courses.', f: ['Continue or Review a course', 'Start an assigned course', 'Add a course'] },
-  { img: 'learner-catalogue', t: 'Course catalogue ("Add a course")', r: '/portal/me/courses', a: ['Individual'], p: 'Only courses in the learner\'s pathway, with a banner showing the pathway and area chips. Courses outside it are listed as locked with the reason.', d: 'courses, users.pathway.', f: ['Buy a course', 'Details', 'Edit pathway', 'Show locked courses'] },
-  { img: 'learner-certificates', t: 'Certificates', r: '/portal/me/certificates', a: ['Individual'], p: 'Every earned certificate with its course photo and code.', d: 'certificates.', f: ['View a certificate'] },
-  { img: 'learner-orders', t: 'Orders', r: '/portal/me/orders', a: ['Individual'], p: 'Receipts for courses and products. Physical orders show a Processing, Shipped, Delivered timeline with the tracking number.', d: 'orders, shipping.', f: ['See delivery progress'] },
-  { img: 'learner-downloads', t: 'My downloads', r: '/portal/me/downloads', a: ['Individual'], p: 'Digital products the learner owns, with a download count.', d: 'downloads.', f: ['Download (the count goes up)'] },
-  { img: 'learner-profile', t: 'Profile', r: '/portal/me/profile', a: ['Individual'], p: 'Edit name, country and hobbies.', d: 'users.', f: ['Save profile'] },
-  { img: 'learner-profile-pathway', t: 'Profile: learning pathway', r: '/portal/me/profile', a: ['Individual'], p: 'The same pathway control used at registration; changing it changes which courses are open.', d: 'users.careerStage, interests.', f: ['Choose a career stage', 'Choose interest areas', 'Save'] },
+ { title: '4.3 Learner portal', intro: 'For individuals. Side navigation: My learning, Course catalogue, Certificates, Orders, My downloads, Profile. The top bar has the notification bell, a theme toggle and sign out.', pages: [
+  { img: 'learner-dashboard', t: 'My learning', r: '/portal/me', a: 'Individual', p: 'Totals for enrolled, completed and certificates; courses assigned by an employer; courses in progress with a photo and progress bar; completed courses; and a prompt to take the EQ check.', d: 'enrolments, assignments, certificates, courses', f: 'Continue or Review a course · Start an assigned course · Add a course' },
+  { img: 'learner-catalogue', t: 'Course catalogue ("Add a course")', r: '/portal/me/courses', a: 'Individual', p: 'Only courses in the learner\'s pathway, under a banner showing the pathway and area chips. Courses outside it are listed as locked, with the reason.', d: 'courses, users.pathway', f: 'Buy a course · Details · Edit pathway · Show locked courses' },
+  { img: 'learner-orders', t: 'Certificates, orders and downloads', r: '/portal/me/certificates · /orders · /downloads', a: 'Individual', p: 'Certificates lists every certificate earned, with its course photo and code. Orders holds receipts for courses and products; physical orders show a Processing, Shipped, Delivered timeline with the tracking number. My downloads lists owned digital products with a download count.', d: 'certificates, orders, shipping, downloads', f: 'View a certificate · See delivery progress · Download (the count goes up)' },
+  { img: 'learner-profile-pathway', t: 'Profile and learning pathway', r: '/portal/me/profile', a: 'Individual', p: 'Edit name, country and hobbies. The pathway control is the same one used at registration; changing it changes which courses are open.', d: 'users (careerStage, interests)', f: 'Save profile · Choose a career stage and interest areas' },
  ]},
- { id: '4.4', title: '4.4 Employer portal', intro: 'For organisations (Journey D). Side navigation: Overview, Employees, Buy courses, Assign courses, Progress report, Analytics.', pages: [
-  { img: 'employer-overview', t: 'Overview', r: '/portal/employer', a: ['Employer'], p: 'Employees, courses assigned, average progress and completions, quick actions, and the five most recent assignments with course photos.', d: 'employees, assignments, enrolments.', f: ['Add employees', 'Assign a course', 'Buy course seats', 'View analytics'] },
-  { img: 'employer-employees', t: 'Employees', r: '/portal/employer/employees', a: ['Employer'], p: 'A form to add people (name, email, team) and the list with their number of courses. People join the organisation automatically when they register with that email.', d: 'employees.', f: ['Add', 'Remove (with confirmation)'] },
-  { img: 'employer-buy', t: 'Buy courses', r: '/portal/employer/courses', a: ['Employer'], p: 'Every course as a photo card with a seat stepper and a Buy button that goes to checkout. Shows how many seats are unassigned.', d: 'courses, organizations.seats.', f: ['Choose seats', 'Buy'] },
-  { img: 'employer-assign', t: 'Assign courses', r: '/portal/employer/assign', a: ['Employer'], p: 'Choose a course, tick the people, assign. Shows the seats left and refuses if there are not enough, with a Buy seats shortcut.', d: 'assignments, organizations.seats.', f: ['Select all', 'Assign', 'Buy seats'] },
-  { img: 'employer-progress', t: 'Progress report', r: '/portal/employer/progress', a: ['Employer'], p: 'A photo summary card per course, then a filterable table of each person, course, date, progress bar and status.', d: 'assignments, enrolments (live).', f: ['Filter by course'] },
-  { img: 'employer-analytics', t: 'Analytics', r: '/portal/employer/reports', a: ['Employer'], p: 'A completion donut, average progress by course (bars) and weekly learning activity (line), with hover details and a legend with counts.', d: 'assignments, enrolments.', f: ['Hover for values'] },
+ { title: '4.4 Employer portal', intro: 'For organisations (Journey D). Side navigation: Overview, Employees, Buy courses, Assign courses, Progress report, Analytics.', pages: [
+  { img: 'employer-overview', t: 'Overview', r: '/portal/employer', a: 'Employer', p: 'Employees, courses assigned, average progress and completions, quick actions, and the five most recent assignments with course photos.', d: 'employees, assignments, enrolments', f: 'Add employees · Assign a course · Buy seats · View analytics' },
+  { img: 'employer-employees', t: 'Employees', r: '/portal/employer/employees', a: 'Employer', p: 'A form to add people (name, email, team) and the list with their number of courses. People join the organisation automatically when they register with that email.', d: 'employees', f: 'Add · Remove (with confirmation)' },
+  { img: 'employer-assign', t: 'Buy and assign courses', r: '/portal/employer/courses · /assign', a: 'Employer', p: 'Every course is a photo card with a seat stepper and a Buy button that goes to checkout, with the unassigned seats shown. To assign, choose a course and tick the people; the page shows the seats left and refuses the assignment if there are not enough, with a Buy seats shortcut.', d: 'courses, assignments, organizations.seats', f: 'Choose seats · Buy · Select all · Assign' },
+  { img: 'employer-analytics', t: 'Progress report and analytics', r: '/portal/employer/progress · /reports', a: 'Employer', p: 'The report has a photo summary card per course and a filterable table of each person, course, date, progress bar and status. Analytics adds a completion donut, average progress by course (bars) and weekly learning activity (line), with hover details and a legend with counts.', d: 'assignments, enrolments (live)', f: 'Filter by course · Hover for values' },
  ]},
- { id: '4.5', title: '4.5 Trainer portal', intro: 'For trainers, who author and look after courses. Super admins use the same screens.', pages: [
-  { img: 'trainer-courses', t: 'Courses', r: '/portal/admin', a: ['Trainer', 'Super admin'], p: 'The whole catalogue with totals (courses, published, enrolments, amount received) and a row per course showing enrolled, paid with amount, employer seats and free access.', d: 'courses, enrolments (live).', f: ['Students', 'Open free (play icon)', 'Publish or unpublish', 'Edit', 'Delete', 'New course'] },
-  { img: 'course-editor', t: 'Course editor', r: '/portal/admin/courses/:id', a: ['Trainer', 'Super admin'], p: 'Create or edit a course: title, area, level, price, trainer, summary, outcomes, published switch, and any number of lessons (video, PDF, reading, quiz with questions and a correct answer), reorderable.', d: 'courses.', f: ['Add lessons by type', 'Move up, remove', 'Save'] },
-  { img: 'course-students', t: 'Students and payments', r: '/portal/admin/courses/:id/students', a: ['Trainer', 'Super admin'], p: 'Counts for enrolled, paid, employer seats, free access and amount received. Search any learner and give free access, or remove a student. Each row shows how they joined (Paid £149, Employer seat, Free access), their email, join date and progress.', d: 'enrolments (live), users, notifications.', f: ['Search and Give free access', 'Remove from course', 'Open course free'] },
+ { title: '4.5 Trainer portal', intro: 'For trainers, who author and look after courses. Super admins use the same screens.', pages: [
+  { img: 'trainer-courses', t: 'Courses', r: '/portal/admin', a: 'Trainer, super admin', p: 'The whole catalogue with totals (courses, published, enrolments, amount received) and a row per course showing enrolled, paid with amount, employer seats and free access.', d: 'courses, enrolments (live)', f: 'Students · Open free (play icon) · Publish or unpublish · Edit · Delete · New course' },
+  { img: 'course-editor', t: 'Course editor', r: '/portal/admin/courses/:id', a: 'Trainer, super admin', p: 'Create or edit a course: title, area, level, price, trainer, summary, outcomes, a published switch, and any number of reorderable lessons (video, PDF, reading, quiz with questions and a correct answer).', d: 'courses', f: 'Add lessons by type · Move up · Remove · Save' },
+  { img: 'course-students', t: 'Students and payments', r: '/portal/admin/courses/:id/students', a: 'Trainer, super admin', p: 'Counts for enrolled, paid, employer seats, free access and amount received. Search any learner to give free access, or remove a student. Each row shows how they joined (Paid £149, Employer seat, Free access), their email, join date and progress.', d: 'enrolments (live), users, notifications', f: 'Search and Give free access · Remove from course · Open course free' },
  ]},
- { id: '4.6', title: '4.6 Super admin portal', intro: 'For the platform owner. Side navigation: Dashboard, Users, Courses, Products, Orders and shipping, Enquiries, Content.', pages: [
-  { img: 'admin-dashboard', t: 'Dashboard', r: '/portal/super', a: ['Super admin'], p: 'Live totals for users, orders, enrolments, certificates and enquiries (with a pulsing Live badge), and the enquiry pipeline by status.', d: 'Snapshot listeners on five collections.', f: ['Open enquiries, users, orders'] },
-  { img: 'admin-users', t: 'Users', r: '/portal/super/users', a: ['Super admin'], p: 'Every account with search and a role filter. Change a role, disable or enable, delete a profile, or create an account for anyone (using a second Firebase app so the admin stays signed in).', d: 'users.', f: ['Change role', 'Disable', 'Delete', 'New user'] },
-  { img: 'admin-courses', t: 'Courses', r: '/portal/super/courses', a: ['Super admin'], p: 'The same course management as the trainer portal, inside the super admin navigation.', d: 'courses, enrolments.', f: ['As the trainer portal'] },
-  { img: 'admin-products', t: 'Products', r: '/portal/super/products', a: ['Super admin'], p: 'Digital and shipped products with category, price and stock (low stock shows in red).', d: 'products.', f: ['Edit', 'Delete', 'New product'] },
-  { img: 'admin-product-editor', t: 'Product editor', r: '/portal/super/products/:id', a: ['Super admin'], p: 'Name, category, type (Shipped or Digital download), price, stock or download file, summary, description and details.', d: 'products.', f: ['Save'] },
-  { img: 'admin-orders', t: 'Orders and shipping', r: '/portal/super/orders', a: ['Super admin'], p: 'Every order with items, the delivery address and the delivery timeline. One button moves a parcel to the next status and notifies the buyer.', d: 'orders, shipping, notifications.', f: ['Mark as shipped', 'Mark as delivered'] },
-  { img: 'admin-enquiries', t: 'Enquiries (Journey E)', r: '/portal/super/enquiries', a: ['Super admin'], p: 'Corporate enquiries with a status pipeline (New, In discussion, Proposal sent, Programme agreed, Closed) and a field for the customised programme proposal.', d: 'enquiries.', f: ['Change status', 'Save proposal'] },
-  { img: 'admin-content', t: 'Content', r: '/portal/super/content', a: ['Super admin'], p: 'Create, edit and delete Insights articles and Impact Stories.', d: 'articles, impactStories.', f: ['New article, New story', 'Edit, Delete'] },
+ { title: '4.6 Super admin portal', intro: 'For the platform owner. Side navigation: Dashboard, Users, Courses, Products, Orders and shipping, Enquiries, Content.', pages: [
+  { img: 'admin-dashboard', t: 'Dashboard', r: '/portal/super', a: 'Super admin', p: 'Live totals for users, orders, enrolments, certificates and enquiries (with a pulsing Live badge), and the enquiry pipeline by status.', d: 'snapshot listeners on five collections', f: 'Open enquiries, users, orders' },
+  { img: 'admin-users', t: 'Users', r: '/portal/super/users', a: 'Super admin', p: 'Every account with search and a role filter. Change a role, disable or enable, delete a profile, or create an account for anyone (through a second Firebase app, so the admin stays signed in).', d: 'users', f: 'Change role · Disable · Delete · New user' },
+  { img: 'admin-products', t: 'Courses and products', r: '/portal/super/courses · /products · /products/:id', a: 'Super admin', p: 'Courses use the same management screens as the trainer portal. Products list digital and shipped items with category, price and stock (low stock shows in red). The product editor sets name, category, type (Shipped or Digital download), price, stock or download file, summary, description and details.', d: 'courses, enrolments, products', f: 'Edit · Delete · New product · Save' },
+  { img: 'admin-orders', t: 'Orders and shipping', r: '/portal/super/orders', a: 'Super admin', p: 'Every order with items, delivery address and delivery timeline. One button moves a parcel to the next status and notifies the buyer.', d: 'orders, shipping, notifications', f: 'Mark as shipped · Mark as delivered' },
+  { img: 'admin-enquiries', t: 'Enquiries (Journey E)', r: '/portal/super/enquiries', a: 'Super admin', p: 'Corporate enquiries with a status pipeline (New, In discussion, Proposal sent, Programme agreed, Closed) and a field for the customised programme proposal.', d: 'enquiries', f: 'Change status · Save proposal' },
+  { img: 'admin-content', t: 'Content', r: '/portal/super/content', a: 'Super admin', p: 'Create, edit and delete Insights articles and Impact Stories.', d: 'articles, impactStories', f: 'New article · New story · Edit · Delete' },
  ]},
 ];
-
 const root = document.getElementById('pages');
 let n = 0;
 for (const sec of SECTIONS) {
   const h = document.createElement('div');
-  h.innerHTML = `<h3 style="margin-top:6mm">${sec.title}</h3><p class="muted">${sec.intro}</p>`;
+  h.innerHTML = `<h3 style="margin-top:4mm">${sec.title}</h3><p class="muted">${sec.intro}</p>`;
   root.appendChild(h);
+  if (sec.gallery) {
+    const g = document.createElement('div');
+    g.className = 'gallery';
+    g.innerHTML = GALLERY.map(([i, c], k) => `<figure><img src="img/${i}.jpg" alt="${c}"><figcaption>${k + 1}. ${c}</figcaption></figure>`).join('');
+    root.appendChild(g);
+    const t = document.createElement('p');
+    t.innerHTML = 'The landing page (<span class="route">/</span>) runs through these sections in order. 1: a looping ink-in-water film with a floating glass crystal behind glass copy and two calls to action. 2: four photo cards, one per practice area, with a 3D tilt on hover. 3: a team photograph, a short introduction and three key numbers. 4: three animated founder cards (AJAY A.N, MAAHIR FAHEEM, TANUJ SAKTHI KUMAR), each with a photo slot that shows initials until the super admin uploads a photo, followed by the statement of belief. 5: a snapping carousel of featured courses, then client quotes with a headline result that rotate every seven seconds (no rotation under reduced motion). 6: a featured product and the three latest articles. 7: three contact cards and a closing band inviting organisations to design a programme. 8: the QR code to the tour with the address, copy and open buttons and a clickable preview of the film. The menu items About, Services, Upskilling, Store, Insights and Contact glide to these sections.';
+    root.appendChild(t);
+  }
   for (const pg of sec.pages) {
     n++;
     const e = document.createElement('div');
@@ -655,17 +569,14 @@ for (const sec of SECTIONS) {
       <div><img src="img/${pg.img}.jpg" alt="${pg.t}"></div>
       <div>
         <h4>${n}. ${pg.t}</h4>
-        <span class="route">${pg.r}</span>
-        <div>${pg.a.map(x => `<span class="pill">${x}</span>`).join('')}</div>
+        <span class="route">${pg.r}</span><span class="pill">${pg.a}</span>
         <p>${pg.p}</p>
-        <div class="lab">Data</div><p>${pg.d}</p>
-        <div class="lab">What you can do</div>
-        <ul>${pg.f.map(x => `<li>${x}</li>`).join('')}</ul>
+        <p class="meta">Data: ${pg.d}. You can: ${pg.f}.</p>
       </div>`;
     root.appendChild(e);
   }
 }
-document.title = `MT Alchemy: Complete Project Documentation (${n} pages documented)`;
+document.title = 'MT Alchemy: Project Documentation';
 </script>
 </body>
 </html>
