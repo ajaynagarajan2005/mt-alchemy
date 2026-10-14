@@ -3,10 +3,12 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../../data/models/course.dart';
 import '../../../data/models/people.dart';
 import '../../../router/routes.dart';
 import '../../../state/admin_store.dart';
 import '../../../state/auth_store.dart';
+import '../../../state/catalog_store.dart';
 import '../../../state/commerce_store.dart';
 import '../../../theme/breakpoints.dart';
 import '../../../theme/colors.dart';
@@ -234,6 +236,48 @@ class _UserRow extends StatelessWidget {
     messenger.showSnackBar(SnackBar(content: Text(error ?? ok)));
   }
 
+  /// Free access to any course, with no payment and no employer seat.
+  Future<void> _addToCourse(BuildContext context) async {
+    final catalog = context.read<CatalogStore>();
+    final admin = context.read<AdminStore>();
+    final messenger = ScaffoldMessenger.of(context);
+    final courses = catalog.allCourses;
+    final picked = await showDialog<Course>(
+      context: context,
+      builder: (ctx) => SimpleDialog(
+        backgroundColor: AppColors.surface,
+        title: Text('Add ${user.name} to a course', style: AppText.h3),
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Space.lg),
+            child: Text(
+              'They get free access, with no payment and no employer seat.',
+              style: AppText.small,
+            ),
+          ),
+          const SizedBox(height: Space.sm),
+          for (final c in courses)
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(ctx, c),
+              child: Text(
+                '${c.title}${c.published ? '' : ' (draft)'}',
+                style: AppText.body,
+              ),
+            ),
+        ],
+      ),
+    );
+    if (picked == null) return;
+    final error = await admin.grantAccess(user, picked);
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(
+          error ?? '${user.name} now has free access to ${picked.title}.',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final admin = context.read<AdminStore>();
@@ -291,6 +335,15 @@ class _UserRow extends StatelessWidget {
             size: 20,
             color: AppColors.grey600,
           ),
+        ),
+        TextButton.icon(
+          onPressed: () => _addToCourse(context),
+          icon: AppIcon(
+            HugeIcons.strokeRoundedBookOpen01,
+            size: 18,
+            color: AppColors.red,
+          ),
+          label: const Text('Add to course'),
         ),
         IconButton(
           tooltip: 'Delete profile',

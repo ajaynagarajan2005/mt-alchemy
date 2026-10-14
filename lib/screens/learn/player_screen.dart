@@ -52,6 +52,28 @@ class _PlayerScreenState extends State<PlayerScreen> {
   final Set<String> _previewDone = {};
   final Map<String, double> _previewScores = {};
 
+  /// After the last lesson: open the certificate film when every lesson is
+  /// done, otherwise say what is left.
+  void _finish(Course course, Enrolment e) {
+    final left = course.modules
+        .where((m) => !e.completedModuleIds.contains(m.id))
+        .toList();
+    if (left.isEmpty) {
+      context.go(Routes.issueCertificate(course.id));
+      return;
+    }
+    final first = course.modules.indexOf(left.first);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          '${left.length} lesson${left.length == 1 ? '' : 's'} left before '
+          'your certificate. Taking you to "${left.first.title}".',
+        ),
+      ),
+    );
+    setState(() => _index = first);
+  }
+
   @override
   Widget build(BuildContext context) {
     final course = context.watch<CatalogStore>().courseById(widget.courseId);
@@ -139,9 +161,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
           : (score) => learning.submitQuiz(course, module.id, score),
       bestScore: enrolment.quizScores[module.id],
       onPrevious: _index > 0 ? () => select(_index - 1) : null,
+      isLast: _index == course.modules.length - 1,
       onNext: _index < course.modules.length - 1
           ? () => select(_index + 1)
-          : null,
+          : preview
+          ? null
+          : () => _finish(course, enrolment),
     );
 
     final progress = _Progress(enrolment: enrolment, course: course);
@@ -256,6 +281,75 @@ class _Progress extends StatelessWidget {
             backgroundColor: AppColors.grey200,
           ),
         ),
+        if (course.phases.where((p) => p.name.isNotEmpty).length > 1) ...[
+          const SizedBox(height: Space.md),
+          LayoutBuilder(
+            builder: (context, c) {
+              final phases = course.phases;
+              final cols = c.maxWidth < 560 ? 1 : phases.length;
+              final w = (c.maxWidth - Space.md * (cols - 1)) / cols;
+              return Wrap(
+                spacing: Space.md,
+                runSpacing: Space.sm,
+                children: [
+                  for (final p in phases)
+                    SizedBox(
+                      width: w,
+                      child: _PhaseBar(
+                        phase: p,
+                        done: enrolment.completedModuleIds,
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// One phase's own progress bar.
+class _PhaseBar extends StatelessWidget {
+  const _PhaseBar({required this.phase, required this.done});
+  final CoursePhase phase;
+  final Set<String> done;
+
+  @override
+  Widget build(BuildContext context) {
+    final n = phase.doneIn(done);
+    final total = phase.modules.length;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                phase.name,
+                overflow: TextOverflow.ellipsis,
+                style: AppText.small,
+              ),
+            ),
+            Text(
+              n == total ? 'Done' : '$n/$total',
+              style: AppText.small.copyWith(
+                color: n == total ? AppColors.success : AppColors.grey600,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        ClipRRect(
+          borderRadius: Radii.pillAll,
+          child: LinearProgressIndicator(
+            value: total == 0 ? 0 : n / total,
+            minHeight: 5,
+            color: n == total ? AppColors.success : AppColors.red,
+            backgroundColor: AppColors.grey200,
+          ),
+        ),
       ],
     );
   }
@@ -292,7 +386,22 @@ class _ModuleList extends StatelessWidget {
             padding: const EdgeInsets.all(Space.xs),
             child: Text('Lessons', style: AppText.h4),
           ),
-          for (var i = 0; i < course.modules.length; i++)
+          for (var i = 0; i < course.modules.length; i++) ...[
+            if (course.modules[i].phase != null &&
+                (i == 0 ||
+                    course.modules[i - 1].phase != course.modules[i].phase))
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  Space.xs,
+                  Space.sm,
+                  Space.xs,
+                  2,
+                ),
+                child: Text(
+                  course.modules[i].phase!.toUpperCase(),
+                  style: AppText.eyebrow.copyWith(fontSize: 10),
+                ),
+              ),
             _ModuleTile(
               module: course.modules[i],
               number: i + 1,
@@ -300,6 +409,7 @@ class _ModuleList extends StatelessWidget {
               complete: done.contains(course.modules[i].id),
               onTap: () => onSelect(i),
             ),
+          ],
         ],
       ),
     );
@@ -417,8 +527,11 @@ class _Lesson extends StatelessWidget {
     required this.onQuizSubmitted,
     required this.onPrevious,
     required this.onNext,
+    required this.isLast,
     this.bestScore,
   });
+
+  final bool isLast;
 
   final Course course;
   final CourseModule module;
@@ -438,7 +551,8 @@ class _Lesson extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Lesson ${index + 1} of ${course.modules.length} · ${module.type.label}',
+          'Lesson ${index + 1} of ${course.modules.length} · ${module.type.label}'
+          '${module.phase == null ? '' : ' · ${module.phase}'}',
           style: AppText.eyebrow,
         ),
         const SizedBox(height: Space.xs),
@@ -492,8 +606,8 @@ class _Lesson extends StatelessWidget {
                 onPressed: () => onToggle(!complete),
               ),
             AlchemyButton(
-              label: 'Next',
-              variant: ButtonVariant.secondary,
+              label: isLast ? 'Finish course' : 'Next',
+              variant: isLast ? ButtonVariant.primary : ButtonVariant.secondary,
               onPressed: onNext,
             ),
           ],
@@ -537,10 +651,23 @@ class _CompletionPanel extends StatelessWidget {
           ),
           const SizedBox(height: Space.xs),
           Text(
-            'You have finished ${course.title}. Your certificate is ready.',
+            certificate != null
+                ? 'You have finished ${course.title}. Your certificate is ready.'
+                : 'You have finished every lesson of ${course.title}. Press '
+                      'Finish course on the last lesson, or use the link below, '
+                      'to generate your certificate.',
             style: AppText.body.copyWith(color: AppColors.onInverse),
           ),
           const SizedBox(height: Space.md),
+          if (certificate == null) ...[
+            ArrowLink(
+              label: 'Generate your certificate',
+              color: AppColors.onInverse,
+              hoverColor: AppColors.inverseMuted,
+              onTap: () => context.go(Routes.issueCertificate(course.id)),
+            ),
+            const SizedBox(height: Space.xs),
+          ],
           if (certificate != null) ...[
             ArrowLink(
               label: 'View your certificate',

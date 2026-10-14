@@ -106,7 +106,7 @@ async function main() {
     ['e-2', 'fatima@northlight.example.com', 'first-time-manager', 1, 24],
     ['e-3', 'owen@northlight.example.com', 'sustainable-performance', 4, 19],
     ['e-4', 'leah@northlight.example.com', 'ei-foundations', 0, 10],
-    ['e-1', 'callum@northlight.example.com', 'ei-foundations', 5, 6],
+    ['e-1', 'callum@northlight.example.com', 'ei-foundations', 99, 6],
     ['e-3', 'owen@northlight.example.com', 'team-trust-reset', 2, 4],
   ];
   for (const [employeeId, email, courseId, done, ago] of plan) {
@@ -114,18 +114,22 @@ async function main() {
     put(['assignments', assignmentId], { orgId, employeeId, employeeEmail: email, courseId, assignedAt: daysAgo(ago) });
     if (done === 0) continue;
     const modules = seed.courses[courseId].modules;
-    const completed = modules.slice(0, done).map((m) => m.id);
+    const completed = modules.slice(0, Math.min(done, modules.length)).map((m) => m.id);
     const complete = completed.length === modules.length;
+    const quizIds = modules.filter((m) => m.type === 'quiz').map((m) => m.id);
+    const scores = Object.fromEntries(quizIds.filter((q) => completed.includes(q)).map((q) => [q, 1]));
+    const attempts = Object.fromEntries(Object.keys(scores).map((q) => [q, 1]));
     const uid = uids[email];
     put(['enrolments', `${uid}_${courseId}`], {
       userId: uid, userName: Object.values(seed.employees).find((e) => e.email === email)?.name ?? email, userEmail: email, courseId, orgId, assignmentId, source: 'assignment',
-      completedModuleIds: completed, quizScores: complete ? { [`${courseId}-quiz`]: 1 } : {},
+      completedModuleIds: completed, quizScores: scores, quizAttempts: attempts,
       progress: completed.length / modules.length, status: complete ? 'complete' : 'active',
       enrolledAt: daysAgo(ago), updatedAt: daysAgo(Math.max(0, ago - done * 2)),
     });
     if (complete) {
       const code = `MTA-${courseId.slice(0, 3).toUpperCase()}-${uid.slice(0, 6).toUpperCase()}`;
-      put(['certificates', code], { userId: uid, userName: Object.values(seed.employees).find((e) => e.email === email)?.name ?? email, courseId, courseTitle: seed.courses[courseId].title, issuedAt: daysAgo(1) });
+      put(['certificates', code], { userId: uid, userName: Object.values(seed.employees).find((e) => e.email === email)?.name ?? email, courseId, courseTitle: seed.courses[courseId].title, issuedAt: daysAgo(1),
+        review: `${(Object.values(seed.employees).find((e) => e.email === email)?.name ?? email).split(' ')[0]}, you worked through all ${modules.length} lessons of ${seed.courses[courseId].title} across 3 phases in ${ago} days. Finishing within two weeks is a steady rhythm: long enough to try ideas at work between lessons, short enough to keep momentum. You passed every quiz on the first attempt, with an average of 100%, so the core ideas were clear from the start.` });
     }
   }
 
@@ -140,7 +144,9 @@ async function main() {
   put(['enrolments', `${amara}_ei-foundations`], {
     userId: amara, userName: 'Amara Osei', userEmail: 'amara@example.com', courseId: 'ei-foundations', orderId: 'MTA-10001',
     source: 'purchase', amountPaid: 149,
-    completedModuleIds: ['ei-1', 'ei-2'], quizScores: {}, progress: 2 / 5, status: 'active',
+    completedModuleIds: seed.courses['ei-foundations'].modules.slice(0, 3).map((m) => m.id),
+    quizScores: { 'ei-foundations-q1': 0.75 }, quizAttempts: { 'ei-foundations-q1': 2 },
+    progress: 3 / seed.courses['ei-foundations'].modules.length, status: 'active',
     enrolledAt: daysAgo(12), updatedAt: daysAgo(2),
   });
   // A physical order already on its way, and a digital download.

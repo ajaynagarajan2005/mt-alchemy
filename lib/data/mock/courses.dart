@@ -501,31 +501,189 @@ const _baseCourses = <Course>[
   ),
 ];
 
-/// Seed catalogue: the base courses with a video lesson, a PDF workbook and
-/// an end-of-course quiz added, so the player shows every lesson type.
-final courses = <Course>[for (final c in _baseCourses) _withMedia(c)];
+/// Seed catalogue: every base course is rebuilt into three phases with an
+/// introduction video, readings, a workbook where one exists, three quizzes
+/// and a recap video, so the player shows every lesson type and progress is
+/// visible phase by phase.
+final courses = <Course>[for (final c in _baseCourses) _phased(c)];
 
-Course _withMedia(Course c) {
-  final modules = [
-    for (var i = 0; i < c.modules.length; i++)
-      switch (i) {
-        0 => c.modules[i].copyWith(
-          type: LessonType.video,
-          mediaUrl: 'asset:assets/videos/brand_intro.mp4',
-        ),
-        1 => c.modules[i].copyWith(
-          type: LessonType.pdf,
-          mediaUrl: '/downloads/${c.id}-workbook.pdf',
-        ),
-        _ => c.modules[i],
-      },
+const _workbooks = {
+  'ei-foundations',
+  'first-time-manager',
+  'leading-through-change',
+  'manager-wellbeing-conversations',
+  'sustainable-performance',
+  'team-trust-reset',
+};
+
+const _areaNames = {
+  'emotional-intelligence': 'Emotional Intelligence',
+  'leadership-development': 'Leadership Development',
+  'team-engagement': 'Team Engagement',
+  'workplace-wellbeing': 'Workplace Well-being',
+};
+
+const phaseOrientation = 'Phase 1: Orientation';
+const phaseCore = 'Phase 2: Core skills';
+const phaseApply = 'Phase 3: Put it to work';
+
+/// Puts [correct] at a position that varies by [seed], so answers are not
+/// always first.
+QuizQuestion _question(
+  String prompt,
+  String correct,
+  List<String> wrong,
+  int seed,
+) {
+  final options = [...wrong.take(2)];
+  final at = seed % 3;
+  options.insert(at, correct);
+  return QuizQuestion(prompt: prompt, options: options, answer: at);
+}
+
+/// Outcomes from other courses, used as believable wrong answers.
+List<String> _otherOutcomes(Course c, int n) {
+  final out = <String>[];
+  for (final o in _baseCourses) {
+    if (o.id == c.id) continue;
+    out.add(o.outcomes[out.length % o.outcomes.length]);
+    if (out.length >= n + 3) break;
+  }
+  return out;
+}
+
+List<QuizQuestion> _warmUpQuiz(Course c) {
+  final others = _otherOutcomes(c, 6);
+  final trainers = {for (final o in _baseCourses) o.trainer}.toList();
+  return [
+    for (var i = 0; i < c.outcomes.length && i < 3; i++)
+      _question(
+        'Which of these is something "${c.title}" helps you do?',
+        c.outcomes[i],
+        [others[(i * 2) % others.length], others[(i * 2 + 1) % others.length]],
+        i + c.id.length,
+      ),
+    _question(
+      'Who leads this course?',
+      c.trainer,
+      trainers.where((t) => t != c.trainer).take(2).toList(),
+      c.id.length + 1,
+    ),
+  ];
+}
+
+List<QuizQuestion> _midQuiz(Course c) {
+  final bank = _quizzes[c.id] ?? _quizzes['ei-foundations']!;
+  final levels = CourseLevel.values.where((l) => l != c.level).toList();
+  final areas = _areaNames.entries.where((e) => e.key != c.serviceSlug);
+  return [
+    ...bank.take(2),
+    _question(
+      'Which practice area does this course belong to?',
+      _areaNames[c.serviceSlug] ?? 'Leadership Development',
+      [for (final a in areas) a.value],
+      c.id.length + 2,
+    ),
+    _question('This course is pitched at which level?', c.level.label, [
+      for (final l in levels) l.label,
+    ], c.id.length),
+  ];
+}
+
+List<QuizQuestion> _finalQuiz(Course c) {
+  final bank = _quizzes[c.id] ?? _quizzes['ei-foundations']!;
+  final others = _otherOutcomes(c, 4);
+  return [
+    ...bank,
+    _question('Which of these is an aim of this course?', c.outcomes.last, [
+      others[0],
+      others[1],
+    ], c.id.length + 2),
+  ];
+}
+
+Course _phased(Course c) {
+  final b = c.modules;
+  CourseModule at(int i, String phase) => b[i].copyWith(phase: phase);
+  final modules = <CourseModule>[
+    // Phase 1: Orientation
+    CourseModule(
+      id: '${c.id}-intro',
+      title: 'Welcome: what this course will do for you',
+      minutes: 4,
+      body:
+          '${c.trainer} introduces ${c.title}: what you will learn, how the three '
+          'phases fit together and how to get the most from each lesson.',
+      type: LessonType.video,
+      mediaUrl: 'asset:assets/videos/courses/${c.id}-intro.mp4',
+      phase: phaseOrientation,
+    ),
+    at(0, phaseOrientation),
+    CourseModule(
+      id: '${c.id}-q1',
+      title: 'Warm-up quiz',
+      minutes: 4,
+      body: 'Four quick questions on what the course covers.',
+      type: LessonType.quiz,
+      quiz: _warmUpQuiz(c),
+      phase: phaseOrientation,
+    ),
+    // Phase 2: Core skills
+    at(1, phaseCore),
+    if (_workbooks.contains(c.id))
+      CourseModule(
+        id: '${c.id}-workbook',
+        title: 'Workbook: practise it on paper',
+        minutes: 15,
+        body:
+            'Work through the exercises in the workbook. Save your answers; you '
+            'will use them in the final phase.',
+        type: LessonType.pdf,
+        mediaUrl: '/downloads/${c.id}-workbook.pdf',
+        phase: phaseCore,
+      ),
+    if (b.length > 2) at(2, phaseCore),
+    CourseModule(
+      id: '${c.id}-q2',
+      title: 'Mid-course quiz',
+      minutes: 6,
+      body: 'Four questions to check the core ideas have landed.',
+      type: LessonType.quiz,
+      quiz: _midQuiz(c),
+      phase: phaseCore,
+    ),
+    // Phase 3: Put it to work
+    if (b.length > 3) at(3, phaseApply),
+    CourseModule(
+      id: '${c.id}-recap',
+      title: 'Recap and next steps',
+      minutes: 4,
+      body:
+          'A short recap of the outcomes you are aiming for and how to carry '
+          'them into your week.',
+      type: LessonType.video,
+      mediaUrl: 'asset:assets/videos/courses/${c.id}-recap.mp4',
+      phase: phaseApply,
+    ),
+    CourseModule(
+      id: '${c.id}-plan',
+      title: 'Your action plan',
+      minutes: 10,
+      body:
+          'Pick one outcome and write what you will do differently in the next '
+          'seven days:\n\n'
+          '${[for (final o in c.outcomes) '• $o'].join('\n')}\n\n'
+          'Choose a day, a situation and one person who can hold you to it.',
+      phase: phaseApply,
+    ),
     CourseModule(
       id: '${c.id}-quiz',
-      title: 'Check your understanding',
+      title: 'Final quiz',
       minutes: 8,
       body: 'Answer every question. You need 70% to pass and unlock your certificate.',
       type: LessonType.quiz,
-      quiz: _quizzes[c.id] ?? _quizzes['ei-foundations']!,
+      quiz: _finalQuiz(c),
+      phase: phaseApply,
     ),
   ];
   return c.copyWith(

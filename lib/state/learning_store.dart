@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 
 import '../data/backend.dart';
 import '../data/models/course.dart';
+import '../data/review_writer.dart';
 import '../data/models/people.dart' show dateFrom;
 import 'auth_store.dart';
 
@@ -17,6 +18,7 @@ class Enrolment {
     required this.enrolledAt,
     Set<String>? completedModuleIds,
     Map<String, double>? quizScores,
+    Map<String, int>? quizAttempts,
     this.orderId,
     this.assignmentId,
     this.orgId,
@@ -26,7 +28,8 @@ class Enrolment {
     this.amountPaid,
     this.userName,
   }) : completedModuleIds = completedModuleIds ?? {},
-       quizScores = quizScores ?? {};
+       quizScores = quizScores ?? {},
+       quizAttempts = quizAttempts ?? {};
 
   final String id;
   final String userId;
@@ -36,6 +39,9 @@ class Enrolment {
 
   /// Best score per quiz module, 0 to 1.
   final Map<String, double> quizScores;
+
+  /// How many times each quiz was submitted.
+  final Map<String, int> quizAttempts;
   final String? orderId;
   final String? assignmentId;
   final String? orgId;
@@ -77,6 +83,10 @@ class Enrolment {
       for (final e in (m['quizScores'] as Map? ?? const {}).entries)
         e.key as String: (e.value as num).toDouble(),
     },
+    quizAttempts: {
+      for (final e in (m['quizAttempts'] as Map? ?? const {}).entries)
+        e.key as String: (e.value as num).toInt(),
+    },
     orderId: m['orderId'] as String?,
     assignmentId: m['assignmentId'] as String?,
     orgId: m['orgId'] as String?,
@@ -111,6 +121,7 @@ class Certificate {
     required this.courseId,
     required this.courseTitle,
     required this.issuedAt,
+    this.review,
   });
 
   final String code;
@@ -120,6 +131,9 @@ class Certificate {
   final String courseTitle;
   final DateTime issuedAt;
 
+  /// Personal review written when the certificate was issued.
+  final String? review;
+
   factory Certificate.fromMap(String code, Map<String, dynamic> m) =>
       Certificate(
         code: code,
@@ -128,6 +142,7 @@ class Certificate {
         courseId: m['courseId'] as String? ?? '',
         courseTitle: m['courseTitle'] as String? ?? '',
         issuedAt: dateFrom(m['issuedAt']) ?? DateTime.now(),
+        review: m['review'] as String?,
       );
 }
 
@@ -300,7 +315,6 @@ class LearningStore extends ChangeNotifier {
         'status': progress >= 1 ? 'complete' : 'active',
         'updatedAt': FieldValue.serverTimestamp(),
       });
-      if (progress >= 1) await _issueCertificate(course);
     });
   }
 
@@ -315,9 +329,11 @@ class LearningStore extends ChangeNotifier {
     if (e == null) return 'You are not enrolled on this course.';
     final best = max(score, e.quizScores[moduleId] ?? 0);
     e.quizScores[moduleId] = best;
+    e.quizAttempts[moduleId] = (e.quizAttempts[moduleId] ?? 0) + 1;
     final err = await _guard(
       () => _ref(course.id).update({
         FieldPath(['quizScores', moduleId]): best,
+        FieldPath(['quizAttempts', moduleId]): FieldValue.increment(1),
       }),
     );
     if (err != null) return err;
@@ -327,18 +343,51 @@ class LearningStore extends ChangeNotifier {
     return null;
   }
 
-  Future<void> _issueCertificate(Course course) async {
-    if (certificateFor(course.id) != null) return;
-    final user = _auth.currentUser!;
-    final code =
-        'MTA-${course.id.substring(0, 3).toUpperCase()}-${user.id.substring(0, 6).toUpperCase()}';
-    await _backend.col('certificates').doc(code).set({
-      'userId': user.id,
-      'userName': user.name,
-      'courseId': course.id,
-      'courseTitle': course.title,
-      'issuedAt': FieldValue.serverTimestamp(),
-    });
+  /// Issues the certificate for a finished course, with a personal review
+  /// written from the learner's results. Returns the certificate, or null
+  /// when the course is not finished or the write fails.
+  Future<Certificate?> issueCertificate(Course course) async {
+    final existing = certificateFor(course.id);
+    if (existing != null) return existing;
+    final e = _enrolments[course.id];
+    final user = _auth.currentUser;
+    if (e == null || user == null || !e.isCompleteIn(course)) return null;
+    final prefix = course.id
+        .replaceAll(RegExp('[^A-Za-z0-9]'), '')
+        .padRight(3, 'X')
+        .substring(0, 3)
+        .toUpperCase();
+    final code = 'MTA-$prefix-${user.id.substring(0, 6).toUpperCase()}';
+    final days = max(1, DateTime.now().difference(e.enrolledAt).inDays + 1);
+    final review = writeReview(
+      ReviewInput(
+        name: user.name,
+        course: course,
+        quizScores: e.quizScores,
+        quizAttempts: e.quizAttempts,
+        days: days,
+      ),
+    );
+    final err = await _guard(
+      () => _backend.col('certificates').doc(code).set({
+        'userId': user.id,
+        'userName': user.name,
+        'courseId': course.id,
+        'courseTitle': course.title,
+        'review': review,
+        'issuedAt': FieldValue.serverTimestamp(),
+      }),
+    );
+    if (err != null) return null;
+    return Certificate(
+      code: code,
+      userId: user.id,
+      userName: user.name,
+      courseId: course.id,
+      courseTitle: course.title,
+      issuedAt: DateTime.now(),
+      review: review,
+    );
   }
 
   /// Public lookup used by the certificate verification page.

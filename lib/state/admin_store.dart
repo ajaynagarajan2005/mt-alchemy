@@ -253,7 +253,12 @@ class AdminStore extends ChangeNotifier {
       return 'Only trainers and admins can add people to a course.';
     }
     return _guard(() async {
-      await _backend.col('enrolments').doc('${learner.id}_${course.id}').set({
+      final ref = _backend.col('enrolments').doc('${learner.id}_${course.id}');
+      // Never overwrite an existing enrolment: that would erase progress.
+      if ((await ref.get()).exists) {
+        throw StateError('${learner.name} is already on ${course.title}.');
+      }
+      await ref.set({
         'userId': learner.id,
         'userName': learner.name,
         'userEmail': learner.email.toLowerCase(),

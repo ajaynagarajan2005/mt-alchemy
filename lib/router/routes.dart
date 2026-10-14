@@ -7,6 +7,7 @@ abstract final class Routes {
   static const upskilling = '/upskilling';
   static String course(String id) => '/upskilling/$id';
   static String learn(String id) => '/learn/$id';
+  static String issueCertificate(String id) => '/learn/$id/certificate';
   static const store = '/store';
   static String product(String id) => '/store/$id';
   static const cart = '/cart';

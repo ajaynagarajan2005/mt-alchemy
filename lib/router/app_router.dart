@@ -10,6 +10,7 @@ import '../screens/checkout/success_screen.dart';
 import '../screens/contact/contact_screen.dart';
 import '../screens/about/about_screen.dart';
 import '../screens/assessment/assessment_screen.dart';
+import '../screens/certificate/certificate_generation_screen.dart';
 import '../screens/certificate/certificate_screen.dart';
 import '../screens/organisations/organisations_screen.dart';
 import '../screens/portal/course_catalogue_screen.dart';
@@ -173,6 +174,16 @@ GoRouter createRouter(AuthStore auth) {
                 ),
               ),
             ],
+          ),
+          GoRoute(
+            path: '/learn/:courseId/certificate',
+            pageBuilder: (context, state) => page(
+              state,
+              CertificateGenerationScreen(
+                key: ValueKey('gen-${state.pathParameters['courseId']}'),
+                courseId: state.pathParameters['courseId']!,
+              ),
+            ),
           ),
           GoRoute(
             path: '/learn/:courseId',

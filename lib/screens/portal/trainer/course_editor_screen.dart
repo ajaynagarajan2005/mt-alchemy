@@ -40,11 +40,12 @@ class _ModuleDraft {
       minutes = TextEditingController(text: '${m.minutes}'),
       body = TextEditingController(text: m.body),
       media = TextEditingController(text: m.mediaUrl ?? ''),
+      phase = TextEditingController(text: m.phase ?? ''),
       questions = [for (final q in m.quiz) _QuestionDraft(q)];
 
   final String id;
   LessonType type;
-  final TextEditingController title, minutes, body, media;
+  final TextEditingController title, minutes, body, media, phase;
   final List<_QuestionDraft> questions;
 
   CourseModule build() => CourseModule(
@@ -54,13 +55,14 @@ class _ModuleDraft {
     body: body.text.trim(),
     type: type,
     mediaUrl: media.text.trim().isEmpty ? null : media.text.trim(),
+    phase: phase.text.trim().isEmpty ? null : phase.text.trim(),
     quiz: type == LessonType.quiz
         ? [for (final q in questions) q.build()]
         : const [],
   );
 
   void dispose() {
-    for (final c in [title, minutes, body, media]) {
+    for (final c in [title, minutes, body, media, phase]) {
       c.dispose();
     }
     for (final q in questions) {
@@ -457,6 +459,12 @@ class _ModuleEditor extends StatelessWidget {
             label: 'Lesson title',
             controller: draft.title,
             validator: (v) => Validators.required(v, 'a lesson title'),
+          ),
+          gap,
+          LabeledField(
+            label: 'Phase (optional)',
+            controller: draft.phase,
+            helper: 'Lessons with the same phase name are grouped, with their own progress bar.',
           ),
           gap,
           LabeledField(

@@ -58,7 +58,15 @@ class CertificateScreen extends StatelessWidget {
                 padding: EdgeInsets.only(top: pageHeaderTop(context)),
                 child: Section(
                   top: false,
-                  child: Center(child: _CertificateCard(cert: cert)),
+                  child: Column(
+                    children: [
+                      Center(child: _CertificateCard(cert: cert)),
+                      if (cert.review != null) ...[
+                        const SizedBox(height: Space.xl),
+                        Center(child: _ReviewPanel(review: cert.review!)),
+                      ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -153,6 +161,42 @@ class _CertificateCard extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The learning review written when the certificate was issued.
+class _ReviewPanel extends StatelessWidget {
+  const _ReviewPanel({required this.review});
+  final String review;
+
+  @override
+  Widget build(BuildContext context) {
+    // CONTAINER (card): the personal review under the certificate.
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 900),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(Space.lg),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: Radii.cardAll,
+          border: Border.all(color: AppColors.line),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('YOUR LEARNING REVIEW', style: AppText.eyebrow),
+            const SizedBox(height: Space.sm),
+            SelectableText(review, style: AppText.body.copyWith(height: 1.7)),
+            const SizedBox(height: Space.sm),
+            Text(
+              'Written automatically from your quiz scores, attempts and pace.',
+              style: AppText.small,
+            ),
+          ],
         ),
       ),
     );

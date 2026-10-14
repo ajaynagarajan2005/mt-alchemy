@@ -42,5 +42,6 @@ String friendlyError(Object e) {
       _ => e.message ?? 'Something went wrong. Please try again.',
     };
   }
+  if (e is StateError) return e.message;
   return 'Something went wrong. Please try again.';
 }

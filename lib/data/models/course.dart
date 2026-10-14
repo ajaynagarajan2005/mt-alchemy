@@ -63,6 +63,7 @@ class CourseModule {
     this.type = LessonType.text,
     this.mediaUrl,
     this.quiz = const [],
+    this.phase,
   });
 
   final String id;
@@ -70,6 +71,10 @@ class CourseModule {
   final int minutes;
   final String body;
   final LessonType type;
+
+  /// Phase this lesson belongs to, such as "Orientation". Lessons with the
+  /// same phase name are grouped in the player. Null means no phase.
+  final String? phase;
 
   /// Video or PDF location. `asset:` prefix means a bundled app asset.
   final String? mediaUrl;
@@ -86,6 +91,7 @@ class CourseModule {
     'type': type.name,
     'mediaUrl': mediaUrl,
     'quiz': [for (final q in quiz) q.toMap()],
+    'phase': phase,
   };
 
   factory CourseModule.fromMap(Map<String, dynamic> m) => CourseModule(
@@ -99,6 +105,7 @@ class CourseModule {
       for (final q in (m['quiz'] as List? ?? const []))
         QuizQuestion.fromMap(Map<String, dynamic>.from(q as Map)),
     ],
+    phase: m['phase'] as String?,
   );
 
   CourseModule copyWith({
@@ -108,6 +115,7 @@ class CourseModule {
     LessonType? type,
     String? mediaUrl,
     List<QuizQuestion>? quiz,
+    String? phase,
   }) => CourseModule(
     id: id,
     title: title ?? this.title,
@@ -116,7 +124,18 @@ class CourseModule {
     type: type ?? this.type,
     mediaUrl: mediaUrl ?? this.mediaUrl,
     quiz: quiz ?? this.quiz,
+    phase: phase ?? this.phase,
   );
+}
+
+/// A run of lessons that share a phase name, in course order.
+class CoursePhase {
+  const CoursePhase(this.name, this.modules);
+  final String name;
+  final List<CourseModule> modules;
+
+  int doneIn(Set<String> done) =>
+      modules.where((m) => done.contains(m.id)).length;
 }
 
 class Course {
@@ -153,6 +172,21 @@ class Course {
 
   /// Card photo: an `asset:` path or an https URL.
   final String? imageUrl;
+
+  /// Lessons grouped by phase, keeping course order. Lessons without a phase
+  /// form one unnamed group so older courses still work.
+  List<CoursePhase> get phases {
+    final out = <CoursePhase>[];
+    for (final m in modules) {
+      final name = m.phase ?? '';
+      if (out.isNotEmpty && out.last.name == name) {
+        out.last.modules.add(m);
+      } else {
+        out.add(CoursePhase(name, [m]));
+      }
+    }
+    return out;
+  }
 
   int get totalMinutes => modules.fold(0, (sum, m) => sum + m.minutes);
 

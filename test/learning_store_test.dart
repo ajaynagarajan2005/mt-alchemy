@@ -58,18 +58,51 @@ void main() {
       expect(store.enrolment(course.id)!.completedModuleIds, contains(quiz.id));
     });
 
-    test('completing every lesson issues a verifiable certificate', () async {
+    test(
+      'finishing every lesson does not issue the certificate by itself',
+      () async {
+        final (_, store) = await enrolled();
+        for (final m in course.modules) {
+          await store.setModuleComplete(course, m.id, true);
+        }
+        await settle();
+        expect(store.enrolment(course.id)!.isCompleteIn(course), isTrue);
+        expect(store.certificateFor(course.id), isNull);
+      },
+    );
+
+    test('issuing after the last lesson gives a verifiable certificate with a review', () async {
       final (s, store) = await enrolled();
       for (final m in course.modules) {
-        await store.setModuleComplete(course, m.id, true);
+        if (m.type == LessonType.quiz) {
+          await store.submitQuiz(course, m.id, 1);
+        } else {
+          await store.setModuleComplete(course, m.id, true);
+        }
       }
       await settle();
-      expect(store.enrolment(course.id)!.isCompleteIn(course), isTrue);
-      final cert = store.certificateFor(course.id);
+      final cert = await store.issueCertificate(course);
+      await settle();
       expect(cert, isNotNull);
-      final verified = await store.verify(cert!.code);
+      expect(cert!.review, contains(s.user.name.split(' ').first));
+      final verified = await store.verify(cert.code);
       expect(verified!.userName, s.user.name);
       expect(verified.courseTitle, course.title);
+      expect(verified.review, cert.review);
+    });
+
+    test('a certificate is refused until the course is complete', () async {
+      final (_, store) = await enrolled();
+      expect(await store.issueCertificate(course), isNull);
+    });
+
+    test('quiz attempts are counted', () async {
+      final (_, store) = await enrolled();
+      final quiz = course.modules.firstWhere((m) => m.type == LessonType.quiz);
+      await store.submitQuiz(course, quiz.id, 0.25);
+      await store.submitQuiz(course, quiz.id, 1);
+      await settle();
+      expect(store.enrolment(course.id)!.quizAttempts[quiz.id], 2);
     });
 
     test('assigned courses can be started by the employee', () async {

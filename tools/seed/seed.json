@@ -13,22 +13,91 @@
       ],
       "modules": [
         {
+          "id": "ei-foundations-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Maya Thompson introduces Emotional Intelligence Foundations: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/ei-foundations-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "ei-1",
           "title": "What emotional intelligence is (and is not)",
           "minutes": 18,
           "body": "Emotional intelligence is the ability to notice emotion, understand what it is telling you and choose a useful response. It is a skill, not a personality type, which means it can be practised and improved.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "ei-foundations-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"Emotional Intelligence Foundations\" helps you do?",
+              "options": [
+                "Run one-to-ones people find useful",
+                "Spot and address resistance early",
+                "Recognise your own emotional patterns"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Which of these is something \"Emotional Intelligence Foundations\" helps you do?",
+              "options": [
+                "Use a simple pause routine under pressure",
+                "Set up a monthly team health check",
+                "Plan your week around energy, not just time"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which of these is something \"Emotional Intelligence Foundations\" helps you do?",
+              "options": [
+                "Listen without trying to fix",
+                "Read the room in meetings more accurately",
+                "Influence peers without positional power"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Maya Thompson",
+                "Daniel Okafor",
+                "Grace Whitfield"
+              ],
+              "answer": 0
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "ei-2",
           "title": "Mapping your triggers",
           "minutes": 24,
           "body": "Most reactive moments follow a pattern. In this module you will map the situations, people and times of day that tend to pull you off balance.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "ei-foundations-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
           "type": "pdf",
           "mediaUrl": "/downloads/ei-foundations-workbook.pdf",
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "ei-3",
@@ -37,7 +106,55 @@
           "body": "A short, repeatable routine for the gap between a trigger and your response: breathe, name the feeling, decide the next useful step.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "ei-foundations-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Emotional intelligence is best described as...",
+              "options": [
+                "A fixed personality trait",
+                "A skill that can be practised",
+                "Hiding your feelings at work"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "What comes first in the ninety second pause?",
+              "options": [
+                "Breathe",
+                "Reply to the email",
+                "Explain your view"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Leadership Development",
+                "Emotional Intelligence",
+                "Team Engagement"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Practitioner",
+                "Leader",
+                "Foundation"
+              ],
+              "answer": 2
+            }
+          ],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "ei-4",
@@ -46,11 +163,32 @@
           "body": "Practise noticing the signals other people give off in meetings and adjust how you contribute so your point lands.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "ei-foundations-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/ei-foundations-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "ei-foundations-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Recognise your own emotional patterns\n• Use a simple pause routine under pressure\n• Read the room in meetings more accurately\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "ei-foundations-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -82,8 +220,18 @@
                 "Win arguments"
               ],
               "answer": 1
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Run one-to-ones people find useful",
+                "Read the room in meetings more accurately",
+                "Spot and address resistance early"
+              ],
+              "answer": 1
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Maya Thompson",
@@ -103,22 +251,91 @@
       ],
       "modules": [
         {
+          "id": "first-time-manager-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Daniel Okafor introduces The First-Time Manager: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/first-time-manager-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "ftm-1",
           "title": "From doing the work to leading it",
           "minutes": 20,
           "body": "The shift from individual contributor to manager is mostly about where you spend your attention. We look at what to let go of first.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "first-time-manager-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"The First-Time Manager\" helps you do?",
+              "options": [
+                "Run one-to-ones people find useful",
+                "Recognise your own emotional patterns",
+                "Spot and address resistance early"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which of these is something \"The First-Time Manager\" helps you do?",
+              "options": [
+                "Set up a monthly team health check",
+                "Delegate without disappearing",
+                "Plan your week around energy, not just time"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which of these is something \"The First-Time Manager\" helps you do?",
+              "options": [
+                "Listen without trying to fix",
+                "Influence peers without positional power",
+                "Give feedback that changes behaviour"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Maya Thompson",
+                "Daniel Okafor",
+                "Grace Whitfield"
+              ],
+              "answer": 1
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "ftm-2",
           "title": "One-to-ones that matter",
           "minutes": 26,
           "body": "A simple structure for weekly one-to-ones that puts the other person first and surfaces problems early.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "first-time-manager-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
           "type": "pdf",
           "mediaUrl": "/downloads/first-time-manager-workbook.pdf",
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "ftm-3",
@@ -127,7 +344,55 @@
           "body": "Match the level of support to the person and the task, and agree check-ins before you hand anything over.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "first-time-manager-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "The most useful first habit for a new manager is...",
+              "options": [
+                "Regular one-to-ones",
+                "Doing the work yourself",
+                "Avoiding feedback"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Good feedback is...",
+              "options": [
+                "Saved for the annual review",
+                "Specific and timely",
+                "Only ever positive"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Emotional Intelligence",
+                "Team Engagement",
+                "Leadership Development"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Practitioner",
+                "Foundation",
+                "Leader"
+              ],
+              "answer": 0
+            }
+          ],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "ftm-4",
@@ -136,11 +401,32 @@
           "body": "Describe the behaviour, its impact and what you would like instead. Then stop talking and listen.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "first-time-manager-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/first-time-manager-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "first-time-manager-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Run one-to-ones people find useful\n• Delegate without disappearing\n• Give feedback that changes behaviour\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "first-time-manager-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -172,8 +458,18 @@
                 "Nothing until it fails"
               ],
               "answer": 1
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Spot and address resistance early",
+                "Give feedback that changes behaviour"
+              ],
+              "answer": 2
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Daniel Okafor",
@@ -193,22 +489,91 @@
       ],
       "modules": [
         {
+          "id": "leading-through-change-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Maya Thompson introduces Leading Through Change: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/leading-through-change-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "ltc-1",
           "title": "Why people resist change",
           "minutes": 19,
           "body": "Resistance is usually information. We look at the losses people expect and how to talk about them honestly.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "leading-through-change-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"Leading Through Change\" helps you do?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Explain the why of a change in plain language",
+                "Delegate without disappearing"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which of these is something \"Leading Through Change\" helps you do?",
+              "options": [
+                "Set up a monthly team health check",
+                "Plan your week around energy, not just time",
+                "Spot and address resistance early"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Which of these is something \"Leading Through Change\" helps you do?",
+              "options": [
+                "Keep momentum after the launch",
+                "Listen without trying to fix",
+                "Influence peers without positional power"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Daniel Okafor",
+                "Grace Whitfield",
+                "Maya Thompson"
+              ],
+              "answer": 2
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "ltc-2",
           "title": "The change story",
           "minutes": 23,
           "body": "Write a short, honest narrative that covers where we are, where we are going and what will not change.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "leading-through-change-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
           "type": "pdf",
           "mediaUrl": "/downloads/leading-through-change-workbook.pdf",
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "ltc-3",
@@ -217,11 +582,79 @@
           "body": "Most change efforts fade after launch. Build small rituals that keep progress visible.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "leading-through-change-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "People resist change mostly because of...",
+              "options": [
+                "Laziness",
+                "Uncertainty and loss",
+                "Too much information"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "During change, leaders should communicate...",
+              "options": [
+                "Once, at the start",
+                "Early, often and honestly",
+                "Only when asked"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Leadership Development",
+                "Emotional Intelligence",
+                "Team Engagement"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Foundation",
+                "Leader",
+                "Practitioner"
+              ],
+              "answer": 1
+            }
+          ],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "leading-through-change-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/leading-through-change-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "leading-through-change-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Explain the why of a change in plain language\n• Spot and address resistance early\n• Keep momentum after the launch\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "leading-through-change-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -253,8 +686,18 @@
                 "Replace listening"
               ],
               "answer": 0
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Keep momentum after the launch",
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing"
+              ],
+              "answer": 0
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Maya Thompson",
@@ -274,22 +717,91 @@
       ],
       "modules": [
         {
+          "id": "team-trust-reset-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Daniel Okafor introduces Team Trust Reset: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/team-trust-reset-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "ttr-1",
           "title": "What trust looks like in practice",
           "minutes": 16,
           "body": "Trust shows up in small behaviours: following through, admitting mistakes and asking for help. We make those visible.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "team-trust-reset-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"Team Trust Reset\" helps you do?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Run a team charter session",
+                "Delegate without disappearing"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which of these is something \"Team Trust Reset\" helps you do?",
+              "options": [
+                "Keep momentum after the launch",
+                "Plan your week around energy, not just time",
+                "Name and work through team tensions"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Which of these is something \"Team Trust Reset\" helps you do?",
+              "options": [
+                "Set up a monthly team health check",
+                "Listen without trying to fix",
+                "Influence peers without positional power"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Maya Thompson",
+                "Grace Whitfield",
+                "Daniel Okafor"
+              ],
+              "answer": 2
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "ttr-2",
           "title": "Writing a team charter",
           "minutes": 28,
           "body": "A one-page agreement on how the team makes decisions, communicates and handles disagreement.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "team-trust-reset-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
           "type": "pdf",
           "mediaUrl": "/downloads/team-trust-reset-workbook.pdf",
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "ttr-3",
@@ -298,11 +810,79 @@
           "body": "Ten minutes a month to ask how the team is really doing, using five simple questions.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "team-trust-reset-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Psychological safety means people feel able to...",
+              "options": [
+                "Avoid all conflict",
+                "Speak up without fear",
+                "Skip meetings"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "A team charter should be...",
+              "options": [
+                "Written once and filed",
+                "Visible and revisited",
+                "Kept by the manager only"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Team Engagement",
+                "Emotional Intelligence",
+                "Leadership Development"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Foundation",
+                "Practitioner",
+                "Leader"
+              ],
+              "answer": 1
+            }
+          ],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "team-trust-reset-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/team-trust-reset-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "team-trust-reset-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Run a team charter session\n• Name and work through team tensions\n• Set up a monthly team health check\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "team-trust-reset-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -334,8 +914,18 @@
                 "New job titles"
               ],
               "answer": 0
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Set up a monthly team health check",
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing"
+              ],
+              "answer": 0
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Daniel Okafor",
@@ -355,22 +945,91 @@
       ],
       "modules": [
         {
+          "id": "sustainable-performance-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Grace Whitfield introduces Sustainable Performance: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/sustainable-performance-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "sp-1",
           "title": "Energy is the real resource",
           "minutes": 17,
           "body": "Time management only works if you have the energy to use the time. Track what gives and drains your energy for one week.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "sustainable-performance-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"Sustainable Performance\" helps you do?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing",
+                "Plan your week around energy, not just time"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Which of these is something \"Sustainable Performance\" helps you do?",
+              "options": [
+                "Set boundaries you can keep",
+                "Keep momentum after the launch",
+                "Run a team charter session"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which of these is something \"Sustainable Performance\" helps you do?",
+              "options": [
+                "Listen without trying to fix",
+                "Notice early signs of overload",
+                "Influence peers without positional power"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Grace Whitfield",
+                "Maya Thompson",
+                "Daniel Okafor"
+              ],
+              "answer": 0
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "sp-2",
           "title": "Boundaries you can keep",
           "minutes": 21,
           "body": "Small, specific boundaries beat big promises. Choose one and tell your manager about it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "sustainable-performance-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
           "type": "pdf",
           "mediaUrl": "/downloads/sustainable-performance-workbook.pdf",
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "sp-3",
@@ -379,11 +1038,79 @@
           "body": "Learn the physical, emotional and behavioural signs that you or a colleague are running on empty.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "sustainable-performance-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Sustainable performance depends on...",
+              "options": [
+                "Working longer hours",
+                "Recovery as well as effort",
+                "Never saying no"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "An early sign of burnout is...",
+              "options": [
+                "Ongoing exhaustion and cynicism",
+                "Taking a holiday",
+                "Asking questions"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Emotional Intelligence",
+                "Workplace Well-being",
+                "Leadership Development"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Practitioner",
+                "Leader",
+                "Foundation"
+              ],
+              "answer": 2
+            }
+          ],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "sustainable-performance-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/sustainable-performance-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "sustainable-performance-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Plan your week around energy, not just time\n• Set boundaries you can keep\n• Notice early signs of overload\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "sustainable-performance-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -415,8 +1142,18 @@
                 "Silence"
               ],
               "answer": 0
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Notice early signs of overload",
+                "Delegate without disappearing"
+              ],
+              "answer": 1
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Grace Whitfield",
@@ -436,22 +1173,91 @@
       ],
       "modules": [
         {
+          "id": "manager-wellbeing-conversations-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Grace Whitfield introduces Well-being Conversations for Managers: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/manager-wellbeing-conversations-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "mwc-1",
           "title": "Opening the conversation",
           "minutes": 18,
           "body": "Simple, low-pressure ways to check in, and how to choose the right time and place.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "manager-wellbeing-conversations-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"Well-being Conversations for Managers\" helps you do?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Open a well-being conversation with confidence",
+                "Delegate without disappearing"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which of these is something \"Well-being Conversations for Managers\" helps you do?",
+              "options": [
+                "Keep momentum after the launch",
+                "Run a team charter session",
+                "Listen without trying to fix"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Which of these is something \"Well-being Conversations for Managers\" helps you do?",
+              "options": [
+                "Signpost to the right support",
+                "Set boundaries you can keep",
+                "Influence peers without positional power"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Maya Thompson",
+                "Daniel Okafor",
+                "Grace Whitfield"
+              ],
+              "answer": 2
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "mwc-2",
           "title": "Listening without fixing",
           "minutes": 20,
           "body": "Most people want to be heard before they want advice. Practise reflective listening.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "manager-wellbeing-conversations-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
           "type": "pdf",
           "mediaUrl": "/downloads/manager-wellbeing-conversations-workbook.pdf",
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "mwc-3",
@@ -460,11 +1266,79 @@
           "body": "You are a manager, not a therapist. Learn when and how to signpost to professional support.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "manager-wellbeing-conversations-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "In a wellbeing conversation, a manager should mainly...",
+              "options": [
+                "Diagnose the problem",
+                "Listen and signpost support",
+                "Share their own story"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "A good opening question is...",
+              "options": [
+                "\"What is wrong with you?\"",
+                "\"How are things, really?\"",
+                "\"Can this wait?\""
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Workplace Well-being",
+                "Emotional Intelligence",
+                "Leadership Development"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Foundation",
+                "Practitioner",
+                "Leader"
+              ],
+              "answer": 1
+            }
+          ],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "manager-wellbeing-conversations-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/manager-wellbeing-conversations-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "manager-wellbeing-conversations-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Open a well-being conversation with confidence\n• Listen without trying to fix\n• Signpost to the right support\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "manager-wellbeing-conversations-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -496,8 +1370,18 @@
                 "Ignore it"
               ],
               "answer": 1
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Signpost to the right support",
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing"
+              ],
+              "answer": 0
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Grace Whitfield",
@@ -517,22 +1401,81 @@
       ],
       "modules": [
         {
+          "id": "ei-in-practice-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Maya Thompson introduces Emotional Intelligence in Practice: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/ei-in-practice-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "eip-1",
           "title": "Emotions in everyday decisions",
           "minutes": 16,
           "body": "Every decision at work carries feeling. Learn to notice it early and use it as data instead of letting it steer you quietly.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "ei-in-practice-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"Emotional Intelligence in Practice\" helps you do?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing",
+                "Stay steady in a heated conversation"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Which of these is something \"Emotional Intelligence in Practice\" helps you do?",
+              "options": [
+                "Give feedback that lands without defensiveness",
+                "Keep momentum after the launch",
+                "Run a team charter session"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which of these is something \"Emotional Intelligence in Practice\" helps you do?",
+              "options": [
+                "Set boundaries you can keep",
+                "Influence peers without positional power",
+                "Signpost to the right support"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Maya Thompson",
+                "Daniel Okafor",
+                "Grace Whitfield"
+              ],
+              "answer": 0
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "eip-2",
           "title": "Feedback without the sting",
           "minutes": 22,
           "body": "A short structure for feedback that describes behaviour, names the impact and invites the other person into the solution.",
-          "type": "pdf",
-          "mediaUrl": "/downloads/ei-in-practice-workbook.pdf",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "eip-3",
@@ -541,11 +1484,79 @@
           "body": "Conflict is information about what people care about. Practise slowing a disagreement down until both sides feel heard.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "ei-in-practice-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Useful feedback describes...",
+              "options": [
+                "The person's character",
+                "Behaviour and its impact",
+                "How annoyed you are"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "In conflict, the first goal is to...",
+              "options": [
+                "Win the point",
+                "Make both sides feel heard",
+                "End it quickly"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Leadership Development",
+                "Emotional Intelligence",
+                "Team Engagement"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Foundation",
+                "Leader",
+                "Practitioner"
+              ],
+              "answer": 2
+            }
+          ],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "ei-in-practice-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/ei-in-practice-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "ei-in-practice-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Stay steady in a heated conversation\n• Give feedback that lands without defensiveness\n• Influence peers without positional power\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "ei-in-practice-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -577,8 +1588,18 @@
                 "Irrelevant"
               ],
               "answer": 0
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Influence peers without positional power",
+                "Delegate without disappearing"
+              ],
+              "answer": 1
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Maya Thompson",
@@ -598,22 +1619,81 @@
       ],
       "modules": [
         {
+          "id": "emotionally-intelligent-leader-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Maya Thompson introduces The Emotionally Intelligent Leader: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/emotionally-intelligent-leader-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "eil-1",
           "title": "Leaders set the weather",
           "minutes": 18,
           "body": "How a leader shows up spreads through a team within days. Map the signals you send in meetings, messages and corridors.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "emotionally-intelligent-leader-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"The Emotionally Intelligent Leader\" helps you do?",
+              "options": [
+                "Read and shape team climate deliberately",
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which of these is something \"The Emotionally Intelligent Leader\" helps you do?",
+              "options": [
+                "Keep momentum after the launch",
+                "Model calm under organisational pressure",
+                "Run a team charter session"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which of these is something \"The Emotionally Intelligent Leader\" helps you do?",
+              "options": [
+                "Set boundaries you can keep",
+                "Signpost to the right support",
+                "Coach managers to grow their own EI"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Daniel Okafor",
+                "Maya Thompson",
+                "Grace Whitfield"
+              ],
+              "answer": 1
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "eil-2",
           "title": "Leading under pressure",
           "minutes": 24,
           "body": "Routines that keep your judgement clear when the stakes rise, and how to make it safe for others to say they are struggling.",
-          "type": "pdf",
-          "mediaUrl": "/downloads/emotionally-intelligent-leader-workbook.pdf",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "eil-3",
@@ -622,11 +1702,79 @@
           "body": "Turn one-to-ones into coaching moments that build emotional intelligence across the layer of managers below you.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "emotionally-intelligent-leader-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "A leader's mood tends to...",
+              "options": [
+                "Stay private",
+                "Spread through the team",
+                "Only affect peers"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Under pressure, good leaders...",
+              "options": [
+                "Make it safe to speak up",
+                "Hide all concern",
+                "Decide alone"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Leadership Development",
+                "Team Engagement",
+                "Emotional Intelligence"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Leader",
+                "Foundation",
+                "Practitioner"
+              ],
+              "answer": 0
+            }
+          ],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "emotionally-intelligent-leader-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/emotionally-intelligent-leader-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "emotionally-intelligent-leader-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Read and shape team climate deliberately\n• Model calm under organisational pressure\n• Coach managers to grow their own EI\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "emotionally-intelligent-leader-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -658,8 +1806,18 @@
                 "An annual test"
               ],
               "answer": 1
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing",
+                "Coach managers to grow their own EI"
+              ],
+              "answer": 2
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Maya Thompson",
@@ -679,22 +1837,81 @@
       ],
       "modules": [
         {
+          "id": "leadership-essentials-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Daniel Okafor introduces Leadership Essentials: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/leadership-essentials-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "le-1",
           "title": "Leadership is a behaviour",
           "minutes": 15,
           "body": "You do not need a title to lead. Learn the behaviours people follow: noticing, deciding and following through.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "leadership-essentials-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"Leadership Essentials\" helps you do?",
+              "options": [
+                "Take ownership without taking over",
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which of these is something \"Leadership Essentials\" helps you do?",
+              "options": [
+                "Keep momentum after the launch",
+                "Communicate a clear next step",
+                "Run a team charter session"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which of these is something \"Leadership Essentials\" helps you do?",
+              "options": [
+                "Set boundaries you can keep",
+                "Signpost to the right support",
+                "Build trust through small kept promises"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Maya Thompson",
+                "Daniel Okafor",
+                "Grace Whitfield"
+              ],
+              "answer": 1
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "le-2",
           "title": "Clarity beats charisma",
           "minutes": 18,
           "body": "Most confusion at work comes from unclear asks. Practise turning a vague request into a clear outcome, owner and date.",
-          "type": "pdf",
-          "mediaUrl": "/downloads/leadership-essentials-workbook.pdf",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "le-3",
@@ -703,11 +1920,79 @@
           "body": "Trust grows from small, visible reliability. Build a simple habit of making and keeping commitments in public.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "leadership-essentials-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Leadership is mainly...",
+              "options": [
+                "A job title",
+                "A set of behaviours",
+                "Being the loudest"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "A clear request includes...",
+              "options": [
+                "An outcome, owner and date",
+                "Only a deadline",
+                "Nothing specific"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Emotional Intelligence",
+                "Team Engagement",
+                "Leadership Development"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Foundation",
+                "Practitioner",
+                "Leader"
+              ],
+              "answer": 0
+            }
+          ],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "leadership-essentials-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/leadership-essentials-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "leadership-essentials-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Take ownership without taking over\n• Communicate a clear next step\n• Build trust through small kept promises\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "leadership-essentials-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -739,8 +2024,18 @@
                 "Avoiding mistakes"
               ],
               "answer": 0
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing",
+                "Build trust through small kept promises"
+              ],
+              "answer": 2
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Daniel Okafor",
@@ -760,22 +2055,81 @@
       ],
       "modules": [
         {
+          "id": "team-foundations-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Priya Raman introduces Team Foundations: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/team-foundations-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "tf-1",
           "title": "What great teams share",
           "minutes": 14,
           "body": "Psychological safety, clear goals and reliable follow-through. See what each looks like on an ordinary Tuesday.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "team-foundations-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"Team Foundations\" helps you do?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Understand what healthy teams have in common",
+                "Delegate without disappearing"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which of these is something \"Team Foundations\" helps you do?",
+              "options": [
+                "Keep momentum after the launch",
+                "Run a team charter session",
+                "Contribute well in meetings"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Which of these is something \"Team Foundations\" helps you do?",
+              "options": [
+                "Raise concerns early and kindly",
+                "Set boundaries you can keep",
+                "Signpost to the right support"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Maya Thompson",
+                "Daniel Okafor",
+                "Priya Raman"
+              ],
+              "answer": 2
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "tf-2",
           "title": "Meetings that matter",
           "minutes": 18,
           "body": "Simple ways any team member can make a meeting better: prepare, contribute, summarise and follow up.",
-          "type": "pdf",
-          "mediaUrl": "/downloads/team-foundations-workbook.pdf",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "tf-3",
@@ -784,11 +2138,79 @@
           "body": "How to raise a concern so it is heard, and how to respond when a colleague raises one with you.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "team-foundations-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Psychological safety lets people...",
+              "options": [
+                "Speak up without fear",
+                "Skip work",
+                "Avoid feedback"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Anyone can improve a meeting by...",
+              "options": [
+                "Staying silent",
+                "Summarising and following up",
+                "Arriving late"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Team Engagement",
+                "Emotional Intelligence",
+                "Leadership Development"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Practitioner",
+                "Foundation",
+                "Leader"
+              ],
+              "answer": 1
+            }
+          ],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "team-foundations-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/team-foundations-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "team-foundations-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Understand what healthy teams have in common\n• Contribute well in meetings\n• Raise concerns early and kindly\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "team-foundations-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -820,8 +2242,18 @@
                 "Never"
               ],
               "answer": 0
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Raise concerns early and kindly",
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing"
+              ],
+              "answer": 0
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Priya Raman",
@@ -841,22 +2273,81 @@
       ],
       "modules": [
         {
+          "id": "high-performing-teams-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Priya Raman introduces Building High-Performing Teams: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/high-performing-teams-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "hpt-1",
           "title": "Diagnosing a team",
           "minutes": 20,
           "body": "A quick health check across trust, clarity and energy, and how to share the results without blame.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "high-performing-teams-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"Building High-Performing Teams\" helps you do?",
+              "options": [
+                "Diagnose what is holding a team back",
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which of these is something \"Building High-Performing Teams\" helps you do?",
+              "options": [
+                "Keep momentum after the launch",
+                "Design team rituals that stick",
+                "Run a team charter session"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which of these is something \"Building High-Performing Teams\" helps you do?",
+              "options": [
+                "Set boundaries you can keep",
+                "Signpost to the right support",
+                "Align several teams around shared goals"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Maya Thompson",
+                "Priya Raman",
+                "Daniel Okafor"
+              ],
+              "answer": 1
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "hpt-2",
           "title": "Rituals that stick",
           "minutes": 22,
           "body": "Most team agreements fade by Wednesday. Design the few rituals that keep them alive week after week.",
-          "type": "pdf",
-          "mediaUrl": "/downloads/high-performing-teams-workbook.pdf",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "hpt-3",
@@ -865,11 +2356,79 @@
           "body": "Scaling engagement across departments: shared goals, clear interfaces and leaders who connect rather than control.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "high-performing-teams-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "A team health check looks at...",
+              "options": [
+                "Trust, clarity and energy",
+                "Only output",
+                "Desk layout"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Team agreements survive when they become...",
+              "options": [
+                "Posters",
+                "Regular rituals",
+                "Rules with fines"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Emotional Intelligence",
+                "Leadership Development",
+                "Team Engagement"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Leader",
+                "Foundation",
+                "Practitioner"
+              ],
+              "answer": 0
+            }
+          ],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "high-performing-teams-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/high-performing-teams-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "high-performing-teams-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Diagnose what is holding a team back\n• Design team rituals that stick\n• Align several teams around shared goals\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "high-performing-teams-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -901,8 +2460,18 @@
                 "Stay out of sight"
               ],
               "answer": 0
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing",
+                "Align several teams around shared goals"
+              ],
+              "answer": 2
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Priya Raman",
@@ -922,22 +2491,81 @@
       ],
       "modules": [
         {
+          "id": "wellbeing-strategy-for-leaders-intro",
+          "title": "Welcome: what this course will do for you",
+          "minutes": 4,
+          "body": "Daniel Okafor introduces Well-being Strategy for Leaders: what you will learn, how the three phases fit together and how to get the most from each lesson.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/wellbeing-strategy-for-leaders-intro.mp4",
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
           "id": "wsl-1",
           "title": "Beyond the wellness app",
           "minutes": 18,
           "body": "Why perks rarely move the needle, and where the real drivers of strain sit in how work is designed.",
-          "type": "video",
-          "mediaUrl": "asset:assets/videos/brand_intro.mp4",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 1: Orientation"
+        },
+        {
+          "id": "wellbeing-strategy-for-leaders-q1",
+          "title": "Warm-up quiz",
+          "minutes": 4,
+          "body": "Four quick questions on what the course covers.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "Which of these is something \"Well-being Strategy for Leaders\" helps you do?",
+              "options": [
+                "Link well-being to workload and design of work",
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which of these is something \"Well-being Strategy for Leaders\" helps you do?",
+              "options": [
+                "Keep momentum after the launch",
+                "Build a well-being plan with real measures",
+                "Run a team charter session"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "Which of these is something \"Well-being Strategy for Leaders\" helps you do?",
+              "options": [
+                "Set boundaries you can keep",
+                "Signpost to the right support",
+                "Make support part of everyday management"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "Who leads this course?",
+              "options": [
+                "Maya Thompson",
+                "Daniel Okafor",
+                "Grace Whitfield"
+              ],
+              "answer": 1
+            }
+          ],
+          "phase": "Phase 1: Orientation"
         },
         {
           "id": "wsl-2",
           "title": "Measuring what matters",
           "minutes": 22,
           "body": "Choose a handful of measures, from workload data to pulse surveys, that show whether things are actually improving.",
-          "type": "pdf",
-          "mediaUrl": "/downloads/wellbeing-strategy-for-leaders-workbook.pdf",
-          "quiz": []
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
         },
         {
           "id": "wsl-3",
@@ -946,11 +2574,79 @@
           "body": "Turn a well-being policy into the everyday habits of managers, with training, prompts and follow-up.",
           "type": "text",
           "mediaUrl": null,
-          "quiz": []
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "wellbeing-strategy-for-leaders-q2",
+          "title": "Mid-course quiz",
+          "minutes": 6,
+          "body": "Four questions to check the core ideas have landed.",
+          "type": "quiz",
+          "mediaUrl": null,
+          "quiz": [
+            {
+              "prompt": "The biggest driver of strain is usually...",
+              "options": [
+                "Lack of perks",
+                "How work is designed",
+                "Office colours"
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "A good well-being plan has...",
+              "options": [
+                "Real measures",
+                "A logo",
+                "No owner"
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which practice area does this course belong to?",
+              "options": [
+                "Emotional Intelligence",
+                "Leadership Development",
+                "Workplace Well-being"
+              ],
+              "answer": 2
+            },
+            {
+              "prompt": "This course is pitched at which level?",
+              "options": [
+                "Leader",
+                "Foundation",
+                "Practitioner"
+              ],
+              "answer": 0
+            }
+          ],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "wellbeing-strategy-for-leaders-recap",
+          "title": "Recap and next steps",
+          "minutes": 4,
+          "body": "A short recap of the outcomes you are aiming for and how to carry them into your week.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/courses/wellbeing-strategy-for-leaders-recap.mp4",
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
+        },
+        {
+          "id": "wellbeing-strategy-for-leaders-plan",
+          "title": "Your action plan",
+          "minutes": 10,
+          "body": "Pick one outcome and write what you will do differently in the next seven days:\n\n• Link well-being to workload and design of work\n• Build a well-being plan with real measures\n• Make support part of everyday management\n\nChoose a day, a situation and one person who can hold you to it.",
+          "type": "text",
+          "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 3: Put it to work"
         },
         {
           "id": "wellbeing-strategy-for-leaders-quiz",
-          "title": "Check your understanding",
+          "title": "Final quiz",
           "minutes": 8,
           "body": "Answer every question. You need 70% to pass and unlock your certificate.",
           "type": "quiz",
@@ -982,8 +2678,18 @@
                 "A new app"
               ],
               "answer": 0
+            },
+            {
+              "prompt": "Which of these is an aim of this course?",
+              "options": [
+                "Recognise your own emotional patterns",
+                "Delegate without disappearing",
+                "Make support part of everyday management"
+              ],
+              "answer": 2
             }
-          ]
+          ],
+          "phase": "Phase 3: Put it to work"
         }
       ],
       "trainer": "Daniel Okafor",

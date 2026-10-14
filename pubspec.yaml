@@ -80,6 +80,7 @@ flutter:
   assets:
     - assets/textures/
     - assets/videos/
+    - assets/videos/courses/
     - assets/images/
     - assets/images/cards/
     - assets/models/
