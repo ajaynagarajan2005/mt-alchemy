@@ -8,7 +8,7 @@ export const INTRO_FRAMES = 420;
 const {fontFamily: serif} = loadFraunces();
 const {fontFamily: sans} = loadManrope();
 const P = PALETTE.light;
-const INK = '#18181B';
+const INK = '#141836';
 
 const ease = Easing.out(Easing.cubic);
 
@@ -51,11 +51,11 @@ export const BrandIntro = () => {
       </div>
       <div style={{...center, top: 410, ...reveal(frame, 290, 45)}}>
         <div style={{fontFamily: serif, fontWeight: 500, fontSize: 150, color: INK, letterSpacing: -3}}>
-          <span style={{color: '#C8102E'}}>MT</span> Alchemy
+          <span style={{color: '#1B2A78'}}>MT</span> Alchemy
         </div>
       </div>
       <div style={{...center, top: 625, ...reveal(frame, 330, 45)}}>
-        <div style={{fontFamily: sans, fontWeight: 500, fontSize: 26, letterSpacing: 4, textTransform: 'uppercase', color: '#52525B'}}>
+        <div style={{fontFamily: sans, fontWeight: 500, fontSize: 26, letterSpacing: 4, textTransform: 'uppercase', color: '#4A4F73'}}>
           Emotional Intelligence &nbsp;/&nbsp; Leadership &nbsp;/&nbsp; Team Engagement &nbsp;/&nbsp; Well-being
         </div>
       </div>

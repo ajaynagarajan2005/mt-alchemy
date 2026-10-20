@@ -31,6 +31,16 @@ class AuthStore extends ChangeNotifier {
   Organisation? get currentOrganisation => _organisation;
   String? get email => _backend.auth.currentUser?.email;
 
+  /// A fresh Firebase ID token for calling the assistant service, or null
+  /// when signed out. The service uses it to know whose records to search.
+  Future<String?> idToken() async {
+    try {
+      return await _backend.auth.currentUser?.getIdToken();
+    } catch (_) {
+      return null;
+    }
+  }
+
   void _onAuth(User? user) {
     _profileSub?.cancel();
     _orgSub?.cancel();

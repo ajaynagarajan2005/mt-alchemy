@@ -8,7 +8,8 @@ REPO="${REPO:-mt-alchemy}"
 BASE="/${REPO}/"
 REMOTE="$(git remote get-url origin)"
 
-flutter build web --release --base-href "$BASE" --dart-define=SITE_BASE="$BASE"
+# The assistant service runs on a host you provide; leave RAG_URL unset to publish without it.
+flutter build web --release --base-href "$BASE" --dart-define=SITE_BASE="$BASE" --dart-define=RAG_URL="${RAG_URL:-}"
 
 # GitHub Pages has no server-side routing: a copy of index.html as 404.html
 # lets deep links such as /mt-alchemy/portal load the app, which then routes.

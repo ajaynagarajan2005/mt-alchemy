@@ -14,7 +14,9 @@ import '../../theme/typography.dart';
 import '../common/app_icon.dart';
 import '../common/gradient_backdrop.dart';
 import '../common/tappable.dart';
+import '../common/text_size_button.dart';
 import '../common/theme_toggle.dart';
+import 'nav_strip.dart';
 import 'notification_bell.dart';
 
 class _PortalDest {
@@ -183,10 +185,20 @@ class _PortalShellState extends State<PortalShell> {
 
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: _PortalBar(user: user, showMenu: !expanded),
-      drawer: expanded
-          ? null
-          : _PortalDrawer(user: user, dests: dests, selected: selected),
+      appBar: _PortalBar(
+        user: user,
+        strip: expanded
+            ? null
+            : [
+                for (var i = 0; i < dests.length; i++)
+                  StripItem(
+                    dests[i].label,
+                    dests[i].path,
+                    icon: dests[i].icon,
+                    active: selected == i,
+                  ),
+              ],
+      ),
       body: Listener(
         onPointerSignal: _onPointerSignal,
         child: GradientBackdrop(
@@ -246,13 +258,17 @@ class _PortalShellState extends State<PortalShell> {
 }
 
 class _PortalBar extends StatelessWidget implements PreferredSizeWidget {
-  const _PortalBar({required this.user, required this.showMenu});
+  const _PortalBar({required this.user, this.strip});
 
   final AppUser user;
-  final bool showMenu;
+
+  /// Portal links shown under the bar below 1024px; null when the side rail
+  /// is showing.
+  final List<StripItem>? strip;
 
   @override
-  Size get preferredSize => const Size.fromHeight(Space.navHeight);
+  Size get preferredSize =>
+      Size.fromHeight(Space.navHeight + (strip == null ? 0 : Space.navStrip));
 
   @override
   Widget build(BuildContext context) {
@@ -260,23 +276,17 @@ class _PortalBar extends StatelessWidget implements PreferredSizeWidget {
     final gutter = Breakpoints.gutter(context).clamp(16.0, 48.0);
 
     // APPBAR: portal app bar with wordmark, portal title, user and sign out.
-    return AppBar(
+    final bar = AppBar(
       toolbarHeight: Space.navHeight,
       automaticallyImplyLeading: false,
       backgroundColor: AppColors.surface,
-      shape: Border(bottom: BorderSide(color: AppColors.line)),
-      titleSpacing: showMenu ? 0 : gutter,
-      leading: showMenu
-          ? Builder(
-              builder: (context) => IconButton(
-                tooltip: 'Open portal menu',
-                icon: const AppIcon(HugeIcons.strokeRoundedMenu01, size: 26),
-                onPressed: () => Scaffold.of(context).openDrawer(),
-              ),
-            )
+      shape: strip == null
+          ? Border(bottom: BorderSide(color: AppColors.line))
           : null,
+      titleSpacing: gutter,
       title: Row(
         children: [
+          PageBackButton(fallback: Routes.portal),
           const _Wordmark(),
           if (expanded) ...[
             const SizedBox(width: Space.lg),
@@ -298,6 +308,7 @@ class _PortalBar extends StatelessWidget implements PreferredSizeWidget {
           const SizedBox(width: Space.xs),
         ],
         const NotificationBell(),
+        const TextSizeButton(),
         const ThemeToggleButton(),
         if (context.isCompact)
           IconButton(
@@ -314,6 +325,21 @@ class _PortalBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         SizedBox(width: gutter - Space.xs),
       ],
+    );
+    if (strip == null) return bar;
+    // Below 1024px every portal page is one tap away in a scrolling row.
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        border: Border(bottom: BorderSide(color: AppColors.line)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          bar,
+          NavStrip(items: strip!),
+        ],
+      ),
     );
   }
 }
@@ -392,75 +418,6 @@ class _PortalRail extends StatelessWidget {
                 icon: AppIcon(d.icon, size: 22),
                 label: Text(d.label),
               ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _PortalDrawer extends StatelessWidget {
-  const _PortalDrawer({
-    required this.user,
-    required this.dests,
-    required this.selected,
-  });
-
-  final AppUser user;
-  final List<_PortalDest> dests;
-  final int? selected;
-
-  @override
-  Widget build(BuildContext context) {
-    void go(String path) {
-      Navigator.of(context).pop();
-      context.go(path);
-    }
-
-    return Drawer(
-      backgroundColor: AppColors.surface,
-      child: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(Space.md),
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(Space.sm),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(_portalTitle(user.role), style: AppText.h3),
-                  const SizedBox(height: Space.xxs),
-                  Text(user.name, style: AppText.small),
-                ],
-              ),
-            ),
-            const Divider(),
-            const SizedBox(height: Space.xs),
-            for (var i = 0; i < dests.length; i++)
-              ListTile(
-                selected: selected == i,
-                selectedColor: AppColors.red,
-                selectedTileColor: AppColors.redSoft,
-                shape: const StadiumBorder(),
-                leading: AppIcon(dests[i].icon, size: 22),
-                title: Text(
-                  dests[i].label,
-                  style: AppText.label.copyWith(
-                    color: selected == i ? AppColors.red : AppColors.ink,
-                  ),
-                ),
-                onTap: () => go(dests[i].path),
-              ),
-            const Divider(),
-            ListTile(
-              shape: const StadiumBorder(),
-              leading: const AppIcon(
-                HugeIcons.strokeRoundedArrowLeft01,
-                size: 22,
-              ),
-              title: Text('Back to site', style: AppText.label),
-              onTap: () => go(Routes.home),
-            ),
           ],
         ),
       ),

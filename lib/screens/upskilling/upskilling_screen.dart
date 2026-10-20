@@ -1,4 +1,7 @@
 import 'package:go_router/go_router.dart';
+
+import '../../widgets/common/search_field.dart';
+
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +39,7 @@ class UpskillingScreen extends StatefulWidget {
 class _UpskillingScreenState extends State<UpskillingScreen> {
   String? _area; // service slug, null = All
   CourseLevel? _level; // null = all levels
+  String _query = '';
 
   static const _cardHeight = 400.0;
   static const _gap = Space.lg;
@@ -46,13 +50,20 @@ class _UpskillingScreenState extends State<UpskillingScreen> {
       .where(
         (c) =>
             (_area == null || c.serviceSlug == _area) &&
-            (_level == null || c.level == _level),
+            (_level == null || c.level == _level) &&
+            matchesQuery(_query, [
+              c.title,
+              c.summary,
+              c.trainer,
+              ...c.outcomes,
+            ]),
       )
       .toList();
 
   void _clear() => setState(() {
     _area = null;
     _level = null;
+    _query = '';
   });
 
   @override
@@ -119,6 +130,12 @@ class _UpskillingScreenState extends State<UpskillingScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SearchField(
+            hint: 'Search courses, topics or trainers',
+            onChanged: (v) => setState(() => _query = v),
+            maxWidth: 560,
+          ),
+          const SizedBox(height: Space.md),
           Text('Practice area', style: AppText.small),
           const SizedBox(height: Space.xs),
           Wrap(

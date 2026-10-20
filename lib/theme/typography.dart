@@ -69,7 +69,7 @@ abstract final class AppText {
     12,
     height: 1.2,
     w: FontWeight.w700,
-    color: AppColors.red,
+    color: AppColors.purple,
   ).copyWith(letterSpacing: 1.6);
 
   /// Brand wordmark.

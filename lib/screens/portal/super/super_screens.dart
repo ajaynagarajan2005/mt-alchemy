@@ -828,7 +828,7 @@ class LivePill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.redSoft,
+        color: AppColors.yellowSoft,
         borderRadius: Radii.pillAll,
       ),
       child: Row(
@@ -838,12 +838,15 @@ class LivePill extends StatelessWidget {
             width: 8,
             height: 8,
             decoration: BoxDecoration(
-              color: AppColors.red,
+              color: AppColors.purple,
               shape: BoxShape.circle,
             ),
           ),
           const SizedBox(width: 6),
-          Text('Live', style: AppText.small.copyWith(color: AppColors.red)),
+          Text(
+            'Live',
+            style: AppText.small.copyWith(color: AppColors.onYellow),
+          ),
         ],
       ),
     );

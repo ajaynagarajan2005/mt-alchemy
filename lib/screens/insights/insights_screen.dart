@@ -1,4 +1,7 @@
 import 'package:go_router/go_router.dart';
+
+import '../../widgets/common/search_field.dart';
+
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -34,11 +37,15 @@ class InsightsScreen extends StatefulWidget {
 
 class _InsightsScreenState extends State<InsightsScreen> {
   String? _category; // null = All
+  String _query = '';
 
   @override
   Widget build(BuildContext context) {
     final articles = context.watch<CatalogStore>().articles;
-    final shown = filterArticles(articles, _category);
+    final shown = [
+      for (final a in filterArticles(articles, _category))
+        if (matchesQuery(_query, [a.title, a.excerpt, a.category])) a,
+    ];
     final featured = shown.isEmpty ? null : shown.first;
     final rest = shown.length > 1 ? shown.sublist(1) : <Article>[];
 
@@ -54,6 +61,11 @@ class _InsightsScreenState extends State<InsightsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SearchField(
+                hint: 'Search articles',
+                onChanged: (v) => setState(() => _query = v),
+              ),
+              const SizedBox(height: Space.md),
               _Filters(
                 selected: _category,
                 onSelect: (c) => setState(() => _category = c),

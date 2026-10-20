@@ -16,7 +16,12 @@ import '../../widgets/common/glass_panel.dart';
 /// Opens a workbook or download. Relative paths resolve against the site,
 /// so `/downloads/x.pdf` works on localhost and on Firebase Hosting.
 Future<void> openDocument(String url) async {
-  final uri = url.startsWith('http') ? Uri.parse(url) : Uri.base.resolve(url);
+  const base = String.fromEnvironment('SITE_BASE', defaultValue: '/');
+  final uri = url.startsWith('http')
+      ? Uri.parse(url)
+      : Uri.base.resolve(
+          url.startsWith('/') ? '$base${url.substring(1)}' : url,
+        );
   await launchUrl(uri, webOnlyWindowName: '_blank');
 }
 

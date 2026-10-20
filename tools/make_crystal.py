@@ -97,11 +97,11 @@ gltf = {
     ],
     "materials": [
         {
-            "name": "CrimsonGlass",
+            "name": "SapphireGlass",
             "doubleSided": True,
             "alphaMode": "BLEND",
             "pbrMetallicRoughness": {
-                "baseColorFactor": [0.78, 0.06, 0.18, 0.9],
+                "baseColorFactor": [0.30, 0.25, 0.80, 0.9],
                 "metallicFactor": 0.1,
                 "roughnessFactor": 0.25,
             },

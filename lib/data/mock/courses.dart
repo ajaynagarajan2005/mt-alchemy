@@ -507,15 +507,6 @@ const _baseCourses = <Course>[
 /// visible phase by phase.
 final courses = <Course>[for (final c in _baseCourses) _phased(c)];
 
-const _workbooks = {
-  'ei-foundations',
-  'first-time-manager',
-  'leading-through-change',
-  'manager-wellbeing-conversations',
-  'sustainable-performance',
-  'team-trust-reset',
-};
-
 const _areaNames = {
   'emotional-intelligence': 'Emotional Intelligence',
   'leadership-development': 'Leadership Development',
@@ -630,18 +621,28 @@ Course _phased(Course c) {
     ),
     // Phase 2: Core skills
     at(1, phaseCore),
-    if (_workbooks.contains(c.id))
-      CourseModule(
-        id: '${c.id}-workbook',
-        title: 'Workbook: practise it on paper',
-        minutes: 15,
-        body:
-            'Work through the exercises in the workbook. Save your answers; you '
-            'will use them in the final phase.',
-        type: LessonType.pdf,
-        mediaUrl: '/downloads/${c.id}-workbook.pdf',
-        phase: phaseCore,
-      ),
+    CourseModule(
+      id: '${c.id}-lecture',
+      title: 'Video lecture: the whole course in six minutes',
+      minutes: 6,
+      body:
+          '${c.trainer} walks through the main ideas of ${c.title}, with the key '
+          'points on screen. The same notes are in your study guide.',
+      type: LessonType.video,
+      mediaUrl: 'asset:assets/videos/lectures/${c.id}-lecture.mp4',
+      phase: phaseCore,
+    ),
+    CourseModule(
+      id: '${c.id}-workbook',
+      title: 'Workbook: practise it on paper',
+      minutes: 15,
+      body:
+          'Work through the exercises in the workbook. Save your answers; you '
+          'will use them in the final phase.',
+      type: LessonType.pdf,
+      mediaUrl: '/downloads/${c.id}-workbook.pdf',
+      phase: phaseCore,
+    ),
     if (b.length > 2) at(2, phaseCore),
     CourseModule(
       id: '${c.id}-q2',

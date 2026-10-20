@@ -3,14 +3,13 @@ import 'package:material_ui/material_ui.dart';
 import '../../theme/breakpoints.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
-import 'nav_drawer.dart';
 import 'site_footer.dart';
 import 'site_nav.dart';
 
 /// Persistent chrome for every public screen.
 ///
 /// SCAFFOLD: the single Scaffold for public pages. It provides the glass
-/// AppBar (SiteNav), the end drawer used below 1024px, and the body that
+/// AppBar (SiteNav, with a scrolling link strip below 1024px), and the body that
 /// go_router swaps per route. The body extends behind the app bar so the
 /// glass can blur the hero video and page backdrops.
 class AppShell extends StatelessWidget {
@@ -23,17 +22,19 @@ class AppShell extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: AppColors.white,
-      appBar: const SiteNav(),
-      endDrawer: context.isExpanded ? null : const NavDrawer(),
+      appBar: SiteNav(showStrip: !context.isExpanded),
       // Clean white canvas: no grain overlay.
       body: child,
     );
   }
 }
 
-/// Height of the glass app bar plus the status-bar inset.
+/// Height of the glass app bar (plus the link strip below 1024px) and the
+/// status-bar inset.
 double navClearance(BuildContext context) =>
-    MediaQuery.paddingOf(context).top + Space.navHeight;
+    MediaQuery.paddingOf(context).top +
+    Space.navHeight +
+    (context.isExpanded ? 0 : Space.navStrip);
 
 /// Top padding for the first section of a page that starts under the glass
 /// nav: nav clearance plus a modest gap. Pair with `Section(top: false)` so

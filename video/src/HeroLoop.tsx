@@ -6,8 +6,8 @@ const TAU = Math.PI * 2;
 export type Theme = 'light' | 'dark';
 
 export const PALETTE = {
-  light: {bg0: '#FCFCFC', bg1: '#F4F4F5', crimson: '#C8102E', deep: '#9E0C24', wisp: '#A1A1AA'},
-  dark: {bg0: '#18181B', bg1: '#27272A', crimson: '#E0243F', deep: '#B5122B', wisp: '#52525B'},
+  light: {bg0: '#FAFBFF', bg1: '#EEF0F8', crimson: '#2B3FA8', deep: '#1B2A78', wisp: '#A58BE0'},
+  dark: {bg0: '#0C1030', bg1: '#141945', crimson: '#5B73F0', deep: '#3347C4', wisp: '#6A3DB8'},
 };
 
 type Blob = {
@@ -176,7 +176,7 @@ export const HeroLoop = ({theme = 'light'}: {theme?: Theme}) => {
               cx={p.x + p.orbit * Math.sin(theta + p.phase)}
               cy={p.y + p.orbit * 0.6 * Math.cos(theta + p.phase)}
               r={p.size}
-              fill={i % 3 === 0 ? P.crimson : '#FFFFFF'}
+              fill={i % 3 === 0 ? P.crimson : i % 4 === 1 ? '#FFD95A' : '#FFFFFF'}
               opacity={0.25 + 0.2 * Math.sin(theta + p.phase)}
             />
           ))}

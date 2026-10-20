@@ -180,6 +180,15 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.userId == uid();
     }
 
+    // Questions typed into the assistant. Private to the person who asked.
+    match /chatMessages/{id} {
+      allow read: if signedIn() && resource.data.userId == uid();
+      allow create: if signedIn() && request.resource.data.userId == uid()
+        && request.resource.data.text is string
+        && request.resource.data.text.size() <= 500;
+      allow delete: if signedIn() && resource.data.userId == uid();
+    }
+
     match /assessments/{id} {
       // EQ self-assessment results.
       allow read: if signedIn() && resource.data.userId == uid();

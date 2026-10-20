@@ -23,6 +23,12 @@ class AppPalette {
     required this.accentHover,
     required this.onAccent,
     required this.success,
+    required this.purple,
+    required this.purpleSoft,
+    required this.yellow,
+    required this.yellowSoft,
+    required this.onYellow,
+    required this.danger,
     required this.glassFill,
     required this.glassFillStrong,
     required this.glassBorder,
@@ -51,6 +57,7 @@ class AppPalette {
       grey800,
       grey900;
   final Color red, redDeep, redSoft, accentFill, accentHover, onAccent, success;
+  final Color purple, purpleSoft, yellow, yellowSoft, onYellow, danger;
   final Color glassFill,
       glassFillStrong,
       glassBorder,
@@ -68,78 +75,92 @@ class AppPalette {
     brightness: Brightness.light,
     white: Color(0xFFFFFFFF),
     surface: Color(0xFFFFFFFF),
-    grey50: Color(0xFFF7F7F8),
-    grey100: Color(0xFFF4F4F5),
-    grey200: Color(0xFFE4E4E7),
-    grey300: Color(0xFFD4D4D8),
-    grey400: Color(0xFFA1A1AA),
-    grey500: Color(0xFF71717A),
-    grey600: Color(0xFF52525B),
-    grey700: Color(0xFF3F3F46),
-    grey800: Color(0xFF27272A),
-    grey900: Color(0xFF18181B),
-    red: Color(0xFFC8102E),
-    redDeep: Color(0xFF9E0C24),
-    redSoft: Color(0x1FC8102E),
-    accentFill: Color(0xFFC8102E),
-    accentHover: Color(0xFF9E0C24),
+    grey50: Color(0xFFF6F7FB),
+    grey100: Color(0xFFEEF0F8),
+    grey200: Color(0xFFDFE2F0),
+    grey300: Color(0xFFC7CBE0),
+    grey400: Color(0xFF9499B8),
+    grey500: Color(0xFF6B7094),
+    grey600: Color(0xFF4A4F73),
+    grey700: Color(0xFF353A5C),
+    grey800: Color(0xFF232848),
+    grey900: Color(0xFF141836),
+    red: Color(0xFF1B2A78),
+    redDeep: Color(0xFF111C55),
+    redSoft: Color(0x1F1B2A78),
+    accentFill: Color(0xFF1B2A78),
+    accentHover: Color(0xFF111C55),
     onAccent: Color(0xFFFFFFFF),
     success: Color(0xFF1F7A4D),
+    purple: Color(0xFF6A3DB8),
+    purpleSoft: Color(0x1F6A3DB8),
+    yellow: Color(0xFFFFD95A),
+    yellowSoft: Color(0xFFFFF4CC),
+    onYellow: Color(0xFF141836),
+    danger: Color(0xFFC62839),
     glassFill: Color(0xB3FFFFFF),
     glassFillStrong: Color(0xD9FFFFFF),
     glassBorder: Color(0x99FFFFFF),
     glassHighlight: Color(0xD9FFFFFF),
     glassHighlightStrong: Color(0xF2FFFFFF),
-    shadowTint: Color(0x1A18181B),
-    inverseSurface: Color(0xFF18181B),
-    onInverse: Color(0xFFFCFCFC),
-    inverseMuted: Color(0xFFD4D4D8),
-    inverseFaint: Color(0xFFA1A1AA),
-    inverseLine: Color(0xFF3F3F46),
-    inverseOutline: Color(0xFF71717A),
+    shadowTint: Color(0x1A141836),
+    inverseSurface: Color(0xFF0F1440),
+    onInverse: Color(0xFFFAFBFF),
+    inverseMuted: Color(0xFFCDD1EA),
+    inverseFaint: Color(0xFF9AA0C8),
+    inverseLine: Color(0xFF2E3566),
+    inverseOutline: Color(0xFF5A6199),
   );
 
-  /// Calm charcoal, never pure black. Text red is lifted to #EE4A63 so it
-  /// keeps 4.5:1 on the dark surfaces; filled buttons keep #C8102E with white.
+  /// Deep navy, never pure black. Text blue is lifted to #9DB0FF so it keeps
+  /// 4.5:1 on the dark surfaces; filled buttons use #3347C4 with white.
   static const dark = AppPalette(
     brightness: Brightness.dark,
-    white: Color(0xFF141416),
-    surface: Color(0xFF1C1C1F),
-    grey50: Color(0xFF1F1F23),
-    grey100: Color(0xFF26262B),
-    grey200: Color(0xFF2E2E34),
-    grey300: Color(0xFF3A3A41),
-    grey400: Color(0xFF5A5A63),
-    grey500: Color(0xFF8A8A94),
-    grey600: Color(0xFFB4B4BD),
-    grey700: Color(0xFFD4D4D8),
-    grey800: Color(0xFFE4E4E7),
-    grey900: Color(0xFFF4F4F5),
-    red: Color(0xFFEE4A63),
-    redDeep: Color(0xFFFF8396),
-    redSoft: Color(0x33EE4A63),
-    accentFill: Color(0xFFC8102E),
-    accentHover: Color(0xFF9E0C24),
+    white: Color(0xFF0C1030),
+    surface: Color(0xFF141945),
+    grey50: Color(0xFF171C4C),
+    grey100: Color(0xFF1D2358),
+    grey200: Color(0xFF272E69),
+    grey300: Color(0xFF343C7E),
+    grey400: Color(0xFF5B64A8),
+    grey500: Color(0xFF8D95CC),
+    grey600: Color(0xFFB5BBE6),
+    grey700: Color(0xFFD2D6F2),
+    grey800: Color(0xFFE4E7F8),
+    grey900: Color(0xFFF3F4FD),
+    red: Color(0xFF9DB0FF),
+    redDeep: Color(0xFFC3CEFF),
+    redSoft: Color(0x339DB0FF),
+    accentFill: Color(0xFF3347C4),
+    accentHover: Color(0xFF2536A0),
     onAccent: Color(0xFFFFFFFF),
     success: Color(0xFF4CC38A),
-    glassFill: Color(0x9E1C1C1F),
-    glassFillStrong: Color(0xD11C1C1F),
+    purple: Color(0xFFB795F5),
+    purpleSoft: Color(0x33B795F5),
+    yellow: Color(0xFFFFD95A),
+    yellowSoft: Color(0x33FFD95A),
+    onYellow: Color(0xFF141836),
+    danger: Color(0xFFFF7A8A),
+    glassFill: Color(0x9E141945),
+    glassFillStrong: Color(0xD1141945),
     glassBorder: Color(0x1AFFFFFF),
     glassHighlight: Color(0x1FFFFFFF),
     glassHighlightStrong: Color(0x29FFFFFF),
     shadowTint: Color(0x73000000),
-    inverseSurface: Color(0xFF0E0E10),
-    onInverse: Color(0xFFFCFCFC),
-    inverseMuted: Color(0xFFD4D4D8),
-    inverseFaint: Color(0xFFA1A1AA),
-    inverseLine: Color(0xFF3F3F46),
-    inverseOutline: Color(0xFF71717A),
+    inverseSurface: Color(0xFF070A24),
+    onInverse: Color(0xFFFAFBFF),
+    inverseMuted: Color(0xFFCDD1EA),
+    inverseFaint: Color(0xFF9AA0C8),
+    inverseLine: Color(0xFF2E3566),
+    inverseOutline: Color(0xFF5A6199),
   );
 }
 
-/// Brand palette: white / grey / red, switchable between light and dark.
-/// Red is the single accent. Grey to red is the "transformation" story,
-/// so the grey->red gradient is reserved for moments of change.
+/// Brand palette from the project brief: Deep Blue, Soft Yellow and Purple,
+/// switchable between light and dark. Deep blue is the primary accent (the
+/// token is still called `red` from the first design; read it as "accent").
+/// Purple marks labels and the second end of the "transformation" gradient;
+/// soft yellow is for highlights and badges; `error` is a true red.
 ///
 /// Every token is a getter on the active [AppPalette]; call
 /// [AppColors.apply] before building (app.dart does) and rebuild the tree.
@@ -177,12 +198,19 @@ abstract final class AppColors {
   static Color get accentHover => _p.accentHover;
   static Color get onAccent => _p.onAccent;
 
+  // Secondary and highlight colours from the brief: purple and soft yellow.
+  static Color get purple => _p.purple;
+  static Color get purpleSoft => _p.purpleSoft;
+  static Color get yellow => _p.yellow;
+  static Color get yellowSoft => _p.yellowSoft;
+  static Color get onYellow => _p.onYellow;
+
   // Semantic
   static Color get ink => _p.grey900;
   static Color get inkMuted => _p.grey600; // 7.4:1 on white, AA for body
   static Color get line => _p.grey200;
   static Color get success => _p.success;
-  static Color get error => _p.redDeep;
+  static Color get error => _p.danger;
 
   // Glass
   static Color get glassFill => _p.glassFill;
@@ -200,11 +228,11 @@ abstract final class AppColors {
   static Color get inverseLine => _p.inverseLine;
   static Color get inverseOutline => _p.inverseOutline;
 
-  /// Grey -> red: used only at moments of change. Same in both modes, white
-  /// text sits on it.
+  /// Deep blue -> purple: used only at moments of change. Same in both
+  /// modes, white text sits on it.
   static LinearGradient get transformation => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [_p.inverseLine, _p.accentFill],
+    colors: [_p.accentFill, const Color(0xFF6A3DB8)],
   );
 }

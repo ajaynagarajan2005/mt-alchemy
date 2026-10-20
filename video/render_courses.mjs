@@ -4,12 +4,13 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const only = process.argv[2];
+const only = process.argv[2] && process.argv[2] !== '-' ? process.argv[2] : undefined;
+const kinds = process.argv[3] ? [process.argv[3]] : ['intro', 'recap'];
 const courses = JSON.parse(readFileSync(new URL('./courses.json', import.meta.url), 'utf8'));
 mkdirSync(new URL('../assets/videos/courses/', import.meta.url), { recursive: true });
 for (const c of courses) {
   if (only && c.id !== only) continue;
-  for (const kind of ['intro', 'recap']) {
+  for (const kind of kinds) {
     const out = new URL(`../assets/videos/courses/${c.id}-${kind}.mp4`, import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
     const props = new URL(`./.props-${c.id}-${kind}.json`, import.meta.url);
     writeFileSync(props, JSON.stringify({ kind, title: c.title, trainer: c.trainer, level: c.level, area: c.area, outcomes: c.outcomes, phases: c.phases }));

@@ -144,6 +144,13 @@ async function main() {
   check('moves an enquiry to proposal', (await call('PATCH', `enquiries/verify-${stamp}?updateMask.fieldPaths=status`, admin.token, { fields: { status: enc('proposal') } })).status === 200);
   check('reads all orders', (await get('orders', admin.token)).status === 200);
 
+  // Assistant questions are private to their owner.
+  const callum2 = await signIn('callum@northlight.example.com');
+  check('saves an assistant question', (await set(`chatMessages/verify-${stamp}`, amara.token, { userId: amara.uid, text: 'How am I doing?', intent: 'progress', createdAt: new Date() })).status === 200);
+  check('cannot read someone else question', (await get(`chatMessages/verify-${stamp}`, callum2.token)).status === 403);
+  check('cannot save a question as someone else', (await set(`chatMessages/verify-x-${stamp}`, callum2.token, { userId: amara.uid, text: 'hi', intent: 'greeting', createdAt: new Date() })).status === 403);
+  check('deletes own question', (await del(`chatMessages/verify-${stamp}`, amara.token)).status === 200);
+
   // Tidy up the records this script created.
   await del(`enquiries/verify-${stamp}`, admin.token);
   await del(`enrolments/${amara.uid}_team-trust-reset`, admin.token);

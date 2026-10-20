@@ -255,11 +255,11 @@ class TourQrSection extends StatelessWidget {
                 backgroundColor: Colors.white,
                 eyeStyle: const QrEyeStyle(
                   eyeShape: QrEyeShape.square,
-                  color: Color(0xFFC8102E),
+                  color: Color(0xFF1B2A78),
                 ),
                 dataModuleStyle: const QrDataModuleStyle(
                   dataModuleShape: QrDataModuleShape.square,
-                  color: Color(0xFF18181B),
+                  color: Color(0xFF141836),
                 ),
                 semanticsLabel:
                     'QR code that opens the MT Alchemy virtual tour',
@@ -267,7 +267,7 @@ class TourQrSection extends StatelessWidget {
               const SizedBox(height: Space.sm),
               Text(
                 'Scan with your phone camera',
-                style: AppText.small.copyWith(color: const Color(0xFF52525B)),
+                style: AppText.small.copyWith(color: const Color(0xFF4A4F73)),
               ),
             ],
           ),

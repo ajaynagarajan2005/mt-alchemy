@@ -11,6 +11,7 @@ import 'state/admin_store.dart';
 import 'state/auth_store.dart';
 import 'state/cart_store.dart';
 import 'state/catalog_store.dart';
+import 'state/chat_store.dart';
 import 'state/commerce_store.dart';
 import 'state/learning_store.dart';
 import 'state/notification_store.dart';
@@ -61,6 +62,9 @@ class AppProviders extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (c) => AdminStore(backend, c.read<AuthStore>()),
+        ),
+        ChangeNotifierProvider(
+          create: (c) => ChatStore(backend, c.read<AuthStore>()),
         ),
         ChangeNotifierProvider(create: (_) => ThemeController()),
       ],

@@ -7,12 +7,12 @@ export const COURSE_FRAMES = 300;
 const {fontFamily: serif} = loadFraunces();
 const {fontFamily: sans} = loadManrope();
 
-const RED = '#C8102E';
-const DEEP = '#9E0C24';
-const INK = '#18181B';
-const MUTED = '#52525B';
-const ASH = '#F4F4F5';
-const SOFT = '#FBE7EA';
+const RED = '#1B2A78';
+const DEEP = '#111C55';
+const INK = '#141836';
+const MUTED = '#4A4F73';
+const ASH = '#EEF0F8';
+const SOFT = '#E8EBFA';
 
 export type CourseExplainerProps = {
   kind: 'intro' | 'recap';
@@ -52,7 +52,7 @@ const Crystal: React.FC<{x: number; y: number; s: number; f: number}> = ({x, y, 
   <svg style={{position: 'absolute', left: x, top: y + Math.sin(f / 18) * 8, width: 150 * s, height: 190 * s}} viewBox="-80 -140 160 240">
     <defs>
       <linearGradient id="cx" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stopColor="#F08A9B" />
+        <stop offset="0" stopColor="#8F7AE0" />
         <stop offset="1" stopColor={RED} />
       </linearGradient>
     </defs>
@@ -64,7 +64,7 @@ const Crystal: React.FC<{x: number; y: number; s: number; f: number}> = ({x, y, 
 );
 
 const Background: React.FC<{f: number}> = ({f}) => (
-  <AbsoluteFill style={{background: '#FCFCFC'}}>
+  <AbsoluteFill style={{background: '#FAFBFF'}}>
     <div style={{position: 'absolute', width: 760, height: 760, borderRadius: '50%', left: -200 + Math.sin(f / 60) * 20, top: -260, background: `radial-gradient(circle, ${SOFT} 0%, #fff0 70%)`}} />
     <div style={{position: 'absolute', width: 640, height: 640, borderRadius: '50%', right: -180, bottom: -240 + Math.cos(f / 70) * 20, background: `radial-gradient(circle, ${ASH} 0%, #fff0 70%)`}} />
     <div style={{position: 'absolute', left: 0, top: 0, height: 8, width: `${(f / COURSE_FRAMES) * 100}%`, background: RED}} />
@@ -101,7 +101,7 @@ const Intro: React.FC<{p: CourseExplainerProps; f: number}> = ({p, f}) => (
       <div style={{fontFamily: serif, fontSize: 52, color: INK, marginTop: 20}}>Three phases, one step at a time</div>
       <div style={{display: 'flex', gap: 28, marginTop: 44}}>
         {p.phases.map((ph, i) => (
-          <div key={i} style={{flex: 1, background: '#fff', border: `2px solid ${i === 0 ? RED : '#E4E4E7'}`, borderRadius: 24, padding: '30px 28px', ...show(f, 224 + i * 14)}}>
+          <div key={i} style={{flex: 1, background: '#fff', border: `2px solid ${i === 0 ? RED : '#DFE2F0'}`, borderRadius: 24, padding: '30px 28px', ...show(f, 224 + i * 14)}}>
             <div style={{fontFamily: sans, fontWeight: 800, fontSize: 20, color: RED, letterSpacing: 3}}>PHASE {i + 1}</div>
             <div style={{fontFamily: serif, fontSize: 38, color: INK, marginTop: 10}}>{ph.name}</div>
             <div style={{fontFamily: sans, fontSize: 24, color: MUTED, marginTop: 10}}>{ph.count} lessons</div>

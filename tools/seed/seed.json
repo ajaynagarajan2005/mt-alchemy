@@ -90,6 +90,16 @@
           "phase": "Phase 2: Core skills"
         },
         {
+          "id": "ei-foundations-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Maya Thompson walks through the main ideas of Emotional Intelligence Foundations, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/ei-foundations-lecture.mp4",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
           "id": "ei-foundations-workbook",
           "title": "Workbook: practise it on paper",
           "minutes": 15,
@@ -324,6 +334,16 @@
           "body": "A simple structure for weekly one-to-ones that puts the other person first and surfaces problems early.",
           "type": "text",
           "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "first-time-manager-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Daniel Okafor walks through the main ideas of The First-Time Manager, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/first-time-manager-lecture.mp4",
           "quiz": [],
           "phase": "Phase 2: Core skills"
         },
@@ -566,6 +586,16 @@
           "phase": "Phase 2: Core skills"
         },
         {
+          "id": "leading-through-change-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Maya Thompson walks through the main ideas of Leading Through Change, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/leading-through-change-lecture.mp4",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
           "id": "leading-through-change-workbook",
           "title": "Workbook: practise it on paper",
           "minutes": 15,
@@ -790,6 +820,16 @@
           "body": "A one-page agreement on how the team makes decisions, communicates and handles disagreement.",
           "type": "text",
           "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "team-trust-reset-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Daniel Okafor walks through the main ideas of Team Trust Reset, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/team-trust-reset-lecture.mp4",
           "quiz": [],
           "phase": "Phase 2: Core skills"
         },
@@ -1022,6 +1062,16 @@
           "phase": "Phase 2: Core skills"
         },
         {
+          "id": "sustainable-performance-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Grace Whitfield walks through the main ideas of Sustainable Performance, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/sustainable-performance-lecture.mp4",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
           "id": "sustainable-performance-workbook",
           "title": "Workbook: practise it on paper",
           "minutes": 15,
@@ -1246,6 +1296,16 @@
           "body": "Most people want to be heard before they want advice. Practise reflective listening.",
           "type": "text",
           "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "manager-wellbeing-conversations-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Grace Whitfield walks through the main ideas of Well-being Conversations for Managers, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/manager-wellbeing-conversations-lecture.mp4",
           "quiz": [],
           "phase": "Phase 2: Core skills"
         },
@@ -1478,6 +1538,26 @@
           "phase": "Phase 2: Core skills"
         },
         {
+          "id": "ei-in-practice-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Maya Thompson walks through the main ideas of Emotional Intelligence in Practice, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/ei-in-practice-lecture.mp4",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "ei-in-practice-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/ei-in-practice-workbook.pdf",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
           "id": "eip-3",
           "title": "Working through conflict",
           "minutes": 20,
@@ -1692,6 +1772,26 @@
           "body": "Routines that keep your judgement clear when the stakes rise, and how to make it safe for others to say they are struggling.",
           "type": "text",
           "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "emotionally-intelligent-leader-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Maya Thompson walks through the main ideas of The Emotionally Intelligent Leader, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/emotionally-intelligent-leader-lecture.mp4",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "emotionally-intelligent-leader-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/emotionally-intelligent-leader-workbook.pdf",
           "quiz": [],
           "phase": "Phase 2: Core skills"
         },
@@ -1914,6 +2014,26 @@
           "phase": "Phase 2: Core skills"
         },
         {
+          "id": "leadership-essentials-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Daniel Okafor walks through the main ideas of Leadership Essentials, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/leadership-essentials-lecture.mp4",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "leadership-essentials-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/leadership-essentials-workbook.pdf",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
           "id": "le-3",
           "title": "Earning trust",
           "minutes": 17,
@@ -2128,6 +2248,26 @@
           "body": "Simple ways any team member can make a meeting better: prepare, contribute, summarise and follow up.",
           "type": "text",
           "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "team-foundations-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Priya Raman walks through the main ideas of Team Foundations, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/team-foundations-lecture.mp4",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "team-foundations-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/team-foundations-workbook.pdf",
           "quiz": [],
           "phase": "Phase 2: Core skills"
         },
@@ -2350,6 +2490,26 @@
           "phase": "Phase 2: Core skills"
         },
         {
+          "id": "high-performing-teams-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Priya Raman walks through the main ideas of Building High-Performing Teams, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/high-performing-teams-lecture.mp4",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "high-performing-teams-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/high-performing-teams-workbook.pdf",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
           "id": "hpt-3",
           "title": "Teams of teams",
           "minutes": 24,
@@ -2564,6 +2724,26 @@
           "body": "Choose a handful of measures, from workload data to pulse surveys, that show whether things are actually improving.",
           "type": "text",
           "mediaUrl": null,
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "wellbeing-strategy-for-leaders-lecture",
+          "title": "Video lecture: the whole course in six minutes",
+          "minutes": 6,
+          "body": "Daniel Okafor walks through the main ideas of Well-being Strategy for Leaders, with the key points on screen. The same notes are in your study guide.",
+          "type": "video",
+          "mediaUrl": "asset:assets/videos/lectures/wellbeing-strategy-for-leaders-lecture.mp4",
+          "quiz": [],
+          "phase": "Phase 2: Core skills"
+        },
+        {
+          "id": "wellbeing-strategy-for-leaders-workbook",
+          "title": "Workbook: practise it on paper",
+          "minutes": 15,
+          "body": "Work through the exercises in the workbook. Save your answers; you will use them in the final phase.",
+          "type": "pdf",
+          "mediaUrl": "/downloads/wellbeing-strategy-for-leaders-workbook.pdf",
           "quiz": [],
           "phase": "Phase 2: Core skills"
         },

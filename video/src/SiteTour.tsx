@@ -12,12 +12,12 @@ import {loadFont as loadManrope} from '@remotion/google-fonts/Manrope';
 const {fontFamily: serif} = loadFraunces();
 const {fontFamily: sans} = loadManrope();
 
-const RED = '#C8102E';
-const DEEP = '#9E0C24';
-const SOFT = '#FBE7EA';
-const INK = '#18181B';
-const ASH = '#E4E4E7';
-const ASH2 = '#F4F4F5';
+const RED = '#1B2A78';
+const DEEP = '#111C55';
+const SOFT = '#E8EBFA';
+const INK = '#141836';
+const ASH = '#DFE2F0';
+const ASH2 = '#EEF0F8';
 const SKIN = ['#F2C9A5', '#C68E65', '#8D5A3B'];
 
 export const SCENES = [
@@ -119,7 +119,7 @@ const Alchy = ({x, y, s = 1, delay = 0, wave = true}: {x: number; y: number; s?:
       <ellipse cx={0} cy={86 - float * 0.4} rx={52 + float * 0.4} ry={9} fill={INK} opacity={0.1} />
       <defs>
         <linearGradient id="alchyBody" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#E0243F" />
+          <stop offset="0" stopColor="#3347C4" />
           <stop offset="1" stopColor={DEEP} />
         </linearGradient>
       </defs>
@@ -209,7 +209,7 @@ const Sparkles = ({x, y, delay = 0}: {x: number; y: number; delay?: number}) => 
         const t = (frame - delay + i * 7) % 42;
         const a = (i / 6) * Math.PI * 2;
         const r = interpolate(t, [0, 42], [10, 90], clamp);
-        return <circle key={i} cx={Math.cos(a) * r} cy={Math.sin(a) * r} r={interpolate(t, [0, 42], [7, 0], clamp)} fill={i % 2 ? RED : '#F5B3BE'} />;
+        return <circle key={i} cx={Math.cos(a) * r} cy={Math.sin(a) * r} r={interpolate(t, [0, 42], [7, 0], clamp)} fill={i % 2 ? RED : '#C9D0F5'} />;
       })}
     </g>
   );
@@ -246,7 +246,7 @@ const Caption = ({lines, tag, delay = 14}: {lines: string[]; tag: string; delay?
       </div>
       <div style={{position: 'absolute', left: 64, right: 64, bottom: 36, opacity: i, transform: `translateY(${(1 - i) * 24}px)`, background: 'rgba(255,255,255,0.94)', border: `2px solid ${ASH}`, borderRadius: 28, padding: '20px 34px', boxShadow: '0 20px 50px rgba(24,24,27,0.12)'}}>
         {lines.map((l, k) => (
-          <div key={k} style={{fontFamily: k === 0 ? serif : sans, fontSize: k === 0 ? 40 : 26, fontWeight: k === 0 ? 500 : 600, color: k === 0 ? INK : '#52525B', lineHeight: 1.3}}>
+          <div key={k} style={{fontFamily: k === 0 ? serif : sans, fontSize: k === 0 ? 40 : 26, fontWeight: k === 0 ? 500 : 600, color: k === 0 ? INK : '#4A4F73', lineHeight: 1.3}}>
             {l}
           </div>
         ))}
@@ -290,7 +290,7 @@ const Intro = () => {
           Welcome to <span style={{color: RED}}>MT</span> Alchemy
         </div>
       </div>
-      <div style={{position: 'absolute', left: 0, right: 0, bottom: 44, textAlign: 'center', opacity: interpolate(frame, [50, 68], [0, 1], clamp), fontFamily: sans, fontWeight: 600, fontSize: 30, color: '#52525B'}}>
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 44, textAlign: 'center', opacity: interpolate(frame, [50, 68], [0, 1], clamp), fontFamily: sans, fontWeight: 600, fontSize: 30, color: '#4A4F73'}}>
         Hi! I am Alchy. Let me show you around.
       </div>
     </AbsoluteFill>
@@ -378,12 +378,12 @@ const Teams = () => {
   const bars = [0.45, 0.7, 0.55, 0.9];
   return (
     <Scene tag="3 · Teams" lines={['Grow your whole team', 'Employers buy seats, assign courses and watch progress live in simple charts.']}>
-      <Person x={230} y={492} s={0.95} delay={6} skin={SKIN[0]} top={INK} pants="#3F3F46" glasses look={1} />
+      <Person x={230} y={492} s={0.95} delay={6} skin={SKIN[0]} top={INK} pants="#353A5C" glasses look={1} />
       <Card x={640} y={270} w={360} h={250} delay={16}>
         <text x={-150} y={-84} fontFamily={sans} fontWeight={800} fontSize={22} fill={INK}>Team progress</text>
         {bars.map((v, i) => {
           const h = interpolate(frame, [40 + i * 14, 80 + i * 14], [0, v * 130], {...clamp, easing: easeOut});
-          return <rect key={i} x={-130 + i * 70} y={90 - h} width={44} height={h} rx={10} fill={i === 3 ? RED : '#F5B3BE'} />;
+          return <rect key={i} x={-130 + i * 70} y={90 - h} width={44} height={h} rx={10} fill={i === 3 ? RED : '#C9D0F5'} />;
         })}
         <rect x={-146} y={92} width={292} height={4} rx={2} fill={ASH} />
       </Card>
@@ -396,7 +396,7 @@ const Teams = () => {
             <circle r={50} fill="none" stroke={ASH} strokeWidth={8} />
             <circle r={50} fill="none" stroke={RED} strokeWidth={8} strokeLinecap="round" strokeDasharray={`${pct * 314} 314`} transform="rotate(-90)" />
             <circle cy={-6} r={16} fill={SKIN[i % 3]} />
-            <path d="M -24 30 Q 0 -4 24 30 Z" fill={[RED, INK, DEEP, '#3F3F46'][i]} />
+            <path d="M -24 30 Q 0 -4 24 30 Z" fill={[RED, INK, DEEP, '#353A5C'][i]} />
           </g>
         );
       })}
@@ -427,7 +427,7 @@ const Experts = () => {
       </Card>
       <Card x={800} y={250} w={190} h={150} delay={30} rot={6}>
         <text x={-70} y={-24} fontFamily={serif} fontSize={44} fill={RED}>128</text>
-        <text x={-70} y={10} fontFamily={sans} fontWeight={700} fontSize={20} fill="#52525B">students</text>
+        <text x={-70} y={10} fontFamily={sans} fontWeight={700} fontSize={20} fill="#4A4F73">students</text>
         <Bar x={-70} y={34} w={140} value={interpolate(frame, [60, 120], [0.1, 0.85], clamp)} />
       </Card>
       <Alchy x={160} y={470} s={0.62} delay={22} wave={false} />
@@ -483,7 +483,7 @@ const Outro = () => {
       </svg>
       <div style={{position: 'absolute', left: 0, right: 0, top: 54, textAlign: 'center', opacity: t}}>
         <div style={{fontFamily: serif, fontSize: 62, color: INK}}>Ready to <span style={{color: RED}}>shift</span> mindsets?</div>
-        <div style={{fontFamily: sans, fontWeight: 700, fontSize: 28, color: '#52525B', marginTop: 10}}>Create a free account and start your journey.</div>
+        <div style={{fontFamily: sans, fontWeight: 700, fontSize: 28, color: '#4A4F73', marginTop: 10}}>Create a free account and start your journey.</div>
       </div>
     </AbsoluteFill>
   );

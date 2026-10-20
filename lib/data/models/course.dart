@@ -128,6 +128,16 @@ class CourseModule {
   );
 }
 
+/// A downloadable PDF that goes with a course.
+class StudyMaterial {
+  const StudyMaterial(this.title, this.description, this.path);
+  final String title;
+  final String description;
+
+  /// Site path such as `/downloads/ei-foundations-workbook.pdf`.
+  final String path;
+}
+
 /// A run of lessons that share a phase name, in course order.
 class CoursePhase {
   const CoursePhase(this.name, this.modules);
@@ -187,6 +197,26 @@ class Course {
     }
     return out;
   }
+
+  /// Study guide, workbook and quick reference. The PDFs are named after the
+  /// course id and built by `tools/make_pdfs.py`.
+  List<StudyMaterial> get materials => [
+    StudyMaterial(
+      'Study guide',
+      'The lecture as notes, with a glossary. Read it before the quizzes.',
+      '/downloads/$id-study-guide.pdf',
+    ),
+    StudyMaterial(
+      'Workbook',
+      'Reflection questions, an exercise and a seven-day action plan.',
+      '/downloads/$id-workbook.pdf',
+    ),
+    StudyMaterial(
+      'Quick reference',
+      'The key ideas and words on one page to keep nearby.',
+      '/downloads/$id-quick-reference.pdf',
+    ),
+  ];
 
   int get totalMinutes => modules.fold(0, (sum, m) => sum + m.minutes);
 

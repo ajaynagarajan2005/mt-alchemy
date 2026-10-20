@@ -112,7 +112,8 @@ class NotificationBell extends StatelessWidget {
             controller.isOpen ? controller.close() : controller.open(),
         icon: Badge(
           isLabelVisible: store.unread > 0,
-          backgroundColor: AppColors.red,
+          backgroundColor: AppColors.yellow,
+          textColor: AppColors.onYellow,
           label: Text('${store.unread}'),
           child: AppIcon(
             HugeIcons.strokeRoundedNotification01,

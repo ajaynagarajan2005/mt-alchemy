@@ -1,0 +1,6 @@
+.venv/
+chroma/
+.models/
+__pycache__/
+pip.log
+*.log

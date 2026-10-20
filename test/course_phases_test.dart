@@ -5,13 +5,13 @@ import 'package:mt_alchemy/data/review_writer.dart';
 
 void main() {
   group('seed courses', () {
-    test('every course has three phases, videos and three quizzes', () {
+    test('every course has three phases, three videos and three quizzes', () {
       for (final c in courses) {
         expect(c.phases.length, 3, reason: c.id);
         expect(c.modules.length, greaterThanOrEqualTo(9), reason: c.id);
         expect(
           c.modules.where((m) => m.type == LessonType.video).length,
-          2,
+          3,
           reason: c.id,
         );
         expect(

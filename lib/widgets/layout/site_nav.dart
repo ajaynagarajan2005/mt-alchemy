@@ -16,14 +16,20 @@ import '../../theme/typography.dart';
 import '../common/alchemy_button.dart';
 import '../common/app_icon.dart';
 import '../common/tappable.dart';
+import '../common/text_size_button.dart';
 import '../common/theme_toggle.dart';
+import 'nav_strip.dart';
 
 /// Frosted-glass top bar. Wraps a real Material [AppBar] (rubric: AppBar on main screens).
 class SiteNav extends StatelessWidget implements PreferredSizeWidget {
-  const SiteNav({super.key});
+  const SiteNav({super.key, this.showStrip = false});
+
+  /// Below 1024px the links sit in a scrolling row under the bar.
+  final bool showStrip;
 
   @override
-  Size get preferredSize => const Size.fromHeight(Space.navHeight);
+  Size get preferredSize =>
+      Size.fromHeight(Space.navHeight + (showStrip ? Space.navStrip : 0));
 
   @override
   Widget build(BuildContext context) {
@@ -39,34 +45,69 @@ class SiteNav extends StatelessWidget implements PreferredSizeWidget {
             color: AppColors.glassFill,
             border: Border(bottom: BorderSide(color: AppColors.glassBorder)),
           ),
-          // APPBAR: the site-wide app bar; actions collapse into a drawer below 1024px.
-          child: AppBar(
-            toolbarHeight: Space.navHeight,
-            automaticallyImplyLeading: false,
-            titleSpacing: gutter,
-            title: _Wordmark(onTap: () => context.go(Routes.home)),
-            actions: [
-              if (expanded)
-                for (final link in primaryNav)
-                  _NavItem(link: link, active: location.startsWith(link.path)),
-              const SizedBox(width: Space.xs),
-              const ThemeToggleButton(),
-              const _CartButton(),
-              if (expanded) ...[
-                const SizedBox(width: Space.xs),
-                const _AccountButton(),
-              ] else
-                Builder(
-                  builder: (context) => IconButton(
-                    tooltip: 'Menu',
-                    icon: const AppIcon(
-                      HugeIcons.strokeRoundedMenu01,
-                      size: 26,
-                    ),
-                    onPressed: () => Scaffold.of(context).openEndDrawer(),
-                  ),
+          // APPBAR: the site-wide app bar. Below 1024px every link stays
+          // visible in a scrolling strip under it instead of a hidden menu.
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppBar(
+                toolbarHeight: Space.navHeight,
+                automaticallyImplyLeading: false,
+                backgroundColor: Colors.transparent,
+                titleSpacing: gutter,
+                title: Row(
+                  children: [
+                    const PageBackButton(),
+                    _Wordmark(onTap: () => context.go(Routes.home)),
+                  ],
                 ),
-              SizedBox(width: gutter - Space.xs),
+                actions: [
+                  if (expanded)
+                    for (final link in primaryNav)
+                      _NavItem(
+                        link: link,
+                        active: location.startsWith(link.path),
+                      ),
+                  const SizedBox(width: Space.xs),
+                  const TextSizeButton(),
+                  const ThemeToggleButton(),
+                  const _CartButton(),
+                  if (expanded) ...[
+                    const SizedBox(width: Space.xs),
+                    const _AccountButton(),
+                  ],
+                  SizedBox(width: gutter - Space.xs),
+                ],
+              ),
+              if (showStrip)
+                Builder(
+                  builder: (context) {
+                    final signedIn = context.watch<AuthStore>().isSignedIn;
+                    return NavStrip(
+                      items: [
+                        StripItem(
+                          'Home',
+                          Routes.home,
+                          active: location == Routes.home,
+                        ),
+                        for (final l in primaryNav)
+                          StripItem(
+                            l.label,
+                            l.path,
+                            active: location.startsWith(l.path),
+                          ),
+                        StripItem(
+                          signedIn ? 'My portal' : 'Sign in',
+                          signedIn ? Routes.portal : Routes.login,
+                          icon: HugeIcons.strokeRoundedUserAccount,
+                          active: location == Routes.login,
+                        ),
+                      ],
+                      onTap: (context, item) =>
+                          HomeSections.navigate(context, item.path),
+                    );
+                  },
+                ),
             ],
           ),
         ),
@@ -145,7 +186,8 @@ class _CartButton extends StatelessWidget {
       onPressed: () => context.go(Routes.cart),
       icon: Badge(
         isLabelVisible: count > 0,
-        backgroundColor: AppColors.red,
+        backgroundColor: AppColors.yellow,
+        textColor: AppColors.onYellow,
         label: Text('$count'),
         child: AppIcon(
           HugeIcons.strokeRoundedShoppingBag01,

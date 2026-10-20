@@ -1,4 +1,7 @@
 import 'package:go_router/go_router.dart';
+
+import '../../widgets/common/search_field.dart';
+
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -47,16 +50,16 @@ class StoreScreen extends StatefulWidget {
 
 class _StoreScreenState extends State<StoreScreen> {
   ProductCategory? _category;
+  String _query = '';
 
   @override
   Widget build(BuildContext context) {
-    final shown = _category == null
-        ? context.watch<CatalogStore>().products
-        : context
-              .watch<CatalogStore>()
-              .products
-              .where((p) => p.category == _category)
-              .toList();
+    final shown = [
+      for (final p in context.watch<CatalogStore>().products)
+        if ((_category == null || p.category == _category) &&
+            matchesQuery(_query, [p.name, p.summary, p.description]))
+          p,
+    ];
 
     // Columns: 1 on compact, 2 on medium, 3 on expanded.
     final columns = switch (context.screenSize) {
@@ -86,6 +89,11 @@ class _StoreScreenState extends State<StoreScreen> {
             ),
           ),
           const SizedBox(height: Space.xl),
+          SearchField(
+            hint: 'Search the store',
+            onChanged: (v) => setState(() => _query = v),
+          ),
+          const SizedBox(height: Space.md),
           // CONTAINER (grouping): keeps the filter chips together as one row.
           Container(
             alignment: Alignment.centerLeft,
@@ -108,6 +116,14 @@ class _StoreScreenState extends State<StoreScreen> {
             ),
           ),
           const SizedBox(height: Space.xl),
+          if (shown.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: Space.xl),
+              child: Text(
+                'Nothing in the store matches that search. Try fewer words.',
+                style: AppText.bodyMuted,
+              ),
+            ),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

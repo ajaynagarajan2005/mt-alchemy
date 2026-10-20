@@ -25,6 +25,9 @@ abstract final class Space {
 
   static const double navHeight = 72;
 
+  /// Second row of links under the app bar below 1024px.
+  static const double navStrip = 52;
+
   /// Horizontal inner padding of text fields. Helper and error text are
   /// shifted back by this amount so they align with the label.
   static const double fieldInset = 16;

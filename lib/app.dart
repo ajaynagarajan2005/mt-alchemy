@@ -3,6 +3,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 import 'router/app_router.dart';
+import 'widgets/assistant/assistant_launcher.dart';
+import 'router/nav_history.dart';
 import 'state/auth_store.dart';
 import 'state/theme_controller.dart';
 import 'theme/app_theme.dart';
@@ -17,9 +19,11 @@ class MtAlchemyApp extends StatefulWidget {
 
 class _MtAlchemyAppState extends State<MtAlchemyApp> {
   late final GoRouter _router = createRouter(context.read<AuthStore>());
+  late final NavHistory _history = NavHistory(_router);
 
   @override
   void dispose() {
+    _history.dispose();
     _router.dispose();
     super.dispose();
   }
@@ -53,11 +57,30 @@ class _MtAlchemyAppState extends State<MtAlchemyApp> {
       });
     }
     _applied = brightness;
-    return MaterialApp.router(
-      title: 'MT Alchemy',
-      debugShowCheckedModeBanner: false,
-      theme: brightness == Brightness.dark ? AppTheme.dark() : AppTheme.light(),
-      routerConfig: _router,
+    return Provider<NavHistory>.value(
+      value: _history,
+      child: MaterialApp.router(
+        title: 'MT Alchemy',
+        debugShowCheckedModeBanner: false,
+        theme: brightness == Brightness.dark
+            ? AppTheme.dark()
+            : AppTheme.light(),
+        routerConfig: _router,
+        // The reader's saved text size applies to every page.
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: TextScaler.linear(
+              context.watch<ThemeController>().textScale,
+            ),
+          ),
+          child: Stack(
+            children: [
+              child ?? const SizedBox.shrink(),
+              AssistantLauncher(router: _router),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

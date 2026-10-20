@@ -19,6 +19,7 @@ import '../../widgets/common/alchemy_button.dart';
 import '../../widgets/common/app_icon.dart';
 import '../../widgets/common/arrow_link.dart';
 import '../../widgets/common/glass_panel.dart';
+import '../../widgets/common/study_materials_panel.dart';
 import '../../widgets/common/gradient_backdrop.dart';
 import '../../widgets/common/ink_art.dart';
 import '../../widgets/layout/app_shell.dart';
@@ -236,6 +237,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             lesson,
                           ],
                         ),
+                  const SizedBox(height: Space.xl),
+                  StudyMaterialsPanel(course: course),
                 ],
               ),
             ),
