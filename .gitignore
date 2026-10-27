@@ -62,3 +62,7 @@ video/out/
 .firebase/
 firebase-debug.log
 tools/seed/node_modules/
+
+# Local assistant files are not part of the project
+.claude/
+CLAUDE.md
