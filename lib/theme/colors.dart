@@ -92,8 +92,8 @@ class AppPalette {
     accentHover: Color(0xFF111C55),
     onAccent: Color(0xFFFFFFFF),
     success: Color(0xFF1F7A4D),
-    purple: Color(0xFF6A3DB8),
-    purpleSoft: Color(0x1F6A3DB8),
+    purple: Color(0xFF2F5BD8),
+    purpleSoft: Color(0x1F2F5BD8),
     yellow: Color(0xFFFFD95A),
     yellowSoft: Color(0xFFFFF4CC),
     onYellow: Color(0xFF141836),
@@ -135,8 +135,8 @@ class AppPalette {
     accentHover: Color(0xFF2536A0),
     onAccent: Color(0xFFFFFFFF),
     success: Color(0xFF4CC38A),
-    purple: Color(0xFFB795F5),
-    purpleSoft: Color(0x33B795F5),
+    purple: Color(0xFF8FB0FF),
+    purpleSoft: Color(0x338FB0FF),
     yellow: Color(0xFFFFD95A),
     yellowSoft: Color(0x33FFD95A),
     onYellow: Color(0xFF141836),
@@ -156,11 +156,11 @@ class AppPalette {
   );
 }
 
-/// Brand palette from the project brief: Deep Blue, Soft Yellow and Purple,
-/// switchable between light and dark. Deep blue is the primary accent (the
-/// token is still called `red` from the first design; read it as "accent").
-/// Purple marks labels and the second end of the "transformation" gradient;
-/// soft yellow is for highlights and badges; `error` is a true red.
+/// Brand palette: blue, white and yellow, switchable between light and dark.
+/// Deep blue is the primary accent (the token is still called `red` from the
+/// first design; read it as "accent"). `purple` is a bright blue, kept under
+/// its old name: it marks labels and the second end of the "transformation"
+/// gradient. Yellow is for highlights, badges and charts; `error` is a true red.
 ///
 /// Every token is a getter on the active [AppPalette]; call
 /// [AppColors.apply] before building (app.dart does) and rebuild the tree.
@@ -228,11 +228,11 @@ abstract final class AppColors {
   static Color get inverseLine => _p.inverseLine;
   static Color get inverseOutline => _p.inverseOutline;
 
-  /// Deep blue -> purple: used only at moments of change. Same in both
+  /// Deep blue -> bright blue: used only at moments of change. Same in both
   /// modes, white text sits on it.
   static LinearGradient get transformation => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [_p.accentFill, const Color(0xFF6A3DB8)],
+    colors: [_p.accentFill, const Color(0xFF2F5BD8)],
   );
 }

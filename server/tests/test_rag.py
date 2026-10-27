@@ -81,3 +81,39 @@ def test_a_guest_never_sees_personal_records(emb, tmp_path):
     r = rag.Rag(emb=emb, use_env_llm=False)
     out = r.ask("order SECRET1 payment", uid=None)
     assert all(src["kind"] != "record" for src in out["sources"])
+
+
+def _ingest(emb, tmp_path):
+    k, s = tmp_path / "k.json", tmp_path / "s.json"
+    k.write_text(json.dumps(KNOWLEDGE))
+    s.write_text(json.dumps({"courses": COURSES}))
+    rag.ingest_courses(k, s, emb)
+
+
+def test_a_model_writes_the_answer_when_there_is_one(emb, tmp_path):
+    from langchain_core.language_models.fake_chat_models import FakeListChatModel
+
+    _ingest(emb, tmp_path)
+    out = rag.Rag(emb=emb, llm=FakeListChatModel(responses=["Breathe, then name the feeling."])).ask("breathe name feeling")
+    assert out["answer"] == "Breathe, then name the feeling."
+    assert out["mode"] == "llm" and out["sources"]
+
+
+def test_falls_back_to_the_passages_when_the_model_fails(emb, tmp_path):
+    from langchain_core.language_models.fake_chat_models import FakeListChatModel
+
+    class Broken(FakeListChatModel):
+        def _call(self, *a, **k):
+            raise RuntimeError("model is down")
+
+    _ingest(emb, tmp_path)
+    out = rag.Rag(emb=emb, llm=Broken(responses=["x"])).ask("breathe name feeling")
+    assert out["mode"] == "extractive" and out["answer"] and out["sources"]
+
+
+def test_ollama_is_not_used_when_it_is_off_or_unreachable(monkeypatch):
+    monkeypatch.setattr(config, "OLLAMA_URL", "http://127.0.0.1:9")  # nothing listens here
+    monkeypatch.setattr(rag, "_ollama_cache", (0.0, False))
+    assert rag.ollama_ready() is False
+    monkeypatch.setattr(config, "USE_OLLAMA", "off")
+    assert rag.ollama_ready() is False

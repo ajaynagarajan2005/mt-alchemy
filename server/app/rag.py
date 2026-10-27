@@ -14,9 +14,11 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import time
 from functools import lru_cache
 from typing import Any
 
+import httpx
 from langchain_chroma import Chroma
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_core.documents import Document
@@ -189,12 +191,42 @@ PROMPT = ChatPromptTemplate.from_messages(
 )
 
 
-def _llm():
-    if not config.ANTHROPIC_API_KEY:
-        return None
-    from langchain_anthropic import ChatAnthropic
+_ollama_cache: tuple[float, bool] = (0.0, False)
 
-    return ChatAnthropic(model=config.ANTHROPIC_MODEL, api_key=config.ANTHROPIC_API_KEY, temperature=0.2, max_tokens=400)
+
+def ollama_ready() -> bool:
+    """True when an Ollama server is running and has the configured model.
+    The answer is cached for 20 seconds so each question does not probe it."""
+    global _ollama_cache
+    if config.USE_OLLAMA == "off":
+        return False
+    now = time.time()
+    if now - _ollama_cache[0] < 20:
+        return _ollama_cache[1]
+    ok = False
+    try:
+        r = httpx.get(f"{config.OLLAMA_URL}/api/tags", timeout=1.5)
+        names = [m.get("name", "") for m in r.json().get("models", [])]
+        want = config.OLLAMA_MODEL
+        ok = any(n == want or n.split(":")[0] == want.split(":")[0] and ":" not in want for n in names)
+    except Exception:
+        ok = False
+    _ollama_cache = (now, ok)
+    return ok
+
+
+def _llm():
+    """The model that writes answers: Ollama if it is running, else Claude if
+    a key is set, else None (answers are taken from the passages)."""
+    if ollama_ready():
+        from langchain_ollama import ChatOllama
+
+        return ChatOllama(model=config.OLLAMA_MODEL, base_url=config.OLLAMA_URL, temperature=0.2, num_predict=300)
+    if config.ANTHROPIC_API_KEY:
+        from langchain_anthropic import ChatAnthropic
+
+        return ChatAnthropic(model=config.ANTHROPIC_MODEL, api_key=config.ANTHROPIC_API_KEY, temperature=0.2, max_tokens=400)
+    return None
 
 
 def _words(text: str) -> set[str]:
@@ -239,13 +271,28 @@ class Rag:
 
     def __init__(self, emb=None, llm=None, use_env_llm: bool = True):
         self.emb = emb
-        self.llm = llm if llm is not None else (_llm() if use_env_llm else None)
+        self._fixed_llm = llm
+        self._use_env_llm = use_env_llm
         # LangChain Expression Language: retrieve passages, then generate.
         self.chain = RunnableLambda(self._retrieve) | RunnableLambda(self._generate)
 
     @property
+    def llm(self):
+        """Chosen per question, so Ollama can be started or stopped while the
+        service is running."""
+        if self._fixed_llm is not None:
+            return self._fixed_llm
+        return _llm() if self._use_env_llm else None
+
+    @property
     def mode(self) -> str:
-        return "llm" if self.llm else "extractive"
+        if self._fixed_llm is not None:
+            return "llm"
+        if not self._use_env_llm:
+            return "extractive"
+        if ollama_ready():
+            return f"ollama:{config.OLLAMA_MODEL}"
+        return "llm" if config.ANTHROPIC_API_KEY else "extractive"
 
     def _retrieve(self, inp: dict) -> dict:
         q = inp["question"]
@@ -262,13 +309,11 @@ class Rag:
 
     def _generate(self, inp: dict) -> dict:
         hits = inp["hits"]
+        mode = "none"
         if not hits:
             text = "I could not find that in the course material or your records. Try different words, or ask your trainer."
-        elif self.llm:
-            context = "\n\n".join(f"[{d.metadata.get('title')}] {d.page_content}" for d, _ in hits)
-            text = (PROMPT | self.llm | StrOutputParser()).invoke({"question": inp["question"], "context": context})
         else:
-            text = extractive_answer(inp["question"], hits)
+            text, mode = self._write(inp["question"], hits)
         sources = [
             {
                 "kind": d.metadata.get("kind", "course"),
@@ -280,7 +325,21 @@ class Rag:
             }
             for d, s in hits[:3]
         ]
-        return {"answer": text.strip(), "mode": self.mode, "sources": sources}
+        return {"answer": text.strip(), "mode": mode, "sources": sources}
+
+    def _write(self, question: str, hits) -> tuple[str, str]:
+        """Write the answer with the model if there is one; if it fails or is
+        slow, fall back to the passages so the learner still gets an answer."""
+        llm = self.llm
+        if llm is not None:
+            context = "\n\n".join(f"[{d.metadata.get('title')}] {d.page_content}" for d, _ in hits)
+            try:
+                text = (PROMPT | llm | StrOutputParser()).invoke({"question": question, "context": context})
+                if text.strip():
+                    return text, self.mode
+            except Exception:
+                pass
+        return extractive_answer(question, hits), "extractive"
 
     def ask(self, question: str, uid: str | None = None, snapshot: dict | None = None) -> dict:
         if uid and snapshot:

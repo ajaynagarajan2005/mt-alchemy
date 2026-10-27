@@ -358,7 +358,7 @@ class _PaymentView extends StatelessWidget {
                       BarChartRodData(
                         toY: recent[i].amount,
                         width: 22,
-                        color: i.isEven ? AppColors.red : AppColors.purple,
+                        color: i.isEven ? AppColors.red : AppColors.yellow,
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(6),
                         ),
@@ -509,7 +509,7 @@ class _AnswerView extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.grey50,
             borderRadius: Radii.inputAll,
-            border: Border(left: BorderSide(color: AppColors.purple, width: 4)),
+            border: Border(left: BorderSide(color: AppColors.yellow, width: 4)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -586,7 +586,7 @@ class _RagAnswerView extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.grey50,
             borderRadius: Radii.inputAll,
-            border: Border(left: BorderSide(color: AppColors.purple, width: 4)),
+            border: Border(left: BorderSide(color: AppColors.yellow, width: 4)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

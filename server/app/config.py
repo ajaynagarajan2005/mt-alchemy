@@ -10,8 +10,14 @@ CHROMA_DIR = os.getenv("CHROMA_DIR", str(SERVER / "chroma"))
 EMBED_MODEL = os.getenv("EMBED_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
 EMBED_CACHE = os.getenv("EMBED_CACHE", str(SERVER / ".models"))
 
-# Optional: with a key the chain writes its answer with Claude; without one it
-# answers with the best-matching passages from the course material.
+# Answers are written by a local Ollama model when one is running. Install
+# Ollama, run `ollama pull qwen2.5:1.5b`, and the service finds it on its own.
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:1.5b")
+USE_OLLAMA = os.getenv("USE_OLLAMA", "auto")  # auto | off
+
+# Optional second choice: with a key the chain writes its answer with Claude.
+# With neither, the answer is the best-matching passages from the course material.
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-5-5")
 

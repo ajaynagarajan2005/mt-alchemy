@@ -131,8 +131,22 @@ class _AssistantLauncherState extends State<AssistantLauncher> {
     setState(() => _open = false);
   }
 
+  // The launcher is mounted above the page's Navigator, where there is no
+  // Overlay. Tooltips (Close, Send) and text selection need one, so the
+  // launcher brings its own.
+  late final OverlayEntry _entry = OverlayEntry(builder: _content);
+
   @override
   Widget build(BuildContext context) {
+    // The entry is cached by the Overlay, so ask it to rebuild after every
+    // change of this state (open or closed, loading).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _entry.mounted) _entry.markNeedsBuild();
+    });
+    return Positioned.fill(child: Overlay(initialEntries: [_entry]));
+  }
+
+  Widget _content(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final phone = size.width < 600;
     final panelW = phone ? size.width - 16 : 420.0;
@@ -140,8 +154,8 @@ class _AssistantLauncherState extends State<AssistantLauncher> {
         ? size.height - 24
         : (size.height - 120).clamp(360.0, 640.0);
 
-    // Positioned directly in the app-wide Stack, so only the button or panel
-    // takes taps and the page underneath stays usable.
+    // Only the button or the panel takes taps, so the page underneath stays
+    // usable.
     return Positioned(
       right: phone ? 8 : 20,
       bottom: phone ? 12 : 20,
