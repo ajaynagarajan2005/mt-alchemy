@@ -1,5 +1,7 @@
 # MT Alchemy assistant service
 
+Full explanation with an architecture diagram: [`docs/CHATBOT.md`](../docs/CHATBOT.md).
+
 A retrieval-augmented generation (RAG) service for the in-app chat assistant.
 
 | Part | Choice |
@@ -7,7 +9,7 @@ A retrieval-augmented generation (RAG) service for the in-app chat assistant.
 | Framework | LangChain (LCEL chain: retrieve, then generate) |
 | Vector database | Chroma, saved to `server/chroma/` |
 | Embeddings | FastEmbed `sentence-transformers/all-MiniLM-L6-v2`, run locally |
-| Generation | Claude through `langchain-anthropic` when `ANTHROPIC_API_KEY` is set; otherwise the best-matching sentences from the retrieved passages |
+| Generation | A local Ollama model (default `qwen2.5:1.5b`) when Ollama is running; else Claude through `langchain-anthropic` if `ANTHROPIC_API_KEY` is set; else the best-matching sentences from the retrieved passages. The service falls back automatically if a model fails |
 | API | FastAPI: `GET /health`, `POST /chat` |
 | Identity | Firebase ID token, checked with Firebase's own lookup endpoint |
 
@@ -31,7 +33,7 @@ python -m venv .venv
 .venv/Scripts/python -m uvicorn app.main:app --port 8710
 ```
 
-Optional: `ANTHROPIC_API_KEY=...` for model-written answers (`ANTHROPIC_MODEL` to change the model).
+For model-written answers install [Ollama](https://ollama.com) and run `ollama pull qwen2.5:1.5b`; the service finds it on its own (`OLLAMA_MODEL`, `OLLAMA_URL`, `USE_OLLAMA=off` to change or disable). `ANTHROPIC_API_KEY` is an optional second choice.
 Check it with `python try_chat.py` while the service is running, and run the pipeline tests with `python -m pytest tests`.
 
 After changing course content, run `python -m tools.content.export_knowledge` from the repository root, then `python ingest.py` here.
@@ -44,6 +46,6 @@ The GitHub Pages site cannot reach a service on your own computer. To use the as
 
 ## Limits
 
-- Without `ANTHROPIC_API_KEY` answers are extracted sentences, not written prose.
+- Without Ollama or an API key, answers are extracted sentences, not written prose.
 - The learner's snapshot comes from the app. A learner could send false records about themselves, but only ever affects their own answers.
 - Rate limit: 30 questions a minute per person, kept in memory.

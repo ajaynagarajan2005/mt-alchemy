@@ -576,7 +576,12 @@ class _RagAnswerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final a = block.answer;
-    final byModel = a.mode == 'llm';
+    // `ollama:<model>` or `llm` means a language model wrote the answer;
+    // `extractive` means the sentences were taken from the passages.
+    final byModel = a.mode.startsWith('ollama:') || a.mode == 'llm';
+    final modelName = a.mode.startsWith('ollama:')
+        ? '${a.mode.substring(7)} on Ollama'
+        : 'AI';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -593,7 +598,7 @@ class _RagAnswerView extends StatelessWidget {
             children: [
               Text(
                 byModel
-                    ? 'AI answer, grounded in ${a.personalised ? 'your records and ' : ''}the course material'
+                    ? 'Answered by $modelName, grounded in ${a.personalised ? 'your records and ' : ''}the course material'
                     : 'From ${a.personalised ? 'your records and ' : ''}the course material',
                 style: AppText.small.copyWith(color: AppColors.purple),
               ),
