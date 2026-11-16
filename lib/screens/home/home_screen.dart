@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
       underNav: true,
       eager: true,
       // One landing page: each menu item has a section here (see
-      // HomeSections). Menu clicks on this page glide to them.
+      // HomeSections). Menu clicks open the full page.
       children: [
         HomeHero(scroll: _scroll, height: heroHeight),
         KeyedSubtree(
