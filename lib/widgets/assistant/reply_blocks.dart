@@ -70,6 +70,30 @@ class ReplyBlockView extends StatelessWidget {
     RagAnswerBlock b => _RagAnswerView(block: b, actions: actions),
     CertificatesBlock b => _CertificatesView(block: b, actions: actions),
     SuggestionsBlock b => _Chips(questions: b.questions, onTap: actions.ask),
+    LinksBlock b => Wrap(
+      spacing: Space.xs,
+      runSpacing: Space.xs,
+      children: [
+        for (final l in b.links)
+          OutlinedButton.icon(
+            onPressed: () => actions.go(l.path),
+            icon: Icon(
+              Icons.arrow_forward_rounded,
+              size: 18,
+              color: AppColors.red,
+            ),
+            label: Text(
+              l.label,
+              style: AppText.label.copyWith(color: AppColors.red),
+            ),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: AppColors.red.withValues(alpha: 0.4)),
+              shape: const StadiumBorder(),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            ),
+          ),
+      ],
+    ),
     SignInBlock() => Align(
       alignment: Alignment.centerLeft,
       child: FilledButton(

@@ -15,6 +15,9 @@ enum ButtonVariant {
 
   /// Light outline for dark backgrounds (footer, CTA band).
   inverse,
+
+  /// Brand yellow fill with dark label: the main action on dark bands.
+  highlight,
 }
 
 /// Pill button used everywhere. Presses scale to 0.98 for tactile feedback.
@@ -105,6 +108,22 @@ class _AlchemyButtonState extends State<AlchemyButton> {
         side: WidgetStatePropertyAll(
           BorderSide(color: AppColors.inverseOutline),
         ),
+        overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+      ),
+      ButtonVariant.highlight => ButtonStyle(
+        padding: const WidgetStatePropertyAll(padding),
+        shape: const WidgetStatePropertyAll(shape),
+        textStyle: text,
+        elevation: const WidgetStatePropertyAll(0),
+        foregroundColor: WidgetStatePropertyAll(AppColors.onYellow),
+        backgroundColor: WidgetStateProperty.resolveWith((s) {
+          if (s.contains(WidgetState.disabled)) return AppColors.grey300;
+          if (s.contains(WidgetState.hovered) ||
+              s.contains(WidgetState.pressed)) {
+            return const Color(0xFFF5C934);
+          }
+          return AppColors.yellow;
+        }),
         overlayColor: const WidgetStatePropertyAll(Colors.transparent),
       ),
     };

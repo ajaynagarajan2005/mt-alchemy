@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -15,6 +16,7 @@ import 'helpers/fake_backend.dart';
 
 void main() {
   testWidgets('the chat opens, answers a question and closes again', (t) async {
+    final sem = t.ensureSemantics();
     t.view.physicalSize = const Size(1280, 800);
     t.view.devicePixelRatio = 1;
     addTearDown(t.view.reset);
@@ -86,5 +88,15 @@ void main() {
       reason: 'the panel should close',
     );
     expect(find.text('Ask'), findsOneWidget);
+
+    // Escape closes it too.
+    await t.tap(find.text('Ask'));
+    await t.pump(const Duration(milliseconds: 300));
+    expect(find.text('Ask MT Alchemy'), findsOneWidget);
+    await t.sendKeyEvent(LogicalKeyboardKey.escape);
+    await t.pump(const Duration(milliseconds: 300));
+    expect(find.text('Ask MT Alchemy'), findsNothing);
+    expect(t.takeException(), isNull);
+    sem.dispose();
   });
 }

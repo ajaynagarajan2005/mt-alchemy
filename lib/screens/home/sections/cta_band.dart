@@ -44,6 +44,7 @@ class CtaBand extends StatelessWidget {
               children: [
                 AlchemyButton(
                   label: 'Design a programme',
+                  variant: ButtonVariant.highlight,
                   onPressed: () => context.go(Routes.organisations),
                 ),
                 AlchemyButton(

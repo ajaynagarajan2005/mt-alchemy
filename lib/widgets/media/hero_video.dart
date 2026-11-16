@@ -9,9 +9,21 @@ class HeroVideo extends StatelessWidget {
   const HeroVideo({super.key});
 
   @override
-  Widget build(BuildContext context) => const LoopVideo(
-    asset: 'assets/videos/hero_loop.mp4',
-    poster: 'assets/images/hero_poster.jpg',
+  Widget build(BuildContext context) => Stack(
+    fit: StackFit.expand,
+    children: [
+      const LoopVideo(
+        asset: 'assets/videos/hero_loop.mp4',
+        poster: 'assets/images/hero_poster.jpg',
+      ),
+      // The ink loop was rendered with violet tones; a light brand-blue
+      // wash pulls it into the blue, white and yellow palette.
+      IgnorePointer(
+        child: ColoredBox(
+          color: const Color(0xFF2F5BD8).withValues(alpha: 0.18),
+        ),
+      ),
+    ],
   );
 }
 

@@ -12,7 +12,7 @@ The platform has four modules: a corporate website, an LMS, an e-commerce store 
 
 | Layer | Choice |
 |---|---|
-| UI | Flutter 3.47 (web, Android, iOS), Material 3 with a custom red / white / ash glassmorphism theme |
+| UI | Flutter 3.47 (web, Android, iOS), Material 3 with a custom white / blue / yellow glassmorphism theme (light and dark modes) |
 | Navigation | go_router with role-based redirects |
 | State | Provider (`ChangeNotifier` stores in `lib/state/`) |
 | Backend | Firebase Authentication (email and password), Cloud Firestore (asia-southeast1) |

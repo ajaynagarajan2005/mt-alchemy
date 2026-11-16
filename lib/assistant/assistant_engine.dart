@@ -3,7 +3,13 @@ import '../data/models/course.dart';
 import '../data/models/people.dart';
 import '../state/commerce_store.dart';
 import '../state/learning_store.dart';
+import '../data/models/article.dart';
+import '../data/models/product.dart';
+import '../router/routes.dart';
 import 'knowledge.dart';
+import 'site_guide.dart';
+
+export 'site_guide.dart' show SiteLink;
 
 // ---------------------------------------------------------------- blocks
 
@@ -166,6 +172,12 @@ class SignInBlock extends ReplyBlock {
   const SignInBlock();
 }
 
+/// Buttons that open pages of the site.
+class LinksBlock extends ReplyBlock {
+  const LinksBlock(this.links);
+  final List<SiteLink> links;
+}
+
 class AssistantReply {
   const AssistantReply(this.intent, this.blocks);
   final String intent;
@@ -185,6 +197,8 @@ class AssistantContext {
     required this.orders,
     required this.knowledge,
     this.assigned = const [],
+    this.products = const [],
+    this.articles = const [],
   });
 
   final AppUser? user;
@@ -197,6 +211,10 @@ class AssistantContext {
   final List<AssignedCourse> assigned;
   final KnowledgeBase knowledge;
 
+  /// The live store and Insights catalogue, for questions about the site.
+  final List<Product> products;
+  final List<Article> articles;
+
   bool get signedIn => user != null;
 }
 
@@ -204,6 +222,8 @@ class AssistantContext {
 
 enum Intent {
   greeting,
+  thanks,
+  site,
   progress,
   payment,
   recommend,
@@ -217,6 +237,16 @@ const _startQuestions = [
   'How am I doing in my courses?',
   'What have I paid so far?',
   'Which courses can I add?',
+  'Explain the ninety second pause',
+  'What services do you offer?',
+  'How do I contact you?',
+];
+
+/// Shown when a question matches nothing, so the user always has a next step.
+const _fallbackQuestions = [
+  'What services do you offer?',
+  'Which courses can I add?',
+  'How do I contact you?',
   'Explain the ninety second pause',
 ];
 
@@ -232,11 +262,21 @@ class AssistantEngine {
         .map((m) => m.group(0)!)
         .toSet();
     final mentioned = _mentionedCourse(q, ctx.courses);
-    final intent = _intent(q, words, mentioned != null, ctx);
+    final site = matchSiteTopic(q, words);
+    final intent = _intent(q, words, mentioned != null, site?.$2 ?? 0, ctx);
 
     switch (intent) {
       case Intent.greeting:
         return _greeting(ctx);
+      case Intent.thanks:
+        return const AssistantReply('thanks', [
+          TextBlock(
+            'You are welcome. Is there anything else I can help you with?',
+          ),
+          SuggestionsBlock(_fallbackQuestions),
+        ]);
+      case Intent.site:
+        return _site(site!.$1, ctx);
       case Intent.progress:
         return ctx.signedIn
             ? _progress(ctx, mentioned)
@@ -268,10 +308,25 @@ class AssistantEngine {
     'hi',
     'hello',
     'hey',
+    'hiya',
     'help',
     'start',
+    'morning',
+    'afternoon',
+    'evening',
+  };
+  static const _thanksWords = {
     'thanks',
     'thank',
+    'thx',
+    'cheers',
+    'great',
+    'ok',
+    'okay',
+    'bye',
+    'goodbye',
+    'perfect',
+    'awesome',
   };
   static const _progressWords = {
     'progress',
@@ -305,27 +360,41 @@ class AssistantEngine {
     'transaction',
     'transactions',
     'charged',
-    'charge',
-    'card',
+    'spending',
   };
+
+  /// Words that clearly ask for a course to add (score 2 each).
   static const _recommendWords = {
     'add',
     'recommend',
+    'recommendation',
+    'recommendations',
     'suggest',
+    'eligible',
+    'buy',
+    'enrol',
+    'enroll',
+    'purchase',
+  };
+
+  /// Words that lean towards course suggestions (score 1 each).
+  static const _recommendWeakWords = {
     'next',
     'extra',
     'another',
     'more',
     'new',
-    'eligible',
-    'buy',
-    'enrol',
-    'enroll',
     'join',
-    'purchase',
     'available',
     'options',
     'take',
+    'course',
+    'courses',
+    'catalogue',
+    'catalog',
+    'upskilling',
+    'online',
+    'lms',
   };
   static const _priceWords = {
     'price',
@@ -369,20 +438,40 @@ class AssistantEngine {
     String q,
     Set<String> w,
     bool hasCourse,
+    int siteScore,
     AssistantContext ctx,
   ) {
     int score(Set<String> set) => w.where(set.contains).length;
-    if (w.length <= 2 && score(_greetWords) > 0) return Intent.greeting;
-    if (q.contains('what can you do')) return Intent.greeting;
+    if (w.isEmpty) return Intent.greeting;
+    if (w.length <= 4 &&
+        score(_thanksWords) > 0 &&
+        !w.any(_questionWords.contains)) {
+      return Intent.thanks;
+    }
+    if (w.length <= 3 && score(_greetWords) > 0) return Intent.greeting;
+    if (q.contains('what can you do') || q.contains('what can you help')) {
+      return Intent.greeting;
+    }
 
+    final personal =
+        w.contains('my') ||
+        w.contains('i') ||
+        w.contains('me') ||
+        w.contains('am');
     final scores = <Intent, int>{
       Intent.certificate: score(_certWords) * 3,
       Intent.orders: score(_orderWords) * 2,
       Intent.payment: score(_paymentWords) * 2,
       Intent.progress: score(_progressWords) * 2,
       Intent.price: score(_priceWords) * 2,
-      Intent.recommend: score(_recommendWords),
+      Intent.recommend: score(_recommendWords) * 2 + score(_recommendWeakWords),
     };
+    // "what courses do you have", "list all courses": the catalogue.
+    if ((w.contains('course') || w.contains('courses')) &&
+        w.any(const {'you', 'your', 'which', 'list', 'all', 'have'}.contains) &&
+        !w.contains('my')) {
+      scores[Intent.recommend] = scores[Intent.recommend]! + 2;
+    }
     // "pay for <course>" or "buy <course>" is a purchase request.
     if (hasCourse &&
         (w.contains('pay') ||
@@ -392,6 +481,8 @@ class AssistantEngine {
             w.contains('enroll'))) {
       return Intent.recommend;
     }
+    // A course named on its own with "price" or "cost" is a price question.
+    if (hasCourse && scores[Intent.price]! > 0) return Intent.price;
     // "how much did I pay" is about payments, not prices.
     if (scores[Intent.payment]! > 0 &&
         (w.contains('i') || w.contains('my') || w.contains('so'))) {
@@ -400,8 +491,24 @@ class AssistantEngine {
     // "my progress", "my courses": personal words lift the personal intents.
     if (w.contains('my')) {
       scores[Intent.progress] = scores[Intent.progress]! + 1;
+      scores[Intent.orders] = scores[Intent.orders]! + 1;
     }
     final best = scores.entries.reduce((a, b) => b.value > a.value ? b : a);
+    const personalIntents = {
+      Intent.progress,
+      Intent.payment,
+      Intent.orders,
+      Intent.certificate,
+    };
+
+    // Questions about the website and the company ("how do I contact you",
+    // "what services do you offer", "how much is shipping"). A clear match
+    // wins unless the question is about the user's own records.
+    if (siteScore >= 4 &&
+        siteScore >= best.value &&
+        !(personal && personalIntents.contains(best.key) && best.value >= 4)) {
+      return Intent.site;
+    }
 
     // A concept question that matches the course material beats a weak
     // keyword hit, e.g. "what is a boundary" or "how does delegation work".
@@ -410,7 +517,8 @@ class AssistantEngine {
       final top = ctx.knowledge.search(q, limit: 1);
       if (top.isNotEmpty && top.first.score > 2.5) return Intent.doubt;
     }
-    if (best.value == 0) return Intent.doubt;
+    if (siteScore >= 2 && siteScore >= best.value) return Intent.site;
+    if (best.value < 2) return Intent.doubt;
     return best.key;
   }
 
@@ -437,9 +545,11 @@ class AssistantEngine {
     final name = ctx.user?.firstName;
     return AssistantReply('greeting', [
       TextBlock(
-        '${name == null ? 'Hello' : 'Hello, $name'}. I can show your course '
-        'progress, your payments and orders, courses you can add, and answer '
-        'questions about what is taught in the courses. What would you like to know?',
+        '${name == null ? 'Hello' : 'Hello, $name'}. I am the MT Alchemy '
+        'assistant. I can show your course progress, payments and orders, '
+        'suggest courses you can add, explain anything taught in the courses, '
+        'and help you find your way around the site: services, the store, '
+        'shipping, your account or how to contact us. What would you like to know?',
       ),
       const SuggestionsBlock(_startQuestions),
     ]);
@@ -656,10 +766,14 @@ class AssistantEngine {
     if (hits.isEmpty || hits.first.score < 1.2) {
       return AssistantReply('doubt', [
         const TextBlock(
-          'I could not find that in the course material. Try different words, '
-          'or ask about a lesson by name. For anything else, your trainer can help.',
+          'Sorry, I do not have an answer to that. I can help with our '
+          'services and courses, your progress and orders, the store and '
+          'shipping, your account, or a topic taught in the courses. For '
+          'anything else, the team is happy to help: email '
+          'hello@mtalchemy.co.uk.',
         ),
-        const SuggestionsBlock(_startQuestions),
+        const LinksBlock([SiteLink('Contact the team', Routes.contact)]),
+        const SuggestionsBlock(_fallbackQuestions),
       ]);
     }
     final top = hits.first.passage;
@@ -672,6 +786,21 @@ class AssistantEngine {
         courseTitle: course?.title ?? 'Course material',
         related: [for (final h in hits.skip(1)) h.passage],
       ),
+    ]);
+  }
+
+  AssistantReply _site(SiteTopic topic, AssistantContext ctx) {
+    final a = topic.answer(
+      SiteFacts(
+        products: ctx.products,
+        articles: ctx.articles,
+        signedIn: ctx.signedIn,
+      ),
+    );
+    return AssistantReply('site', [
+      TextBlock(a.text),
+      if (a.links.isNotEmpty) LinksBlock(a.links),
+      if (a.followUps.isNotEmpty) SuggestionsBlock(a.followUps),
     ]);
   }
 

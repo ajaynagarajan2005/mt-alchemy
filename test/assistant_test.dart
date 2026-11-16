@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mt_alchemy/assistant/assistant_engine.dart';
 import 'package:mt_alchemy/assistant/knowledge.dart';
 import 'package:mt_alchemy/data/mock/courses.dart';
+import 'package:mt_alchemy/data/mock/products.dart';
+import 'package:mt_alchemy/router/routes.dart';
 import 'package:mt_alchemy/data/models/people.dart';
 import 'package:mt_alchemy/state/commerce_store.dart';
 import 'package:mt_alchemy/state/learning_store.dart';
@@ -77,6 +79,7 @@ void main() {
     certificates: const [],
     orders: enrolled ? [order] : const [],
     knowledge: kb,
+    products: products,
   );
 
   test('a concept question is answered from the lecture notes', () {
@@ -156,12 +159,83 @@ void main() {
     expect(r.blocks.whereType<AnswerBlock>(), isEmpty);
     expect(
       r.blocks.whereType<TextBlock>().first.text,
-      contains('could not find'),
+      contains('do not have an answer'),
     );
+    expect(r.blocks.whereType<LinksBlock>(), isNotEmpty);
   });
 
   test('greetings offer starter questions', () {
     final r = engine.answer('hello', ctx(u: user));
     expect(r.blocks.whereType<SuggestionsBlock>(), isNotEmpty);
+  });
+
+  group('questions about the website', () {
+    String topic(String q, {bool signedIn = true}) {
+      final r = engine.answer(q, ctx(u: signedIn ? user : null));
+      return r.intent == 'site'
+          ? r.blocks.whereType<LinksBlock>().firstOrNull?.links.first.path ??
+                'site'
+          : r.intent;
+    }
+
+    test('each common site question opens the right page', () {
+      final cases = {
+        'what services do you offer': Routes.services,
+        'How do I contact you?': Routes.contact,
+        'what is your phone number': Routes.contact,
+        'who are the founders of mt alchemy': Routes.about,
+        'what do you sell in the store': Routes.store,
+        'how much is shipping': Routes.myOrders,
+        'can I get a refund': Routes.myOrders,
+        'how do I pay': Routes.cart,
+        'which test card can I use': Routes.cart,
+        'I forgot my password': Routes.portal,
+        'do you train teams for my company': Routes.organisations,
+        'is there an eq test': Routes.assessment,
+        'show me your blog articles': Routes.insights,
+      };
+      final wrong = [
+        for (final e in cases.entries)
+          if (topic(e.key) != e.value) '${e.key} -> ${topic(e.key)}',
+      ];
+      expect(wrong, isEmpty);
+      expect(topic('I forgot my password', signedIn: false), Routes.login);
+    });
+
+    test('site answers carry real facts', () {
+      final r = engine.answer('How do I contact you?', ctx(u: user));
+      final text = r.blocks.whereType<TextBlock>().first.text;
+      expect(text, contains('hello@mtalchemy.co.uk'));
+      final ship = engine.answer('how much is shipping', ctx(u: user));
+      expect(ship.blocks.whereType<TextBlock>().first.text, contains('£50'));
+      final store = engine.answer('what do you sell', ctx(u: user));
+      expect(
+        store.blocks.whereType<TextBlock>().first.text,
+        contains('Feedback Conversation Cards'),
+      );
+    });
+
+    test('personal questions still use the user\'s own records', () {
+      expect(topic('what have I paid so far'), 'payment');
+      expect(topic('where is my order'), 'orders');
+      expect(topic('How am I doing in my courses?'), 'progress');
+      expect(topic('Which courses can I add?'), 'recommend');
+      expect(topic('what courses do you have'), 'recommend');
+    });
+
+    test('course content questions are not taken over by site words', () {
+      expect(topic('Explain the ninety second pause'), 'doubt');
+      expect(topic('how do I deliver feedback'), 'doubt');
+      expect(topic('what is psychological safety'), 'doubt');
+    });
+
+    test('product names are not mistaken for payment questions', () {
+      expect(topic('tell me about the conversation cards'), Routes.store);
+    });
+
+    test('thanks gets a polite reply, not a greeting', () {
+      final r = engine.answer('thanks!', ctx(u: user));
+      expect(r.intent, 'thanks');
+    });
   });
 }

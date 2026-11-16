@@ -101,7 +101,7 @@ gltf = {
             "doubleSided": True,
             "alphaMode": "BLEND",
             "pbrMetallicRoughness": {
-                "baseColorFactor": [0.30, 0.25, 0.80, 0.9],
+                "baseColorFactor": [0.10, 0.30, 0.85, 0.9],
                 "metallicFactor": 0.1,
                 "roughnessFactor": 0.25,
             },

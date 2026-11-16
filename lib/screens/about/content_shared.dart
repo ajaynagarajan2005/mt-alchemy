@@ -120,6 +120,7 @@ class ClosingCta extends StatelessWidget {
             const SizedBox(height: Space.xl),
             AlchemyButton(
               label: 'Book a call',
+              variant: ButtonVariant.highlight,
               onPressed: () => context.go(Routes.contact),
             ),
           ],

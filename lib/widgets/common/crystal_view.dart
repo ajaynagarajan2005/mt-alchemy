@@ -33,7 +33,7 @@ class _CrystalViewState extends State<CrystalView> {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: 'Rotating red crystal, decorative',
+      label: 'Rotating blue crystal, decorative',
       image: true,
       excludeSemantics: true,
       child: ExcludeFocus(

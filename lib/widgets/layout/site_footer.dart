@@ -25,7 +25,7 @@ class SiteFooter extends StatelessWidget {
             children: [
               TextSpan(
                 text: 'MT ',
-                style: AppText.wordmark.copyWith(color: AppColors.red),
+                style: AppText.wordmark.copyWith(color: AppColors.yellow),
               ),
               TextSpan(
                 text: 'Alchemy',

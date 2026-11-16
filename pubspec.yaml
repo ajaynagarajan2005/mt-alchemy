@@ -88,6 +88,7 @@ flutter:
     - assets/images/
     - assets/images/cards/
     - assets/models/
+    - assets/google_fonts/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

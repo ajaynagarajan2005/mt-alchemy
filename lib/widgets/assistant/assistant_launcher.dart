@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:material_ui/material_ui.dart';
@@ -45,10 +46,50 @@ class _AssistantLauncherState extends State<AssistantLauncher> {
 
   @override
   void dispose() {
+    HardwareKeyboard.instance.removeHandler(_onKey);
+    if (_inserted) _entry.remove();
+    _entry.dispose();
     _input.dispose();
     _scroll.dispose();
     _focus.dispose();
     super.dispose();
+  }
+
+  /// Changes this state and redraws the chat layer, which lives in the
+  /// navigator's overlay rather than under this widget.
+  void _update(VoidCallback change) {
+    if (!mounted) return;
+    setState(change);
+    if (_inserted) _entry.markNeedsBuild();
+  }
+
+  /// Escape closes the chat wherever the keyboard focus is.
+  bool _onKey(KeyEvent event) {
+    if (_open &&
+        event is KeyDownEvent &&
+        event.logicalKey == LogicalKeyboardKey.escape) {
+      _setOpen(false);
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    HardwareKeyboard.instance.addHandler(_onKey);
+  }
+
+  void _setOpen(bool open) {
+    _update(() => _open = open);
+    if (open) {
+      // Put the cursor in the question box so the user can type straight away.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && _open) _focus.requestFocus();
+      });
+    } else {
+      _focus.unfocus();
+    }
   }
 
   Future<KnowledgeBase> _knowledge(CatalogStore catalog) async {
@@ -64,12 +105,14 @@ class _AssistantLauncherState extends State<AssistantLauncher> {
     final q = query.trim();
     if (q.isEmpty || _loading) return;
     _input.clear();
-    setState(() => _loading = true);
+    _update(() => _loading = true);
     final auth = context.read<AuthStore>();
     final catalog = context.read<CatalogStore>();
     final learning = context.read<LearningStore>();
     final commerce = context.read<CommerceStore>();
     final chat = context.read<ChatStore>();
+    final products = catalog.products;
+    final articles = catalog.articles;
     final kb = await _knowledge(catalog);
     final user = auth.currentUser;
     final ctx = AssistantContext(
@@ -82,6 +125,8 @@ class _AssistantLauncherState extends State<AssistantLauncher> {
       orders: commerce.orders,
       assigned: learning.assigned,
       knowledge: kb,
+      products: products,
+      articles: articles,
     );
     var reply = const AssistantEngine().answer(q, ctx);
     // Questions about course content go to the retrieval service (LangChain
@@ -96,7 +141,8 @@ class _AssistantLauncherState extends State<AssistantLauncher> {
     }
     await chat.ask(q, reply);
     if (!mounted) return;
-    setState(() => _loading = false);
+    _update(() => _loading = false);
+    if (_open) _focus.requestFocus();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scroll.hasClients) {
         _scroll.animateTo(
@@ -111,7 +157,7 @@ class _AssistantLauncherState extends State<AssistantLauncher> {
   void _go(String path) {
     widget.router.go(path);
     // On phones the panel covers the page, so close it after navigating.
-    if (MediaQuery.sizeOf(context).width < 600) setState(() => _open = false);
+    if (MediaQuery.sizeOf(context).width < 600) _setOpen(false);
   }
 
   void _buy(CourseSuggestion s) {
@@ -123,27 +169,38 @@ class _AssistantLauncherState extends State<AssistantLauncher> {
           queryParameters: {'from': Routes.course(s.course.id)},
         ).toString(),
       );
-      setState(() => _open = false);
+      _setOpen(false);
       return;
     }
     if (!cart.containsCourse(s.course.id)) cart.addCourse(s.course);
     widget.router.go(Routes.checkout);
-    setState(() => _open = false);
+    _setOpen(false);
   }
 
-  // The launcher is mounted above the page's Navigator, where there is no
-  // Overlay. Tooltips (Close, Send) and text selection need one, so the
-  // launcher brings its own.
+  // The chat layer is an entry in the app navigator's own Overlay, so it sits
+  // above every page and gets the Overlay that tooltips and text fields need.
+  // (A separate Overlay stacked beside the Navigator was queried by the focus
+  // system before it was laid out, which threw and broke keyboard focus.)
   late final OverlayEntry _entry = OverlayEntry(builder: _content);
+  bool _inserted = false;
+
+  void _attach() {
+    if (!mounted || _inserted) return;
+    final overlay =
+        widget.router.routerDelegate.navigatorKey.currentState?.overlay;
+    if (overlay == null) {
+      // The navigator is not built yet; try again after the next frame.
+      WidgetsBinding.instance.addPostFrameCallback((_) => _attach());
+      return;
+    }
+    overlay.insert(_entry);
+    _inserted = true;
+  }
 
   @override
   Widget build(BuildContext context) {
-    // The entry is cached by the Overlay, so ask it to rebuild after every
-    // change of this state (open or closed, loading).
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && _entry.mounted) _entry.markNeedsBuild();
-    });
-    return Positioned.fill(child: Overlay(initialEntries: [_entry]));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _attach());
+    return const SizedBox.shrink();
   }
 
   Widget _content(BuildContext context) {
@@ -165,17 +222,28 @@ class _AssistantLauncherState extends State<AssistantLauncher> {
             ? SizedBox(
                 width: panelW,
                 height: panelH,
-                child: _Panel(
-                  input: _input,
-                  scroll: _scroll,
-                  focus: _focus,
-                  loading: _loading,
-                  onAsk: _ask,
-                  onClose: () => setState(() => _open = false),
-                  actions: BlockActions(ask: _ask, go: _go, buy: _buy),
+                // Escape inside the chat (a "dismiss") closes it.
+                child: Actions(
+                  actions: {
+                    DismissIntent: CallbackAction<DismissIntent>(
+                      onInvoke: (_) {
+                        _setOpen(false);
+                        return null;
+                      },
+                    ),
+                  },
+                  child: _Panel(
+                    input: _input,
+                    scroll: _scroll,
+                    focus: _focus,
+                    loading: _loading,
+                    onAsk: _ask,
+                    onClose: () => _setOpen(false),
+                    actions: BlockActions(ask: _ask, go: _go, buy: _buy),
+                  ),
                 ),
               )
-            : _LaunchButton(onTap: () => setState(() => _open = true)),
+            : _LaunchButton(onTap: () => _setOpen(true)),
       ),
     );
   }
@@ -194,7 +262,10 @@ class _LaunchButton extends StatelessWidget {
         color: AppColors.accentFill,
         elevation: 6,
         shadowColor: AppColors.shadowTint,
-        shape: const StadiumBorder(),
+        // A light edge keeps the button visible on the dark footer band.
+        shape: const StadiumBorder(
+          side: BorderSide(color: Color(0x80FFFFFF), width: 1.5),
+        ),
         child: InkWell(
           customBorder: const StadiumBorder(),
           onTap: onTap,
@@ -411,6 +482,9 @@ class _Panel extends StatelessWidget {
                     autofocus: true,
                     textInputAction: TextInputAction.send,
                     onSubmitted: onAsk,
+                    // Keep the cursor in the box after sending, so the next
+                    // question can be typed straight away.
+                    onEditingComplete: () {},
                     style: AppText.body,
                     decoration: InputDecoration(
                       hintText: 'Type your question',
