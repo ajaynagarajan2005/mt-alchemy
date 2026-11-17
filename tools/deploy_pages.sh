@@ -9,7 +9,10 @@ BASE="/${REPO}/"
 REMOTE="$(git remote get-url origin)"
 
 # The assistant service runs on a host you provide; leave RAG_URL unset to publish without it.
-flutter build web --release --base-href "$BASE" --dart-define=SITE_BASE="$BASE" --dart-define=RAG_URL="${RAG_URL:-}"
+# PayPal: set PAYPAL_CLIENT_ID (public, from developer.paypal.com) and, for real money,
+# PAYPAL_ENV=live. Without it the checkout offers the demo card form only.
+flutter build web --release --base-href "$BASE" --dart-define=SITE_BASE="$BASE" --dart-define=RAG_URL="${RAG_URL:-}" \
+  --dart-define=PAYPAL_CLIENT_ID="${PAYPAL_CLIENT_ID:-}" --dart-define=PAYPAL_ENV="${PAYPAL_ENV:-sandbox}"
 
 # GitHub Pages has no server-side routing: a copy of index.html as 404.html
 # lets deep links such as /mt-alchemy/portal load the app, which then routes.

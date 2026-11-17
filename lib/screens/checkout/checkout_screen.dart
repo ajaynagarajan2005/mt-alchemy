@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../payments/paypal_buttons.dart';
+import '../../payments/paypal_config.dart';
 import '../../widgets/common/card_image.dart';
 import '../../router/routes.dart';
 import '../../state/auth_store.dart';
@@ -22,7 +24,8 @@ import '../../widgets/common/reveal.dart';
 import '../cart/order_totals.dart';
 import '../store/shop_widgets.dart';
 
-/// Checkout: delivery details and a demo payment form beside the order summary.
+/// Checkout: delivery details and payment (PayPal, or the demo card form)
+/// beside the order summary.
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
 
@@ -46,6 +49,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   bool _placing = false;
   String? _error;
+
+  /// PayPal when it is set up for this build, else the demo card form.
+  late _PayMethod _method = PayPalConfig.enabled
+      ? _PayMethod.paypal
+      : _PayMethod.card;
 
   @override
   void initState() {
@@ -79,14 +87,37 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Future<void> _placeOrder() async {
     setState(() => _error = null);
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _placing = true);
+    await _complete(
+      card: CardPayment(name: _cardName.text, number: _cardNumber.text),
+    );
+  }
+
+  /// PayPal checks the delivery details before it opens.
+  bool _validForPayPal() {
+    setState(() => _error = null);
+    final ok = _formKey.currentState!.validate();
+    if (!ok) {
+      setState(
+        () => _error = 'Please fill in the details above before paying.',
+      );
+    }
+    return ok;
+  }
+
+  /// Records the paid order (card or PayPal) and fulfils it.
+  Future<void> _complete({CardPayment? card, PayPalPayment? paypal}) async {
+    setState(() {
+      _error = null;
+      _placing = true;
+    });
     // Clear any stale "Added to cart" message before the confirmation.
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     final cart = context.read<CartStore>();
     final (order, error) = await context.read<CommerceStore>().checkout(
       cart: cart,
       email: _email.text.trim(),
-      card: CardPayment(name: _cardName.text, number: _cardNumber.text),
+      card: card,
+      paypal: paypal,
       address: cart.hasPhysical
           ? {
               'name': _name.text.trim(),
@@ -262,80 +293,156 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             const SizedBox(height: Space.xl),
             Text('Payment', style: AppText.h3),
             const SizedBox(height: Space.xs),
-            // Demo notice: no real card data is processed anywhere.
-            Container(
-              padding: const EdgeInsets.all(Space.md),
-              decoration: BoxDecoration(
-                color: AppColors.redSoft,
-                borderRadius: Radii.inputAll,
-              ),
-              child: Text(
-                'Test mode. No real payment is taken. Use 4242 4242 4242 4242 '
-                'to approve, or 4000 0000 0000 0002 to see a declined card.',
-                style: AppText.small.copyWith(color: AppColors.ink),
-              ),
-            ),
-            const SizedBox(height: Space.md),
-            LabeledField(
-              label: 'Name on card',
-              controller: _cardName,
-              autofillHints: const [AutofillHints.creditCardName],
-              textInputAction: TextInputAction.next,
-              validator: (v) => Validators.required(v, 'the name on the card'),
-            ),
-            gap,
-            LabeledField(
-              label: 'Card number',
-              controller: _cardNumber,
-              keyboardType: TextInputType.number,
-              autofillHints: const [AutofillHints.creditCardNumber],
-              textInputAction: TextInputAction.next,
-              inputFormatters: [_GroupFormatter.card],
-              validator: CheckoutValidators.cardNumber,
-            ),
-            gap,
-            _pair(
-              context,
-              LabeledField(
-                label: 'Expiry (MM/YY)',
-                controller: _expiry,
-                keyboardType: TextInputType.number,
-                autofillHints: const [AutofillHints.creditCardExpirationDate],
-                textInputAction: TextInputAction.next,
-                inputFormatters: [_GroupFormatter.expiry],
-                validator: CheckoutValidators.expiry,
-              ),
-              LabeledField(
-                label: 'CVC',
-                controller: _cvc,
-                keyboardType: TextInputType.number,
-                autofillHints: const [AutofillHints.creditCardSecurityCode],
-                textInputAction: TextInputAction.done,
-                onSubmitted: (_) => _placeOrder(),
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(3),
+            if (PayPalConfig.enabled) ...[
+              SegmentedButton<_PayMethod>(
+                segments: const [
+                  ButtonSegment(
+                    value: _PayMethod.paypal,
+                    label: Text('PayPal'),
+                    icon: Icon(Icons.account_balance_wallet_outlined),
+                  ),
+                  ButtonSegment(
+                    value: _PayMethod.card,
+                    label: Text('Test card'),
+                    icon: Icon(Icons.credit_card),
+                  ),
                 ],
-                validator: CheckoutValidators.cvc,
+                selected: {_method},
+                showSelectedIcon: false,
+                onSelectionChanged: _placing
+                    ? null
+                    : (v) => setState(() {
+                        _method = v.first;
+                        _error = null;
+                      }),
               ),
-            ),
-            if (_error != null) ...[
               const SizedBox(height: Space.md),
-              Semantics(
-                liveRegion: true,
+            ],
+            if (_method == _PayMethod.paypal) ...[
+              Container(
+                padding: const EdgeInsets.all(Space.md),
+                decoration: BoxDecoration(
+                  color: AppColors.yellowSoft,
+                  borderRadius: Radii.inputAll,
+                ),
                 child: Text(
-                  _error!,
-                  style: AppText.small.copyWith(color: AppColors.error),
+                  PayPalConfig.isSandbox
+                      ? 'PayPal sandbox: no real money moves. Press the PayPal '
+                            'button and log in with a sandbox personal (buyer) '
+                            'account from developer.paypal.com.'
+                      : 'Press the PayPal button to pay securely with PayPal. '
+                            'You will be asked to log in and approve the payment.',
+                  style: AppText.small.copyWith(color: AppColors.onYellow),
                 ),
               ),
+              const SizedBox(height: Space.md),
+              if (_error != null) ...[
+                const SizedBox(height: Space.md),
+                Semantics(
+                  liveRegion: true,
+                  child: Text(
+                    _error!,
+                    style: AppText.small.copyWith(color: AppColors.error),
+                  ),
+                ),
+              ],
+              const SizedBox(height: Space.md),
+              if (_placing)
+                const Center(child: CircularProgressIndicator())
+              else
+                PayPalButtons(
+                  key: const ValueKey('paypal-buttons'),
+                  canStart: _validForPayPal,
+                  amount: () => PayPalAmount(
+                    subtotal: cart.subtotal,
+                    shipping: cart.shipping,
+                    description:
+                        'MT Alchemy: ${cart.items.map((i) => i.name).join(', ')}',
+                  ),
+                  onPaid: (p) => _complete(paypal: p),
+                  onError: (m) => setState(() => _error = m),
+                  onCancel: () => setState(
+                    () => _error =
+                        'PayPal payment cancelled. You have not been charged.',
+                  ),
+                ),
+            ] else ...[
+              // Demo notice: no real card data is processed anywhere.
+              Container(
+                padding: const EdgeInsets.all(Space.md),
+                decoration: BoxDecoration(
+                  color: AppColors.redSoft,
+                  borderRadius: Radii.inputAll,
+                ),
+                child: Text(
+                  'Test mode. No real payment is taken. Use 4242 4242 4242 4242 '
+                  'to approve, or 4000 0000 0000 0002 to see a declined card.',
+                  style: AppText.small.copyWith(color: AppColors.ink),
+                ),
+              ),
+              const SizedBox(height: Space.md),
+              LabeledField(
+                label: 'Name on card',
+                controller: _cardName,
+                autofillHints: const [AutofillHints.creditCardName],
+                textInputAction: TextInputAction.next,
+                validator: (v) =>
+                    Validators.required(v, 'the name on the card'),
+              ),
+              gap,
+              LabeledField(
+                label: 'Card number',
+                controller: _cardNumber,
+                keyboardType: TextInputType.number,
+                autofillHints: const [AutofillHints.creditCardNumber],
+                textInputAction: TextInputAction.next,
+                inputFormatters: [_GroupFormatter.card],
+                validator: CheckoutValidators.cardNumber,
+              ),
+              gap,
+              _pair(
+                context,
+                LabeledField(
+                  label: 'Expiry (MM/YY)',
+                  controller: _expiry,
+                  keyboardType: TextInputType.number,
+                  autofillHints: const [AutofillHints.creditCardExpirationDate],
+                  textInputAction: TextInputAction.next,
+                  inputFormatters: [_GroupFormatter.expiry],
+                  validator: CheckoutValidators.expiry,
+                ),
+                LabeledField(
+                  label: 'CVC',
+                  controller: _cvc,
+                  keyboardType: TextInputType.number,
+                  autofillHints: const [AutofillHints.creditCardSecurityCode],
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: (_) => _placeOrder(),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(3),
+                  ],
+                  validator: CheckoutValidators.cvc,
+                ),
+              ),
+              if (_error != null) ...[
+                const SizedBox(height: Space.md),
+                Semantics(
+                  liveRegion: true,
+                  child: Text(
+                    _error!,
+                    style: AppText.small.copyWith(color: AppColors.error),
+                  ),
+                ),
+              ],
+              const SizedBox(height: Space.xl),
+              AlchemyButton(
+                label: 'Pay ${gbpExact.format(cart.total)}',
+                expand: context.isCompact,
+                loading: _placing,
+                onPressed: _placeOrder,
+              ),
             ],
-            const SizedBox(height: Space.xl),
-            AlchemyButton(
-              label: 'Pay ${gbpExact.format(cart.total)}',
-              expand: context.isCompact,
-              loading: _placing,
-              onPressed: _placeOrder,
-            ),
           ],
         ),
       ),
@@ -431,3 +538,5 @@ class _GroupFormatter extends TextInputFormatter {
     );
   }
 }
+
+enum _PayMethod { paypal, card }

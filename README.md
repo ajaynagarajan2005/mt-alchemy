@@ -37,6 +37,22 @@ flutterfire configure --project=<your-project-id> --platforms=web,android
 firebase deploy --only firestore,auth
 ```
 
+### PayPal payments
+
+Checkout takes real PayPal payments through PayPal's JavaScript SDK (sandbox by default, so no real money moves). The demo card form stays available as a "Test card" option.
+
+1. Create a free account at https://developer.paypal.com, open **Apps & Credentials**, choose **Sandbox** and copy the app's **Client ID** (public; never put the Secret in the app).
+2. Build or deploy with it:
+
+```bash
+flutter run -d chrome --dart-define=PAYPAL_CLIENT_ID=<sandbox client id>
+PAYPAL_CLIENT_ID=<sandbox client id> bash tools/deploy_pages.sh
+```
+
+3. Pay with a sandbox **personal** account (Sandbox › Accounts on the developer site). The payment appears in that sandbox account and in `payments/{id}` with `method: paypal`, the PayPal order id and capture id.
+
+For real money use a Live Client ID and `PAYPAL_ENV=live`. Payments are created and captured in the browser; a production shop should also verify each capture on a server (for example a Cloud Function holding the PayPal Secret) before fulfilling the order.
+
 ### Seeding the database
 
 The seed script needs no npm packages. It calls Firebase over REST.

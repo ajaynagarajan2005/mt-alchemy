@@ -178,6 +178,30 @@ class CardPayment {
   }
 }
 
+/// A payment approved and captured by PayPal.
+class PayPalPayment {
+  const PayPalPayment({
+    required this.orderId,
+    required this.captureId,
+    required this.status,
+    this.payerEmail,
+    this.environment = 'sandbox',
+  });
+
+  /// PayPal's order id (shown in the PayPal dashboard).
+  final String orderId;
+
+  /// The capture id: the actual movement of money.
+  final String captureId;
+
+  /// PayPal's capture status; only `COMPLETED` is accepted.
+  final String status;
+  final String? payerEmail;
+
+  /// `sandbox` (test money) or `live`.
+  final String environment;
+}
+
 /// Orders, payments, shipping and digital downloads for the signed-in user,
 /// plus the admin view of every order.
 class CommerceStore extends ChangeNotifier {
@@ -268,14 +292,27 @@ class CommerceStore extends ChangeNotifier {
   Future<(Order?, String?)> checkout({
     required CartStore cart,
     required String email,
-    required CardPayment card,
+    CardPayment? card,
+    PayPalPayment? paypal,
     Map<String, String>? address,
     Random? random,
   }) async {
     final user = _auth.currentUser;
     if (user == null) return (null, 'Please sign in to complete your order.');
     if (cart.isEmpty) return (null, 'Your cart is empty.');
-    if (!_approve(card)) {
+    assert(
+      card != null || paypal != null,
+      'A card or PayPal payment is needed',
+    );
+    if (paypal != null) {
+      if (paypal.status != 'COMPLETED') {
+        return (
+          null,
+          'PayPal did not complete the payment (${paypal.status}). '
+              'You have not been charged; please try again.',
+        );
+      }
+    } else if (card == null || !_approve(card)) {
       return (null, 'Your card was declined. Please try another card.');
     }
 
@@ -306,6 +343,22 @@ class CommerceStore extends ChangeNotifier {
     };
 
     try {
+      // Digital products the buyer already owns keep their download. Read
+      // them from the database, not the live list, which may still be
+      // loading right after sign-in (re-creating one is refused by the
+      // security rules and would fail the whole order).
+      final owned = <String>{
+        for (final d in _downloads) d.productId,
+        if (lines.any((i) => i.product?.isDigital ?? false))
+          for (final doc
+              in (await _backend
+                      .col('downloads')
+                      .where('userId', isEqualTo: user.id)
+                      .get())
+                  .docs)
+            if (doc.data()['productId'] is String)
+              doc.data()['productId'] as String,
+      };
       final db = _backend.db;
       final batch = db.batch();
       batch.set(_backend.col('orders').doc(number), orderData);
@@ -313,10 +366,19 @@ class CommerceStore extends ChangeNotifier {
         'userId': user.id,
         'orderId': number,
         'amount': cart.total,
-        'method': 'card',
-        'last4': card.last4,
+        'currency': 'GBP',
         'status': 'paid',
-        'gateway': 'test-mode',
+        if (paypal != null) ...{
+          'method': 'paypal',
+          'gateway': 'paypal-${paypal.environment}',
+          'paypalOrderId': paypal.orderId,
+          'paypalCaptureId': paypal.captureId,
+          'payerEmail': ?paypal.payerEmail,
+        } else ...{
+          'method': 'card',
+          'last4': card!.last4,
+          'gateway': 'test-mode',
+        },
         'createdAt': FieldValue.serverTimestamp(),
       });
       if (cart.hasPhysical) {
@@ -335,9 +397,7 @@ class CommerceStore extends ChangeNotifier {
       for (final i in lines) {
         final p = i.product;
         // Already owned digital products keep their existing download.
-        if (p != null &&
-            p.isDigital &&
-            !_downloads.any((d) => d.productId == p.id)) {
+        if (p != null && p.isDigital && !owned.contains(p.id)) {
           batch.set(_backend.col('downloads').doc('${user.id}_${p.id}'), {
             'userId': user.id,
             'productId': p.id,
@@ -391,6 +451,16 @@ class CommerceStore extends ChangeNotifier {
       notifyListeners();
       return (order, null);
     } catch (e) {
+      if (paypal != null) {
+        // PayPal has already taken the money: give the buyer the reference.
+        return (
+          null,
+          'PayPal took your payment (reference ${paypal.captureId}) but your '
+              'order could not be saved: ${friendlyError(e)} Please contact '
+              'hello@mtalchemy.co.uk with this reference and we will sort it '
+              'out or refund you.',
+        );
+      }
       return (null, friendlyError(e));
     }
   }
